@@ -44,3 +44,15 @@ event.end
     {% endfor %}
 </ul>
 ```
+
+## Methods for use in Twig
+
+```events.findEvents()```
+
+```events.sortByDate()```
+
+```events.sortByTime()```
+
+```events.get()```
+
+All methods are chainable and the .get() method must be called at the end in order to retrieve events.
