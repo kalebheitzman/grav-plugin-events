@@ -4,9 +4,9 @@
 
 ```
 <ul>
-    {% for event in events.findEvents({'freq':[null, 'monthly']}).get() %}
+    {% for event in events.findEvents({'repeat':'R'}).sortByTime().get() %}
         <li>
-            <span class="date">{{ event.start|date("M d, g:ia") }}</span>
+            <span class="time">{{ event.start|date("g:ia") }}</span>
             <span class="title"><a href="{{ event.route }}">{{ event.title }}</a></span>
         </li>
     {% endfor %}
