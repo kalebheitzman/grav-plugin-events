@@ -1,6 +1,6 @@
 # Events plugin for Grav CMS
 
-## Example use
+## Example use in Twig
 
 ```
 <ul>
