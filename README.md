@@ -47,11 +47,11 @@ event.end
 
 ## Methods for use in Twig
 
-You can pass a variety of filters to findEvents in the this format: `{'repeat':'F','freq':'weekly'}`
+You can pass a variety of filters to findEvents in this format: `{'repeat':'F','freq':'weekly'}`
 
 `events.findEvents()`
 
-You can pass `asc` or `desc` on the following sort methods:
+You can pass `asc` or `desc` on the following sort methods. They automatically default to asc.
 
 `events.sortByDate()`
 `events.sortByTime()`
