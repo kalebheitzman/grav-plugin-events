@@ -89,10 +89,11 @@ class EventsPlugin extends Plugin
 					$entry = new EventEntry();
 					$entry->title = $header->title;
 					$entry->url = $route;
-					$entry->start_date = isset($header->event['start_date']) ? $header->event['start_date'] : null;
-					$entry->end_date = isset($header->event['end_date']) ? $header->event['end_date'] : null;
+					$entry->start = isset($header->event['start']) ? $header->event['start'] : null;
+					$entry->end = isset($header->event['end']) ? $header->event['end'] : null;
 					$entry->repeat = isset($header->event['repeat']) ? $header->event['repeat'] : null;
-					$entry->rules = isset($header->event['rules']) ? $header->event['rules'] : null;				
+					$entry->freq = isset($header->event['freq']) ? $header->event['freq'] : null;				
+					$entry->until = isset($header->event['until']) ? $header->event['until'] : null;
 
 					$this->events[] = $entry;
 				}
@@ -105,7 +106,7 @@ class EventsPlugin extends Plugin
 
 	public function onPageInitialized()
 	{
-		var_dump($this->events);
+		// var_dump($this->events);
 	}
 
 

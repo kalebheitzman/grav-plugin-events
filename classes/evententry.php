@@ -5,8 +5,9 @@ class EventEntry
 {
 	public $title;
 	public $url;
-	public $start_date;
-	public $end_date;
-	public $repeat;
-	public $rules;
+	public $start; 	// start date of event
+	public $end; 	// end date of event 
+	public $repeat;	// what days to repeat the event using MTWRFSU
+	public $freq;	// how often to repeat the event
+	public $until;	// when to quit repeating the event
 }
