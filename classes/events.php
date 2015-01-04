@@ -46,9 +46,15 @@ class Events
         }
 
         usort($matches, array($this, "sort_by_date"));
+        $this->matched_events = $matches;
 
-	 	return $matches;
+	 	return $this;
 	} 
+
+	public function get()
+	{
+		return $this->matched_events;
+	}
 
 	/**
 	 * Build events list
@@ -115,6 +121,19 @@ class Events
 	/**
 	 * 	Sort by start time 
 	 */ 
+	private function sort_by_time($a, $b) 
+	{
+		return strcmp($a->start_time, $b->start_time);
+	}
 
+	public function sortByDate()
+	{
+		return usort($this->events, array($this, "sort_by_date"));
+	}
+
+	public function sortByTime()
+	{
+		return usort($this->events, array($this, "sort_by_time"));
+	}
 
 }
