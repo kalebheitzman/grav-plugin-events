@@ -51,17 +51,10 @@ class EventsPlugin extends Plugin
 			'onTwigTemplatePaths' => ['onTwigTemplatePaths', 0],
 			'onPagesInitialized' => ['onPagesInitialized', 0],
 			'onPageInitialized' => ['onPageInitialized', 0],
+			'onTwigSiteVariables' => ['onTwigSiteVariables', 0]
 		]);
 		//}
 	}
-
-	/**
-	 * Add current directory to twig lookup paths.
-	 */
-	public function onTwigTemplatePaths()
-	{
-		$this->grav['twig']->twig_paths[] = __DIR__ . '/templates';
-	} 
 
 	/**
 	 *	 
@@ -106,8 +99,30 @@ class EventsPlugin extends Plugin
 
 	public function onPageInitialized()
 	{
-		// var_dump($this->events);
+
 	}
 
+	/**
+	 * Add current directory to twig lookup paths.
+	 */
+	public function onTwigTemplatePaths()
+	{
+		$this->grav['twig']->twig_paths[] = __DIR__ . '/templates';
+	} 
+
+	/**
+	 * Set needed variables to display events
+	 */
+	public function onTwigSiteVariables()
+	{
+		$twig = $this->grav['twig'];
+		$twig->twig_vars['events'] = $this->events;
+	} 
+
+	public function findEvents($events)
+	{
+		var_dump($events);
+		var_dump($this->events);
+	}
 
 }
