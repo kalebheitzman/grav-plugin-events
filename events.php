@@ -68,30 +68,45 @@ class EventsPlugin extends Plugin
 	 */
 	public function onPagesInitialized()
 	{
-		// get a listing of all pages
-		$pages = $this->grav['pages']->instances();
-		
-		// find pages that have event frontmatter
-		foreach($pages as $page) {
-			$header = $page->header();
-			// page has event frontmatter
-			if (isset($header->event)) {
-				$this->events[] = $header;
+		require_once __DIR__ . '/classes/evententry.php';
+
+		/** @var Pages $pages */
+		$pages = $this->grav['pages'];
+		$routes = $pages->routes();
+		ksort($routes);
+
+		foreach($routes as $route => $path) {
+			$page = $pages->get($path);
+
+			if ($page->routable()) {
+
+				$header = $page->header();
+
+				/*
+				 *	If the page has event frontmatter then store it
+				 */
+				if (isset($header->event)) {
+					$entry = new EventEntry();
+					$entry->title = $header->title;
+					$entry->url = $route;
+					$entry->start_date = isset($header->event['start_date']) ? $header->event['start_date'] : null;
+					$entry->end_date = isset($header->event['end_date']) ? $header->event['end_date'] : null;
+					$entry->repeat = isset($header->event['repeat']) ? $header->event['repeat'] : null;
+					$entry->rules = isset($header->event['rules']) ? $header->event['rules'] : null;				
+
+					$this->events[] = $entry;
+				}
+
 			}
+
 		}
+
 	}
 
 	public function onPageInitialized()
 	{
-		
-
-	}
-
-	public function find($filters = array())
-	{
-		$events = $this->events;
-
 		var_dump($this->events);
 	}
+
 
 }
