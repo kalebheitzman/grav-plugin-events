@@ -17,26 +17,46 @@ class Events
 	/**
 	 * Find events based on options
 	 * 
-	 * @return array
+	 * @param array $patterns patterns to search
+	 * @return Collection
 	 */
-	 public function findEvents($pattern)
-	 {
+	public function findEvents($patterns)
+	{
 	 	if (!$this->events) {
             $this->build();
         }
-	 	
-	 	$events = $this->events;
-	 	
-	 	return $events;
-	 } 
 
-	 /**
-	  * Build events list
-	  * 
-	  * @internal
-	  */ 
-	 protected function build()
-	 {
+        $matches = [];
+
+        foreach ($patterns as $key => $value) {
+        	foreach ($this->events as $event) {
+        		if (is_array($value)) {
+	        		foreach ($value as $val) {
+	        			if ($event->$key == $val) {
+	        				$matches[] = $event;
+	        			}
+	        		}
+        		}
+        		else {
+        			if ($event->$key == $value) {
+        				$matches[] = $event;
+        			}	
+        		}
+        	}
+        }
+
+        usort($matches, array($this, "sort_by_date"));
+
+	 	return $matches;
+	} 
+
+	/**
+	 * Build events list
+	 * 
+	 * @internal
+	 */ 
+	protected function build()
+	{
 	 	require_once __DIR__ . '/evententry.php';
 
 	 	$pages = self::$grav['pages'];
@@ -54,14 +74,27 @@ class Events
 				 *	If the page has event frontmatter then store it
 				 */
 				if (isset($header->event)) {
-					$entry = new EventEntry();
+					$entry = new EventEntry;
 					$entry->title = $header->title;
 					$entry->route = $route;
-					$entry->start = isset($header->event['start']) ? $header->event['start'] : null;
-					$entry->end = isset($header->event['end']) ? $header->event['end'] : null;
-					$entry->repeat = isset($header->event['repeat']) ? $header->event['repeat'] : null;
-					$entry->freq = isset($header->event['freq']) ? $header->event['freq'] : null;				
-					$entry->until = isset($header->event['until']) ? $header->event['until'] : null;
+					
+					foreach ($header->event as $key => $value) {
+						$entry->$key = $header->event[$key];
+					}
+
+					// process the start date
+					if (isset($entry->start)) {
+						$datetime = explode(" ", $entry->start);
+						$entry->start_date = $datetime[0];						
+						$entry->start_time = $datetime[1];						
+					}
+
+					// process the end date
+					if (isset($entry->end)) {
+						$datetime = explode(" ", $entry->end);
+						$entry->end_date = $datetime[0];						
+						$entry->end_time = $datetime[1];						
+					}
 
 					$this->events[] = $entry;
 				}
@@ -69,5 +102,19 @@ class Events
 			}
 
 		}
-	 }
+	}
+
+	/**
+	 *	Sort by start date
+	 */
+	private function sort_by_date($a, $b)
+	{
+		return strcmp($a->start, $b->start);
+	}
+
+	/**
+	 * 	Sort by start time 
+	 */ 
+
+
 }
