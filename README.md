@@ -10,3 +10,5 @@ event:
     freq: weekly
     until: 01/01/2020
 ```
+
+Repeat uses the MTWRFSU format.
