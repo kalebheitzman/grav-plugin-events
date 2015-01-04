@@ -1,5 +1,16 @@
 # Events plugin for Grav CMS
 
+This is an events plugin for [Grav CMS](http://getgrav.org).
+
+## Vars exposed to Twig
+
+```
+event.title
+event.route
+event.start
+event.end
+```
+
 ## Example use in Twig
 
 ```
