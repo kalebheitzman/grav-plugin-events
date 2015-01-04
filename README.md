@@ -1,6 +1,19 @@
 # Events plugin for Grav CMS
 
-## Frontmatter Usage
+## Example use
+
+```
+<ul>
+    {% for event in events.findEvents({'freq':[null, 'monthly']}).get() %}
+        <li>
+            <span class="date">{{ event.start|date("M d, g:ia") }}</span>
+            <span class="title"><a href="{{ event.route }}">{{ event.title }}</a></span>
+        </li>
+    {% endfor %}
+</ul>
+```
+
+## Frontmatter usage
 
 ```
 event:

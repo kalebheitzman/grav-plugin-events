@@ -170,5 +170,10 @@ class Events
 		return $this->matched_events;
 	}
 
+	public function __toString()
+	{
+	    return $this->get();
+	}
+
 
 }
