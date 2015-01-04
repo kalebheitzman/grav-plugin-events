@@ -56,7 +56,7 @@ class Events
 				if (isset($header->event)) {
 					$entry = new EventEntry();
 					$entry->title = $header->title;
-					$entry->url = $route;
+					$entry->route = $route;
 					$entry->start = isset($header->event['start']) ? $header->event['start'] : null;
 					$entry->end = isset($header->event['end']) ? $header->event['end'] : null;
 					$entry->repeat = isset($header->event['repeat']) ? $header->event['repeat'] : null;

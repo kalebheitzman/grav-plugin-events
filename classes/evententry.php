@@ -4,7 +4,7 @@ namespace Grav\Plugin;
 class EventEntry
 {
 	public $title;
-	public $url;
+	public $route;
 	public $start; 	// start date of event
 	public $end; 	// end date of event 
 	public $repeat;	// what days to repeat the event using MTWRFSU
