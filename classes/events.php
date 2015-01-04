@@ -15,6 +15,24 @@ class Events
 	protected $events;
 
 	/**
+	 * @var string
+	 */ 
+	protected $reference_time = "2000-01-01 00:00:00";
+
+	/**
+	 * @var string 
+	 */ 
+	protected $absolute;
+
+	/**
+	 * Class construct
+	 */
+	public function __construct()
+	{
+		$this->absolute = strtotime($this->reference_time);
+	}
+
+	/**
 	 * Find events based on options
 	 * 
 	 * @param array $patterns patterns to search
@@ -45,16 +63,11 @@ class Events
         	}
         }
 
-        usort($matches, array($this, "sort_by_date"));
+        usort($matches, array($this, "_SortByDate"));
         $this->matched_events = $matches;
 
 	 	return $this;
 	} 
-
-	public function get()
-	{
-		return $this->matched_events;
-	}
 
 	/**
 	 * Build events list
@@ -92,14 +105,16 @@ class Events
 					if (isset($entry->start)) {
 						$datetime = explode(" ", $entry->start);
 						$entry->start_date = $datetime[0];						
-						$entry->start_time = $datetime[1];						
+						$entry->start_time = $datetime[1];	
+						$entry->start_time_abs = strtotime($datetime[1], $this->absolute);					
 					}
 
 					// process the end date
 					if (isset($entry->end)) {
 						$datetime = explode(" ", $entry->end);
 						$entry->end_date = $datetime[0];						
-						$entry->end_time = $datetime[1];						
+						$entry->end_time = $datetime[1];	
+						$entry->end_time_abs = strtotime($datetime[1], $this->absolute);					
 					}
 
 					$this->events[] = $entry;
@@ -110,10 +125,29 @@ class Events
 		}
 	}
 
+	/*
+	 * Updates matched elements to be sorted by date
+	 */
+	public function sortByDate()
+	{
+
+		usort($this->matched_events, array($this, "_SortByDate"));
+		return $this;
+	}
+
+	/**
+	 * Updates matched elements to be sorted by time 
+	 */ 
+	public function sortByTime()
+	{
+		usort($this->matched_events, array($this, "_SortByTime"));
+		return $this;
+	}
+
 	/**
 	 *	Sort by start date
 	 */
-	private function sort_by_date($a, $b)
+	private function _SortByDate($a, $b)
 	{
 		return strcmp($a->start, $b->start);
 	}
@@ -121,19 +155,20 @@ class Events
 	/**
 	 * 	Sort by start time 
 	 */ 
-	private function sort_by_time($a, $b) 
+	private function _SortByTime($a, $b) 
 	{
-		return strcmp($a->start_time, $b->start_time);
+		return strcmp($a->start_time_abs, $b->start_time_abs);
 	}
 
-	public function sortByDate()
+    /**
+	 * Gets all matched events 
+	 * 
+	 * @return Array matched events
+	 */
+	public function get()
 	{
-		return usort($this->events, array($this, "sort_by_date"));
+		return $this->matched_events;
 	}
 
-	public function sortByTime()
-	{
-		return usort($this->events, array($this, "sort_by_time"));
-	}
 
 }
