@@ -2,6 +2,27 @@
 
 This is an events plugin for [Grav CMS](http://getgrav.org).
 
+## Frontmatter usage
+
+```
+event:
+    start: 01/01/2015 6:00pm
+    end: 01/01/2015 7:00pm
+    repeat: MWF
+    freq: weekly
+    until: 01/01/2020
+```
+
+The `repeat:` event frontmatter uses the MTWRFSU format.
+
+* M - Monday
+* T - Tuesday
+* W - Wednesday
+* R - Thursday
+* F - Friday
+* S - Saturday
+* U - Sunday
+
 ## Vars exposed to Twig
 
 ```
@@ -23,16 +44,3 @@ event.end
     {% endfor %}
 </ul>
 ```
-
-## Frontmatter usage
-
-```
-event:
-    start: 01/01/2015 6:00pm
-    end: 01/01/2015 7:00pm
-    repeat: MWF
-    freq: weekly
-    until: 01/01/2020
-```
-
-Repeat uses the MTWRFSU format.
