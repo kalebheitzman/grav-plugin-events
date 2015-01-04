@@ -47,12 +47,12 @@ event.end
 
 ## Methods for use in Twig
 
-```events.findEvents()```
+`events.findEvents()`
 
-```events.sortByDate()```
+`events.sortByDate()`
 
-```events.sortByTime()```
+`events.sortByTime()`
 
-```events.get()```
+`events.get()`
 
 All methods are chainable and the .get() method must be called at the end in order to retrieve events.
