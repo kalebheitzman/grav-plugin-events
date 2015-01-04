@@ -15,6 +15,7 @@ event:
 
 The `repeat:` event frontmatter uses the MTWRFSU format.
 
+```
 * M - Monday
 * T - Tuesday
 * W - Wednesday
@@ -22,6 +23,7 @@ The `repeat:` event frontmatter uses the MTWRFSU format.
 * F - Friday
 * S - Saturday
 * U - Sunday
+```
 
 ## Vars exposed to Twig
 
