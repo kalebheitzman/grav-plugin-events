@@ -180,7 +180,11 @@ class Events
 						$entry->end_time_abs = strtotime($datetime[1], $this->absolute);					
 					}
 
+					// store this event in $this->events
 					$this->events[] = $entry;
+
+					// process $entry for recurring events
+					$this->buildRepeatingEntries($entry);
 				}
 
 			}
@@ -195,7 +199,36 @@ class Events
 	 */
 	private function buildRepeatingEntries($entry)
 	{
+		// require date library
 
+		// check for event repeat and freq frontmatter
+		if (isset($entry->freq) && isset($entry->repeat)) {
+
+			switch($this->freq) {	
+
+				// if daily
+				case 'daily':
+
+					break;
+
+				// if weekly
+				case 'weekly':
+
+					break;
+
+				// if monthly
+				case 'monthly':
+					
+					break;
+
+				// if yearly
+				case 'yearly':
+
+					break;
+
+			}
+
+		}
 	}
 
 	/*
