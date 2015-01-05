@@ -38,50 +38,13 @@ class Events
 	}
 
 	/**
-	 * Return item if match found  
-	 */
-	private function matchFinder($patterns, $events, $operator)
-	{
-		$count = count($patterns);
-
-		$matches = [];
-		
-		foreach ($events as $index => $event) {
-
-			// match single pattern using 'and'
-			if ($count === 1) {
-				foreach ($patterns as $key => $pattern) {
-					if (! is_array($pattern)) {
-						$pattern_backup = $pattern;
-						$pattern = [];
-						$pattern[] = $pattern_backup; 
-					}
-					if ($count == count(array_intersect($pattern, (array)$event))) {
-						$matches[] = $event;
-					}
-				}
-			}
-
-			// matches multiple patterns using 'and'
-			if ($count > 1) {
-				if ($count == count(array_intersect_assoc($patterns, (array)$event))) {
-					$matches[] = $event;
-				}
-			}
-
-		}
-
-    	return $matches;
-	}
-
-	/**
 	 * Find events based on options
 	 * 
 	 * @param array $patterns patterns to search
 	 * @param string $operator Operator
 	 * @return Collection
 	 */
-	public function findEvents($patterns, $operator = 'and')
+	public function findEvents($patterns = null, $operator = 'and')
 	{
 	 	if (!$this->events) {
             $this->build();
@@ -96,6 +59,71 @@ class Events
 
 	 	return $this;
 	} 
+
+	public function not($patterns = null)
+	{
+		return $this;
+	}
+
+	/**
+	 * Return item if match found  
+	 */
+	private function matchFinder($patterns, $events, $operator)
+	{
+		if ($patterns == null) {
+			return $events;
+		}
+
+		$count = count($patterns);
+
+		$matches = [];
+		
+		foreach ($events as $index => $event) {
+			
+			$matched = [];
+			foreach ($patterns as $type => $pattern) {
+
+				// convert pattern to an array if it is not already
+				if (! is_array($pattern)) {
+					$pb = $pattern;
+					$pattern = [];
+					$pattern[] = $pb; 
+				}
+
+				$intersect = array_intersect($pattern, (array)$event);
+
+				// match single pattern using 'and'
+				if ($count === 1) {
+					foreach ($patterns as $key => $pattern) {
+						if (! is_array($pattern)) {
+							$pattern_backup = $pattern;
+							$pattern = [];
+							$pattern[] = $pattern_backup; 
+						}
+						if ($count == count(array_intersect($pattern, (array)$event))) {
+							// $matches[] = $event;
+							array_push($matched, true);
+						}
+					}
+				}
+
+				// matches multiple patterns using 'and'
+				if ($count > 1) {
+					if ($count == count(array_intersect_assoc($patterns, (array)$event))) {
+						// $matches[] = $event;
+						array_push($matched, true);
+					}
+				}
+			}
+
+			if (count($matched) !== 0) {
+				$matches[] = $event;
+			}
+
+		}
+
+    	return $matches;
+	}
 
 	/**
 	 * Build events list
