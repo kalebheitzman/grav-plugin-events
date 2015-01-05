@@ -30,6 +30,11 @@ class Events
 	protected $matching = false;
 
 	/**
+	 * @var string Order by default method  
+	 */
+	protected $order = 'date';
+
+	/**
 	 * Class construct
 	 */
 	public function __construct()
@@ -44,8 +49,10 @@ class Events
 	 * @param string $operator Operator
 	 * @return Collection
 	 */
-	public function findEvents($patterns = null, $operator = 'and')
+	public function findEvents($patterns = null, $order = 'date', $operator = 'and')
 	{
+		$this->order = $order;
+
 	 	if (!$this->events) {
             $this->build();
         }
@@ -54,7 +61,6 @@ class Events
 
         $matches = $this->matchFinder($patterns, $events, $operator);
 
-        usort($matches, array($this, "_SortByDate"));
         $this->matched_events = $matches;
 
 	 	return $this;
@@ -62,6 +68,28 @@ class Events
 
 	public function not($patterns = null)
 	{
+		$matches = [];
+
+		foreach ($patterns as $type => $pattern) {
+			// convert pattern to an array if it is not already
+			if (! is_array($pattern)) {
+				$pb = $pattern;
+				$pattern = [];
+				$pattern[] = $pb; 
+			}
+
+			foreach ($this->events as $index => $event) {
+
+				$intersect = array_intersect($pattern, (array)$event);
+
+				if (count($intersect) == 0) {
+					$matches[] = $event;
+				}
+			}
+
+			$this->matched_events = $matches;
+		}
+
 		return $this;
 	}
 
@@ -116,6 +144,7 @@ class Events
 				}
 			}
 
+			// matches were found
 			if (count($matched) !== 0) {
 				$matches[] = $event;
 			}
@@ -223,6 +252,17 @@ class Events
 	 */
 	public function get()
 	{
+		// order events by date
+		if ($this->order == 'date') {
+			usort($this->matched_events, array($this, "_SortByDate"));
+		}
+
+		// order events by time
+		if ($this->order == 'time') {
+			usort($this->matched_events, array($this, "_SortByTime"));
+		} 
+
+		$this->order = 'date';
 		return $this->matched_events;
 	}
 
