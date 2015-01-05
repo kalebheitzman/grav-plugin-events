@@ -2,11 +2,8 @@
 
 namespace Grav\Plugin;
 
-require __DIR__.'/../vendor/autoload.php';
-
 use Grav\Common\Grav;
 use Grav\Common\GravTrait;
-use \Carbon\Carbon;
 
 class Events
 {
@@ -28,27 +25,16 @@ class Events
 	protected $absolute;
 
 	/**
+	 * @var boolean Used in pattern matching
+	 */
+	protected $matching = false;
+
+	/**
 	 * Class construct
 	 */
 	public function __construct()
 	{
 		$this->absolute = strtotime($this->reference_time);
-	}
-
-	/**
-	 * Find events based on text search
-	 * 
-	 * @param array $search Search options 
-	 * @param string $order Order events by 'date'
-	 * @param string $operator Operator
-	 * @return array Collection of events
-	 */ 
-	public function findEvents2($search = null, $order = 'date', $operator = 'and')
-	{
-		// build the event listing
-	 	if (!$this->events) {
-            $this->build();
-        }
 	}
 
 	/**
@@ -189,7 +175,6 @@ class Events
 						$entry->start_date = $datetime[0];						
 						$entry->start_time = $datetime[1];	
 						$entry->start_time_abs = strtotime($datetime[1], $this->absolute);					
-						$entry->start_carbon = Carbon::parse($entry->start);
 					}
 
 					// process the end date
@@ -198,14 +183,9 @@ class Events
 						$entry->end_date = $datetime[0];						
 						$entry->end_time = $datetime[1];	
 						$entry->end_time_abs = strtotime($datetime[1], $this->absolute);					
-						$entry->end_carbon = Carbon::parse($entry->end);
 					}
 
-					// store this event in $this->events
 					$this->events[] = $entry;
-
-					// process $entry for recurring events
-					$this->buildRepeatingEntries($entry);
 				}
 
 			}
@@ -213,103 +193,12 @@ class Events
 		}
 	}
 
-	/**
-	 * Build repeating entries 
-	 * 
-	 * @internal
-	 * @param object $event Event
-	 */
-	private function buildRepeatingEntries($event)
-	{
-
-		// check for event repeat and freq frontmatter
-		if (isset($event->freq) && isset($event->repeat)) {
-
-			$start_date = Carbon::parse($event->start);
-			$end_date = Carbon::parse($event->until);
-
-			switch($event->freq) {	
-
-				// if daily
-				case 'daily':
-					$repeat = $end_date->diffInDays($start_date);
-					$this->buildRepeatingDailyEvents($event, $repeat);
-					break;
-
-				// if weekly
-				case 'weekly':
-					$repeat = $end_date->diffInWeeks($start_date);
-					$this->buildRepeatingWeeklyEvents($event, $repeat);
-					break;
-
-				// if monthly
-				case 'monthly':
-					$repeat = $end_date->diffInMonths($start_date);
-					$this->buildRepeatingMonthlyEvents($event, $repeat);
-					break;
-
-				// if yearly
-				case 'yearly':
-					$repeat = $end_date->diffInYears($start_date);
-					$this->buildRepeatingYearlyEvents($event, $repeat);
-					break;
-
-			}
-
-		}
-	}
-
-	/**
-	 * Build Repeating Daily Events 
-	 * 
-	 * @param object $event Event object
-	 * @param integer $repeat How many times to repeat the event 
-	 */
-	private function buildRepeatingDailyEvents($event, $repeat) {
-
-	}
-
-	/**
-	 * Build Repeating Weekly Events 
-	 * 
-	 * @param object $event Event object
-	 * @param integer $repeat How many times to repeat the event 
-	 */
-	private function buildRepeatingWeeklyEvents($event, $repeat) {
-
-	}
-
-	/**
-	 * Build Repeating Monthly Events 
-	 * 
-	 * @param object $event Event object
-	 * @param integer $repeat How many times to repeat the event 
-	 */
-	private function buildRepeatingMonthlyEvents($event, $repeat) {
-
-		for ($i = 1; $i < $repeat; $i++) {
-
-			$recurringEvent = $event;
-
-			var_dump($event->rules);
-
-		}
-	}
-
-	/**
-	 * Build Repeating Yearly Events 
-	 * 
-	 * @param object $event Event object
-	 * @param integer $repeat How many times to repeat the event 
-	 */
-	private function buildRepeatingYearlyEvents($event, $repeat) {
-
-	}
 	/*
 	 * Updates matched elements to be sorted by date
 	 */
 	public function sortByDate()
 	{
+
 		usort($this->matched_events, array($this, "_SortByDate"));
 		return $this;
 	}
