@@ -25,11 +25,6 @@ class Events
 	protected $absolute;
 
 	/**
-	 * @var boolean Used in pattern matching
-	 */
-	protected $matching = false;
-
-	/**
 	 * Class construct
 	 */
 	public function __construct()
@@ -193,12 +188,21 @@ class Events
 		}
 	}
 
+	/**
+	 * Build repeating entries 
+	 * 
+	 * @internal
+	 */
+	private function buildRepeatingEntries($entry)
+	{
+
+	}
+
 	/*
 	 * Updates matched elements to be sorted by date
 	 */
 	public function sortByDate()
 	{
-
 		usort($this->matched_events, array($this, "_SortByDate"));
 		return $this;
 	}
