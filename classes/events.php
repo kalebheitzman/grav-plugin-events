@@ -10,19 +10,24 @@ class Events
 	use GravTrait;
 
 	/**
-	 * @var array
+	 * @var array Events collection
 	 */ 
 	protected $events;
 
 	/**
-	 * @var string
+	 * @var string Used to establish a time to sort by
 	 */ 
 	protected $reference_time = "2000-01-01 00:00:00";
 
 	/**
-	 * @var string 
+	 * @var string Used in sorting times
 	 */ 
 	protected $absolute;
+
+	/**
+	 * @var boolean Used in pattern matching
+	 */
+	protected $matching = false;
 
 	/**
 	 * Class construct
@@ -33,35 +38,58 @@ class Events
 	}
 
 	/**
+	 * Return item if match found  
+	 */
+	private function matchFinder($patterns, $events, $operator)
+	{
+		$count = count($patterns);
+
+		$matches = [];
+		
+		foreach ($events as $index => $event) {
+
+			// match single pattern using 'and'
+			if ($count === 1) {
+				foreach ($patterns as $key => $pattern) {
+					if (! is_array($pattern)) {
+						$pattern_backup = $pattern;
+						$pattern = [];
+						$pattern[] = $pattern_backup; 
+					}
+					if ($count == count(array_intersect($pattern, (array)$event))) {
+						$matches[] = $event;
+					}
+				}
+			}
+
+			// matches multiple patterns using 'and'
+			if ($count > 1) {
+				if ($count == count(array_intersect_assoc($patterns, (array)$event))) {
+					$matches[] = $event;
+				}
+			}
+
+		}
+
+    	return $matches;
+	}
+
+	/**
 	 * Find events based on options
 	 * 
 	 * @param array $patterns patterns to search
+	 * @param string $operator Operator
 	 * @return Collection
 	 */
-	public function findEvents($patterns)
+	public function findEvents($patterns, $operator = 'and')
 	{
 	 	if (!$this->events) {
             $this->build();
         }
 
-        $matches = [];
+        $events = $this->events;
 
-        foreach ($patterns as $key => $value) {
-        	foreach ($this->events as $event) {
-        		if (is_array($value)) {
-	        		foreach ($value as $val) {
-	        			if ($event->$key == $val) {
-	        				$matches[] = $event;
-	        			}
-	        		}
-        		}
-        		else {
-        			if ($event->$key == $value) {
-        				$matches[] = $event;
-        			}	
-        		}
-        	}
-        }
+        $matches = $this->matchFinder($patterns, $events, $operator);
 
         usort($matches, array($this, "_SortByDate"));
         $this->matched_events = $matches;
