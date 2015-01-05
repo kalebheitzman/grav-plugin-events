@@ -30,11 +30,6 @@ class Events
 	protected $matching = false;
 
 	/**
-	 * @var string Order by default method  
-	 */
-	protected $order = 'date';
-
-	/**
 	 * Class construct
 	 */
 	public function __construct()
@@ -51,47 +46,29 @@ class Events
 	 */
 	public function findEvents($patterns = null, $order = 'date', $operator = 'and')
 	{
-		$this->order = $order;
-
+		// build the event listing
 	 	if (!$this->events) {
             $this->build();
         }
 
+        // get the event listing
         $events = $this->events;
 
+        // get all of the matches based on patterns
         $matches = $this->matchFinder($patterns, $events, $operator);
 
-        $this->matched_events = $matches;
-
-	 	return $this;
-	} 
-
-	public function not($patterns = null)
-	{
-		$matches = [];
-
-		foreach ($patterns as $type => $pattern) {
-			// convert pattern to an array if it is not already
-			if (! is_array($pattern)) {
-				$pb = $pattern;
-				$pattern = [];
-				$pattern[] = $pb; 
-			}
-
-			foreach ($this->events as $index => $event) {
-
-				$intersect = array_intersect($pattern, (array)$event);
-
-				if (count($intersect) == 0) {
-					$matches[] = $event;
-				}
-			}
-
-			$this->matched_events = $matches;
+	 	// order events by date
+		if ($order == 'date') {
+			usort($matches, array($this, "_SortByDate"));
 		}
 
-		return $this;
-	}
+		// order events by time
+		if ($order == 'time') {
+			usort($matches, array($this, "_SortByTime"));
+		} 
+
+		return $matches;
+	} 
 
 	/**
 	 * Return item if match found  
@@ -108,6 +85,7 @@ class Events
 		
 		foreach ($events as $index => $event) {
 			
+			// store true boolean in matched if event matches pattern
 			$matched = [];
 			foreach ($patterns as $type => $pattern) {
 
@@ -118,37 +96,42 @@ class Events
 					$pattern[] = $pb; 
 				}
 
+				// calculate the intersection
 				$intersect = array_intersect($pattern, (array)$event);
 
-				// match single pattern using 'and'
-				if ($count === 1) {
-					foreach ($patterns as $key => $pattern) {
-						if (! is_array($pattern)) {
-							$pattern_backup = $pattern;
-							$pattern = [];
-							$pattern[] = $pattern_backup; 
+				// Non-negating match
+				if (strpos($type, '!') !== 0) {
+					// match single pattern using 'and'
+					if ($count === 1) {
+						foreach ($patterns as $key => $pattern) {
+							if (! is_array($pattern)) {
+								$pattern_backup = $pattern;
+								$pattern = [];
+								$pattern[] = $pattern_backup; 
+							}
+							if ($count == count(array_intersect($pattern, (array)$event))) {
+								array_push($matched, true);
+							}
 						}
-						if ($count == count(array_intersect($pattern, (array)$event))) {
-							// $matches[] = $event;
+					}
+					// matches multiple patterns using 'and'
+					if ($count > 1) {
+						if ($count == count(array_intersect_assoc($patterns, (array)$event))) {
 							array_push($matched, true);
 						}
 					}
 				}
-
-				// matches multiple patterns using 'and'
-				if ($count > 1) {
-					if ($count == count(array_intersect_assoc($patterns, (array)$event))) {
-						// $matches[] = $event;
+				// negate items from the list of events
+				else {
+					if (count($intersect) == 0) {
 						array_push($matched, true);
 					}
 				}
 			}
-
 			// matches were found
 			if (count($matched) !== 0) {
 				$matches[] = $event;
 			}
-
 		}
 
     	return $matches;
@@ -244,32 +227,5 @@ class Events
 	{
 		return strcmp($a->start_time_abs, $b->start_time_abs);
 	}
-
-    /**
-	 * Gets all matched events 
-	 * 
-	 * @return Array matched events
-	 */
-	public function get()
-	{
-		// order events by date
-		if ($this->order == 'date') {
-			usort($this->matched_events, array($this, "_SortByDate"));
-		}
-
-		// order events by time
-		if ($this->order == 'time') {
-			usort($this->matched_events, array($this, "_SortByTime"));
-		} 
-
-		$this->order = 'date';
-		return $this->matched_events;
-	}
-
-	public function __toString()
-	{
-	    return $this->get();
-	}
-
 
 }
