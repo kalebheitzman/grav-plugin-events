@@ -1,0 +1,12 @@
+name: Events
+version: 0.0.1
+description: "This plugin provides events for a Grav site using event frontmatter."
+icon: 
+author:
+	name: Kaleb Heitzman
+	email: kalebheitzman@gmail.com
+	url: http://kheitzman.com
+homepage: http://github.com/kalebheitzman/grav-plugin-events
+keywords: events, plugin
+bugs: https://github.com/kalebheitzman/grav-plugin-events
+license: MIT
