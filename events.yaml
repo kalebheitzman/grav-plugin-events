@@ -1,5 +1,1 @@
 enabled: true
-route: /events
-filter:                         # filter a configurable collection of pages to compare
-    items:
-        @page: /events
