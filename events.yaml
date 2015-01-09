@@ -1,1 +1,4 @@
 enabled: true
+filter_combinator: and
+filters:
+    type: event

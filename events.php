@@ -6,12 +6,6 @@ use \Grav\Common\Plugin;
 
 class EventsPlugin extends Plugin
 {
-	/** @var Array $events */
-	protected $events = [];
-
-	/** @var Config $config */
-	protected $config;
-
 	/**
 	 * @return array
 	 */
@@ -32,12 +26,19 @@ class EventsPlugin extends Plugin
 			return;
 		}
 
-		$this->config = $this->grav['config']->get('plugins.events');
-
 		$this->enable([
+			'onTwigTemplatePaths' => ['onTwigTemplatePaths', 0],
 			'onTwigSiteVariables' => ['onTwigSiteVariables', 0]
 		]);
 
+	}
+
+	/**
+	 * Add current direcotry to twig lookup paths.
+	 */ 
+	public function onTwigTemplatePaths()
+	{
+		$this->grav['twig']->twig_paths[] = __DIR__ . '/templates';
 	}
 
 	/**
@@ -45,7 +46,7 @@ class EventsPlugin extends Plugin
 	 */
 	public function onTwigSiteVariables()
 	{
-		require_once __DIR__ . '/classes/Events.php';
+		require_once __DIR__ . '/classes/events.php';
 
 		$twig = $this->grav['twig'];
 		$twig->twig_vars['events'] = new Events();
