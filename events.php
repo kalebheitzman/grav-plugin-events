@@ -45,7 +45,7 @@ class EventsPlugin extends Plugin
 	 */
 	public function onTwigSiteVariables()
 	{
-		require_once __DIR__ . '/classes/events.php';
+		require_once __DIR__ . '/classes/Events.php';
 
 		$twig = $this->grav['twig'];
 		$twig->twig_vars['events'] = new Events();

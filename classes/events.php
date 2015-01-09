@@ -144,7 +144,7 @@ class Events
 	 */ 
 	protected function build()
 	{
-	 	require_once __DIR__ . '/evententry.php';
+	 	require_once __DIR__ . '/EventEntry.php';
 
 	 	$pages = self::$grav['pages'];
 	 	$routes = $pages->routes();
