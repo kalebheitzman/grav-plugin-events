@@ -67,9 +67,42 @@ class Events
 			return $this->events;			
 		}
 
+		var_dump($attrs);
 
 
 		return $this->events;			
+	}
+
+	/**
+	 * Days processor
+	 */
+	private function _daysProcessor($attr)
+	{
+
+	}
+
+	/**
+	 * Frequency processor
+	 */   
+	private function _freqProcessor($attr)
+	{
+
+	}
+
+	/**
+	 * Start date processor
+	 */ 
+	private function _startDateProcessor($attr)
+	{
+
+	}
+
+	/**
+	 * End date processor 
+	 */
+	private function _endDateProcessor($attr)
+	{
+		
 	}
 
 	/**
