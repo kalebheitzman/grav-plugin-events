@@ -30,8 +30,8 @@ class Events
 
 		// Dynamically add the needed taxonomy types to the taxonomies config
 		$event_taxonomies = array('type');
-        $taxonomy_config = array_merge((array)$this->config->get('site.taxonomies'), $event_taxonomies);
-        $this->config->set('site.taxonomies', $taxonomy_config);
+		$taxonomy_config = array_merge((array)$this->config->get('site.taxonomies'), $event_taxonomies);
+		$this->config->set('site.taxonomies', $taxonomy_config);
 	}
 
 	/**
@@ -45,8 +45,8 @@ class Events
 	{
 		// build the event listing
 	 	if (!$this->events) {
-            $this->build();
-        }
+	 		$this->build();
+	 	}
 
         return $this->events;
 	}
