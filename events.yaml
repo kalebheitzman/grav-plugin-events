@@ -1,4 +1,6 @@
+date_format: m/d/Y g:ia
 enabled: true
 filter_combinator: and
 filters:
     type: event
+show_past_events: false
