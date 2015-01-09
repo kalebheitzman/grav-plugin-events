@@ -67,10 +67,20 @@ class Events
 			return $this->events;			
 		}
 
-		var_dump($attrs);
+		// get an instance of events
+		$events = $this->events;
 
+		// process startDate
+		if ($attrs['startDate']) {
+			$events = $this->_startDateProcessor($attrs['startDate']);
+		}
 
-		return $this->events;			
+		// process endDate
+		if ($attrs['endDate']) {
+			$events = $this->_endDateProcessor($attrs['startDate']);
+		}
+
+		return $events;			
 	}
 
 	/**
@@ -78,7 +88,7 @@ class Events
 	 */
 	private function _daysProcessor($attr)
 	{
-
+		return $this->events;
 	}
 
 	/**
@@ -86,7 +96,7 @@ class Events
 	 */   
 	private function _freqProcessor($attr)
 	{
-
+		return $this->events;
 	}
 
 	/**
@@ -94,7 +104,7 @@ class Events
 	 */ 
 	private function _startDateProcessor($attr)
 	{
-
+		return $this->events;
 	}
 
 	/**
@@ -102,7 +112,7 @@ class Events
 	 */
 	private function _endDateProcessor($attr)
 	{
-		
+		return $this->events;
 	}
 
 	/**
@@ -112,8 +122,8 @@ class Events
 	 */
 	public function startOfWeek()
 	{
-		$startDate = Carbon::parse('last monday');
-		return $startDate->format($this->dateFormat);
+		$date = Carbon::parse('last monday');
+		return $date->format($this->dateFormat);
 	}
 
 	/**
@@ -123,8 +133,30 @@ class Events
 	 */ 
 	public function endOfWeek()
 	{
-		$endDate = Carbon::parse('next monday');
-		return $endDate->format($this->dateFormat);
+		$date = Carbon::parse('next monday');
+		return $date->format($this->dateFormat);
+	}
+
+	/**
+	 * Get start of month
+	 * 
+	 * @return string DateTime
+	 */
+	public function startOfMonth()
+	{
+		$date = Carbon::parse('first day of this month');
+		return $date->format($this->dateFormat);
+	}
+
+	/**
+	 * Get end of month
+	 * 
+	 * @return string DateTime
+	 */ 
+	public function endOfMonth()
+	{
+		$date = Carbon::parse('last day of this month');
+		return $date->format($this->dateFormat);
 	}
 
 }
