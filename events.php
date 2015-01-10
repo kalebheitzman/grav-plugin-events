@@ -2,6 +2,8 @@
 
 namespace Grav\Plugin;
 
+require_once 'vendor/autoload.php';
+
 use Grav\Common\Plugin;
 use Grav\Common\Grav;
 use Grav\Common\Page\Collection;
@@ -9,6 +11,8 @@ use Grav\Common\Page\Page;
 use Grav\Common\Debugger;
 use Grav\Common\Taxonomy;
 use RocketTheme\Toolbox\Event\Event;
+
+use \Carbon\Carbon;
 
 class EventsPlugin extends Plugin
 {
@@ -66,7 +70,12 @@ class EventsPlugin extends Plugin
 			$header = $page->header();
 			// process for repeating events if event front matter is set
 			if (isset($header->event) && isset($header->event['repeat'])) {
+				// build a list of repeating pages
 				$repeatingEvents = $this->_processRepeatingEvent($page);
+				// add the new $repeatingEvents pages to the $pages object
+				foreach($repeatingEvents as $eventPage) {
+					var_dump($eventPage);
+				}
 			}
 		}
  
@@ -77,7 +86,7 @@ class EventsPlugin extends Plugin
 	}
 
 	/**
-	 *	Process pages that have event frontmatter 
+	 * Process pages that have event frontmatter 
 	 */
 	public function onPageProcessed(Event $event)
 	{
@@ -128,12 +137,37 @@ class EventsPlugin extends Plugin
 	 * Process a repeating event
 	 * 
 	 * @param object $page Page object
+	 * @return array Newly created event pages.
 	 */
 	private function _processRepeatingEvent($page)
 	{
 		$pages = [];
 
+		$header = $page->header();
+		$repeat = $header->event['repeat'];
+		$freq = $header->event['freq'];
+		$until = $header->event['until'];
+ 		$count = $this->_calculateIteration($freq, $until);
+
+ 		var_dump($count);
+
 		return $pages;
+	} 
+
+	/**
+	 * Calculate how many times to iterate event based on freq and until
+	 * 
+	 * @param string $freq How often to repeat
+	 * @param string $until The date to repeat event until
+	 * @return integer How many times to loops
+	 */
+	private function _calculateIteration($freq, $until)
+	{
+		$count = 0;
+		$currentDate = '';
+		var_dump($freq);
+		var_dump($until);
+		return $count;
 	} 
 
 }
