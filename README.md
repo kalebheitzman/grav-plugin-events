@@ -23,13 +23,7 @@ This plugin supports creating repeating events using `event.repeat`, `event.freq
 
 `event.repeat` specifies what days you would like for your event to repeat. This can be for Monday through Sunday as specified by MTWRFSU. 
 
-* **M**onday
-* **T**uesday
-* **W**ednesday
-* Th**U**rsday
-* **F**riday
-* **S**aturday
-* S**U**nday
+**M**onday, **T**uesday, **W**ednesday, Th**U**rsday, **F**riday, **S**aturday, S**U**nday
 
 `event.freq` can be set to daily, weekly, monthly, or yearly.
 
