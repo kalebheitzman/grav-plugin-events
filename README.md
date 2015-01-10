@@ -4,7 +4,11 @@ This is an events plugin that works with [Grav CMS](http://getgrav.org)  0.9.13+
 
 ## Frontmatter Example
 
-This plugin process event frontmatter specified in the header in multiple ways. It adds any page found with event frontmatter to `@taxonomy.type = event`. If the event is a repeating event, pages will be added to the pages collection with the correct dates and times for use throughout the rest of a Grav site. 
+This plugin process event frontmatter specified in the header in multiple ways. It adds any page found with event frontmatter to `@taxonomy.type = event`. This allows you to build collections based on this taxonomy type.
+
+The `date` of a page will be set to `event.start` automatically if not specified. This allows you to order your events by date.
+
+If the event is a repeating event, pages will be added to the pages collection with the correct dates and times for use throughout the rest of a Grav site. 
 
 ```
 event:
