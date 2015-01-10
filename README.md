@@ -35,7 +35,23 @@ This plugin supports creating repeating events using `event.repeat`, `event.freq
 
 ### Twig Template Example
 
+```
+{% set fridayEvents = 
+    page.collection({'items':{'@taxonomy.event_repeat':'F'}, 'order':{'by':'date','dir':'asc'}}) %}
+
+<ul>
+    {% for event in fridayEvents %}
+        <li>
+            <a href="{{ event.url }}">{{ event.title }}</a> 
+            {{ event.event.start|date('F j, Y') }}
+        </li>
+    {% endfor %}
+</ul>
+``` 
 
 ### Collection Frontmatter Example
 
-
+```
+collection:
+    @items:
+```
