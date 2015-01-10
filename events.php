@@ -2,7 +2,7 @@
 
 namespace Grav\Plugin;
 
-require_once 'vendor/autoload.php';
+require_once __DIR__.'/vendor/autoload.php';
 
 use Grav\Common\Plugin;
 use Grav\Common\Grav;
@@ -12,7 +12,7 @@ use Grav\Common\Debugger;
 use Grav\Common\Taxonomy;
 use RocketTheme\Toolbox\Event\Event;
 
-use \Carbon\Carbon;
+use Carbon\Carbon;
 
 class EventsPlugin extends Plugin
 {
@@ -155,7 +155,8 @@ class EventsPlugin extends Plugin
 	} 
 
 	/**
-	 * Calculate how many times to iterate event based on freq and until
+	 * Calculate how many times to iterate event based on freq and until. The
+	 * Carbon DateTime api extension is used to calculcate these differences.
 	 * 
 	 * @param string $freq How often to repeat
 	 * @param string $until The date to repeat event until
@@ -164,9 +165,28 @@ class EventsPlugin extends Plugin
 	private function _calculateIteration($freq, $until)
 	{
 		$count = 0;
-		$currentDate = '';
-		var_dump($freq);
-		var_dump($until);
+		
+		$currentDate = Carbon::now();
+		$untilDate = Carbon::parse($until);
+
+		switch($freq) {
+			case 'daily':
+				$count = $untilDate->diffInDays($currentDate);
+				break;
+
+			case 'weekly':
+				$count = $untilDate->diffInWeeks($currentDate);
+				break;
+
+			case 'monthly':
+				$count = $untilDate->diffInMonths($currentDate);
+				break;
+
+			case 'yearly':
+				$count = $untilDate->diffInYears($currentDate);
+				break;
+		}
+
 		return $count;
 	} 
 
