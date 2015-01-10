@@ -31,7 +31,7 @@ This plugin supports creating repeating events using `event.repeat`, `event.freq
 
 `event.freq` can be set to `daily, weekly, monthly, or yearly.`
 
-`event.until` is a date and time specification like 01/01/2016 12:00am
+`event.until` is a date and time specification like `01/01/2016 12:00am`
 
 ### Twig Templates and Example
 
