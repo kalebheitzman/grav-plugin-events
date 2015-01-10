@@ -70,10 +70,10 @@ class EventsPlugin extends Plugin
 	       	}
         }
  
-        // unset grav pages
-        unset($this->grav['pages']);
-        // set new grav pages
-        $this->grav['pages'] = $pages;
+		// unset grav pages
+		unset($this->grav['pages']);
+		// set new grav pages
+		$this->grav['pages'] = $pages;
 	}
 
 	/**
