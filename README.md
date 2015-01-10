@@ -29,17 +29,25 @@ This plugin supports creating repeating events using `event.repeat`, `event.freq
 
 `event.repeat` specifies what days you would like for your event to repeat. This can be for Monday through Sunday as specified by MTWRFSU. (**M**onday, **T**uesday, **W**ednesday, Th**U**rsday, **F**riday, **S**aturday, S**U**nday)
 
-`event.freq` can be set to daily, weekly, monthly, or yearly.
+`event.freq` can be set to `daily, weekly, monthly, or yearly.`
 
 `event.until` is a date and time specification like 01/01/2016 12:00am
 
 ### Twig Template Example
 
+It's easy to create a collection of events using Grav taxonomy search feature and the following taxonomies that are added by the Events plugin.
+
+`@taxonomy.type` and the term `event` are added to all pages that have `event` frontmatter.
+
+`@taxonomy.event_repeat` and `['M', 'T', 'W', 'R', 'F', 'S', 'U']` are added to events that specify `event.repeat: MTWRFSU`.
+
+`@taxonomy.event_freq` and `daily, weekly, monthly, or yearly` are added to events that specify `event.freq` and the appropriate option.
+
 ```
 {% set events = 
     page.collection({
         'items':{
-            '@taxonomy.type':'event'
+            '@taxonomy.type':'event',
             '@taxonomy.event_repeat':['S','U']
         }
     })
