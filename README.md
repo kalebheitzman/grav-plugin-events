@@ -2,62 +2,35 @@
 
 This is an events plugin for [Grav CMS](http://getgrav.org).
 
-## Frontmatter usage
+## Frontmatter example
 
 ```
 event:
     start: 01/01/2015 6:00pm
     end: 01/01/2015 7:00pm
-    repeat: MWF
+    repeat: MTWRFSU
     freq: weekly
     until: 01/01/2020
 ```
 
-The `repeat:` event frontmatter uses the MTWRFSU format.
+### Dates and Times
 
-```
-* M - Monday
-* T - Tuesday
-* W - Wednesday
-* R - Thursday
-* F - Friday
-* S - Saturday
-* U - Sunday
-```
+The `event.start` and `event.end` dates looks for the American 01/01/2015 12:00am format.
 
-## Vars exposed to Twig
+### Repeating Dates
 
-```
-event.title
-event.route
-event.start
-event.end
-```
+This plugin supports creating repeating events using `event.repeat`, `event.freq`, and `event.until`. 
 
-## Example use in Twig
+`event.repeat` specifies what days you would like for your event to repeat. This can be for Monday through Sunday as specified by MTWRFSU. 
 
-```
-<ul>
-    {% for event in events.findEvents({'repeat':'R'}).sortByTime().get() %}
-        <li>
-            <span class="time">{{ event.start|date("g:ia") }}</span>
-            <span class="title"><a href="{{ event.route }}">{{ event.title }}</a></span>
-        </li>
-    {% endfor %}
-</ul>
-```
+* **M**onday
+* **T**uesday
+* **W**ednesday
+* Th**U**rsday
+* **F**riday
+* **S**aturday
+* S**U**nday
 
-## Methods for use in Twig
+`event.freq` can be set to daily, weekly, monthly, or yearly.
 
-You can pass a variety of filters to findEvents in this format: `{'repeat':'F','freq':'weekly'}`
-
-`events.findEvents()`
-
-You can pass `asc` or `desc` on the following sort methods. They automatically default to asc.
-
-`events.sortByDate()`
-`events.sortByTime()`
-
-All methods are chainable and the .get() method must be called at the end in order to retrieve events.
-
-`events.get()`
+`event.until` is a date and time specification like 01/01/2016 12:00am

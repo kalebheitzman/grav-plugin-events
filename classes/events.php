@@ -2,7 +2,7 @@
 
 namespace Grav\Plugin;
 
-require __DIR__.'/../vendor/autoload.php';
+require_once __DIR__.'/../vendor/autoload.php';
 
 use Grav\Common\Grav;
 use Grav\Common\GravTrait;
@@ -67,7 +67,7 @@ class Events
 	 * 
 	 * @return object Collection of all events
 	 */
-	public function findEvents($attrs = null)
+	/*public function findEvents($attrs = null)
 	{
 		if (is_null($attrs)) {
 			return $this->events;			
@@ -77,7 +77,7 @@ class Events
 		$events = $this->_processEvents($attrs);
 
 		return $events;			
-	}
+	}*/
 
 	/**
 	 * Event Processing
@@ -99,7 +99,7 @@ class Events
 	 * @param array $attrs Attributes to process on
 	 * @return object Collection of events
 	 */ 
-	private function _processEvents($attrs)
+	/*private function _processEvents($attrs)
 	{
 		// process days
 		if ($attrs['days']) {
@@ -117,8 +117,7 @@ class Events
 		if ($attrs['endDate']) {
 			$events = $this->_endDateProcessor($attrs['startDate']);
 		}
-
-	}
+	}*/
 
 	/**
 	 * Days processor
@@ -151,7 +150,6 @@ class Events
 	{
 		return $this->events;
 	}
-
 
 	/**
 	 * Carbon Date Processing

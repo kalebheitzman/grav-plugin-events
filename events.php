@@ -39,6 +39,7 @@ class EventsPlugin extends Plugin
 
 		$this->enable([
 			'onTwigTemplatePaths' => ['onTwigTemplatePaths', 0],
+			'onPagesInitialized' => ['onPagesInitialized', 0],
 			'onPageProcessed' => ['onPageProcessed', 0],
 			'onTwigSiteVariables' => ['onTwigSiteVariables', 0]
 		]);
@@ -50,6 +51,14 @@ class EventsPlugin extends Plugin
 	public function onTwigTemplatePaths()
 	{
 		$this->grav['twig']->twig_paths[] = __DIR__ . '/templates';
+	}
+
+	/**
+	 * Check for repeating entries and add them to the page collection
+	 */
+	public function onPagesInitialized()
+	{
+		
 	}
 
 	/**
