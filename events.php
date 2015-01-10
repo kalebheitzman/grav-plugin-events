@@ -62,13 +62,13 @@ class EventsPlugin extends Plugin
 		// get all the page instances
 		$pageInstances = $pages->instances();
 		// iterate through page instances to find event frontmatter
-        foreach($pageInstances as $page) {
-	       	$header = $page->header();
-	       	// process for repeating events if event front matter is set
-	       	if (isset($header->event)) {
-
-	       	}
-        }
+		foreach($pageInstances as $page) {
+			$header = $page->header();
+			// process for repeating events if event front matter is set
+			if (isset($header->event) && isset($header->event['repeat'])) {
+				$repeatingEvents = $this->_processRepeatingEvent($page);
+			}
+		}
  
 		// unset grav pages
 		unset($this->grav['pages']);
@@ -123,5 +123,17 @@ class EventsPlugin extends Plugin
 
 		return $taxonomy;
 	}
+
+	/**
+	 * Process a repeating event
+	 * 
+	 * @param object $page Page object
+	 */
+	private function _processRepeatingEvent($page)
+	{
+		$pages = [];
+
+		return $pages;
+	} 
 
 }
