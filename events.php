@@ -16,6 +16,12 @@ use Carbon\Carbon;
 
 class EventsPlugin extends Plugin
 {
+
+	/**
+	 * @var object Carbon date 
+	 */
+	protected $now;
+
 	/**
 	 * @return array
 	 */
@@ -35,6 +41,8 @@ class EventsPlugin extends Plugin
 			$this->active = false;
 			return;
 		}
+
+		$this->now = Carbon::now();
 
 		// Dynamically add the needed taxonomy types to the taxonomies config
 		$event_taxonomies = array('type', 'event_freq', 'event_repeat');
@@ -73,12 +81,13 @@ class EventsPlugin extends Plugin
 				// build a list of repeating pages
 				$repeatingEvents = $this->_processRepeatingEvent($page);
 				// add the new $repeatingEvents pages to the $pages object
-				foreach($repeatingEvents as $eventPage) {
-					var_dump($eventPage);
+				foreach($repeatingEvents as $key => $eventPage) {
+					$route = $eventPage->route();
+					$pages->addPage($eventPage, $route . '-' . $key);
 				}
 			}
 		}
- 
+
 		// unset grav pages
 		unset($this->grav['pages']);
 		// set new grav pages
@@ -143,16 +152,57 @@ class EventsPlugin extends Plugin
 	{
 		$pages = [];
 
+		// header information
 		$header = $page->header();
+ 		$start = $header->event['start'];
+ 		$end = $header->event['end'];
 		$repeat = $header->event['repeat'];
 		$freq = $header->event['freq'];
 		$until = $header->event['until'];
  		$count = $this->_calculateIteration($freq, $until);
 
- 		var_dump($count);
+ 		// date calculation vars
+ 		$carbonStart = Carbon::parse($start);
+ 		$carbonEnd = Carbon::parse($end);
+ 		$carbonDay = $carbonStart->dayOfWeek;
+ 		$carbonWeek = $carbonStart->weekOfMonth;
+ 		$carbonWeekYear = $carbonStart->weekOfYear;
+
+ 		for($i=1; $i <= $count; $i++) {
+ 			
+ 			// update the start and end dates of the event frontmatter 			
+ 			switch($freq) {
+				case 'daily':
+					$newStart = $carbonStart->addDays($i);
+					$newEnd = $carbonEnd->addDays($i);
+					break;
+
+				case 'weekly':
+					$newStart = $carbonStart->addWeeks($i);
+					$newEnd = $carbonEnd->addWeeks($i);
+					break;
+
+				case 'monthly':
+					$newStart = $carbonStart->addMonths($i);
+					$newEnd = $carbonEnd->addMonths($i);
+					break;
+
+				case 'yearly':
+					$newStart = $carbonStart->addYears($i);
+					$newEnd = $carbonEnd->addYears($i);
+					break;
+			}
+
+			$header->event['start'] = $newStart;
+			$header->event['end'] = $newEnd;
+
+ 			// save the eventPageheader
+ 			$page->header($header);
+ 			array_push($pages, $page);
+ 		}
 
 		return $pages;
-	} 
+	}
 
 	/**
 	 * Calculate how many times to iterate event based on freq and until. The
@@ -166,7 +216,7 @@ class EventsPlugin extends Plugin
 	{
 		$count = 0;
 		
-		$currentDate = Carbon::now();
+		$currentDate = $this->now;
 		$untilDate = Carbon::parse($until);
 
 		switch($freq) {
