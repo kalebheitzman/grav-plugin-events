@@ -58,15 +58,15 @@ class EventsPlugin extends Plugin
 	public function onPagesInitialized()
 	{
 		/** @var Pages $pages */
-        $pages = $this->grav['pages'];
-        // get all the page instances
-        $pageInstances = $pages->instances();
-        // iterate through page instances to find event frontmatter
+		$pages = $this->grav['pages'];
+		// get all the page instances
+		$pageInstances = $pages->instances();
+		// iterate through page instances to find event frontmatter
         foreach($pageInstances as $page) {
 	       	$header = $page->header();
 	       	// process for repeating events if event front matter is set
 	       	if (isset($header->event)) {
-	       		
+
 	       	}
         }
  
