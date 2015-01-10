@@ -21,9 +21,7 @@ The `event.start` and `event.end` dates looks for the American 01/01/2015 12:00a
 
 This plugin supports creating repeating events using `event.repeat`, `event.freq`, and `event.until`. 
 
-`event.repeat` specifies what days you would like for your event to repeat. This can be for Monday through Sunday as specified by MTWRFSU. 
-
-**M**onday, **T**uesday, **W**ednesday, Th**U**rsday, **F**riday, **S**aturday, S**U**nday
+`event.repeat` specifies what days you would like for your event to repeat. This can be for Monday through Sunday as specified by MTWRFSU. (**M**onday, **T**uesday, **W**ednesday, Th**U**rsday, **F**riday, **S**aturday, S**U**nday)
 
 `event.freq` can be set to daily, weekly, monthly, or yearly.
 
