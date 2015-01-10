@@ -36,11 +36,19 @@ This plugin supports creating repeating events using `event.repeat`, `event.freq
 ### Twig Template Example
 
 ```
-{% set fridayEvents = 
-    page.collection({'items':{'@taxonomy.event_repeat':'F'}, 'order':{'by':'date','dir':'asc'}}) %}
+{% set events = 
+    page.collection({
+        'items':{
+            '@taxonomy.type':'event'
+            '@taxonomy.event_repeat':['S','U']
+        }
+    })
+    .dateRange(datetools.startOfMonth, datetools.endOfMonth)
+    .order('date', 'asc')
+%}
 
 <ul>
-    {% for event in fridayEvents %}
+    {% for event in events %}
         <li>
             <a href="{{ event.url }}">{{ event.title }}</a> 
             {{ event.event.start|date('F j, Y') }}
