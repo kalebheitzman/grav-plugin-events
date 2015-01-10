@@ -33,7 +33,7 @@ This plugin supports creating repeating events using `event.repeat`, `event.freq
 
 `event.until` is a date and time specification like 01/01/2016 12:00am
 
-### Twig Template Example
+### Twig Templates and Example
 
 It's easy to create a collection of events using Grav taxonomy search feature and the following taxonomies that are added by the Events plugin.
 
