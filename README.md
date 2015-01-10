@@ -21,7 +21,7 @@ event:
 
 ### Dates and Times
 
-The `event.start` and `event.end` dates looks for the American 01/01/2015 12:00am format.
+The `event.start` and `event.end` dates can be specified using m/d/y or d-m-y formats along with times.
 
 ### Repeating Dates
 
