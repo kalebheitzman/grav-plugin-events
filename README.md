@@ -19,11 +19,11 @@ event:
     until: 01/01/2020
 ```
 
-### Dates and Times
+## Dates and Times
 
-The `event.start` and `event.end` dates can be specified using m/d/y or d-m-y formats along with times.
+The `event.start` and `event.end` dates can be specified using `m/d/y` or `d-m-y` formats along with times.
 
-### Repeating Dates
+## Repeating Dates
 
 This plugin supports creating repeating events using `event.repeat`, `event.freq`, and `event.until`. 
 
@@ -32,3 +32,10 @@ This plugin supports creating repeating events using `event.repeat`, `event.freq
 `event.freq` can be set to daily, weekly, monthly, or yearly.
 
 `event.until` is a date and time specification like 01/01/2016 12:00am
+
+## Twig Template Example
+
+
+## Collection Frontmatter Example
+
+
