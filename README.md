@@ -43,6 +43,8 @@ It's easy to create a collection of events using Grav taxonomy search feature an
 
 `@taxonomy.event_freq` and `daily, weekly, monthly, or yearly` are added to events that specify `event.freq` and the appropriate option.
 
+A collection of weekend events.
+
 ```
 {% set events = 
     page.collection({
@@ -67,7 +69,11 @@ It's easy to create a collection of events using Grav taxonomy search feature an
 
 ### Collection Frontmatter Example
 
+A collection of weekend events.
+
 ```
 collection:
     @items:
+        @taxonomy.type: event
+        @taxonomy.event_repeat: [S, U]
 ```
