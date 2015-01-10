@@ -1,6 +1,6 @@
 # Events plugin for Grav CMS
 
-This is an events plugin that works with [Grav CMS 0.9.13+](http://getgrav.org).
+This is an events plugin that works with [Grav CMS](http://getgrav.org)  0.9.13+.
 
 ## Frontmatter example
 
