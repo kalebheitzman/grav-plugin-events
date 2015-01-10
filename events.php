@@ -41,7 +41,6 @@ class EventsPlugin extends Plugin
 			'onTwigTemplatePaths' => ['onTwigTemplatePaths', 0],
 			'onPagesInitialized' => ['onPagesInitialized', 0],
 			'onPageProcessed' => ['onPageProcessed', 0],
-			'onTwigSiteVariables' => ['onTwigSiteVariables', 0]
 		]);
 	}
 
@@ -80,17 +79,6 @@ class EventsPlugin extends Plugin
 			$taxonomy = $this->_eventFrontmatterToTaxonomy($page, $header);
 			$page->taxonomy($taxonomy);
 		}
-	}
-
-	/**
-	 * Set needed variables to display events
-	 */
-	public function onTwigSiteVariables()
-	{
-		require_once __DIR__ . '/classes/events.php';
-
-		$twig = $this->grav['twig'];
-		$twig->twig_vars['events'] = new Events();
 	}
 
 	/**
