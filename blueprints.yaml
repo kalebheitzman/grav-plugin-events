@@ -1,7 +1,7 @@
 name: Events
 version: 1.0.0
 description: "The **Events** plugin provides events for a Grav site using event frontmatter."
-icon: 
+icon: calendar
 author:
   name: Kaleb Heitzman
   email: kalebheitzman@gmail.com
@@ -10,3 +10,29 @@ homepage: http://github.com/kalebheitzman/grav-plugin-events
 keywords: events, plugin
 bugs: https://github.com/kalebheitzman/grav-plugin-events/issues
 license: MIT
+
+form:
+  validation: strict
+  fields:
+    date_format: 
+      type: text
+      label: Date Format
+      default: m/d/Y g:ia
+    filter_combinator:
+      type: text
+      label: Filter Combinator
+      default: and
+    events_collection:
+      type: text
+      label: Events Collection
+      default: "'@page': '/events'"
+    show_past_events: 
+      type: toggle
+      label: Show Past Events
+      highlight: 1
+      default: 0
+      options: 
+        1: Enabled
+        0: Disabled
+      validate: 
+        type: bool
