@@ -26,7 +26,7 @@ class EventsPlugin extends Plugin
 	 */
 	protected $route = 'events';
 
-	protected $gravPages;
+	protected $localGrav;
 
 	/**
 	 * @return array
@@ -67,9 +67,7 @@ class EventsPlugin extends Plugin
 			'onTwigTemplatePaths' => ['onTwigTemplatePaths', 0],
 			'onPagesInitialized' => ['onPagesInitialized', 0],
 			'onPageInitialized' => ['onPageInitialized', 0],
-			'onPageProcessed' => ['onPageProcessed', 0],
-			'onCollectionProcessed' => ['onCollectionProcessed', 0],
-			'onBlueprintCreated' => ['onBlueprintCreated', 0]
+			//'onBlueprintCreated' => ['onBlueprintCreated', 0]
 		]);
 	}
 
@@ -91,8 +89,8 @@ class EventsPlugin extends Plugin
 		$gravPages = new \Grav\Common\Page\Pages($this->grav);
 		$gravPages->init();
 
-		//
-		$this->eventPages = [];
+		// get taxonomy so we can add generated pages
+		$taxonomy = $this->grav['taxonomy'];
 
 		// get all the page instances
 		$pageInstances = $gravPages->instances();
@@ -109,43 +107,15 @@ class EventsPlugin extends Plugin
 				foreach($repeatingEvents as $key => $eventPage) {
 					// add the page to the stack
 					$gravPages->addPage($eventPage, $eventPage->route());
+					// add the page to the taxonomy map
+					$this->grav['taxonomy']->addTaxonomy($eventPage);
 				}
 			}
 
 		}
 		unset($this->grav['pages']);
 		$this->grav['pages'] = $gravPages;
-		$this->gravPages = $gravPages;
-	}
-
-
-	public function onPageInitialized()
-	{
-		// $page = $this->grav['page'];
-	}
-
-	public function onCollectionProcessed(Event $event)
-	{
-		// get the collection
-		$collection = $event['collection'];
-
-		// set some vars to create a new collection
-		$items = [];
-		$params = $collection->params();
-
-		//$pages = $this->gravPages->instances();
-		//foreach($pages as $page) {
-		//	$collection->addPage($page);
-		//}
-
-		// get an instance of grav collection
-		$gravCollection = new \Grav\Common\Page\Collection($items, $params, $this->gravPages);
-
-		//$gravCollection->addPage($eventPage);
-		//var_dump($this->gravPages);
-
-		unset($collection);
-		$collection = $gravCollection;
+		$this->localGrav = $this->grav;
 	}
 
 	/**
