@@ -65,6 +65,7 @@ class EventsPlugin extends Plugin
 
 		$this->enable([
 			'onTwigTemplatePaths' => ['onTwigTemplatePaths', 0],
+			'onGetPageTemplates' => ['onGetPageTemplates', 0],
 			'onPagesInitialized' => ['onPagesInitialized', 0],
 			'onPageProcessed' => ['onPageProcessed', 0],
 			'onCollectionProcessed' => ['onCollectionProcessed', 0],
@@ -79,6 +80,18 @@ class EventsPlugin extends Plugin
 		// add templates to twig path
 		$this->grav['twig']->twig_paths[] = __DIR__ . '/templates';
 	}
+
+	/**
+     * Add page template types.
+     *
+     * @param Event $event
+     */
+    public function onGetPageTemplates(Event $event)
+    {
+        /** @var Types $types */
+        $types = $event->types;
+        $types->scanTemplates('plugins://events/templates');
+    }
 
 	/**
 	 * Check for repeating entries and add them to the page collection
