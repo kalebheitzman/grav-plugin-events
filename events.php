@@ -17,7 +17,7 @@ use Carbon\Carbon;
 class EventsPlugin extends Plugin
 {
 	/**
-	 * @var object Carbon date 
+	 * @var object Carbon Current DateTime 
 	 */
 	protected $now;
 
@@ -25,8 +25,6 @@ class EventsPlugin extends Plugin
 	 * @var  string Route
 	 */
 	protected $route = 'events';
-
-	protected $localGrav;
 
 	/**
 	 * @return array
@@ -92,50 +90,8 @@ class EventsPlugin extends Plugin
 	 */
 	public function onPagesInitialized()
 	{
-		// get a new instance of grav pages
-		// I instantiate a new pages object to deal with cloning and pointer issues
-		$gravPages = new \Grav\Common\Page\Pages($this->grav);
-		$gravPages->init();
-
-		// get taxonomy so we can add generated pages
-		$taxonomy = $this->grav['taxonomy'];
-
-		// iterate through page instances to find event frontmatter
-		foreach($gravPages->instances() as $key => $page) {
-			$header = $page->header();
-			
-			// update taxonomy based off of event frontmatter
-			if (isset($header->event)) {
-				// set the header date
-				$header->date = $header->event['start'];
-				$page->header($header);
-				// set the new event taxonomy
-				$taxonomy = $this->_eventFrontmatterToTaxonomy($page, $header);
-				$page->taxonomy($taxonomy);
-
-				$this->grav['taxonomy']->addTaxonomy($page);
-			}
-
-			// process for repeating events if event front matter is set
-			if (isset($header->event) && isset($header->event['repeat'])) {
-				$gravPages->addPage($page);
-				// build a list of repeating pages
-				$repeatingEvents = $this->_processRepeatingEvent($page);
-				// add the new $repeatingEvents pages to the $pages object
-				foreach($repeatingEvents as $key => $eventPage) {
-					// add the page to the stack
-					$gravPages->addPage($eventPage, $eventPage->route());
-					// add the page to the taxonomy map
-					$this->grav['taxonomy']->addTaxonomy($eventPage);
-				}
-				
-			}
-
-			
-		}
-		unset($this->grav['pages']);
-		$this->grav['pages'] = $gravPages;
-		$this->localGrav = $this->grav;
+		// build the repeating events page list
+    	$this->_buildPageList();
 	}
 
 	/**
@@ -148,6 +104,20 @@ class EventsPlugin extends Plugin
         /** @var Collection $collection */
         $collection = $event['collection'];
 		$params = $collection->params();
+/*
+		// order filters
+		$orderBy = $params['order']['by'];
+		$orderDir = $params['order']['dir'];
+
+		// get a new instance of grav pages
+		// I instantiate a new pages object to deal with cloning and pointer issues
+		$gravPages = new \Grav\Common\Page\Pages($this->grav);
+		$gravPages->init();
+
+		$gravPages->sortCollection($collection, $orderBy, $orderDir);
+
+		unset($this->grav['pages']);
+		$this->grav['pages'] = $gravPages;*/
     }
 
 	/**
@@ -158,6 +128,66 @@ class EventsPlugin extends Plugin
 	{
 		// todo: add events event blueprint to admin
 		// $this->grav['blueprints'];
+	}
+
+	/**
+	 * Build A Page List
+	 * @return void
+	 */
+	private function _buildPageList()
+	{
+		// get a new instance of grav pages
+		// I instantiate a new pages object to deal with cloning and pointer issues
+		$gravPages = new \Grav\Common\Page\Pages($this->grav);
+		$gravPages->init();
+
+		// get taxonomy so we can add generated pages
+		$taxonomy = $this->grav['taxonomy'];
+
+		// create a page list to save pages
+		$pageList = [];
+		
+		// iterate through page instances to find event frontmatter
+		foreach($gravPages->instances() as $key => $page) {
+			$header = $page->header();
+			// update taxonomy based off of event frontmatter
+			if (isset($header->event)) {
+				// set the header date
+				$header->date = $header->event['start'];
+				$page->header($header);
+				// set the new event taxonomy
+				$taxonomy = $this->_eventFrontmatterToTaxonomy($page, $header);
+				$page->taxonomy($taxonomy);
+				// add page to taxonomy
+				//$this->grav['taxonomy']->addTaxonomy($page);
+			}
+			// process for repeating events if event front matter is set
+			if (isset($header->event) && isset($header->event['repeat'])) {
+				$gravPages->addPage($page);
+				$pageList[] = $page;
+				// build a list of repeating pages
+				$repeatingEvents = $this->_processRepeatingEvent($page);
+				// add the new $repeatingEvents pages to the $pages object
+				foreach($repeatingEvents as $key => $eventPage) {
+					// add the page to the stack
+					$pageList[] = $eventPage;
+					
+				}
+			}
+			$pageList[] = $page;			
+		}
+
+		// insert the page list
+		foreach ($pageList as $key => $eventPage) {
+			// add the page to the stack
+			$gravPages->addPage($eventPage, $eventPage->route());
+			// add the page to the taxonomy map
+			$this->grav['taxonomy']->addTaxonomy($eventPage);
+		}
+
+		// store the pages back into grav
+		unset($this->grav['pages']);
+		$this->grav['pages'] = $gravPages;
 	}
 
 	/**
@@ -255,18 +285,21 @@ class EventsPlugin extends Plugin
 			$route_parts = explode('/', $route);
 
 			// set a suffix
-			$suffix =  '-' . $newStart->format('U');
+			$suffix =  '/' . $newStart->format('U');
 
 			// set a new page slug
 			$slug = end($route_parts);
 			$newSlug = $slug . $suffix;
 			$newHeader->slug = $newSlug;
-			$newPage->slug($newSlug);
+			// $newPage->slug($newSlug);
 
 			// set a new route
 			$newRoute = $route . $suffix;
-			$newHeader->routes = array('default' => $newRoute );
+			$newHeader->routes = array('aliases' => $newRoute );
 			
+			// set the date
+			$newHeader->date = $newStartString;
+
 			// set a fake path
 			$path = $page->path();
 			$newPath = $path . $suffix;
@@ -315,5 +348,4 @@ class EventsPlugin extends Plugin
 
 		return $count;
 	} 
-
 }
