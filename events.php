@@ -97,13 +97,15 @@ class EventsPlugin extends Plugin
 				// add the new $repeatingEvents pages to the $pages object
 				foreach($repeatingEvents as $key => $eventPage) {
 					// get the start date to create a slug
-					$header = $eventPage->header();
-					$eventStart = $header->event['start'];
+					//$header = $eventPage->header();
+					//$eventStart = $header->event['start'];
 					// build the slug 
-					$eventRoute = $eventPage->route();
-					$newRoute = $eventRoute . '-' . $eventStart->toDateString();
+					//$eventRoute = $eventPage->route();
+					//$newRoute = $eventRoute . '-' . $eventStart;
 					// insert the page into the stack
-					$pages->addPage($eventPage, $newRoute);
+					
+					$eventPage->unsetRouteSlug();
+					$pages->addPage($eventPage);
 				}
 			}
 		}
@@ -183,13 +185,13 @@ class EventsPlugin extends Plugin
 		$pages = [];
 
 		// header information
-		$header = $page->header();
- 		$start = $header->event['start'];
- 		$end = $header->event['end'];
-		$repeat = $header->event['repeat'];
-		$freq = $header->event['freq'];
-		$until = $header->event['until'];
- 		$count = $this->_calculateIteration($freq, $until);
+		$header 	= $page->header();
+ 		$start 		= $header->event['start'];
+ 		$end  		= $header->event['end'];
+		$repeat 	= $header->event['repeat'];
+		$freq 		= $header->event['freq'];
+		$until 		= $header->event['until'];
+ 		$count 		= $this->_calculateIteration($freq, $until);
 
  		// date calculation vars
  		$carbonStart = Carbon::parse($start);
@@ -223,12 +225,29 @@ class EventsPlugin extends Plugin
 					break;
 			}
 
-			$header->event['start'] = $newStart;
-			$header->event['end'] = $newEnd;
+			$newStartString = $newStart->format('d-m-Y H:i');
+			$newEndString = $newEnd->format('d-m-Y H:i');
+
+			$header->event['start'] = $newStartString;
+			$header->event['end'] = $newEndString;
+
+			// get the page route and build a slug off of it
+			$route = $page->route();
+			$route_parts = explode('/', $route);
+
+			// set a new page slug
+			$slug = end($route_parts);
+			$newSlug = $slug . "/" . $newStart->format('Y-m-d');
+			$header->slug = $newSlug;
+			$page->slug($newSlug);
+
+			// set a new route
+			$newRoute = $route . "/" . $newStart->format('Y-m-d');
+			$header->routes = array('default' => $newRoute );
+			//$page->route($newRoute);
 
  			// save the eventPageheader
  			$page->header($header);
-
  			array_push($pages, $page);
  		}
 
