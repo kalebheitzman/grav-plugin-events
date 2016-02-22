@@ -44,19 +44,14 @@ class EventsPlugin extends Plugin
 	public function onPluginsInitialized()
 	{
 
-		// Add the type taxonomy and make it available in Admin
-		$event_taxonomies = array('type');
-		$taxonomy_config = array_merge((array)$this->config->get('site.taxonomies'), $event_taxonomies);
-		$this->config->set('site.taxonomies', $taxonomy_config);
-
 		// Nothing else is needed for admin so close it out
 		if ( $this->isAdmin() ) {
 			$this->active = false;
 			return;
 		}
 
-		// Add these to taxonomy for creating collections
-		$event_taxonomies = array('event_freq', 'event_repeat');
+		// Add these to taxonomy for events management
+		$event_taxonomies = array('type', 'event_freq', 'event_repeat');
 		$taxonomy_config = array_merge((array)$this->config->get('site.taxonomies'), $event_taxonomies);
 		$this->config->set('site.taxonomies', $taxonomy_config);
 
@@ -67,13 +62,12 @@ class EventsPlugin extends Plugin
 			'onTwigTemplatePaths' => ['onTwigTemplatePaths', 0],
 			'onGetPageTemplates' => ['onGetPageTemplates', 0],
 			'onPagesInitialized' => ['onPagesInitialized', 0],
-			'onPageProcessed' => ['onPageProcessed', 0],
 			'onCollectionProcessed' => ['onCollectionProcessed', 0],
 		]);
 	}
 
 	/**
-	 * Add current direcotry to twig lookup paths.
+	 * Add current directory to twig lookup paths.
 	 */ 
 	public function onTwigTemplatePaths()
 	{
@@ -99,21 +93,32 @@ class EventsPlugin extends Plugin
 	public function onPagesInitialized()
 	{
 		// get a new instance of grav pages
+		// I instantiate a new pages object to deal with cloning and pointer issues
 		$gravPages = new \Grav\Common\Page\Pages($this->grav);
 		$gravPages->init();
 
 		// get taxonomy so we can add generated pages
 		$taxonomy = $this->grav['taxonomy'];
 
-		// get all the page instances
-		$pageInstances = $gravPages->instances();
-
 		// iterate through page instances to find event frontmatter
-		foreach($pageInstances as $key => $page) {
+		foreach($gravPages->instances() as $key => $page) {
 			$header = $page->header();
 			
+			// update taxonomy based off of event frontmatter
+			if (isset($header->event)) {
+				// set the header date
+				$header->date = $header->event['start'];
+				$page->header($header);
+				// set the new event taxonomy
+				$taxonomy = $this->_eventFrontmatterToTaxonomy($page, $header);
+				$page->taxonomy($taxonomy);
+
+				$this->grav['taxonomy']->addTaxonomy($page);
+			}
+
 			// process for repeating events if event front matter is set
 			if (isset($header->event) && isset($header->event['repeat'])) {
+				$gravPages->addPage($page);
 				// build a list of repeating pages
 				$repeatingEvents = $this->_processRepeatingEvent($page);
 				// add the new $repeatingEvents pages to the $pages object
@@ -123,32 +128,14 @@ class EventsPlugin extends Plugin
 					// add the page to the taxonomy map
 					$this->grav['taxonomy']->addTaxonomy($eventPage);
 				}
+				
 			}
+
+			
 		}
 		unset($this->grav['pages']);
 		$this->grav['pages'] = $gravPages;
 		$this->localGrav = $this->grav;
-	}
-
-	/**
-	 * Process pages that have event frontmatter 
-	 */
-	public function onPageProcessed(Event $event)
-	{
-		// Get the page header
-		$page = $event['page'];
-		$header = $page->header();
-		$taxonomy = $page->taxonomy();
-
-		// check for event frontmatter 
-		if (isset($header->event)) {
-			// set the header date
-			$header->date = $header->event['start'];
-			$page->header($header);
-			// set the new event taxonomy
-			$taxonomy = $this->_eventFrontmatterToTaxonomy($page, $header);
-			$page->taxonomy($taxonomy);
-		}
 	}
 
 	/**
@@ -185,8 +172,8 @@ class EventsPlugin extends Plugin
 		$event = $header->event;
 		// set type taxonomy to event
 		$taxonomy = $page->taxonomy();
-		if (!isset($taxonomy['type'])) {
-			$taxonomy['type'] = array($this->config->get('plugins.events.filters.type'));
+		if (!isset($taxonomy['type']))  {
+			$taxonomy['type'] = array($this->config->get('plugins.events.taxonomy_type'));
 		}
 		// set event days that repeat
 		if (!isset($taxonomy['event_repeat']) && isset($event['repeat'])) {
