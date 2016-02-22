@@ -1,5 +1,5 @@
 enabled: true
 date_format: m/d/Y g:ia
 filter_combinator: and
-events_collection: "'@page': '/events'"
+taxonomy_type: event
 show_past_events: false
