@@ -8,11 +8,13 @@ Blueprints and Templates are included in this plugin for the Frontend and Admin 
 
 ### Event Frontmatter Example
 
-This plugin process event frontmatter specified in the header in multiple ways. It adds any page found with event frontmatter to `@taxonomy.type = event`. This allows you to build collections based on this taxonomy type. The Taxonomy *type* is added dynamically to your Grav install. 
+This plugin process event frontmatter specified in the header in multiple ways. It adds any page found with event frontmatter to `@taxonomy.type = event`. This allows you to build collections based on this taxonomy type. The Taxonomy `type` is added dynamically to your Grav install. 
 
 The `date` of a page will be set to `event.start` automatically if not specified. This allows you to order your events by date.
 
 If the event is a repeating event, pages will be added to the pages collection with the correct dates and times for use throughout the rest of a Grav site. Currently, repeating pages use the same page slug with an epoch suffix related to the start date of the next event.
+
+You can edit the front matter of your pages or use the Admin plugin with the supplied blueprints to update event information.
 
 ```
 event:
