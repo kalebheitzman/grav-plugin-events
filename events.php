@@ -67,6 +67,7 @@ class EventsPlugin extends Plugin
 			'onTwigTemplatePaths' => ['onTwigTemplatePaths', 0],
 			'onPagesInitialized' => ['onPagesInitialized', 0],
 			'onPageProcessed' => ['onPageProcessed', 0],
+			'onCollectionProcessed' => ['onCollectionProcessed', 0],
 		]);
 	}
 
@@ -110,7 +111,6 @@ class EventsPlugin extends Plugin
 					$this->grav['taxonomy']->addTaxonomy($eventPage);
 				}
 			}
-
 		}
 		unset($this->grav['pages']);
 		$this->grav['pages'] = $gravPages;
@@ -137,6 +137,18 @@ class EventsPlugin extends Plugin
 			$page->taxonomy($taxonomy);
 		}
 	}
+
+	/**
+     * Order the collection.
+     *
+     * @param Event $event
+     */
+    public function onCollectionProcessed(Event $event)
+    {
+        /** @var Collection $collection */
+        $collection = $event['collection'];
+		$params = $collection->params();
+    }
 
 	/**
 	 * Add Events blueprints to admin
@@ -209,23 +221,23 @@ class EventsPlugin extends Plugin
  			// update the start and end dates of the event frontmatter 			
  			switch($freq) {
 				case 'daily':
-					$newStart = $carbonStart->addDays($i);
-					$newEnd = $carbonEnd->addDays($i);
+					$newStart = $carbonStart->addDays(1);
+					$newEnd = $carbonEnd->addDays(1);
 					break;
 
 				case 'weekly':
-					$newStart = $carbonStart->addWeeks($i);
-					$newEnd = $carbonEnd->addWeeks($i);
+					$newStart = $carbonStart->addWeeks(1);
+					$newEnd = $carbonEnd->addWeeks(1);
 					break;
 
 				case 'monthly':
-					$newStart = $carbonStart->addMonths($i);
-					$newEnd = $carbonEnd->addMonths($i);
+					$newStart = $carbonStart->addMonths(1);
+					$newEnd = $carbonEnd->addMonths(1);
 					break;
 
 				case 'yearly':
-					$newStart = $carbonStart->addYears($i);
-					$newEnd = $carbonEnd->addYears($i);
+					$newStart = $carbonStart->addYears(1);
+					$newEnd = $carbonEnd->addYears(1);
 					break;
 			}
 
