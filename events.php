@@ -85,17 +85,25 @@ class EventsPlugin extends Plugin
 		$pages = $this->grav['pages'];
 		// get all the page instances
 		$pageInstances = $pages->instances();
+
 		// iterate through page instances to find event frontmatter
 		foreach($pageInstances as $page) {
 			$header = $page->header();
+			
 			// process for repeating events if event front matter is set
 			if (isset($header->event) && isset($header->event['repeat'])) {
 				// build a list of repeating pages
 				$repeatingEvents = $this->_processRepeatingEvent($page);
 				// add the new $repeatingEvents pages to the $pages object
 				foreach($repeatingEvents as $key => $eventPage) {
-					$route = $eventPage->route();
-					$pages->addPage($eventPage, $route . '-' . $key);
+					// get the start date to create a slug
+					$header = $eventPage->header();
+					$eventStart = $header->event['start'];
+					// build the slug 
+					$eventRoute = $eventPage->route();
+					$newRoute = $eventRoute . '-' . $eventStart->toDateString();
+					// insert the page into the stack
+					$pages->addPage($eventPage, $newRoute);
 				}
 			}
 		}
@@ -220,6 +228,7 @@ class EventsPlugin extends Plugin
 
  			// save the eventPageheader
  			$page->header($header);
+
  			array_push($pages, $page);
  		}
 
