@@ -1,5 +1,7 @@
 {% extends 'partials/base.html.twig' %}
 
+{% set collection = page.collection() %}
+
 {% block content %}
 
 	<h1>{{ page.title }}</h1>
@@ -7,12 +9,17 @@
 	{{ page.content }}
 
 	<ul>
-	    {% for event in page.collection %}
+	    {% for event in collection %}
 	        <li>
 	            <a href="{{ event.url }}">{{ event.title }}</a> 
 	            {{ event.header.event.start|date('F j, Y') }}
 	        </li>
 	    {% endfor %}
 	</ul>
+
+	{{ dump(config.plugins.pagination) }}
+	{% if config.plugins.pagination.enabled and collection.params.pagination %}
+        {% include 'partials/pagination.html.twig' with {'base_url':page.url, 'pagination':collection.params.pagination} %}
+    {% endif %}
 
 {% endblock %}

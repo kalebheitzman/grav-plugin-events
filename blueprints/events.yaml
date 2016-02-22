@@ -42,3 +42,13 @@ form:
               type: text
               label: limit
               default: 20
+            header.content.pagination:
+              label: Pagination
+              type: toggle
+              highlight: 1
+              default: 1
+              options: 
+                1: Enabled
+                0: Disabled
+              validate:
+                type: bool
