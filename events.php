@@ -66,8 +66,7 @@ class EventsPlugin extends Plugin
 		$this->enable([
 			'onTwigTemplatePaths' => ['onTwigTemplatePaths', 0],
 			'onPagesInitialized' => ['onPagesInitialized', 0],
-			'onPageInitialized' => ['onPageInitialized', 0],
-			//'onBlueprintCreated' => ['onBlueprintCreated', 0]
+			'onPageProcessed' => ['onPageProcessed', 0],
 		]);
 	}
 
