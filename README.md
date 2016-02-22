@@ -2,6 +2,14 @@
 
 This is an events plugin that works with [Grav CMS](http://getgrav.org)  1.0.10+.
 
+### Installation
+
+From the root of your Grav install.
+
+```
+$ bin/gpm install events
+```
+
 ### Todo
 
 Blueprints and Templates are included in this plugin for the Frontend and Admin side of things. I don't know how to include them yet so please feel free to copy them over to your theme (or symlink them to keep up-to-date with Event Plugin updates).
