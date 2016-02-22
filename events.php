@@ -2,16 +2,32 @@
 
 namespace Grav\Plugin;
 
+require_once __DIR__.'/vendor/autoload.php';
+
 use Grav\Common\Plugin;
 use Grav\Common\Grav;
 use Grav\Common\Page\Collection;
 use Grav\Common\Page\Page;
-use Grav\Common\Debugger;
+use Grav\Common\Page\Pages;
 use Grav\Common\Taxonomy;
 use RocketTheme\Toolbox\Event\Event;
 
+use Carbon\Carbon;
+
 class EventsPlugin extends Plugin
 {
+	/**
+	 * @var object Carbon date 
+	 */
+	protected $now;
+
+	/**
+	 * @var  string Route
+	 */
+	protected $route = 'events';
+
+	protected $localGrav;
+
 	/**
 	 * @return array
 	 */
@@ -27,15 +43,25 @@ class EventsPlugin extends Plugin
 	 */
 	public function onPluginsInitialized()
 	{
+
+		// Add the type taxonomy and make it available in Admin
+		$event_taxonomies = array('type');
+		$taxonomy_config = array_merge((array)$this->config->get('site.taxonomies'), $event_taxonomies);
+		$this->config->set('site.taxonomies', $taxonomy_config);
+
+		// Nothing else is needed for admin so close it out
 		if ( $this->isAdmin() ) {
 			$this->active = false;
 			return;
 		}
 
-		// Dynamically add the needed taxonomy types to the taxonomies config
-		$event_taxonomies = array('type', 'event_freq', 'event_repeat');
+		// Add these to taxonomy for creating collections
+		$event_taxonomies = array('event_freq', 'event_repeat');
 		$taxonomy_config = array_merge((array)$this->config->get('site.taxonomies'), $event_taxonomies);
 		$this->config->set('site.taxonomies', $taxonomy_config);
+
+		// get the current datetime with carbon
+		$this->now = Carbon::now();
 
 		$this->enable([
 			'onTwigTemplatePaths' => ['onTwigTemplatePaths', 0],
@@ -49,6 +75,7 @@ class EventsPlugin extends Plugin
 	 */ 
 	public function onTwigTemplatePaths()
 	{
+		// add templates to twig path
 		$this->grav['twig']->twig_paths[] = __DIR__ . '/templates';
 	}
 
@@ -57,11 +84,41 @@ class EventsPlugin extends Plugin
 	 */
 	public function onPagesInitialized()
 	{
-		
+		// get a new instance of grav pages
+		$gravPages = new \Grav\Common\Page\Pages($this->grav);
+		$gravPages->init();
+
+		// get taxonomy so we can add generated pages
+		$taxonomy = $this->grav['taxonomy'];
+
+		// get all the page instances
+		$pageInstances = $gravPages->instances();
+
+		// iterate through page instances to find event frontmatter
+		foreach($pageInstances as $key => $page) {
+			$header = $page->header();
+			
+			// process for repeating events if event front matter is set
+			if (isset($header->event) && isset($header->event['repeat'])) {
+				// build a list of repeating pages
+				$repeatingEvents = $this->_processRepeatingEvent($page);
+				// add the new $repeatingEvents pages to the $pages object
+				foreach($repeatingEvents as $key => $eventPage) {
+					// add the page to the stack
+					$gravPages->addPage($eventPage, $eventPage->route());
+					// add the page to the taxonomy map
+					$this->grav['taxonomy']->addTaxonomy($eventPage);
+				}
+			}
+
+		}
+		unset($this->grav['pages']);
+		$this->grav['pages'] = $gravPages;
+		$this->localGrav = $this->grav;
 	}
 
 	/**
-	 *	Process pages that have event frontmatter 
+	 * Process pages that have event frontmatter 
 	 */
 	public function onPageProcessed(Event $event)
 	{
@@ -79,6 +136,16 @@ class EventsPlugin extends Plugin
 			$taxonomy = $this->_eventFrontmatterToTaxonomy($page, $header);
 			$page->taxonomy($taxonomy);
 		}
+	}
+
+	/**
+	 * Add Events blueprints to admin
+	 * @return [type] [description]
+	 */
+	public function onBlueprintCreated()
+	{
+		// todo: add events event blueprint to admin
+		// $this->grav['blueprints'];
 	}
 
 	/**
@@ -107,5 +174,134 @@ class EventsPlugin extends Plugin
 
 		return $taxonomy;
 	}
+
+	/**
+	 * Process a repeating event
+	 * 
+	 * @param object $page Page object
+	 * @return array Newly created event pages.
+	 */
+	private function _processRepeatingEvent($page)
+	{
+		$pages = [];
+
+		// header information
+		$header 	= $page->header();
+ 		$start 		= $header->event['start'];
+ 		$end  		= $header->event['end'];
+		$repeat 	= $header->event['repeat'];
+		$freq 		= $header->event['freq'];
+		$until 		= $header->event['until'];
+ 		$count 		= $this->_calculateIteration($freq, $until);
+
+ 		// date calculation vars
+ 		$carbonStart = Carbon::parse($start);
+ 		$carbonEnd = Carbon::parse($end);
+ 		$carbonDay = $carbonStart->dayOfWeek;
+ 		$carbonWeek = $carbonStart->weekOfMonth;
+ 		$carbonWeekYear = $carbonStart->weekOfYear;
+
+ 		for($i=1; $i <= $count; $i++) {
+
+ 			$newPage = clone($page);
+ 			$newPage->unsetRouteSlug();
+
+ 			// update the start and end dates of the event frontmatter 			
+ 			switch($freq) {
+				case 'daily':
+					$newStart = $carbonStart->addDays($i);
+					$newEnd = $carbonEnd->addDays($i);
+					break;
+
+				case 'weekly':
+					$newStart = $carbonStart->addWeeks($i);
+					$newEnd = $carbonEnd->addWeeks($i);
+					break;
+
+				case 'monthly':
+					$newStart = $carbonStart->addMonths($i);
+					$newEnd = $carbonEnd->addMonths($i);
+					break;
+
+				case 'yearly':
+					$newStart = $carbonStart->addYears($i);
+					$newEnd = $carbonEnd->addYears($i);
+					break;
+			}
+
+			$newStartString = $newStart->format('d-m-Y H:i');
+			$newEndString = $newEnd->format('d-m-Y H:i');
+
+			// form new page below
+			$newHeader = new \stdClass();
+			$newHeader->event['start'] = $newStartString;
+			$newHeader->event['end'] = $newEndString;
+			$newHeader = (object) array_merge((array) $header, (array) $newHeader);
+
+			// get the page route and build a slug off of it
+			$route = $page->route();
+			$route_parts = explode('/', $route);
+
+			// set a suffix
+			$suffix =  '-' . $newStart->format('U');
+
+			// set a new page slug
+			$slug = end($route_parts);
+			$newSlug = $slug . $suffix;
+			$newHeader->slug = $newSlug;
+			$newPage->slug($newSlug);
+
+			// set a new route
+			$newRoute = $route . $suffix;
+			$newHeader->routes = array('default' => $newRoute );
+			
+			// set a fake path
+			$path = $page->path();
+			$newPath = $path . $suffix;
+			$newPage->path($newPath);
+
+ 			// save the eventPageheader
+ 			$newPage->header($newHeader);
+ 			$pages[] = $newPage;
+
+ 		}
+		return $pages;
+	}
+
+	/**
+	 * Calculate how many times to iterate event based on freq and until. The
+	 * Carbon DateTime api extension is used to calculcate these differences.
+	 * 
+	 * @param string $freq How often to repeat
+	 * @param string $until The date to repeat event until
+	 * @return integer How many times to loops
+	 */
+	private function _calculateIteration($freq, $until)
+	{
+		$count = 0;
+		
+		$currentDate = $this->now;
+		$untilDate = Carbon::parse($until);
+
+		switch($freq) {
+			case 'daily':
+				$count = $untilDate->diffInDays($currentDate);
+				break;
+
+			case 'weekly':
+				$count = $untilDate->diffInWeeks($currentDate);
+				break;
+
+			case 'monthly':
+				$count = $untilDate->diffInMonths($currentDate);
+				break;
+
+			case 'yearly':
+				$count = $untilDate->diffInYears($currentDate);
+				break;
+		}
+
+		return $count;
+	} 
 
 }
