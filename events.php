@@ -6,7 +6,9 @@ require_once __DIR__.'/vendor/autoload.php';
 
 use Grav\Common\Plugin;
 use Grav\Common\Grav;
+use Grav\Common\Page\Collection;
 use Grav\Common\Page\Page;
+use Grav\Common\Page\Pages;
 use Grav\Common\Taxonomy;
 use RocketTheme\Toolbox\Event\Event;
 
@@ -23,6 +25,8 @@ class EventsPlugin extends Plugin
 	 * @var  string Route
 	 */
 	protected $route = 'events';
+
+	protected $gravPages;
 
 	/**
 	 * @return array
@@ -62,7 +66,9 @@ class EventsPlugin extends Plugin
 		$this->enable([
 			'onTwigTemplatePaths' => ['onTwigTemplatePaths', 0],
 			'onPagesInitialized' => ['onPagesInitialized', 0],
+			'onPageInitialized' => ['onPageInitialized', 0],
 			'onPageProcessed' => ['onPageProcessed', 0],
+			'onCollectionProcessed' => ['onCollectionProcessed', 0],
 			'onBlueprintCreated' => ['onBlueprintCreated', 0]
 		]);
 	}
@@ -81,13 +87,18 @@ class EventsPlugin extends Plugin
 	 */
 	public function onPagesInitialized()
 	{
-		/** @var Pages $pages */
-		$pages = $this->grav['pages'];
+		// get a new instance of grav pages
+		$gravPages = new \Grav\Common\Page\Pages($this->grav);
+		$gravPages->init();
+
+		//
+		$this->eventPages = [];
+
 		// get all the page instances
-		$pageInstances = $pages->instances();
+		$pageInstances = $gravPages->instances();
 
 		// iterate through page instances to find event frontmatter
-		foreach($pageInstances as $page) {
+		foreach($pageInstances as $key => $page) {
 			$header = $page->header();
 			
 			// process for repeating events if event front matter is set
@@ -96,24 +107,45 @@ class EventsPlugin extends Plugin
 				$repeatingEvents = $this->_processRepeatingEvent($page);
 				// add the new $repeatingEvents pages to the $pages object
 				foreach($repeatingEvents as $key => $eventPage) {
-					// get the start date to create a slug
-					//$header = $eventPage->header();
-					//$eventStart = $header->event['start'];
-					// build the slug 
-					//$eventRoute = $eventPage->route();
-					//$newRoute = $eventRoute . '-' . $eventStart;
-					// insert the page into the stack
-					
-					$eventPage->unsetRouteSlug();
-					$pages->addPage($eventPage);
+					// add the page to the stack
+					$gravPages->addPage($eventPage, $eventPage->route());
 				}
 			}
-		}
 
-		// unset grav pages
+		}
 		unset($this->grav['pages']);
-		// set new grav pages
-		$this->grav['pages'] = $pages;
+		$this->grav['pages'] = $gravPages;
+		$this->gravPages = $gravPages;
+	}
+
+
+	public function onPageInitialized()
+	{
+		// $page = $this->grav['page'];
+	}
+
+	public function onCollectionProcessed(Event $event)
+	{
+		// get the collection
+		$collection = $event['collection'];
+
+		// set some vars to create a new collection
+		$items = [];
+		$params = $collection->params();
+
+		//$pages = $this->gravPages->instances();
+		//foreach($pages as $page) {
+		//	$collection->addPage($page);
+		//}
+
+		// get an instance of grav collection
+		$gravCollection = new \Grav\Common\Page\Collection($items, $params, $this->gravPages);
+
+		//$gravCollection->addPage($eventPage);
+		//var_dump($this->gravPages);
+
+		unset($collection);
+		$collection = $gravCollection;
 	}
 
 	/**
@@ -201,7 +233,10 @@ class EventsPlugin extends Plugin
  		$carbonWeekYear = $carbonStart->weekOfYear;
 
  		for($i=1; $i <= $count; $i++) {
- 			
+
+ 			$newPage = clone($page);
+ 			$newPage->unsetRouteSlug();
+
  			// update the start and end dates of the event frontmatter 			
  			switch($freq) {
 				case 'daily':
@@ -228,29 +263,39 @@ class EventsPlugin extends Plugin
 			$newStartString = $newStart->format('d-m-Y H:i');
 			$newEndString = $newEnd->format('d-m-Y H:i');
 
-			$header->event['start'] = $newStartString;
-			$header->event['end'] = $newEndString;
+			// form new page below
+			$newHeader = new \stdClass();
+			$newHeader->event['start'] = $newStartString;
+			$newHeader->event['end'] = $newEndString;
+			$newHeader = (object) array_merge((array) $header, (array) $newHeader);
 
 			// get the page route and build a slug off of it
 			$route = $page->route();
 			$route_parts = explode('/', $route);
 
+			// set a suffix
+			$suffix =  '-' . $newStart->format('U');
+
 			// set a new page slug
 			$slug = end($route_parts);
-			$newSlug = $slug . "/" . $newStart->format('Y-m-d');
-			$header->slug = $newSlug;
-			$page->slug($newSlug);
+			$newSlug = $slug . $suffix;
+			$newHeader->slug = $newSlug;
+			$newPage->slug($newSlug);
 
 			// set a new route
-			$newRoute = $route . "/" . $newStart->format('Y-m-d');
-			$header->routes = array('default' => $newRoute );
-			//$page->route($newRoute);
+			$newRoute = $route . $suffix;
+			$newHeader->routes = array('default' => $newRoute );
+			
+			// set a fake path
+			$path = $page->path();
+			$newPath = $path . $suffix;
+			$newPage->path($newPath);
 
  			// save the eventPageheader
- 			$page->header($header);
- 			array_push($pages, $page);
- 		}
+ 			$newPage->header($newHeader);
+ 			$pages[] = $newPage;
 
+ 		}
 		return $pages;
 	}
 
