@@ -1,14 +1,18 @@
 # Events Plugin for Grav CMS
 
-This is an events plugin that works with [Grav CMS](http://getgrav.org)  0.9.13+.
+This is an events plugin that works with [Grav CMS](http://getgrav.org)  1.0.10+.
+
+### Todo
+
+Blueprints and Templates are included in this plugin for the Frontend and Admin side of things. I don't know how to include them yet so please feel free to copy them over to your theme (or symlink them to keep up-to-date with Event Plugin updates).
 
 ### Event Frontmatter Example
 
-This plugin process event frontmatter specified in the header in multiple ways. It adds any page found with event frontmatter to `@taxonomy.type = event`. This allows you to build collections based on this taxonomy type.
+This plugin process event frontmatter specified in the header in multiple ways. It adds any page found with event frontmatter to `@taxonomy.type = event`. This allows you to build collections based on this taxonomy type. The Taxonomy *type* is added dynamically to your Grav install. 
 
 The `date` of a page will be set to `event.start` automatically if not specified. This allows you to order your events by date.
 
-If the event is a repeating event, pages will be added to the pages collection with the correct dates and times for use throughout the rest of a Grav site. 
+If the event is a repeating event, pages will be added to the pages collection with the correct dates and times for use throughout the rest of a Grav site. Currently, repeating pages use the same page slug with an epoch suffix related to the start date of the next event.
 
 ```
 event:
