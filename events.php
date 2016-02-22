@@ -6,9 +6,7 @@ require_once __DIR__.'/vendor/autoload.php';
 
 use Grav\Common\Plugin;
 use Grav\Common\Grav;
-use Grav\Common\Page\Collection;
 use Grav\Common\Page\Page;
-use Grav\Common\Debugger;
 use Grav\Common\Taxonomy;
 use RocketTheme\Toolbox\Event\Event;
 
@@ -16,11 +14,15 @@ use Carbon\Carbon;
 
 class EventsPlugin extends Plugin
 {
-
 	/**
 	 * @var object Carbon date 
 	 */
 	protected $now;
+
+	/**
+	 * @var  string Route
+	 */
+	protected $route = 'events';
 
 	/**
 	 * @return array
@@ -37,22 +39,31 @@ class EventsPlugin extends Plugin
 	 */
 	public function onPluginsInitialized()
 	{
+
+		// Add the type taxonomy and make it available in Admin
+		$event_taxonomies = array('type');
+		$taxonomy_config = array_merge((array)$this->config->get('site.taxonomies'), $event_taxonomies);
+		$this->config->set('site.taxonomies', $taxonomy_config);
+
+		// Nothing else is needed for admin so close it out
 		if ( $this->isAdmin() ) {
 			$this->active = false;
 			return;
 		}
 
-		$this->now = Carbon::now();
-
-		// Dynamically add the needed taxonomy types to the taxonomies config
-		$event_taxonomies = array('type', 'event_freq', 'event_repeat');
+		// Add these to taxonomy for creating collections
+		$event_taxonomies = array('event_freq', 'event_repeat');
 		$taxonomy_config = array_merge((array)$this->config->get('site.taxonomies'), $event_taxonomies);
 		$this->config->set('site.taxonomies', $taxonomy_config);
+
+		// get the current datetime with carbon
+		$this->now = Carbon::now();
 
 		$this->enable([
 			'onTwigTemplatePaths' => ['onTwigTemplatePaths', 0],
 			'onPagesInitialized' => ['onPagesInitialized', 0],
 			'onPageProcessed' => ['onPageProcessed', 0],
+			'onBlueprintCreated' => ['onBlueprintCreated', 0]
 		]);
 	}
 
@@ -61,6 +72,7 @@ class EventsPlugin extends Plugin
 	 */ 
 	public function onTwigTemplatePaths()
 	{
+		// add templates to twig path
 		$this->grav['twig']->twig_paths[] = __DIR__ . '/templates';
 	}
 
@@ -113,6 +125,16 @@ class EventsPlugin extends Plugin
 			$taxonomy = $this->_eventFrontmatterToTaxonomy($page, $header);
 			$page->taxonomy($taxonomy);
 		}
+	}
+
+	/**
+	 * Add Events blueprints to admin
+	 * @return [type] [description]
+	 */
+	public function onBlueprintCreated()
+	{
+		// todo: add events event blueprint to admin
+		// $this->grav['blueprints'];
 	}
 
 	/**

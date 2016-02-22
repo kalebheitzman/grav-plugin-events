@@ -1,0 +1,23 @@
+{% extends 'partials/base.html.twig' %}
+
+{% block content %}
+	{{ page.content }}
+
+	{% set events = 
+	    page.collection({
+	        'items':{
+	            '@taxonomy.category':'event'}
+	    })
+	    .order('date', 'asc')
+	%}
+
+	<ul>
+	    {% for event in events %}
+	        <li>
+	            <a href="{{ event.url }}">{{ event.title }}</a> 
+	            {{ event.event.start|date('F j, Y') }}
+	        </li>
+	    {% endfor %}
+	</ul>
+
+{% endblock %}

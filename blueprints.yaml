@@ -11,8 +11,11 @@ keywords: events, plugin
 bugs: https://github.com/kalebheitzman/grav-plugin-events/issues
 license: MIT
 
+dependencies:
+  - datetools
+
 form:
-  validation: strict
+  validation: loose
   fields:
     date_format: 
       type: text

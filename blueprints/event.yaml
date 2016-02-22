@@ -1,0 +1,37 @@
+title: Event
+'@extends':
+    type: default
+    context: blueprints://pages
+
+form:
+  fields:
+    tabs:
+      fields:
+    
+        contact:
+          type: tab
+          title: Event
+          fields:
+            header.event.start:
+              type: datetime
+              label: Start
+            header.event.end:
+              type: datetime
+              label: End
+            header.event.repeat:
+              type: text
+              label: Repeat
+              placeholder: MTWRFSU
+            header.event.freq:
+              type: select
+              label: Frequency
+              options:
+                '': "None"
+                'daily': 'Daily'
+                'weekly': 'Weekly'
+                'monthly': 'Monthly'
+                'yearly': 'Yearly'
+            header.event.until:
+              type: datetime
+              label: Until
+
