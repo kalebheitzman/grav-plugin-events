@@ -75,7 +75,7 @@ A collection of weekend events.
     {% for event in events %}
         <li>
             <a href="{{ event.url }}">{{ event.title }}</a> 
-            {{ event.event.start|date('F j, Y') }}
+            {{ event.header.event.start|date('F j, Y') }}
         </li>
     {% endfor %}
 </ul>
