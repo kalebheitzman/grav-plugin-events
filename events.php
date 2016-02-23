@@ -61,6 +61,7 @@ class EventsPlugin extends Plugin
 			'onGetPageTemplates' => ['onGetPageTemplates', 0],
 			'onPagesInitialized' => ['onPagesInitialized', 0],
 			'onCollectionProcessed' => ['onCollectionProcessed', 0],
+			'onTwigSiteVariables' => ['onTwigSiteVariables', 0],
 		]);
 	}
 
@@ -131,6 +132,84 @@ class EventsPlugin extends Plugin
 	}
 
 	/**
+	 * Set needed variables to display events
+	 */
+	public function onTwigSiteVariables()
+	{
+		// setup 
+		$page = $this->grav['page'];
+		$collection = $page->collection();
+		$twig = $this->grav['twig'];
+
+		$yearParam = $this->grav['uri']->param('year');
+		$monthParam = $this->grav['uri']->param('month');
+
+		if ( $yearParam === false ) {
+			$yearParam = date('Y');
+		}
+
+		if ( $monthParam === false ) {
+			$monthParam = date('m');
+		}
+
+		$monthYearString = "${yearParam}-${monthParam}-01";
+		$carbonMonthYear = Carbon::parse($monthYearString);
+		
+		// add vars for use in the calendar twig var
+		$twig->twig_vars['calendar']['date'] = $carbonMonthYear->timestamp;
+		$twig->twig_vars['calendar']['year'] = $carbonMonthYear->year;
+		$twig->twig_vars['calendar']['month'] = $carbonMonthYear->month;
+		$twig->twig_vars['calendar']['daysInMonth'] = $carbonMonthYear->daysInMonth;
+		$twig->twig_vars['calendar']['day'] = $carbonMonthYear->day;
+		$twig->twig_vars['calendar']['currentDay'] = date('d');
+
+		// build navigation links
+		$nextMonth = $carbonMonthYear->copy()->addMonth();
+		$previousMonth = $carbonMonthYear->copy()->subMonth();
+
+		// next month
+		$twig->twig_vars['calendar']['nextMonth']['title'] = $nextMonth->toDateString();
+		$urlNextMonth = $nextMonth->month;
+		$urlNextYear = $nextMonth->year;
+		$twig->twig_vars['calendar']['nextMonth']['url'] = $page->url() . "/year:${urlNextYear}/month:${urlNextMonth}";
+
+
+		// previous month
+		$twig->twig_vars['calendar']['previousMonth']['title'] = $previousMonth->toDateString();
+		$urlPreviousMonth = $previousMonth->month;
+		$urlPreviousYear = $previousMonth->year;
+		$twig->twig_vars['calendar']['previousMonth']['url'] = $page->url() . "/year:${urlPreviousYear}/month:${urlPreviousMonth}";
+
+
+		// build a calendar array to use in twig
+		$calendar = array();
+		foreach($collection as $event) {
+			$header = $event->header();
+			$start = $header->event['start'];
+			
+			// build dates to create an associate array
+			$carbonStart = Carbon::parse($start);
+			$year = $carbonStart->year;
+ 			$month = $carbonStart->month;
+ 			$day = $carbonStart->day;
+
+ 			$eventItem = $event->toArray();
+ 			$eventItem['header']['url'] = $event->url();
+
+ 			// add the event to the calendar
+ 			$calendar[$year][$month][$day] = $eventItem;
+		}
+
+		// add calendar to twig as calendar
+		$twig->twig_vars['calendar']['events'] = $calendar;
+
+		// styles
+		$css = 'plugin://events/css/events.css';
+		$assets = $this->grav['assets'];
+		$assets->add($css);
+	}
+
+	/**
 	 * Build A Page List
 	 * @return void
 	 */
@@ -159,7 +238,6 @@ class EventsPlugin extends Plugin
 				$taxonomy = $this->_eventFrontmatterToTaxonomy($page, $header);
 				$page->taxonomy($taxonomy);
 				// add page to taxonomy
-				//$this->grav['taxonomy']->addTaxonomy($page);
 			}
 			// process for repeating events if event front matter is set
 			if (isset($header->event) && isset($header->event['repeat'])) {
@@ -171,7 +249,6 @@ class EventsPlugin extends Plugin
 				foreach($repeatingEvents as $key => $eventPage) {
 					// add the page to the stack
 					$pageList[] = $eventPage;
-					
 				}
 			}
 			$pageList[] = $page;			
