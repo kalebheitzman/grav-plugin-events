@@ -136,8 +136,39 @@ class EventsPlugin extends Plugin
 	 */
 	public function onTwigSiteVariables()
 	{
+		$page = $this->grav['page'];
+		$collection = $page->collection();
+
+		// build a calendar array to use in twig
+		$calendar = array();
+		foreach($collection as $event) {
+			$header = $event->header();
+			$start = $header->event['start'];
+			
+			// build dates to create an associate array
+			$carbonStart = Carbon::parse($start);
+			$year = $carbonStart->year;
+ 			$month = $carbonStart->month;
+ 			$day = $carbonStart->day;
+
+ 			// add the event to the calendar
+ 			$calendar[$year][$month][$day] = $event->toArray();
+		}
+
+		// add calendar to twig as calendar
 		$twig = $this->grav['twig'];
-		$twig->twig_vars['calendar'] = array();
+		$twig->twig_vars['calendar']['events'] = $calendar;
+
+		// build a monthYear string to parse
+		$monthYearString = "February 2016";
+		$carbonMonthYear = Carbon::parse($monthYearString);
+		// add vars for use in the calendar twig var
+		$twig->twig_vars['calendar']['date'] = $carbonMonthYear->timestamp;
+		$twig->twig_vars['calendar']['year'] = $carbonMonthYear->year;
+		$twig->twig_vars['calendar']['month'] = $carbonMonthYear->month;
+		$twig->twig_vars['calendar']['daysInMonth'] = $carbonMonthYear->daysInMonth;
+		$twig->twig_vars['calendar']['day'] = $carbonMonthYear->day;
+		$twig->twig_vars['calendar']['currentDay'] = date('d');
 	}
 
 	/**
