@@ -1,4 +1,4 @@
-title: Events
+title: Calendar
 '@extends':
     type: default
     context: blueprints://pages
