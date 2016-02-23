@@ -15,7 +15,7 @@
                     <a href="{{ calendar.previousMonth.url }}">{{ calendar.previousMonth.title|date('F') }}</a>
                 </th>
                 <th colspan="5" class="title">
-                    <h3>{{ calendar.date|date('F Y') }}</h3>
+                    {{ calendar.date|date('F Y') }}
                 </th>
                 <th colspan="1" class="next">
                     <a href="{{ calendar.nextMonth.url }}">{{ calendar.nextMonth.title|date('F') }}</a>
