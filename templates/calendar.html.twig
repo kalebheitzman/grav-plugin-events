@@ -8,11 +8,28 @@
 
 	{{ page.content }}
 
+    {{ dump(collection) }}
+
+    {% for event in collection %}
+
+        {# structure #}
+            {% set day = event.header.event.start|date('d') %}
+            {{ day }}
+            {% set month = event.header.event.start|date('m') %}
+            {{ month }}
+        {# endstructure #}
+
+    {% endfor %}
+
+    {% set month = time|date('m') %}
+    {% set current_month = time|date('F') %}
+    {% set current_day = time|date('d') %}
+
     <table>
         <thead>
             <tr>
                 <th colspan="7" class="center">
-                    {{ time|date('F') }}
+                    {{ month }}
                 </th>
             </tr>
             <tr>
@@ -34,11 +51,11 @@
                 {% if loop.first and startDow != 0 %}
                     <td colspan="{{ startDow }}"></td>
                 {% endif %}
-                <td>
+                <td {% if day == current_day %}class="current"{% endif %}>
                     <div>
                         <div>{{ day }}</div>
                         <div>
-                         {# day content here #}
+                            
                         </div>
                     </div>
                 </td>
@@ -60,9 +77,5 @@
     {% for event in collection %}
         
     {% endfor %}
-
-	{% if config.plugins.pagination.enabled and collection.params.pagination %}
-        {% include 'partials/pagination.html.twig' with {'base_url':page.url, 'pagination':collection.params.pagination} %}
-    {% endif %}
 
 {% endblock %}

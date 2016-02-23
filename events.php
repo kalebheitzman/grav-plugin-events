@@ -61,6 +61,7 @@ class EventsPlugin extends Plugin
 			'onGetPageTemplates' => ['onGetPageTemplates', 0],
 			'onPagesInitialized' => ['onPagesInitialized', 0],
 			'onCollectionProcessed' => ['onCollectionProcessed', 0],
+			'onTwigSiteVariables' => ['onTwigSiteVariables', 0],
 		]);
 	}
 
@@ -128,6 +129,15 @@ class EventsPlugin extends Plugin
 	{
 		// todo: add events event blueprint to admin
 		// $this->grav['blueprints'];
+	}
+
+	/**
+	 * Set needed variables to display events
+	 */
+	public function onTwigSiteVariables()
+	{
+		$twig = $this->grav['twig'];
+		$twig->twig_vars['calendar'] = array();
 	}
 
 	/**
