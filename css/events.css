@@ -1,12 +1,38 @@
-table.calendar {
 
-}
-table.calendar .next {
-
-}
-table.calendar .previous {
-
-}
-table.calendar .title {
+.calendar .controls {
 	text-align: center;
+	font-size: 1.2em;
 }	
+.calendar .title {
+	display: inline-block;
+	min-width: 170px;
+}
+.calendar-button {
+	display: inline-block;
+	line-height: 18px;
+	padding: 0.05em 0.25em 0.25em;
+	background-color: #bbb;
+	color: #fff;
+	border-radius: 4px;
+	min-width: 1.2em;
+	margin: 0 0.05em;
+}
+.calendar-button:hover {
+	color: #fff;
+	transition: background-color 0.15s ease;
+	background-color: #999;
+}
+.calendar .headings {
+	text-align: center;
+}
+.calendar .event {
+	text-align: right;
+	background: #f7f7f7;
+	padding: 0 0.5em;
+	font-size: 0.9em;
+	border-radius: 4px;
+	margin-bottom: 5px;
+}
+td.current {
+	background: #f7f7f7;
+}

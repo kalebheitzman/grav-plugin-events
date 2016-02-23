@@ -156,30 +156,26 @@ class EventsPlugin extends Plugin
 		$carbonMonthYear = Carbon::parse($monthYearString);
 		
 		// add vars for use in the calendar twig var
+		$twig->twig_vars['calendar']['daysInMonth'] = $carbonMonthYear->daysInMonth;
+		$twig->twig_vars['calendar']['currentDay'] = date('d');
+
+		// current dates
 		$twig->twig_vars['calendar']['date'] = $carbonMonthYear->timestamp;
 		$twig->twig_vars['calendar']['year'] = $carbonMonthYear->year;
 		$twig->twig_vars['calendar']['month'] = $carbonMonthYear->month;
-		$twig->twig_vars['calendar']['daysInMonth'] = $carbonMonthYear->daysInMonth;
 		$twig->twig_vars['calendar']['day'] = $carbonMonthYear->day;
-		$twig->twig_vars['calendar']['currentDay'] = date('d');
 
-		// build navigation links
+		// next dates
 		$nextMonth = $carbonMonthYear->copy()->addMonth();
-		$previousMonth = $carbonMonthYear->copy()->subMonth();
-
-		// next month
-		$twig->twig_vars['calendar']['nextMonth']['title'] = $nextMonth->toDateString();
-		$urlNextMonth = $nextMonth->month;
-		$urlNextYear = $nextMonth->year;
-		$twig->twig_vars['calendar']['nextMonth']['url'] = $page->url() . "/year:${urlNextYear}/month:${urlNextMonth}";
-
-
-		// previous month
-		$twig->twig_vars['calendar']['previousMonth']['title'] = $previousMonth->toDateString();
-		$urlPreviousMonth = $previousMonth->month;
-		$urlPreviousYear = $previousMonth->year;
-		$twig->twig_vars['calendar']['previousMonth']['url'] = $page->url() . "/year:${urlPreviousYear}/month:${urlPreviousMonth}";
-
+		$twig->twig_vars['calendar']['next']['date'] = $nextMonth->timestamp;
+		// prev dates
+		$prevMonth = $carbonMonthYear->copy()->subMonth();
+		$twig->twig_vars['calendar']['prev']['date'] = $prevMonth->timestamp;
+		// years
+		$nextYear = $carbonMonthYear->copy()->addYear();
+		$prevYear = $carbonMonthYear->copy()->subYear();
+		$twig->twig_vars['calendar']['prevYear'] = $prevYear;
+		$twig->twig_vars['calendar']['nextYear'] = $nextYear;
 
 		// build a calendar array to use in twig
 		$calendar = array();
@@ -197,7 +193,7 @@ class EventsPlugin extends Plugin
  			$eventItem['header']['url'] = $event->url();
 
  			// add the event to the calendar
- 			$calendar[$year][$month][$day] = $eventItem;
+ 			$calendar[$year][$month][$day][] = $eventItem;
 		}
 
 		// add calendar to twig as calendar
