@@ -141,12 +141,20 @@ class EventsPlugin extends Plugin
 		$collection = $page->collection();
 		$twig = $this->grav['twig'];
 
-		// build a monthYear string to parse
-		$year = isset($_GET['year']) ? $_GET['year'] : date('Y');
-		$month = isset($_GET['month']) ? $_GET['month'] : date('m');
+		$yearParam = $this->grav['uri']->param('year');
+		$monthParam = $this->grav['uri']->param('month');
 
-		$monthYearString = "${year}-${month}-01";
+		if ( $yearParam === false ) {
+			$yearParam = date('Y');
+		}
+
+		if ( $monthParam === false ) {
+			$monthParam = date('m');
+		}
+
+		$monthYearString = "${yearParam}-${monthParam}-01";
 		$carbonMonthYear = Carbon::parse($monthYearString);
+		
 		// add vars for use in the calendar twig var
 		$twig->twig_vars['calendar']['date'] = $carbonMonthYear->timestamp;
 		$twig->twig_vars['calendar']['year'] = $carbonMonthYear->year;
@@ -163,14 +171,14 @@ class EventsPlugin extends Plugin
 		$twig->twig_vars['calendar']['nextMonth']['title'] = $nextMonth->toDateString();
 		$urlNextMonth = $nextMonth->month;
 		$urlNextYear = $nextMonth->year;
-		$twig->twig_vars['calendar']['nextMonth']['url'] = "?year=${urlNextYear}&amp;month=${urlNextMonth}";
+		$twig->twig_vars['calendar']['nextMonth']['url'] = $page->url() . "/year:${urlNextYear}/month:${urlNextMonth}";
 
 
 		// previous month
 		$twig->twig_vars['calendar']['previousMonth']['title'] = $previousMonth->toDateString();
 		$urlPreviousMonth = $previousMonth->month;
 		$urlPreviousYear = $previousMonth->year;
-		$twig->twig_vars['calendar']['previousMonth']['url'] = "?year=${urlPreviousYear}&amp;month=${urlPreviousMonth}";
+		$twig->twig_vars['calendar']['previousMonth']['url'] = $page->url() . "/year:${urlPreviousYear}/month:${urlPreviousMonth}";
 
 
 		// build a calendar array to use in twig
