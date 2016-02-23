@@ -8,11 +8,17 @@
 
 	{{ page.content }}
 
-    <table>
+    <table class="calendar">
         <thead>
             <tr>
-                <th colspan="7" class="center">
-                    {{ calendar.date|date('F Y') }}
+                <th colspan="1" class="previous">
+                    <a href="{{ calendar.previousMonth.url }}">{{ calendar.previousMonth.title|date('F') }}</a>
+                </th>
+                <th colspan="5" class="title">
+                    <h3>{{ calendar.date|date('F Y') }}</h3>
+                </th>
+                <th colspan="1" class="next">
+                    <a href="{{ calendar.nextMonth.url }}">{{ calendar.nextMonth.title|date('F') }}</a>
                 </th>
             </tr>
             <tr>
@@ -38,7 +44,9 @@
                         <div>{{ day }}</div>
                         <div>
                             {% for event in calendar.events[calendar.year][calendar.month][day] %}
+                                {{ dump(event.title) }}
                                 <div class="event"><a href="{{ event.url }}">{{ event.title }}</a></div>
+                                
                             {% endfor %}
                         </div>
                     </div>
