@@ -65,11 +65,14 @@ class EventsPlugin extends Plugin
 		// get the current datetime with carbon
 		$this->now = Carbon::now();
 
+		// set the calendar accessor 
 		$this->calendar = new Calendar();
+
+		// set the events accessor
+		$this->events = new Events();
 
 		$this->enable([
 			'onTwigTemplatePaths' => ['onTwigTemplatePaths', 0],
-			'onGetPageTemplates' => ['onGetPageTemplates', 0],
 			'onPagesInitialized' => ['onPagesInitialized', 0],
 			'onTwigSiteVariables' => ['onTwigSiteVariables', 0],
 		]);
@@ -85,24 +88,24 @@ class EventsPlugin extends Plugin
 	}
 
 	/**
-     * Add page template types.
-     *
-     * @param Event $event
-     */
-    public function onGetPageTemplates(Event $event)
-    {
-        /** @var Types $types */
-        $types = $event->types;
-        $types->scanTemplates('plugins://events/templates');
-    }
-
-	/**
 	 * Check for repeating entries and add them to the page collection
 	 */
 	public function onPagesInitialized()
 	{
+		// get the page
+		$page = $this->grav['page'];
+
+		// check for a collection
+		$collection = $page->collection();
+		if (empty($collection)) { return; }
+
+		// get the collection params to check for taxonomy type=event
+		$params = $collection->params();
+
 		// build the repeating events page list
-    	$this->_buildPageList();
+		if (isset($params['taxonomies']['type']) && $params['taxonomies']['type'] == 'event') {
+	    	$this->_buildPageList();
+		}
 	}
 
 	/**
@@ -125,23 +128,27 @@ class EventsPlugin extends Plugin
 		$collection = $page->collection();
 		$twig = $this->grav['twig'];
 
-		$yearParam = $this->grav['uri']->param('year');
-		$monthParam = $this->grav['uri']->param('month');
+		// only load the vars if calendar page
+		if ($page->template() == 'calendar') {
 
-		$twigVars = $this->calendar->twigVars($yearParam, $monthParam);
-		$calVars = $this->calendar->calendarVars($collection);
+			$yearParam = $this->grav['uri']->param('year');
+			$monthParam = $this->grav['uri']->param('month');
 
-		// add calendar to twig as calendar
-		$twigVars['calendar']['events'] = $calVars;
-		$twig->twig_vars['calendar'] = array_shift($twigVars);
+			$twigVars = $this->calendar->twigVars($yearParam, $monthParam);
+			$calVars = $this->calendar->calendarVars($collection);
 
-		// styles
-		$css = 'plugin://events/css/events.css';
-		$js = 'plugin://events/js/events.js';
-		$assets = $this->grav['assets'];
-		$assets->addCss($css);
-		$assets->add('jquery');
-		$assets->addJs($js);
+			// add calendar to twig as calendar
+			$twigVars['calendar']['events'] = $calVars;
+			$twig->twig_vars['calendar'] = array_shift($twigVars);
+
+			// styles
+			$css = 'plugin://events/css/events.css';
+			$js = 'plugin://events/js/events.js';
+			$assets = $this->grav['assets'];
+			$assets->addCss($css);
+			$assets->add('jquery');
+			$assets->addJs($js);
+		}
 	}
 
 

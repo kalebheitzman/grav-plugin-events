@@ -41,12 +41,12 @@ form:
             header.content.limit:
               type: text
               label: limit
-              default: 20
+              default: 0
             header.content.pagination:
               label: Pagination
               type: toggle
               highlight: 1
-              default: 1
+              default: 0
               options: 
                 1: Enabled
                 0: Disabled
