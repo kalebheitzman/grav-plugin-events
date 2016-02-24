@@ -92,20 +92,10 @@ class EventsPlugin extends Plugin
 	 */
 	public function onPagesInitialized()
 	{
-		// get the page
-		$page = $this->grav['page'];
-
-		// check for a collection
-		$collection = $page->collection();
-		if (empty($collection)) { return; }
-
-		// get the collection params to check for taxonomy type=event
-		$params = $collection->params();
-
-		// build the repeating events page list
-		if (isset($params['taxonomies']['type']) && $params['taxonomies']['type'] == 'event') {
-	    	$this->_buildPageList();
-		}
+		// check for events related content
+		
+		// get the page 
+	   $this->_buildPageList();
 	}
 
 	/**
