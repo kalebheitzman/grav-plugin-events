@@ -125,23 +125,26 @@ class EventsPlugin extends Plugin
 		$collection = $page->collection();
 		$twig = $this->grav['twig'];
 
-		$yearParam = $this->grav['uri']->param('year');
-		$monthParam = $this->grav['uri']->param('month');
+		if ($page->template() == 'calendar') {
 
-		$twigVars = $this->calendar->twigVars($yearParam, $monthParam);
-		$calVars = $this->calendar->calendarVars($collection);
+			$yearParam = $this->grav['uri']->param('year');
+			$monthParam = $this->grav['uri']->param('month');
 
-		// add calendar to twig as calendar
-		$twigVars['calendar']['events'] = $calVars;
-		$twig->twig_vars['calendar'] = array_shift($twigVars);
+			$twigVars = $this->calendar->twigVars($yearParam, $monthParam);
+			$calVars = $this->calendar->calendarVars($collection);
 
-		// styles
-		$css = 'plugin://events/css/events.css';
-		$js = 'plugin://events/js/events.js';
-		$assets = $this->grav['assets'];
-		$assets->addCss($css);
-		$assets->add('jquery');
-		$assets->addJs($js);
+			// add calendar to twig as calendar
+			$twigVars['calendar']['events'] = $calVars;
+			$twig->twig_vars['calendar'] = array_shift($twigVars);
+
+			// styles
+			$css = 'plugin://events/css/events.css';
+			$js = 'plugin://events/js/events.js';
+			$assets = $this->grav['assets'];
+			$assets->addCss($css);
+			$assets->add('jquery');
+			$assets->addJs($js);
+		}
 	}
 
 
