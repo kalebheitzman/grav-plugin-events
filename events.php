@@ -183,27 +183,41 @@ class EventsPlugin extends Plugin
 		$assets->add($css);
 	}
 
+
+	/**
+	 * This Eventually Needs moved to a class of its own.
+	 * Probably a Calendar, Events, and Possibly Page Cloning Class
+	 */
+
 	/**
 	 * Build A Page List
+	 *
+	 * This builds a list of pages for Grav. This includes the dynamically
+	 * generated pages from repeating events.
 	 * @return void
 	 */
 	private function _buildPageList()
 	{
-		// get a new instance of grav pages
-		// I instantiate a new pages object to deal with cloning and pointer issues
-		$gravPages = new \Grav\Common\Page\Pages($this->grav);
-		$gravPages->init();
-
+		// get the pages
+		$pages = $this->grav['pages'];
+		
 		// get taxonomy so we can add generated pages
 		$taxonomy = $this->grav['taxonomy'];
-
+		
 		// create a page list to save pages
 		$pageList = [];
 		
 		// iterate through page instances to find event frontmatter
-		foreach($gravPages->instances() as $key => $page) {
+		foreach($pages->instances() as $key => $page) {
+			
+			// get the page header
 			$header = $page->header();
-			// update taxonomy based off of event frontmatter
+	
+			/**
+			 * Update the taxonomy based off of the event header. This is what
+			 * allows the plugin to search, order, and put together header 
+			 * page collections.
+			 */
 			if (isset($header->event)) {
 				// set the header date
 				$header->date = $header->event['start'];
@@ -211,11 +225,14 @@ class EventsPlugin extends Plugin
 				// set the new event taxonomy
 				$taxonomy = $this->_eventFrontmatterToTaxonomy($page, $header);
 				$page->taxonomy($taxonomy);
-				// add page to taxonomy
 			}
-			// process for repeating events if event front matter is set
+
+			/**
+			 * Search the event matter found in page headers to see if this 
+			 * page is a repeating event or if it has repeat rules.
+			 */
 			if (isset($header->event) && (isset($header->event['repeat']) || isset($header->event['freq']))) {
-				$gravPages->addPage($page);
+				// $pages->addPage($page);
 				$pageList[] = $page;
 				// build a list of repeating pages
 				$repeatingEvents = $this->_processRepeatingEvent($page);
@@ -225,20 +242,17 @@ class EventsPlugin extends Plugin
 					$pageList[] = $eventPage;
 				}
 			}
-			$pageList[] = $page;			
+			// add the original page to the page list
+			$pageList[] = $page;	
 		}
 
 		// insert the page list
 		foreach ($pageList as $key => $eventPage) {
 			// add the page to the stack
-			$gravPages->addPage($eventPage, $eventPage->route());
+			$pages->addPage($eventPage, $eventPage->route());
 			// add the page to the taxonomy map
 			$this->grav['taxonomy']->addTaxonomy($eventPage);
 		}
-
-		// store the pages back into grav
-		unset($this->grav['pages']);
-		$this->grav['pages'] = $gravPages;
 	}
 
 	/**
@@ -286,8 +300,8 @@ class EventsPlugin extends Plugin
  		$start 		= $header->event['start'];
  		$end  		= $header->event['end'];
 		$repeat 	= isset($header->event['repeat']) ? $header->event['repeat'] : null; // calculate the repeat if not set?
-		$freq 		= $header->event['freq'];
-		$until 		= $header->event['until'];
+		$freq 		= isset($header->event['freq']) ? $header->event['freq'] : null;
+		$until 		= isset($header->event['until']) ? $header->event['until'] : null;
 
  		// use carbon to calculate datetime info
  		$carbonStart = Carbon::parse($start);
@@ -310,70 +324,43 @@ class EventsPlugin extends Plugin
  			 * thursday, then make sure the tuesday event exists and create
  			 * the thursday event.
  			 */
- 			$events = $this->_applySpecialRules($page, $repeat);
+ 			$events = $this->_applySpecialRules($page, $repeat, $freq);
  		} else {
  			$events[] = $page;
  		}
-
-
  		// run a loop on events now to populate the $pages[] array
  		foreach ($events as $event) {
+
  			// how many dynamic pages should we create?
  			$count = $this->_calculateIteration($start, $freq, $until);
+
+ 			if ($count == 0) {
+ 				// create a clone of the page
+	 			$newPage = clone($event);
+	 			$newPage->unsetRouteSlug();
+
+	 			$pages[] = $newPage;
+ 			}
+
  			// create the pages based on the count received 
 	 		for($i=1; $i <= $count; $i++) {
+
 	 			// create a clone of the page
 	 			$newPage = clone($event);
 	 			$newPage->unsetRouteSlug();
 
 	 			// get the new dates
 	 			$newCarbonDate = $this->_processNewDate($i, $carbonStart, $carbonEnd, $repeat, $freq);
-	 			$newStart = $newCarbonDate['start'];
-	 			$newEnd = $newCarbonDate['end'];
+	 			$newDate['start'] = $newCarbonDate['start'];
+	 			$newDate['end'] = $newCarbonDate['end'];
 
-	 			// frontmatter strings
-				$newStartString = $newStart->format('d-m-Y H:i');
-				$newEndString = $newEnd->format('d-m-Y H:i');
+	 			// clone the page
+	 			$newPage = $this->_clonePage($event, $newDate);
 
-				// form new page below
-				$newHeader = new \stdClass();
-				$newHeader->event['start'] = $newStartString;
-				$newHeader->event['end'] = $newEndString;
-				$newHeader = (object) array_merge((array) $header, (array) $newHeader);
-
-				// get the page route and build a slug off of it
-				$route = $page->route();
-				$route_parts = explode('/', $route);
-
-				// set a suffix
-				$suffix =  '/' . $newStart->format('U');
-
-				// set a new page slug
-				$slug = end($route_parts);
-				$newSlug = $slug . $suffix;
-				$newHeader->slug = $newSlug;
-				// $newPage->slug($newSlug);
-
-				// set a new route
-				$newRoute = $route . $suffix;
-				$newHeader->routes = array('aliases' => $newRoute );
-				
-				// set the date
-				$newHeader->date = $newStartString;
-
-				// set a fake path
-				$path = $page->path();
-				$newPath = $path . $suffix;
-				$newPage->path($newPath);
-
-	 			// save the eventPageheader
-	 			$newPage->header($newHeader);
+	 			// add the page to the pages array
 	 			$pages[] = $newPage;
-
 	 		}
  		}
-
- 		
 		return $pages;
 	}
 
@@ -491,14 +478,157 @@ class EventsPlugin extends Plugin
 		return $date;
 	}
 
-	private function _applySpecialRules($page, $repeat)
+	/**
+	 * Clone Events based on Repeat Rules
+	 * @param  object $page   Grav Page Object
+	 * @param  string $repeat Repeat Rules
+	 * @param  string $freq   Frequency of Repeat
+	 * @return array          Array of Generated Pages
+	 */
+	private function _applySpecialRules($page, $repeat, $freq)
 	{
-		$events[] = $page;
+		// events array to store pages
+		$events = [];
+		// rules to clone events on
 		$rules = str_split($repeat);
+		// header info
+		$header = $page->header();
+		$eventMatter = $header->event;
+		// get the date to check against
+		$carbonDate = Carbon::parse($eventMatter['start']);
+		$dow = $carbonDate->dayOfWeek;
+		// rulesToInt
+		$rulesToInt[0] = 'U';
+		$rulesToInt[1] = 'M';
+		$rulesToInt[2] = 'T';
+		$rulesToInt[3] = 'W';
+		$rulesToInt[4] = 'R';
+		$rulesToInt[5] = 'F';
+		$rulesToInt[6] = 'S';
 
-		// l
-		if (count($rules) == 1) {
-			return $events;			
+		// check to see if event is starting on repeat rule (it should be)
+		if ($rules[0] == $rulesToInt[$dow] && count($rules) == 1) {
+			$events[] = $page;
+			return $events;
 		}
+		// more than one
+		else {
+			foreach ($rules as $key => $rule) {
+				if ( $key == 0 ) {
+					$events[] = $page;
+				}
+				else {
+					$newDate = $this->_newDateFromRule($page, $rule);
+					$newPage = $this->_clonePage($page, $newDate);
+					$events[] = $newPage;
+				}
+			}
+		}
+		return $events;
+	}
+
+	/**
+	 * Generate new date from rule
+	 * @param  object $page Grav Page
+	 * @param  string $rule Rule to generate the new date
+	 * @return array       Carbon Date Objects
+	 */
+	private function _newDateFromRule($page, $rule)
+	{
+		// get the page event date
+		$header = $page->header();
+		$start = $header->event['start'];
+		$end = $header->event['end'];
+
+		// rules
+		$rules['M'] = Carbon::MONDAY;
+		$rules['T'] = Carbon::TUESDAY;
+		$rules['W'] = Carbon::WEDNESDAY;
+		$rules['R'] = Carbon::THURSDAY;
+		$rules['F'] = Carbon::FRIDAY;
+		$rules['S'] = Carbon::SATURDAY;
+		$rules['U'] = Carbon::SUNDAY;
+
+		// days
+		$carbonStart = Carbon::parse($start);
+		$carbonEnd = Carbon::parse($end);
+
+		// calculate the next date based on the rule
+		$sDOW = $carbonStart->dayOfWeek;
+		$eDOW = $carbonEnd->dayOfWeek;
+
+		$sDiff = $rules[$rule]-$sDOW;
+		$eDiff = $rules[$rule]-$eDOW;
+
+		$date['start'] = $carbonStart->copy()->addDays($sDiff);
+		$date['end'] = $carbonEnd->copy()->addDays($eDiff);		
+
+		return $date;
+	}
+
+	private function _clonePage($page, $newDate)
+	{
+		$originalHeader = $page->header();
+
+		// create a clone of the page
+		$newPage = clone($page);
+		$newPage->unsetRouteSlug();
+
+		// get the page header
+		$header = $newPage->header();
+
+		// get the new dates
+		$newStart = $newDate['start'];
+		$newEnd = $newDate['end'];
+
+		// frontmatter strings
+		$newStartString = $newStart->format('d-m-Y H:i');
+		$newEndString = $newEnd->format('d-m-Y H:i');
+
+		// form new page below
+		$newHeader = new \stdClass();
+		$newHeader->event['start'] = $newStartString;
+		$newHeader->event['end'] = $newEndString;
+		$newHeader = (object) array_merge((array) $header, (array) $newHeader);
+
+		if (isset($originalHeader->event['repeat'])) {
+			$newHeader->event['repeat'] = $originalHeader->event['repeat'];
+		}
+		if (isset($originalHeader->event['freq'])) {
+			$newHeader->event['freq'] = $originalHeader->event['freq'];
+		}
+		if (isset($originalHeader->event['until'])) {
+			$newHeader->event['until'] = $originalHeader->event['until'];
+		}
+
+		// get the page route and build a slug off of it
+		$route = $page->route();
+		$route_parts = explode('/', $route);
+
+		// set a suffix
+		$suffix =  '/' . $newStart->format('U');
+
+		// set a new page slug
+		$slug = end($route_parts);
+		$newSlug = $slug . $suffix;
+		$newHeader->slug = $newSlug;
+		// $newPage->slug($newSlug);
+
+		// set a new route
+		$newRoute = $route . $suffix;
+		$newHeader->routes = array('aliases' => $newRoute );
+		
+		// set the date
+		$newHeader->date = $newStartString;
+
+		// set a fake path
+		$path = $page->path();
+		$newPath = $path . $suffix;
+		$newPage->path($newPath);
+
+		// save the eventPageheader
+		$newPage->header($newHeader);
+		
+		return $newPage;
 	}
 }
