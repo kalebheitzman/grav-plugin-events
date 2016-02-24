@@ -2,6 +2,7 @@
 
 namespace Grav\Plugin;
 
+// import classes
 require_once __DIR__.'/vendor/autoload.php';
 require_once __DIR__.'/classes/calendar.php';
 require_once __DIR__.'/classes/events.php';
@@ -16,6 +17,9 @@ use RocketTheme\Toolbox\Event\Event;
 
 use Carbon\Carbon;
 
+use Events\Calendar;
+use Events\Events;
+
 class EventsPlugin extends Plugin
 {
 	/**
@@ -27,6 +31,9 @@ class EventsPlugin extends Plugin
 	 * @var  string Route
 	 */
 	protected $route = 'events';
+
+	protected $events;
+	protected $calendar;
 
 	/**
 	 * @return array
@@ -57,6 +64,8 @@ class EventsPlugin extends Plugin
 
 		// get the current datetime with carbon
 		$this->now = Carbon::now();
+
+		$this->calendar = new Calendar();
 
 		$this->enable([
 			'onTwigTemplatePaths' => ['onTwigTemplatePaths', 0],
@@ -119,68 +128,20 @@ class EventsPlugin extends Plugin
 		$yearParam = $this->grav['uri']->param('year');
 		$monthParam = $this->grav['uri']->param('month');
 
-		if ( $yearParam === false ) {
-			$yearParam = date('Y');
-		}
-
-		if ( $monthParam === false ) {
-			$monthParam = date('m');
-		}
-
-		$monthYearString = "${yearParam}-${monthParam}-01";
-		$carbonMonthYear = Carbon::parse($monthYearString);
-		
-		// add vars for use in the calendar twig var
-		$twig->twig_vars['calendar']['daysInMonth'] = $carbonMonthYear->daysInMonth;
-		$twig->twig_vars['calendar']['currentDay'] = date('d');
-
-		// current dates
-		$twig->twig_vars['calendar']['date'] = $carbonMonthYear->timestamp;
-		$twig->twig_vars['calendar']['year'] = $carbonMonthYear->year;
-		$twig->twig_vars['calendar']['month'] = $carbonMonthYear->month;
-		$twig->twig_vars['calendar']['day'] = $carbonMonthYear->day;
-
-		// next dates
-		$nextMonth = $carbonMonthYear->copy()->addMonth();
-		$twig->twig_vars['calendar']['next']['date'] = $nextMonth->timestamp;
-		// prev dates
-		$prevMonth = $carbonMonthYear->copy()->subMonth();
-		$twig->twig_vars['calendar']['prev']['date'] = $prevMonth->timestamp;
-		// years
-		$nextYear = $carbonMonthYear->copy()->addYear();
-		$prevYear = $carbonMonthYear->copy()->subYear();
-		$twig->twig_vars['calendar']['prevYear'] = $prevYear;
-		$twig->twig_vars['calendar']['nextYear'] = $nextYear;
-
-		// build a calendar array to use in twig
-		$calendar = array();
-		foreach($collection as $event) {
-			$header = $event->header();
-			$start = $header->event['start'];
-			
-			// build dates to create an associate array
-			$carbonStart = Carbon::parse($start);
-			$year = $carbonStart->year;
- 			$month = $carbonStart->month;
- 			$day = $carbonStart->day;
-
- 			$eventItem = $event->toArray();
- 			$eventItem['header']['url'] = $event->url();
-
- 			// add the event to the calendar
- 			$calendar[$year][$month][$day][] = $eventItem;
-		}
-		//echo "<pre>";
-		//print_r($calendar);
-		//echo "</pre>";
+		$twigVars = $this->calendar->twigVars($yearParam, $monthParam);
+		$calVars = $this->calendar->calendarVars($collection);
 
 		// add calendar to twig as calendar
-		$twig->twig_vars['calendar']['events'] = $calendar;
+		$twigVars['calendar']['events'] = $calVars;
+		$twig->twig_vars['calendar'] = array_shift($twigVars);
 
 		// styles
 		$css = 'plugin://events/css/events.css';
+		$js = 'plugin://events/js/events.js';
 		$assets = $this->grav['assets'];
-		$assets->add($css);
+		$assets->addCss($css);
+		$assets->add('jquery');
+		$assets->addJs($js);
 	}
 
 

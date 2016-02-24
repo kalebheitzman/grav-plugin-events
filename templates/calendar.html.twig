@@ -17,17 +17,17 @@
         <thead>
             <tr>
                 <th colspan="1">
-                    <a href="{{ prevMonthUrl }}">{{ calendar.prev.date|date('F Y') }}</a>
+                    <a href="{{ prevMonthUrl }}" class="calendar-control">{{ calendar.prev.date|date('F Y') }}</a>
                 </th>
                 <th colspan="5" class="controls">
-                    <a href="{{ prevMonthUrl }}" class="calendar-button">&lsaquo;</a>
-                    <a href="{{ prevYearUrl }}" class="calendar-button">&laquo;</a>
+                    <a href="{{ prevMonthUrl }}" class="calendar-button calendar-control">&lsaquo;</a>
+                    <a href="{{ prevYearUrl }}" class="calendar-button calendar-control">&laquo;</a>
                     <span class="title">{{ calendar.date|date('F Y') }}</span>
-                    <a href="{{ nextYearUrl }}" class="calendar-button">&raquo;</a>
-                    <a href="{{ nextMonthUrl }}" class="calendar-button">&rsaquo;</a>
+                    <a href="{{ nextYearUrl }}" class="calendar-button calendar-control">&raquo;</a>
+                    <a href="{{ nextMonthUrl }}" class="calendar-button calendar-control">&rsaquo;</a>
                 </th>
                 <th colspan="1">
-                    <a href="{{ nextMonthUrl }}">{{ calendar.next.date|date('F Y') }}</a>
+                    <a href="{{ nextMonthUrl }}" class="calendar-control">{{ calendar.next.date|date('F Y') }}</a>
                 </th>
             </tr>
             <tr class="headings">
