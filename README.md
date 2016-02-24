@@ -24,19 +24,6 @@ The `date` of a page will be set to `event.start` automatically if not specified
 
 If the event is a repeating event, pages will be added to the pages collection with the correct dates and times for use throughout the rest of a Grav site. Currently, repeating pages use the same page slug with an epoch suffix related to the start date of the next event.
 
-### Frontmatter example
-
-You can edit the front matter of your pages or use the Admin plugin with the supplied blueprints to update event information.
-
-```
-event:
-    start: 01/01/2015 6:00pm
-    end: 01/01/2015 7:00pm
-    repeat: MTWRFSU
-    freq: weekly
-    until: 01/01/2020
-```
-
 ### Dates and Times
 
 The `event.start` and `event.end` dates can be specified using `m/d/y` or `d-m-y` formats along with times.
@@ -51,7 +38,20 @@ This plugin supports creating repeating events using `event.repeat`, `event.freq
 
 `event.until` is a date and time specification like `01/01/2016 12:00am`
 
-### Collection Frontmatter Example
+### Event frontmatter example
+
+You can edit the front matter of your pages or use the Admin plugin with the supplied blueprints to update event information.
+
+```
+event:
+    start: 01/01/2015 6:00pm
+    end: 01/01/2015 7:00pm
+    repeat: MTWRFSU
+    freq: weekly
+    until: 01/01/2020
+```
+
+### Collection frontmatter example
 
 A collection of weekend events.
 
@@ -62,7 +62,7 @@ collection:
         @taxonomy.event_repeat: [S, U]
 ```
 
-### Twig Templates and Example
+### Twig templates and example
 
 It's easy to create a collection of events using Grav taxonomy search feature and the following taxonomies that are added by the Events plugin.
 
