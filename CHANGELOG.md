@@ -6,7 +6,8 @@
 2 [](#improved)
 	# Updated readme documentation
 3 [](#bugfixes)
-	* Fixed repeating date issues
+	* Fixed repeating issues
+	* Fixed frequency issues
 
 # v1.0.1
 ## 02/23/2016
