@@ -24,11 +24,11 @@ The `date` of a page will be set to `event.start` automatically if not specified
 
 If the event is a repeating event, pages will be added to the pages collection with the correct dates and times for use throughout the rest of a Grav site. Currently, repeating pages use the same page slug with an epoch suffix related to the start date of the next event.
 
-### Dates and Times
+### Dates and times
 
 The `event.start` and `event.end` dates can be specified using `m/d/y` or `d-m-y` formats along with times.
 
-### Repeating Dates
+### Repeating dates
 
 This plugin supports creating repeating events using `event.repeat`, `event.freq`, and `event.until`. 
 
