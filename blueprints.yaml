@@ -7,6 +7,7 @@ author:
   email: kalebheitzman@gmail.com
   url: http://kheitzman.com
 homepage: http://github.com/kalebheitzman/grav-plugin-events
+demo: http://grav.brandr.co/calendar
 keywords: events, plugin
 bugs: https://github.com/kalebheitzman/grav-plugin-events/issues
 license: MIT
