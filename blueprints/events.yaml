@@ -7,7 +7,7 @@ form:
   fields:
     tabs:
       fields:
-    
+
         contact:
           type: tab
           title: Events
@@ -47,7 +47,7 @@ form:
               type: toggle
               highlight: 1
               default: 1
-              options: 
+              options:
                 1: Enabled
                 0: Disabled
               validate:
