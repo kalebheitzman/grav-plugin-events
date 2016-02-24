@@ -343,14 +343,14 @@ class EventsPlugin extends Plugin
  			}
 
  			// create the pages based on the count received 
-	 		for($i=1; $i <= $count; $i++) {
+	 		for($i=0; $i < $count; $i++) {
 
-	 			// create a clone of the page
-	 			$newPage = clone($event);
-	 			$newPage->unsetRouteSlug();
+ 				$newHeader = $event->header();
+ 				$newStart = Carbon::parse($newHeader->event['start']);
+ 				$newEnd = Carbon::parse($newHeader->event['end']);
 
 	 			// get the new dates
-	 			$newCarbonDate = $this->_processNewDate($i, $carbonStart, $carbonEnd, $repeat, $freq);
+	 			$newCarbonDate = $this->_processNewDate($i, $newStart, $newEnd, $repeat, $freq);
 	 			$newDate['start'] = $newCarbonDate['start'];
 	 			$newDate['end'] = $newCarbonDate['end'];
 
@@ -409,6 +409,10 @@ class EventsPlugin extends Plugin
 	 */
 	private function _processNewDate($i, $carbonStart, $carbonEnd, $repeat, $freq) {
 
+		// set a default newStart and newEnd
+		$newStart = $carbonStart;
+		$newEnd = $carbonEnd;
+
 		// update the start and end dates of the event frontmatter 			
 		switch($freq) {
 			case 'daily':
@@ -417,8 +421,8 @@ class EventsPlugin extends Plugin
 				break;
 
 			case 'weekly':
-				$newStart = $carbonStart->addWeeks(1);
-				$newEnd = $carbonEnd->addWeeks(1);
+				$newStart = $carbonStart->addWeeks($i+1);
+				$newEnd = $carbonEnd->addWeeks($i+1);
 				break;
 
 			// special case for monthly because there aren't the same 
