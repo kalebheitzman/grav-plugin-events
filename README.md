@@ -16,13 +16,15 @@ Blueprints and Templates are included in this plugin for the Frontend and Admin 
 
 ### How it works
 
-**Events** parses all of your markdown files for event frontmatter and then automagically assigns taxonomies to your events based on whether they repeat through the week and through what intervals. This lets you build powerful collections based on the `event_freq` and `event_repeat` intervals. This lets you create custom displays. Forexample, if you want to build a list of all events that happen on Mondays you can filter on `'@taxonomy.event_repeat':['M']` or pull out your Weekly events by filtering on `'@taxonomy.event_freq':'weekly'`.
+**Events** parses all of your markdown files for event frontmatter and then automagically assigns taxonomies to your events based on whether they repeat through the week and through what intervals. This lets you build powerful collections based on the `event_freq` and `event_repeat` intervals. This lets you create custom displays. Forexample, if you want to build a list of all events that happen on Mondays you can filter on `'@taxonomy.event_repeat':['M']` or pull out your Weekly events by filtering on `'@taxonomy.event_freq':'weekly'`. 
 
 This plugin processes event frontmatter specified in the header in multiple ways. It adds any page found with event frontmatter to `@taxonomy.type = event`. This allows you to build collections based on this taxonomy type. The Taxonomy `type` is added dynamically to your Grav install. 
 
 The `date` of a page will be set to `event.start` automatically if not specified. This allows you to order your events by date.
 
 If the event is a repeating event, pages will be added to the pages collection with the correct dates and times for use throughout the rest of a Grav site. Currently, repeating pages use the same page slug with an epoch suffix related to the start date of the next event.
+
+### Frontmatter example
 
 You can edit the front matter of your pages or use the Admin plugin with the supplied blueprints to update event information.
 
@@ -48,6 +50,17 @@ This plugin supports creating repeating events using `event.repeat`, `event.freq
 `event.freq` can be set to `daily, weekly, monthly, or yearly.`
 
 `event.until` is a date and time specification like `01/01/2016 12:00am`
+
+### Collection Frontmatter Example
+
+A collection of weekend events.
+
+```
+collection:
+    @items:
+        @taxonomy.type: event
+        @taxonomy.event_repeat: [S, U]
+```
 
 ### Twig Templates and Example
 
@@ -82,17 +95,6 @@ A collection of weekend events.
     {% endfor %}
 </ul>
 ``` 
-
-### Collection Frontmatter Example
-
-A collection of weekend events.
-
-```
-collection:
-    @items:
-        @taxonomy.type: event
-        @taxonomy.event_repeat: [S, U]
-```
 
 ### DateTools Plugin
 
