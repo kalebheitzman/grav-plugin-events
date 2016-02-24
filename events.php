@@ -334,13 +334,9 @@ class EventsPlugin extends Plugin
  			// how many dynamic pages should we create?
  			$count = $this->_calculateIteration($start, $freq, $until);
 
- 			if ($count == 0) {
- 				// create a clone of the page
-	 			$newPage = clone($event);
-	 			$newPage->unsetRouteSlug();
-
-	 			$pages[] = $newPage;
- 			}
+	 		$newPage = clone($event);
+	 		$newPage->unsetRouteSlug();
+	 		$pages[] = $newPage;
 
  			// create the pages based on the count received 
 	 		for($i=0; $i < $count; $i++) {
@@ -413,16 +409,18 @@ class EventsPlugin extends Plugin
 		$newStart = $carbonStart;
 		$newEnd = $carbonEnd;
 
+		$i++;
+
 		// update the start and end dates of the event frontmatter 			
 		switch($freq) {
 			case 'daily':
-				$newStart = $carbonStart->addDays(1);
-				$newEnd = $carbonEnd->addDays(1);
+				$newStart = $carbonStart->addDays($i);
+				$newEnd = $carbonEnd->addDays($i);
 				break;
 
 			case 'weekly':
-				$newStart = $carbonStart->addWeeks($i+1);
-				$newEnd = $carbonEnd->addWeeks($i+1);
+				$newStart = $carbonStart->addWeeks($i);
+				$newEnd = $carbonEnd->addWeeks($i);
 				break;
 
 			// special case for monthly because there aren't the same 
@@ -456,23 +454,17 @@ class EventsPlugin extends Plugin
 				$ry[5] = 'friday';
 				$ry[6] = 'saturday';
 
-				// get the correct next date
-				if ($i == 0) {
-					$sStringDateTime = $rd[$sWeekOfMonth] . ' ' . $ry[$sDayOfWeek] . ' of next month';
-					$eStringDateTime = $rd[$eWeekOfMonth] . ' ' . $ry[$eDayOfWeek] . ' of next month';
-				}
-				else {
-					$sStringDateTime = $rd[$sWeekOfMonth] . ' ' . $ry[$sDayOfWeek] . ' of +' . $i . 'months';
-					$eStringDateTime = $rd[$eWeekOfMonth] . ' ' . $ry[$eDayOfWeek] . ' of +' . $i . 'months';	
-				}
-
+				// get the correct next date	
+				$sStringDateTime = $rd[$sWeekOfMonth] . ' ' . $ry[$sDayOfWeek] . ' of +' . $i . 'months';
+				$eStringDateTime = $rd[$eWeekOfMonth] . ' ' . $ry[$eDayOfWeek] . ' of +' . $i . 'months';	
+			
 				$newStart = Carbon::parse($sStringDateTime)->addHours($sHours)->addMinutes($sMinutes);				
 				$newEnd = Carbon::parse($eStringDateTime)->addHours($eHours)->addMinutes($eMinutes);	
 				break;
 
 			case 'yearly':
-				$newStart = $carbonStart->addYears(1);
-				$newEnd = $carbonEnd->addYears(1);
+				$newStart = $carbonStart->addYears($i);
+				$newEnd = $carbonEnd->addYears($i);
 				break;
 		}
 		// save the new datetimes
