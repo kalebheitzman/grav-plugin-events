@@ -1,3 +1,9 @@
+# v1.0.3
+## 02/24/2016
+
+1 [](#bugfixes)
+	* Fixed major fatal error when events don't exist
+
 # v1.0.2
 ## 02/24/2016
 
