@@ -1,3 +1,13 @@
+# v1.0.2
+## 02/24/2016
+
+1 [](#new)
+	* Added calendar controls
+2 [](#improved)
+	# Updated readme documentation
+3 [](#bugfixes)
+	* Fixed repeating date issues
+
 # v1.0.1
 ## 02/23/2016
 

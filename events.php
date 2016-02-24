@@ -3,6 +3,8 @@
 namespace Grav\Plugin;
 
 require_once __DIR__.'/vendor/autoload.php';
+require_once __DIR__.'/classes/calendar.php';
+require_once __DIR__.'/classes/events.php';
 
 use Grav\Common\Plugin;
 use Grav\Common\Grav;
@@ -60,7 +62,6 @@ class EventsPlugin extends Plugin
 			'onTwigTemplatePaths' => ['onTwigTemplatePaths', 0],
 			'onGetPageTemplates' => ['onGetPageTemplates', 0],
 			'onPagesInitialized' => ['onPagesInitialized', 0],
-			'onCollectionProcessed' => ['onCollectionProcessed', 0],
 			'onTwigSiteVariables' => ['onTwigSiteVariables', 0],
 		]);
 	}
@@ -94,32 +95,6 @@ class EventsPlugin extends Plugin
 		// build the repeating events page list
     	$this->_buildPageList();
 	}
-
-	/**
-     * Order the collection.
-     *
-     * @param Event $event
-     */
-    public function onCollectionProcessed(Event $event)
-    {
-        /** @var Collection $collection */
-        $collection = $event['collection'];
-		$params = $collection->params();
-/*
-		// order filters
-		$orderBy = $params['order']['by'];
-		$orderDir = $params['order']['dir'];
-
-		// get a new instance of grav pages
-		// I instantiate a new pages object to deal with cloning and pointer issues
-		$gravPages = new \Grav\Common\Page\Pages($this->grav);
-		$gravPages->init();
-
-		$gravPages->sortCollection($collection, $orderBy, $orderDir);
-
-		unset($this->grav['pages']);
-		$this->grav['pages'] = $gravPages;*/
-    }
 
 	/**
 	 * Add Events blueprints to admin
@@ -195,6 +170,9 @@ class EventsPlugin extends Plugin
  			// add the event to the calendar
  			$calendar[$year][$month][$day][] = $eventItem;
 		}
+		//echo "<pre>";
+		//print_r($calendar);
+		//echo "</pre>";
 
 		// add calendar to twig as calendar
 		$twig->twig_vars['calendar']['events'] = $calendar;
@@ -236,7 +214,7 @@ class EventsPlugin extends Plugin
 				// add page to taxonomy
 			}
 			// process for repeating events if event front matter is set
-			if (isset($header->event) && isset($header->event['repeat'])) {
+			if (isset($header->event) && (isset($header->event['repeat']) || isset($header->event['freq']))) {
 				$gravPages->addPage($page);
 				$pageList[] = $page;
 				// build a list of repeating pages
@@ -292,6 +270,9 @@ class EventsPlugin extends Plugin
 
 	/**
 	 * Process a repeating event
+	 *
+	 * Handle repeating dates set by the `freq` variable. Also handle any 
+	 * special rules set by the `repeat` variable.
 	 * 
 	 * @param object $page Page object
 	 * @return array Newly created event pages.
@@ -300,89 +281,99 @@ class EventsPlugin extends Plugin
 	{
 		$pages = [];
 
-		// header information
+		// get header information alone with event frontmatter
 		$header 	= $page->header();
  		$start 		= $header->event['start'];
  		$end  		= $header->event['end'];
-		$repeat 	= $header->event['repeat'];
+		$repeat 	= isset($header->event['repeat']) ? $header->event['repeat'] : null; // calculate the repeat if not set?
 		$freq 		= $header->event['freq'];
 		$until 		= $header->event['until'];
- 		$count 		= $this->_calculateIteration($freq, $until);
 
- 		// date calculation vars
+ 		// use carbon to calculate datetime info
  		$carbonStart = Carbon::parse($start);
  		$carbonEnd = Carbon::parse($end);
  		$carbonDay = $carbonStart->dayOfWeek;
  		$carbonWeek = $carbonStart->weekOfMonth;
  		$carbonWeekYear = $carbonStart->weekOfYear;
 
- 		for($i=1; $i <= $count; $i++) {
-
- 			$newPage = clone($page);
- 			$newPage->unsetRouteSlug();
-
- 			// update the start and end dates of the event frontmatter 			
- 			switch($freq) {
-				case 'daily':
-					$newStart = $carbonStart->addDays(1);
-					$newEnd = $carbonEnd->addDays(1);
-					break;
-
-				case 'weekly':
-					$newStart = $carbonStart->addWeeks(1);
-					$newEnd = $carbonEnd->addWeeks(1);
-					break;
-
-				case 'monthly':
-					$newStart = $carbonStart->addMonths(1);
-					$newEnd = $carbonEnd->addMonths(1);
-					break;
-
-				case 'yearly':
-					$newStart = $carbonStart->addYears(1);
-					$newEnd = $carbonEnd->addYears(1);
-					break;
-			}
-
-			$newStartString = $newStart->format('d-m-Y H:i');
-			$newEndString = $newEnd->format('d-m-Y H:i');
-
-			// form new page below
-			$newHeader = new \stdClass();
-			$newHeader->event['start'] = $newStartString;
-			$newHeader->event['end'] = $newEndString;
-			$newHeader = (object) array_merge((array) $header, (array) $newHeader);
-
-			// get the page route and build a slug off of it
-			$route = $page->route();
-			$route_parts = explode('/', $route);
-
-			// set a suffix
-			$suffix =  '/' . $newStart->format('U');
-
-			// set a new page slug
-			$slug = end($route_parts);
-			$newSlug = $slug . $suffix;
-			$newHeader->slug = $newSlug;
-			// $newPage->slug($newSlug);
-
-			// set a new route
-			$newRoute = $route . $suffix;
-			$newHeader->routes = array('aliases' => $newRoute );
-			
-			// set the date
-			$newHeader->date = $newStartString;
-
-			// set a fake path
-			$path = $page->path();
-			$newPath = $path . $suffix;
-			$newPage->path($newPath);
-
- 			// save the eventPageheader
- 			$newPage->header($newHeader);
- 			$pages[] = $newPage;
-
+ 		/** 
+ 		 * take the event and apply any special rules to it found in the 
+ 		 * `repeat` variable. We store the original into an array even if it's 
+ 		 * by itself so that can iterate through the event if there have been
+ 		 * special rules applied to it. This gives the plugin the ability to
+ 		 * say and event repeats monthly on tuesdays and thursdays for example.
+ 		 */
+ 		if ( ! is_null($repeat) ) {
+ 			/** 
+ 			 * duplicate the event based on the repeat rules (not the freq 
+ 			 * rules). If the event is supposed to happen every tueday and 
+ 			 * thursday, then make sure the tuesday event exists and create
+ 			 * the thursday event.
+ 			 */
+ 			$events = $this->_applySpecialRules($page, $repeat);
+ 		} else {
+ 			$events[] = $page;
  		}
+
+
+ 		// run a loop on events now to populate the $pages[] array
+ 		foreach ($events as $event) {
+ 			// how many dynamic pages should we create?
+ 			$count = $this->_calculateIteration($start, $freq, $until);
+ 			// create the pages based on the count received 
+	 		for($i=1; $i <= $count; $i++) {
+	 			// create a clone of the page
+	 			$newPage = clone($event);
+	 			$newPage->unsetRouteSlug();
+
+	 			// get the new dates
+	 			$newCarbonDate = $this->_processNewDate($i, $carbonStart, $carbonEnd, $repeat, $freq);
+	 			$newStart = $newCarbonDate['start'];
+	 			$newEnd = $newCarbonDate['end'];
+
+	 			// frontmatter strings
+				$newStartString = $newStart->format('d-m-Y H:i');
+				$newEndString = $newEnd->format('d-m-Y H:i');
+
+				// form new page below
+				$newHeader = new \stdClass();
+				$newHeader->event['start'] = $newStartString;
+				$newHeader->event['end'] = $newEndString;
+				$newHeader = (object) array_merge((array) $header, (array) $newHeader);
+
+				// get the page route and build a slug off of it
+				$route = $page->route();
+				$route_parts = explode('/', $route);
+
+				// set a suffix
+				$suffix =  '/' . $newStart->format('U');
+
+				// set a new page slug
+				$slug = end($route_parts);
+				$newSlug = $slug . $suffix;
+				$newHeader->slug = $newSlug;
+				// $newPage->slug($newSlug);
+
+				// set a new route
+				$newRoute = $route . $suffix;
+				$newHeader->routes = array('aliases' => $newRoute );
+				
+				// set the date
+				$newHeader->date = $newStartString;
+
+				// set a fake path
+				$path = $page->path();
+				$newPath = $path . $suffix;
+				$newPage->path($newPath);
+
+	 			// save the eventPageheader
+	 			$newPage->header($newHeader);
+	 			$pages[] = $newPage;
+
+	 		}
+ 		}
+
+ 		
 		return $pages;
 	}
 
@@ -394,31 +385,120 @@ class EventsPlugin extends Plugin
 	 * @param string $until The date to repeat event until
 	 * @return integer How many times to loops
 	 */
-	private function _calculateIteration($freq, $until)
+	private function _calculateIteration($start, $freq, $until)
 	{
 		$count = 0;
 		
-		$currentDate = $this->now;
 		$untilDate = Carbon::parse($until);
+		$startDate = Carbon::parse($start);
 
 		switch($freq) {
 			case 'daily':
-				$count = $untilDate->diffInDays($currentDate);
+				$count = $untilDate->diffInDays($startDate);
 				break;
 
 			case 'weekly':
-				$count = $untilDate->diffInWeeks($currentDate);
+				$count = $untilDate->diffInWeeks($startDate);
 				break;
 
 			case 'monthly':
-				$count = $untilDate->diffInMonths($currentDate);
+				$count = $untilDate->diffInMonths($startDate);
 				break;
 
 			case 'yearly':
-				$count = $untilDate->diffInYears($currentDate);
+				$count = $untilDate->diffInYears($startDate);
 				break;
 		}
 
 		return $count;
 	} 
+
+	/**
+	 * Process Upcoming Date
+	 * @param  object $start  Carbon Start Date
+	 * @param  string $repeat Repeat Rules
+	 * @param  string $freq   Frequency to repeat
+	 * @return array          Carbon DateTime Objects
+	 */
+	private function _processNewDate($i, $carbonStart, $carbonEnd, $repeat, $freq) {
+
+		// update the start and end dates of the event frontmatter 			
+		switch($freq) {
+			case 'daily':
+				$newStart = $carbonStart->addDays(1);
+				$newEnd = $carbonEnd->addDays(1);
+				break;
+
+			case 'weekly':
+				$newStart = $carbonStart->addWeeks(1);
+				$newEnd = $carbonEnd->addWeeks(1);
+				break;
+
+			// special case for monthly because there aren't the same 
+			// number of days each month.
+			case 'monthly':
+				// start vars
+				$sDayOfWeek = $carbonStart->dayOfWeek;
+				$sWeekOfMonth = $carbonStart->weekOfMonth;
+				$sHours = $carbonStart->hour;
+				$sMinutes = $carbonStart->minute;
+
+				// end vars
+				$eDayOfWeek = $carbonEnd->dayOfWeek;
+				$eWeekOfMonth = $carbonEnd->weekOfMonth;
+				$eHours = $carbonEnd->hour;
+				$eMinutes = $carbonEnd->minute;
+				
+				// weeks
+				$rd[1] = 'first';
+				$rd[2] = 'second';
+				$rd[3] = 'third';
+				$rd[4] = 'fourth';
+				$rd[5] = 'fifth';
+
+				// days
+				$ry[0] = 'sunday';
+				$ry[1] = 'monday';
+				$ry[2] = 'tuesday';
+				$ry[3] = 'wednesday';
+				$ry[4] = 'thursday';
+				$ry[5] = 'friday';
+				$ry[6] = 'saturday';
+
+				// get the correct next date
+				if ($i == 0) {
+					$sStringDateTime = $rd[$sWeekOfMonth] . ' ' . $ry[$sDayOfWeek] . ' of next month';
+					$eStringDateTime = $rd[$eWeekOfMonth] . ' ' . $ry[$eDayOfWeek] . ' of next month';
+				}
+				else {
+					$sStringDateTime = $rd[$sWeekOfMonth] . ' ' . $ry[$sDayOfWeek] . ' of +' . $i . 'months';
+					$eStringDateTime = $rd[$eWeekOfMonth] . ' ' . $ry[$eDayOfWeek] . ' of +' . $i . 'months';	
+				}
+
+				$newStart = Carbon::parse($sStringDateTime)->addHours($sHours)->addMinutes($sMinutes);				
+				$newEnd = Carbon::parse($eStringDateTime)->addHours($eHours)->addMinutes($eMinutes);	
+				break;
+
+			case 'yearly':
+				$newStart = $carbonStart->addYears(1);
+				$newEnd = $carbonEnd->addYears(1);
+				break;
+		}
+		// save the new datetimes
+		$date['start'] = $newStart;
+		$date['end'] = $newEnd;
+		// return the datetimes
+		return $date;
+	}
+
+	private function _applySpecialRules($page, $repeat)
+	{
+		$events[] = $page;
+		$rules = str_split($repeat);
+
+		// l
+		if (count($rules) == 1) {
+			return $events;			
+		}
+	}
 }
