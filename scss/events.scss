@@ -1,0 +1,58 @@
+/* Events Plugin CSS */
+
+.calendar {
+
+	.controls {
+		text-align: center;
+		font-size: 1.2em;
+	}	
+
+	.title {
+		display: inline-block;
+		min-width: 170px;
+	}
+
+	td {
+		vertical-align: top;
+
+		&.current {
+			background: #f7f7f7;
+		}
+	}
+
+	.calendar-button {
+		display: inline-block;
+		line-height: 18px;
+		padding: 0.05em 0.25em 0.25em;
+		background-color: #bbb;
+		color: #fff;
+		border-radius: 4px;
+		min-width: 1.2em;
+		margin: 0 0.05em;
+
+		&:hover {
+			color: #fff;
+			transition: background-color 0.15s ease;
+			background-color: #999;
+		}
+	}
+
+	.calendar-button
+	.headings {
+		text-align: center;
+	}
+
+	.event { 
+
+		a {
+			text-align: right;
+			background: #efefef;
+			padding: 0.5em;
+			font-size: 0.9em;
+			line-height: 1.1em;
+			border-radius: 4px;
+			margin-bottom: 5px;
+			display: block;
+		}
+	}
+}
