@@ -23,19 +23,25 @@ use Events\Events;
 class EventsPlugin extends Plugin
 {
 	/**
-	 * @var object Carbon Current DateTime 
+	 * Carbon Currente Date Time
+	 * @var object
 	 */
 	protected $now;
 
 	/**
-	 * @var  string Route
+	 * Events Events Class
+	 * @var object
 	 */
-	protected $route = 'events';
-
 	protected $events;
+
+	/**
+	 * Events Calendar Class
+	 * @var object
+	 */
 	protected $calendar;
 
 	/**
+	 * Get Subscribed Events
 	 * @return array
 	 */
 	public static function getSubscribedEvents() 
@@ -92,10 +98,7 @@ class EventsPlugin extends Plugin
 	 */
 	public function onPagesInitialized()
 	{
-		// check for events related content
-		
-		// get the page 
-	   $this->_buildPageList();
+		$this->_buildPageList();
 	}
 
 	/**
@@ -147,6 +150,7 @@ class EventsPlugin extends Plugin
 	 * Probably a Calendar, Events, and Possibly Page Cloning Class
 	 */
 
+
 	/**
 	 * Build A Page List
 	 *
@@ -156,16 +160,48 @@ class EventsPlugin extends Plugin
 	 */
 	private function _buildPageList()
 	{
-		// get the pages
+		// get the page
+		$page = $this->grav['page'];
+		
+		/**
+		 * We check against page templates to make sure this isn't running
+		 * on other pages. This can be memory intensive depending on the 
+		 * settings the user sets in plugin.
+		 */
+		$pageTemplates = array('calendar', 'events', 'event');
+		$pageTemplate = $this->grav['page']->template();
+		// if build pages should occur
+		if ( ! in_array($pageTemplate, $pageTemplates)) {
+			return;
+		}
+		
+		/**
+		 * The Grav Pages object allows to add and delete pages that Grav
+		 * later processes and caches.
+		 */
 		$pages = $this->grav['pages'];
-		
-		// get taxonomy so we can add generated pages
+
+		/**
+		 * We need access to taxonomy to allow us to add the page to
+		 * collections. If I ever figure out how to add the page to pages
+		 * and taxonomy automatically pick it up, then this will be cleaner.
+		 */
 		$taxonomy = $this->grav['taxonomy'];
-		
-		// create a page list to save pages
+
+		/**
+		 * We create a new page list so that we can process its items at the
+		 * end of this function into pages.
+		 */
 		$pageList = [];
 		
-		// iterate through page instances to find event frontmatter
+		/**
+		 * We iterate through the pages to begin processing the new pages list.
+		 * The first step is to set up any date range filters. Step two is to
+		 * determin whether there are any frequency rules which indicates we
+		 * need to clone the page horizontally across a week. If there are
+		 * repeat rules we then need to clone the event vertically via into
+		 * the date range.
+		 */
 		foreach($pages->instances() as $key => $page) {
 			
 			// get the page header
@@ -177,11 +213,17 @@ class EventsPlugin extends Plugin
 			 * page collections.
 			 */
 			if (isset($header->event)) {
-				// set the header date
+				// set the header date automatically based on the event start date
 				$header->date = $header->event['start'];
+				// set the new header
 				$page->header($header);
-				// set the new event taxonomy
+				/**
+				 * Instead of having the user set taxonomy and event
+				 * fontmatter, I choose to convert frontmatter to taxonomy
+				 * so that we can sort off of it later in the flow.
+				 */
 				$taxonomy = $this->_eventFrontmatterToTaxonomy($page, $header);
+				// update the page with the new taxonomy
 				$page->taxonomy($taxonomy);
 			}
 
@@ -191,21 +233,37 @@ class EventsPlugin extends Plugin
 			 */
 			if (isset($header->event) && (isset($header->event['repeat']) || isset($header->event['freq']))) {
 				// $pages->addPage($page);
-				$pageList[] = $page;
+				// $pageList[] = $page;
 				// build a list of repeating pages
 				$repeatingEvents = $this->_processRepeatingEvent($page);
-				// add the new $repeatingEvents pages to the $pages object
+				/**
+				 * After running the repeating events function, we have a 
+				 * repeating events list that we can now populate the page
+				 * list with. This includes events with freq or repeat set.
+				 */
 				foreach($repeatingEvents as $key => $eventPage) {
 					// add the page to the stack
 					$pageList[] = $eventPage;
 				}
 			}
-			// add the original page to the page list
-			$pageList[] = $page;	
+
+			/**
+			 * Add the original page to the pagelist. I'm not sure if this is
+			 * needed or not as it addes pages outside of events into the
+			 * pagelist as well. They should already be included in the list.
+			 * 
+			 */
+			// $pageList[] = $page;	
 		}
 
-		// insert the page list
-		foreach ($pageList as $key => $eventPage) {
+		/**
+		 * This is where the magin happens. We've created pages dynamically
+		 * based on repeat rules and frequency. We've also contained the posts
+		 * to a certain date range. We add the page back to $pages along with
+		 * a unique route so the page saves to Grav. We also add the processed
+		 * page to the taxonomy stack so that it appears in collections.
+		 */
+		foreach ($pageList as $eventPage) {
 			// add the page to the stack
 			$pages->addPage($eventPage, $eventPage->route());
 			// add the page to the taxonomy map
@@ -251,9 +309,15 @@ class EventsPlugin extends Plugin
 	 */
 	private function _processRepeatingEvent($page)
 	{
+		/**
+		 * We build a pages array that we can return to buildPageList. The
+		 * build page list function will take the events we dynamically 
+		 * generate and add them to the stack. We shouldn't need to add any
+		 * events generated here to the pages or taxonomy stack
+		 */
 		$pages = [];
 
-		// get header information alone with event frontmatter
+		// get header information alone with default event frontmatter
 		$header 	= $page->header();
  		$start 		= $header->event['start'];
  		$end  		= $header->event['end'];
@@ -560,7 +624,7 @@ class EventsPlugin extends Plugin
 		$route_parts = explode('/', $route);
 
 		// set a suffix
-		$suffix =  '/' . $newStart->format('U');
+		$suffix =  '/e:' . $newStart->format('U');
 
 		// set a new page slug
 		$slug = end($route_parts);
