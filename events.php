@@ -41,6 +41,12 @@ class EventsPlugin extends Plugin
 	protected $calendar;
 
 	/**
+	 * Date Range
+	 * @var array
+	 */
+	protected $dateRange;
+
+	/**
 	 * Get Subscribed Events
 	 * @return array
 	 */
@@ -68,14 +74,14 @@ class EventsPlugin extends Plugin
 		$taxonomy_config = array_merge((array)$this->config->get('site.taxonomies'), $event_taxonomies);
 		$this->config->set('site.taxonomies', $taxonomy_config);
 
-		// get the current datetime with carbon
+		// get the current datetime with c
 		$this->now = Carbon::now();
 
 		// set the calendar accessor 
 		$this->calendar = new Calendar();
 
 		// set the events accessor
-		$this->events = new Events();
+		$this->events = new Events($this->grav, $this->config);
 
 		$this->enable([
 			'onTwigTemplatePaths' => ['onTwigTemplatePaths', 0],
@@ -98,7 +104,15 @@ class EventsPlugin extends Plugin
 	 */
 	public function onPagesInitialized()
 	{
-		$this->_buildPageList();
+		$pages = $this->grav['pages'];
+
+		// get instances of all events
+		$events = $this->events->instances();
+
+		//unset($this->grav['pages']);
+		//$this->grav['pages'] = $events;
+		//dump($events);
+		//$this->_buildPageList();
 	}
 
 	/**
@@ -279,9 +293,9 @@ class EventsPlugin extends Plugin
 	 */ 
 	private function _eventFrontmatterToTaxonomy($page, $header)
 	{	
-		// event frontmatter
+		// get the event frontmatter
 		$event = $header->event;
-		// set type taxonomy to event
+		// set type taxonomy to event or whatever user has specified in the plugin config
 		$taxonomy = $page->taxonomy();
 		if (!isset($taxonomy['type']))  {
 			$taxonomy['type'] = array($this->config->get('plugins.events.taxonomy_type'));
@@ -302,7 +316,7 @@ class EventsPlugin extends Plugin
 	 * Process a repeating event
 	 *
 	 * Handle repeating dates set by the `freq` variable. Also handle any 
-	 * special rules set by the `repeat` variable.
+	 * special rules set by the `repeat` variable. 
 	 * 
 	 * @param object $page Page object
 	 * @return array Newly created event pages.
@@ -321,16 +335,17 @@ class EventsPlugin extends Plugin
 		$header 	= $page->header();
  		$start 		= $header->event['start'];
  		$end  		= $header->event['end'];
-		$repeat 	= isset($header->event['repeat']) ? $header->event['repeat'] : null; // calculate the repeat if not set?
+		$repeat 	= isset($header->event['repeat']) ? $header->event['repeat'] : null;
 		$freq 		= isset($header->event['freq']) ? $header->event['freq'] : null;
 		$until 		= isset($header->event['until']) ? $header->event['until'] : null;
 
  		// use carbon to calculate datetime info
- 		$carbonStart = Carbon::parse($start);
- 		$carbonEnd = Carbon::parse($end);
- 		$carbonDay = $carbonStart->dayOfWeek;
- 		$carbonWeek = $carbonStart->weekOfMonth;
- 		$carbonWeekYear = $carbonStart->weekOfYear;
+ 		$cStart = Carbon::parse($start);
+ 		$cEnd = Carbon::parse($end);
+ 		$cUntil = Carbon::parse($until);
+ 		$cDay = $cStart->dayOfWeek;
+ 		$cWeek = $cStart->weekOfMonth;
+ 		$cWeekYear = $cStart->weekOfYear;
 
  		/** 
  		 * take the event and apply any special rules to it found in the 
@@ -352,9 +367,19 @@ class EventsPlugin extends Plugin
  		}
  		// run a loop on events now to populate the $pages[] array
  		foreach ($events as $event) {
+ 			/**
+ 			 * Each event is unique at this point. This is a place for 
+ 			 * performance conisderations. Instead of parsing new dates with
+ 			 * every increment, we should use the already established date
+ 			 * and just increment it to save on memory usage. To further help 
+ 			 * with memory consumption, we should consider integrating a date
+ 			 * range feature so that not every single event is generated. If 
+ 			 * I'm only displaying a month's worth of dates, I should only do
+ 			 * the work for those month's worth of events.
+ 			 */
 
  			// how many dynamic pages should we create?
- 			$count = $this->_calculateIteration($start, $freq, $until);
+ 			$count = $this->_calculateIteration($cStart, $cUntil, $freq);
 
 	 		$newPage = clone($event);
 	 		$newPage->unsetRouteSlug();
@@ -383,6 +408,38 @@ class EventsPlugin extends Plugin
 	}
 
 	/**
+	 * Get a date range based on params/plugin configuration
+	 * @return array Array of CarbonDate Objects to check against
+	 */
+	private function _dateRange()
+	{
+		$page = $this->grav['page'];
+		$pageTemplate = $page->template();
+
+		$yearParam = $this->grav['uri']->param('year');
+		$monthParam = $this->grav['uri']->param('month');
+
+		// check if calendar page
+		if ($pageTemplate == 'calendar') {
+			$yearParam = $yearParam !== false ? $yearParam : date('Y');
+			$monthParam = $monthParam !== false ? $monthParam : date('m');
+			$cDateStart = Carbon::create($yearParam, $monthParam, 1, 0, 0, 0);
+			$cDateEnd = $cDateStart->copy()->endOfMonth();
+		}		
+
+		// check if events page
+		if ($pageTemplate == 'events') {
+			$cDateStart = Carbon::now()->startOfYear();
+			$cDateEnd = Carbon::now()->endOfYear();
+		}
+
+		$cDateRange['start'] = $cDateStart;
+		$cDateRange['end'] = $cDateEnd;
+
+		return $cDateRange;
+	}
+
+	/**
 	 * Calculate how many times to iterate event based on freq and until. The
 	 * Carbon DateTime api extension is used to calculcate these differences.
 	 * 
@@ -390,28 +447,45 @@ class EventsPlugin extends Plugin
 	 * @param string $until The date to repeat event until
 	 * @return integer How many times to loops
 	 */
-	private function _calculateIteration($start, $freq, $until)
+	private function _calculateIteration($cStartDate, $cUntilDate, $freq)
 	{
 		$count = 0;
-		
-		$untilDate = Carbon::parse($until);
-		$startDate = Carbon::parse($start);
 
+		/**
+		 * Flow: We calculate how many times the event should be repeated 
+		 * as set by the date range. All this is returning is an iteration
+		 * count. We have to determing whether to use the start or until dates
+		 * comparted to the date range.
+		 */
+
+		// calculate the startDiff
+		$cStartDiff = $this->dateRange['start'];
+		if ($cStartDate >= $cStartDiff) {
+			$cStartDiff = $cStartDate;
+		}
+
+		// calculate the untilDiff
+		$cUntilDiff = $this->dateRange['end'];
+		if ($cUntilDate <= $cUntilDiff) {
+			$cUntilDiff = $cUntilDate;
+		}
+
+		// calculate the count
 		switch($freq) {
 			case 'daily':
-				$count = $untilDate->diffInDays($startDate);
+				$count = $cUntilDiff->diffInDays($cStartDiff);
 				break;
 
 			case 'weekly':
-				$count = $untilDate->diffInWeeks($startDate);
+				$count = $cUntilDiff->diffInWeeks($cStartDiff);
 				break;
 
 			case 'monthly':
-				$count = $untilDate->diffInMonths($startDate);
+				$count = $cUntilDiff->diffInMonths($cStartDiff);
 				break;
 
 			case 'yearly':
-				$count = $untilDate->diffInYears($startDate);
+				$count = $cUntilDiff->diffInYears($cStartDiff);
 				break;
 		}
 
@@ -425,40 +499,46 @@ class EventsPlugin extends Plugin
 	 * @param  string $freq   Frequency to repeat
 	 * @return array          Carbon DateTime Objects
 	 */
-	private function _processNewDate($i, $carbonStart, $carbonEnd, $repeat, $freq) {
+	private function _processNewDate($i, $cStart, $cEnd, $repeat, $freq) {
+
+		/**
+		 * Flow: we build repeating events off a dateRange to help with
+		 * performance. In the processNewDate function, we have to account for
+		 * the dateRange
+		 */
 
 		// set a default newStart and newEnd
-		$newStart = $carbonStart;
-		$newEnd = $carbonEnd;
+		$newStart = $cStart;
+		$newEnd = $cEnd;
 
 		$i++;
 
 		// update the start and end dates of the event frontmatter 			
 		switch($freq) {
 			case 'daily':
-				$newStart = $carbonStart->addDays($i);
-				$newEnd = $carbonEnd->addDays($i);
+				$newStart = $cStart->addDays($i);
+				$newEnd = $cEnd->addDays($i);
 				break;
 
 			case 'weekly':
-				$newStart = $carbonStart->addWeeks($i);
-				$newEnd = $carbonEnd->addWeeks($i);
+				$newStart = $cStart->addWeeks($i);
+				$newEnd = $cEnd->addWeeks($i);
 				break;
 
 			// special case for monthly because there aren't the same 
 			// number of days each month.
 			case 'monthly':
 				// start vars
-				$sDayOfWeek = $carbonStart->dayOfWeek;
-				$sWeekOfMonth = $carbonStart->weekOfMonth;
-				$sHours = $carbonStart->hour;
-				$sMinutes = $carbonStart->minute;
+				$sDayOfWeek = $cStart->dayOfWeek;
+				$sWeekOfMonth = $cStart->weekOfMonth;
+				$sHours = $cStart->hour;
+				$sMinutes = $cStart->minute;
 
 				// end vars
-				$eDayOfWeek = $carbonEnd->dayOfWeek;
-				$eWeekOfMonth = $carbonEnd->weekOfMonth;
-				$eHours = $carbonEnd->hour;
-				$eMinutes = $carbonEnd->minute;
+				$eDayOfWeek = $cEnd->dayOfWeek;
+				$eWeekOfMonth = $cEnd->weekOfMonth;
+				$eHours = $cEnd->hour;
+				$eMinutes = $cEnd->minute;
 				
 				// weeks
 				$rd[1] = 'first';
@@ -485,8 +565,8 @@ class EventsPlugin extends Plugin
 				break;
 
 			case 'yearly':
-				$newStart = $carbonStart->addYears($i);
-				$newEnd = $carbonEnd->addYears($i);
+				$newStart = $cStart->addYears($i);
+				$newEnd = $cEnd->addYears($i);
 				break;
 		}
 		// save the new datetimes
@@ -513,8 +593,8 @@ class EventsPlugin extends Plugin
 		$header = $page->header();
 		$eventMatter = $header->event;
 		// get the date to check against
-		$carbonDate = Carbon::parse($eventMatter['start']);
-		$dow = $carbonDate->dayOfWeek;
+		$cDate = Carbon::parse($eventMatter['start']);
+		$dow = $cDate->dayOfWeek;
 		// rulesToInt
 		$rulesToInt[0] = 'U';
 		$rulesToInt[1] = 'M';
@@ -568,18 +648,18 @@ class EventsPlugin extends Plugin
 		$rules['U'] = Carbon::SUNDAY;
 
 		// days
-		$carbonStart = Carbon::parse($start);
-		$carbonEnd = Carbon::parse($end);
+		$cStart = Carbon::parse($start);
+		$cEnd = Carbon::parse($end);
 
 		// calculate the next date based on the rule
-		$sDOW = $carbonStart->dayOfWeek;
-		$eDOW = $carbonEnd->dayOfWeek;
+		$sDOW = $cStart->dayOfWeek;
+		$eDOW = $cEnd->dayOfWeek;
 
 		$sDiff = $rules[$rule]-$sDOW;
 		$eDiff = $rules[$rule]-$eDOW;
 
-		$date['start'] = $carbonStart->copy()->addDays($sDiff);
-		$date['end'] = $carbonEnd->copy()->addDays($eDiff);		
+		$date['start'] = $cStart->copy()->addDays($sDiff);
+		$date['end'] = $cEnd->copy()->addDays($eDiff);		
 
 		return $date;
 	}
