@@ -728,16 +728,17 @@ class Events
 		$route_parts = explode('/', $route);
 
 		// set a suffix
-		$suffix =  '/dt:' . $event['startDate']->format('U');
+		$sdtSuffix =  '/sdt:' . $event['startDate']->format('U');
+		$edtSuffix =  '/edt:' . $event['endDate']->format('U');
 
 		// set a new page slug
 		$slug = end($route_parts);
-		$newSlug = $slug . $suffix;
+		$newSlug = $slug . $sdtSuffix . $edtSuffix;
 		$newHeader->slug = $newSlug;
 		$newPage->slug($newSlug);
 
 		// set a new route
-		$newRoute = $route . $suffix;
+		$newRoute = $route . $sdtSuffix . $edtSuffix;
 		$newPage->route($newRoute);
 		$newPage->routeAliases($newRoute);
 		$newPage->rawRoute($newRoute);
@@ -748,7 +749,7 @@ class Events
 
 		// set a fake path
 		$path = $page->path();
-		$newPath = $path . $suffix;
+		$newPath = $path . $sdtSuffix . $edtSuffix;
 		$newPage->path($newPath);
 
 		// save the eventPageheader
