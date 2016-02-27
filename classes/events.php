@@ -179,6 +179,8 @@ class Events
 		$this->event['repeat'] = $repeat;
 		$this->event['freq'] = $freq;
 
+		$this->event['title'] = $page->title();
+
 		// get the range and associate with the instance
 		//$this->event['rangeStart'] = $this->startRangeDate;
 		//$this->event['rangeEnd'] = $this->endRangeDate;
@@ -223,7 +225,7 @@ class Events
 			 * including and repeat based events, generate a list of event 
 			 * dates that we can add to the stack 
 			 */
-			foreach ($eventsStack as $singleEvent) {
+			foreach ($eventsStack as $key => $singleEvent) {
 				// get a list of new event dates
 				$eventsByFreq = $this->getEventsByFreq( $singleEvent );
 				// add the events to the stack as full event instances (dates)
@@ -430,16 +432,10 @@ class Events
 		// more than one repeat rule so we create new dates for each new event
 		else {
 			foreach ($rules as $key => $rule) {
-				// no need to process the first event
-				if ( $key == 0 ) { continue; }
-				// process remain repeat rules
-				else {
-					$newDates = $this->getRepeatDates( $rule );
-					$events[] = $this->cloneEventWithNewDates( $newDates );
-				}
+				$newDates = $this->getRepeatDates( $rule );
+				$events[] = $this->cloneEventWithNewDates( $newDates );
 			}
 		}
-
 		return $events;
 	}	
 
@@ -467,9 +463,13 @@ class Events
 		/**
 		 * We iterate through the new dates and add a new them to events
 		 */
-		foreach ($newDates as $newDate ) 
+		foreach ( $newDates as $key => $newDate ) 
 		{
-			$events[] = $this->cloneEventWithNewDates( $newDate );
+			// no need to process the first event
+			if ( $key == 0 ) { continue; }
+			else {
+				$events[] = $this->cloneEventWithNewDates( $newDate );				
+			}
 		}
 
 		return $events;
@@ -487,8 +487,8 @@ class Events
 		// determine how many times we should iterate
 		$count = $this->calculateEventIteration( $event );
 
-		// for each iteration, increase the date apportinately
-		for( $i=0; $i < $count; $i++ ) 
+		// for each iteration, increase the date apportionately
+		for( $i=1; $i < $count; $i++ ) 
 		{
 			$startDate = $event['startDate']->copy();
 			$endDate = $event['endDate']->copy();
@@ -567,8 +567,6 @@ class Events
 	 */
 	private function calculateEventIteration( $event ) {
 
-		$count = 0;
-
 		// calculate the count
 		switch($event['freq']) {
 			case 'daily':
@@ -632,9 +630,8 @@ class Events
 		// set the new dates and return the new event instance
 		$event['startDate'] = $newDates['startDate'];
 		$event['endDate'] = $newDates['endDate'];
-
-		$event['startEpoch'] = $newDates['startDate']->format('u');
-		$event['endEpoch'] = $newDates['endDate']->format('u');
+		$event['startEpoch'] = $newDates['startDate']->format('U');
+		$event['endEpoch'] = $newDates['endDate']->format('U');
 
 		return $event;
 	}
@@ -672,7 +669,7 @@ class Events
 			 * attributes to the each event as a new dynamically created page
 			 * back into Grav Pages
 			 */
-			foreach ( $events as $event ) 
+			foreach ( $events as $key => $event ) 
 			{
 				$newPage = $this->cloneNewPage( $page, $event );
 				$pageList[] = $newPage;
