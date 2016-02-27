@@ -255,6 +255,8 @@ class Events
 			$filteredEvents = $this->urlParamsFilter( $events );
 			// run the date range filter on $events
 			$filteredEvents = $this->dateRangeFilter( $filteredEvents );
+
+			$filteredEvents = $events;
 			// save the new filteredEvents
 			if ( count( $filteredEvents ) > 0 ) {
 				$eventsStack[$key] = $filteredEvents;				
@@ -694,7 +696,7 @@ class Events
 
 		foreach( $pageList as $newPage )
 		{
-			$this->grav['pages']->addPage($newPage);
+			$pages->addPage($newPage, $newPage->route());
 			$this->grav['taxonomy']->addTaxonomy($newPage);
 		}
 	}
@@ -709,7 +711,7 @@ class Events
 	{
 		$header = $page->header();
 
-		$newPage = clone $page;
+		$newPage = clone($page);
 		$newPage->unsetRouteSlug();
 
 		// form new page below
@@ -741,7 +743,7 @@ class Events
 		$slug = end($route_parts);
 		$newSlug = $slug . $suffix;
 		$newHeader->slug = $newSlug;
-		// $newPage->slug($newSlug);
+		$newPage->slug($newSlug);
 
 		// set a new route
 		$newRoute = $route . $suffix;
