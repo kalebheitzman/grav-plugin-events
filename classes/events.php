@@ -52,6 +52,11 @@ class Events
 	protected $eventPages;
 
 	/**
+	 * All Event Times by ID
+	 */
+	protected $eventsByToken;
+
+	/**
 	 * Repeat Rules
 	 */
 	protected $repeatRules;
@@ -96,9 +101,38 @@ class Events
 		// get the url params
 		$this->yearParam = $this->grav['uri']->param('year') !== false ? $this->grav['uri']->param( 'year' ) : false;
 		$this->monthParam = $this->grav['uri']->param('month') !== false ? $this->grav['uri']->param( 'month' ) : false;
-
 	}
 
+	/**
+	 * Return Events By Token Array
+	 * @return array Events By Token
+	 */
+	public function eventsByToken()
+	{
+		return $this->eventsByToken;
+	}
+
+	/**
+	 * Get an Event by Token
+	 * @param  string $evt Event Token
+	 * @return array       Event instance
+	 */
+	public function getEventByToken( $evt )
+	{
+		if ( isset($this->eventsByToken[$evt]) )
+		{
+			return $this->eventsByToken[$evt];			
+		}
+		else 
+		{
+			return [];
+		}
+	}
+
+	/**
+	 * Instantiate Events
+	 * @return object Grav Pages List
+	 */
 	public function instances()
 	{
 		$pages = $this->grav['pages'];
@@ -179,11 +213,8 @@ class Events
 		$this->event['repeat'] = $repeat;
 		$this->event['freq'] = $freq;
 
-		$this->event['title'] = $page->title();
-
-		// get the range and associate with the instance
-		//$this->event['rangeStart'] = $this->startRangeDate;
-		//$this->event['rangeEnd'] = $this->endRangeDate;
+		// we save the event title to generate tokens against
+		$this->event['id'] = $page->id();
 
 		return $this->event;
 	}
@@ -235,6 +266,22 @@ class Events
 			}
 		}
 
+		/** 
+		 * Generate a token to keep urls safer. When we look up a cloned page
+		 * we'll look for the token and pull time/date info from it and send 
+		 * it via twig vars.
+		 */
+		foreach ( $eventsStack as $key => $singleEvent )
+		{
+			$time = $singleEvent['startDate']->format('Ymdhi');
+			$token = substr( md5( $singleEvent['id'] . $singleEvent['startEpoch'] ),0,6);
+			$singleEvent['token'] = $token;
+			$eventsStack[$key] = $singleEvent;
+
+			// save the event information to the token
+			$this->eventsByToken[$token] = $singleEvent;
+		}
+
 		return $eventsStack;
 	}
 
@@ -262,6 +309,7 @@ class Events
 			// run the date range filter on $events
 			$filteredEvents = $this->dateRangeFilter( $filteredEvents );
 
+			//$filteredEvents = $events;
 			// save the new filteredEvents
 			if ( count( $filteredEvents ) > 0 ) {
 				$eventsStack[$key] = $filteredEvents;				
@@ -388,7 +436,8 @@ class Events
 		$cDateEnd = Carbon::now()->addMonths($this->config->get('plugins.events.display_months_out'));
 
 		// check if calendar page
-		if ( $pageTemplate == 'calendar' ) {
+		if ( $pageTemplate == 'calendar' ) 
+		{
 
 			$yearParam = $yearParam !== false ? $yearParam : date('Y');
 			$monthParam = $monthParam !== false ? $monthParam : date('m');
@@ -398,9 +447,15 @@ class Events
 		}		
 
 		// check if events page
-		if ( $pageTemplate == 'events' || $pageTemplate == 'event' ) {
+		if ( $pageTemplate == 'events' || $pageTemplate == 'event' ) 
+		{
 			$cDateStart = Carbon::now();
 			$cDateEnd = Carbon::now()->addMonths($this->config->get('plugins.events.display_months_out'));
+		}
+
+		if ( $pageTemplate == 'event' )
+		{
+			$cDateStart = Carbon::now()->subYears(5);
 		}
 
 		// build the dateRange
@@ -685,11 +740,15 @@ class Events
 
 		foreach( $pageList as $newPage )
 		{
-			$pages->addPage($newPage);
+			//$this->$eventsByTimeID[] = 
+			//dump($newPage->id());
+			$pages->addPage($newPage, $newPage->route());
 			$taxonomy->addTaxonomy($newPage, $page->taxonomy());
 		}
 
-		return $pageList;
+		//dump($pages->routes());
+
+		return $pages;
 	}
 
 	/**
@@ -703,7 +762,7 @@ class Events
 		$header = $page->header();
 
 		$newPage = clone($page);
-		$newPage->unsetRouteSlug();
+		// $newPage->unsetRouteSlug();
 
 		// form new page below
 		$newHeader = new \stdClass();
@@ -727,21 +786,17 @@ class Events
 		$route = $page->route();
 		$route_parts = explode('/', $route);
 
-		// set a suffix
-		$sdtSuffix =  '/sdt:' . $event['startDate']->format('U');
-		$edtSuffix =  '/edt:' . $event['endDate']->format('U');
-
 		// set a new page slug
 		$slug = end($route_parts);
-		$newSlug = $slug . $sdtSuffix . $edtSuffix;
+		$newSlug = $slug . $event['token'];
 		$newHeader->slug = $newSlug;
 		$newPage->slug($newSlug);
 
 		// set a new route
-		$newRoute = $route . $sdtSuffix . $edtSuffix;
+		$newRoute = $route . '/evt:' . $event['token'];
 		$newPage->route($newRoute);
 		$newPage->routeAliases($newRoute);
-		$newPage->rawRoute($newRoute);
+		//$newPage->rawRoute($newRoute);
 		$newPage->routable(true);
 
 		// set the date
@@ -749,7 +804,7 @@ class Events
 
 		// set a fake path
 		$path = $page->path();
-		$newPath = $path . $sdtSuffix . $edtSuffix;
+		$newPath = $path . '-' . $event['token'];
 		$newPage->path($newPath);
 
 		// save the eventPageheader

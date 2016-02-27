@@ -87,6 +87,7 @@ class EventsPlugin extends Plugin
 			'onTwigTemplatePaths' => ['onTwigTemplatePaths', 0],
 			'onPagesInitialized' => ['onPagesInitialized', 0],
 			'onTwigSiteVariables' => ['onTwigSiteVariables', 0],
+			'onPageProcessed' => ['onPageProcessed', 0],
 		]);
 	}
 
@@ -105,7 +106,7 @@ class EventsPlugin extends Plugin
 	public function onPagesInitialized()
 	{
 		// get instances of all events
-		$events = $this->events->instances();
+		$pages = $this->events->instances();
 	}
 
 	/**
@@ -151,14 +152,22 @@ class EventsPlugin extends Plugin
 			$assets->addJs($js);
 		}
 
+		/**
+		 * Use the evt: param to serve up event date times.
+		 */
 		if ( $page->template() == 'event' )
 		{
-			$sdt = $this->grav['uri']->param('sdt');
-			$edt = $this->grav['uri']->param('edt');
-			$twig->twig_vars['event']['startDate'] = $sdt;
-			$twig->twig_vars['event']['endDate'] = $edt;
+			$evt = $this->grav['uri']->param('evt');
+			$event = $this->events->getEventByToken( $evt );
+
+			$twig->twig_vars['event']['start'] = $event['startEpoch'];
+			$twig->twig_vars['event']['end'] = $event['endEpoch'];
 		}
 
 	}
 
+	public function onPageProcessed()
+	{
+
+	}
 }
