@@ -166,7 +166,7 @@ class EventsPlugin extends Plugin
 		if ( $page->template() == 'event' )
 		{
 			$dt = $this->grav['uri']->param('dt');
-			$twig->twig_vars['page']['date'] = $dt;
+			$twig->twig_vars['event']['date'] = $dt;
 		}
 
 	}
