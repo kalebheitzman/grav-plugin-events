@@ -86,9 +86,7 @@ class EventsPlugin extends Plugin
 		$this->enable([
 			'onTwigTemplatePaths' => ['onTwigTemplatePaths', 0],
 			'onPagesInitialized' => ['onPagesInitialized', 0],
-			'onPageInitialized' => ['onPageInitialized', 0],
 			'onTwigSiteVariables' => ['onTwigSiteVariables', 0],
-			'onCollectionProcessed' => ['onCollectionProcessed', 0],
 		]);
 	}
 
@@ -106,18 +104,8 @@ class EventsPlugin extends Plugin
 	 */
 	public function onPagesInitialized()
 	{
-
-	}
-
-	public function onPageInitialized()
-	{
 		// get instances of all events
 		$events = $this->events->instances();
-	}
-
-	public function onCollectionProcessed()
-	{
-
 	}
 
 	/**
