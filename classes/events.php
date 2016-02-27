@@ -388,8 +388,11 @@ class Events
 		$yearParam = $this->grav['uri']->param('year');
 		$monthParam = $this->grav['uri']->param('month');
 
+		$cDateStart = Carbon::now();
+		$cDateEnd = Carbon::now()->addMonths($this->config->get('plugins.events.display_months_out'));
+
 		// check if calendar page
-		if ($pageTemplate == 'calendar') {
+		if ( $pageTemplate == 'calendar' ) {
 
 			$yearParam = $yearParam !== false ? $yearParam : date('Y');
 			$monthParam = $monthParam !== false ? $monthParam : date('m');
@@ -399,7 +402,7 @@ class Events
 		}		
 
 		// check if events page
-		if ($pageTemplate == 'events') {
+		if ( $pageTemplate == 'events' || $pageTemplate == 'event' ) {
 			$cDateStart = Carbon::now();
 			$cDateEnd = Carbon::now()->addMonths($this->config->get('plugins.events.display_months_out'));
 		}
@@ -648,10 +651,34 @@ class Events
 	 */
 	private function addEventsToGrav( $eventsStack )
 	{
+		/**
+		 * The Grav Pages object allows to add and delete pages that Grav
+		 * later processes and caches.
+		 */
+		$pages = $this->grav['pages'];
+
+		/**
+		 * We need access to taxonomy to allow us to add the page to
+		 * collections. If I ever figure out how to add the page to pages
+		 * and taxonomy automatically pick it up, then this will be cleaner.
+		 */
+		$taxonomy = $this->grav['taxonomy'];
+
+		/**
+		 * We create a new page list so that we can process its items at the
+		 * end of this function into pages.
+		 */
+		$pageList = [];
+
+		// iterate through the events stack
 		foreach( $eventsStack as $pageID => $events )
 		{
 			// get the page associated with each of these events
 			$page = $this->eventPages[$pageID];
+
+			// update the page with the new taxonomy for collections
+			$taxonomy = $this->eventFrontmatterToTaxonomy( $page );
+			$page->taxonomy($taxonomy);
 
 			/**
 			 * Workflow: from here, we clone the page and update the necessary
@@ -661,8 +688,14 @@ class Events
 			foreach ( $events as $event ) 
 			{
 				$newPage = $this->cloneNewPage( $page, $event );
+				$pageList[] = $newPage;
 			}
+		}
 
+		foreach( $pageList as $newPage )
+		{
+			$this->grav['pages']->addPage($newPage);
+			$this->grav['taxonomy']->addTaxonomy($newPage);
 		}
 	}
 
@@ -674,7 +707,86 @@ class Events
 	 */
 	private function cloneNewPage( $page, $event )
 	{
+		$header = $page->header();
+
+		$newPage = clone $page;
+		$newPage->unsetRouteSlug();
+
+		// form new page below
+		$newHeader = new \stdClass();
+		$newHeader->event['start'] = $event['startDate']->format('d-m-Y H:i');
+		$newHeader->event['end'] = $event['endDate']->format('d-m-Y H:i');
+
+		$newHeader = (object) array_merge((array) $header, (array) $newHeader);
+
+		// set any other event frontmatter
+		if (isset($header->event['repeat'])) {
+			$newHeader->event['repeat'] = $header->event['repeat'];
+		}
+		if (isset($header->event['freq'])) {
+			$newHeader->event['freq'] = $header->event['freq'];
+		}
+		if (isset($header->event['until'])) {
+			$newHeader->event['until'] = $header->event['until'];
+		}
+
+		// get the page route and build a slug off of it
+		$route = $page->route();
+		$route_parts = explode('/', $route);
+
+		// set a suffix
+		$suffix =  '/' . $event['startDate']->format('U');
+
+		// set a new page slug
+		$slug = end($route_parts);
+		$newSlug = $slug . $suffix;
+		$newHeader->slug = $newSlug;
+		// $newPage->slug($newSlug);
+
+		// set a new route
+		$newRoute = $route . $suffix;
+		$newHeader->routes = array('aliases' => $newRoute );
 		
+		// set the date
+		$newHeader->date = $event['startDate']->format('d-m-Y H:i');
+
+		// set a fake path
+		$path = $page->path();
+		$newPath = $path . $suffix;
+		$newPage->path($newPath);
+
+		// save the eventPageheader
+		$newPage->header($newHeader);
+
+		return $newPage;
+	}
+
+	/**
+	 * Convert event frontmatter to taxonomy
+	 * 
+	 * @param array $taxonomy Taxonomy
+	 * @param array $event Event details
+	 */ 
+	private function eventFrontmatterToTaxonomy( $page )
+	{	
+		// get the event frontmatter
+		$event = $page->header()->event;
+
+		// set type taxonomy to event or whatever user has specified in the plugin config
+		$taxonomy = $page->taxonomy();
+		if (!isset($taxonomy['type']))  {
+			$taxonomy['type'] = array($this->config->get('plugins.events.taxonomy_type'));
+		}
+		// set event days that repeat
+		if (!isset($taxonomy['event_repeat']) && isset($event['repeat'])) {
+			$taxonomy['event_repeat'] = str_split($event['repeat']);
+		}
+		// set event frequency
+		if (!isset($taxonomy['event_freq']) && isset($event['freq'])) {
+			$taxonomy['event_freq'] = array($event['freq']);
+		}
+
+		return $taxonomy;
 	}
 	
 }
