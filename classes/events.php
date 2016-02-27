@@ -93,6 +93,10 @@ class Events
 
 		$this->carbonRules = $carbonRules;
 
+		// get the url params
+		$this->yearParam = $this->grav['uri']->param('year') !== false ? $this->grav['uri']->param( 'year' ) : false;
+		$this->monthParam = $this->grav['uri']->param('month') !== false ? $this->grav['uri']->param( 'month' ) : false;
+
 	}
 
 	public function instances()
@@ -124,7 +128,7 @@ class Events
 		$this->events = $events;
 
 		// process the event stack
-		$this->processEventPages();
+		return $this->processEventPages();
 	}
 
 	/**
@@ -256,7 +260,6 @@ class Events
 			// run the date range filter on $events
 			$filteredEvents = $this->dateRangeFilter( $filteredEvents );
 
-			$filteredEvents = $events;
 			// save the new filteredEvents
 			if ( count( $filteredEvents ) > 0 ) {
 				$eventsStack[$key] = $filteredEvents;				
@@ -273,7 +276,7 @@ class Events
 		 *
 		 * At this point we add the pages back into the Grav Pages list.
 		 */
-		$this->addEventsToGrav( $eventsStack );
+		return $this->addEventsToGrav( $eventsStack );
 	}
 
 	/**
@@ -317,21 +320,10 @@ class Events
 	{
 		$filteredEvents = $events;
 
-		// get the url params
-		$yearParam = $this->grav['uri']->param('year');
-		$monthParam = $this->grav['uri']->param('month');
-
-		// do a check for a calendar template
-		if ( $this->grav['page']->template() == 'calendar' )
-		{
-			$yearParam = date('Y');
-			$monthParam = date('m');
-		}
-
 		// filter on the url params if they exist
-		if ( $yearParam !== false && $monthParam !== false )
+		if ( $this->grav['page']->template() == 'calendar' && $this->yearParam !== false && $this->monthParam !== false )
 		{
-			$dateString = "${yearParam}-${monthParam}-1";
+			$dateString = $this->yearParam . "-" . $this->monthParam . "-1";
 			$startDate = Carbon::parse($dateString);
 			$endDate = Carbon::parse($dateString)->endOfMonth();
 
@@ -660,13 +652,6 @@ class Events
 		$pages = $this->grav['pages'];
 
 		/**
-		 * We need access to taxonomy to allow us to add the page to
-		 * collections. If I ever figure out how to add the page to pages
-		 * and taxonomy automatically pick it up, then this will be cleaner.
-		 */
-		$taxonomy = $this->grav['taxonomy'];
-
-		/**
 		 * We create a new page list so that we can process its items at the
 		 * end of this function into pages.
 		 */
@@ -694,11 +679,20 @@ class Events
 			}
 		}
 
+		/**
+		 * We need access to taxonomy to allow us to add the page to
+		 * collections. If I ever figure out how to add the page to pages
+		 * and taxonomy automatically pick it up, then this will be cleaner.
+		 */
+		$taxonomy = $this->grav['taxonomy'];
+
 		foreach( $pageList as $newPage )
 		{
-			$pages->addPage($newPage, $newPage->route());
-			$this->grav['taxonomy']->addTaxonomy($newPage);
+			$pages->addPage($newPage);
+			$taxonomy->addTaxonomy($newPage, $page->taxonomy());
 		}
+
+		return $pageList;
 	}
 
 	/**
@@ -737,7 +731,7 @@ class Events
 		$route_parts = explode('/', $route);
 
 		// set a suffix
-		$suffix =  '/' . $event['startDate']->format('U');
+		$suffix =  '/dt:' . $event['startDate']->format('U');
 
 		// set a new page slug
 		$slug = end($route_parts);
@@ -747,8 +741,11 @@ class Events
 
 		// set a new route
 		$newRoute = $route . $suffix;
-		$newHeader->routes = array('aliases' => $newRoute );
-		
+		$newPage->route($newRoute);
+		$newPage->routeAliases($newRoute);
+		$newPage->rawRoute($newRoute);
+		$newPage->routable(true);
+
 		// set the date
 		$newHeader->date = $event['startDate']->format('d-m-Y H:i');
 

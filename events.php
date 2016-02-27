@@ -88,6 +88,7 @@ class EventsPlugin extends Plugin
 			'onPagesInitialized' => ['onPagesInitialized', 0],
 			'onPageInitialized' => ['onPageInitialized', 0],
 			'onTwigSiteVariables' => ['onTwigSiteVariables', 0],
+			'onCollectionProcessed' => ['onCollectionProcessed', 0],
 		]);
 	}
 
@@ -106,15 +107,17 @@ class EventsPlugin extends Plugin
 	public function onPagesInitialized()
 	{
 
-		// get instances of all events
-		$events = $this->events->instances();
-
 	}
 
 	public function onPageInitialized()
 	{
-		$page = $this->grav['page'];
-		dump($page->template());
+		// get instances of all events
+		$events = $this->events->instances();
+	}
+
+	public function onCollectionProcessed()
+	{
+
 	}
 
 	/**
