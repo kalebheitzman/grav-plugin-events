@@ -2,4 +2,6 @@ enabled: true
 date_format: m/d/Y g:ia
 filter_combinator: and
 taxonomy_type: event
+event_template_types: calendar, events, event
+display_months_out: 3
 show_past_events: false
