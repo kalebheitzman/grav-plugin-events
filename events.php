@@ -141,7 +141,8 @@ class EventsPlugin extends Plugin
 		$twig = $this->grav['twig'];
 
 		// only load the vars if calendar page
-		if ($page->template() == 'calendar') {
+		if ($page->template() == 'calendar') 
+		{
 
 			$yearParam = $this->grav['uri']->param('year');
 			$monthParam = $this->grav['uri']->param('month');
@@ -160,6 +161,12 @@ class EventsPlugin extends Plugin
 			$assets->addCss($css);
 			$assets->add('jquery');
 			$assets->addJs($js);
+		}
+
+		if ( $page->template() == 'event' )
+		{
+			$dt = $this->grav['uri']->param('dt');
+			$twig->twig_vars['page']['date'] = $dt;
 		}
 
 	}
