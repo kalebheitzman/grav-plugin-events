@@ -41,7 +41,7 @@ form:
             header.content.limit:
               type: text
               label: limit
-              default: 20
+              default: 10
             header.content.pagination:
               label: Pagination
               type: toggle

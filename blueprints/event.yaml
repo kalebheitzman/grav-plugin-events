@@ -15,9 +15,13 @@ form:
             header.event.start:
               type: datetime
               label: Start
+              validate:
+                type: required
             header.event.end:
               type: datetime
               label: End
+              validate:
+                type: required
             header.event.repeat:
               type: text
               label: Repeat

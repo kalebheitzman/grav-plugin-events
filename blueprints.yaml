@@ -18,6 +18,13 @@ dependencies:
 form:
   validation: loose
   fields:
+    event_template_types:
+      type: text
+      label: Event Template Types
+      default: calendar, events, event
+    display_months_out:
+      type: text
+      label: Months Out to Display Events
     date_format: 
       type: text
       label: Date Format
@@ -35,6 +42,16 @@ form:
       label: Show Past Events
       highlight: 1
       default: 0
+      options: 
+        1: Enabled
+        0: Disabled
+      validate: 
+        type: bool
+    enable_single_event_filter: 
+      type: toggle
+      label: Enable Single Event Filter
+      highlight: 1
+      default: 1
       options: 
         1: Enabled
         0: Disabled

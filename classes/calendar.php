@@ -1,23 +1,55 @@
 <?php
+/**
+ * Grav Events Plugin Calendar Class
+ *
+ * The Events Calendar Class provides variables for Twig to create a dynamic 
+ * calendar with previous and next links that relate to month and year. This 
+ * is used for display a traditional calendar and forming the rows and columns
+ * that make up the calendar.
+ *
+ * @package    Events
+ * @author     Kaleb Heitzman <kalebheitzman@gmail.com>
+ * @copyright  2016 Kaleb Heitzman
+ * @license    https://opensource.org/licenses/MIT MIT
+ * @version    1.0.4
+ * @link       https://github.com/kalebheitzman/grav-plugin-events
+ * @since      File available since Release 1.0.0
+ */
 
 namespace Events;
-
-// import classes
 require_once __DIR__.'/../vendor/autoload.php';
-
 use Carbon\Carbon;
 
 /**
  * Events Plugin Calendar Class
+ *
+ * The Events Calendar Class provides variables for Twig to create a dynamic 
+ * calendar with previous and next links that relate to month and year. This 
+ * class is also used for display a traditional calendar and forming the rows 
+ * and columns that make up the calendar.
+ *
+ * @package    Events
+ * @author     Kaleb Heitzman <kalebheitzman@gmail.com>
+ * @copyright  2016 Kaleb Heitzman
+ * @license    https://opensource.org/licenses/MIT MIT
+ * @version    1.0.4
+ * @link       https://github.com/kalebheitzman/grav-plugin-events
+ * @since      1.0.0 Initial Release
  */
 class Calendar
 {
 	/**
 	 * Twig Calendar Vars
+	 *
+	 * Adds a url to the event header and stores each event in an associative 
+	 * array that can be accessed from twig calendar template via **year, 
+	 * month, and day** params. 
+	 * 
 	 * @param  object $collection Grav Collection
-	 * @return array              Twig Array
+	 * 
+	 * @return array              Calendar variables for Twig
 	 */
-	public function calendarVars($collection)
+	public function calendarVars( $collection )
 	{
 		// build a calendar array to use in twig
 		$calendar = array();
@@ -41,6 +73,18 @@ class Calendar
 		return $calendar;
 	}	
 
+	/**
+	 * Twig Display Vars
+	 *
+	 * Returns vars used to navigate and display content in the calendar twig
+	 * template. **Past, present, and future** vars are provided to twig for 
+	 * creating custom navigation ui's.
+	 * 
+	 * @param  object $yearParam  Grav URI `year:` param
+	 * @param  object $monthParam  Grav URI `month:` param
+	 * 
+	 * @return array              Twig Array
+	 */
 	public function twigVars($yearParam, $monthParam)
 	{
 		if ( $yearParam === false ) {
