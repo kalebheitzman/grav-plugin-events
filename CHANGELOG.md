@@ -23,7 +23,7 @@
 1 [New](#new)
 	* Added calendar controls
 2 [Improved](#improved)
-	# Updated readme documentation
+	* Updated readme documentation
 3 [Bugfixes](#bugfixes)
 	* Fixed repeating issues
 	* Fixed frequency issues
