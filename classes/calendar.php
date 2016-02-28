@@ -1,4 +1,21 @@
 <?php
+/**
+ * Grav Events Plugin Calendar Class
+ *
+ * The Calendar Class provides variables for Twig to create a dynamic calendar
+ * with previous and next links that relate to month and year.
+ *
+ * PHP version 5.6+
+ *
+ * @category   Plugins
+ * @package    Grav Events Plugin
+ * @author     Kaleb Heitzman <kalebheitzman@gmail.com>
+ * @copyright  2016 Kaleb Heitzman
+ * @license    https://opensource.org/licenses/MIT MIT
+ * @version    1.0.4
+ * @link       https://github.com/kalebheitzman/grav-plugin-events
+ * @since      File available since Release 1.0.0
+ */
 
 namespace Events;
 

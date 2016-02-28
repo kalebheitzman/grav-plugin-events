@@ -1,4 +1,22 @@
 <?php
+/**
+ * Grav Events Plugin
+ *
+ * The Events Plugin provides Event Listings and Calendars to Grav CMS using
+ * event frontmatter. The event: frontmatter is converted to taxonomy so that
+ * colletions can be specified in page headers.
+ *
+ * PHP version 5.6+
+ *
+ * @category   Plugins
+ * @package    Grav Events Plugin
+ * @author     Kaleb Heitzman <kalebheitzman@gmail.com>
+ * @copyright  2016 Kaleb Heitzman
+ * @license    https://opensource.org/licenses/MIT MIT
+ * @version    1.0.4
+ * @link       https://github.com/kalebheitzman/grav-plugin-events
+ * @since      File available since Release 1.0.0
+ */
 
 namespace Grav\Plugin;
 

@@ -47,3 +47,13 @@ form:
         0: Disabled
       validate: 
         type: bool
+    enable_single_event_filter: 
+      type: toggle
+      label: Enable Single Event Filter
+      highlight: 1
+      default: 1
+      options: 
+        1: Enabled
+        0: Disabled
+      validate: 
+        type: bool

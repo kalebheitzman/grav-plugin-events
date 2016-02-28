@@ -1,4 +1,22 @@
 <?php
+/**
+ * Grav Events Plugin Events Class
+ *
+ * The Events Class instantiates an instance of all Events available in Grav
+ * and provides filters for filtering out uneeded events, setting offsets,
+ * limits and etc.
+ *
+ * PHP version 5.6+
+ *
+ * @category   Plugins
+ * @package    Grav Events Plugin
+ * @author     Kaleb Heitzman <kalebheitzman@gmail.com>
+ * @copyright  2016 Kaleb Heitzman
+ * @license    https://opensource.org/licenses/MIT MIT
+ * @version    1.0.4
+ * @link       https://github.com/kalebheitzman/grav-plugin-events
+ * @since      File available since Release 1.0.0
+ */
 
 namespace Events;
 
@@ -9,21 +27,6 @@ require_once __DIR__.'/../vendor/autoload.php';
 use Carbon\Carbon;
 use Grav\Common\Grav;
 
-/**
- * Grav Events Plugin
- * 
- * The Events Class takes a single event and processes it into repeating
- * dates based on frequency, repeat rules, and a date range that acts as a 
- * limit and offset in normal pagination setups.
- *
- * Event Flow:
- * 1. Initialize the Event
- * 2. Save its start and end dates for use throughout
- * 3. Determine Offset and Limit based on DateRange
- * 4. Populate the needed events with new dates to an events stack
- * 5. Do any clean up
- * 6. Return the events stack
- */
 class Events
 {
 	/**
@@ -304,8 +307,10 @@ class Events
 		// apply removal filters to each events segment
 		foreach ( $this->events as $key => $events )
 		{
+			// run the single event filter on $events
+			$filteredEvents = $this->singleEventFilter( $events );
 			// run the url params filter on $events
-			$filteredEvents = $this->urlParamsFilter( $events );
+			$filteredEvents = $this->urlParamsFilter( $filteredEvents );
 			// run the date range filter on $events
 			$filteredEvents = $this->dateRangeFilter( $filteredEvents );
 
@@ -351,6 +356,41 @@ class Events
 			{
 				// unset the key to filter it out
 				unset($filteredEvents[$key]);
+			}
+		}
+
+		return $filteredEvents;
+	}
+
+	/**
+	 * Singl Events Filter
+	 *
+	 * Check to see if this is a single event and if it is, return the single
+	 * event. This prevents a single event page from  displaying any other 
+	 * events by default. It should check for a plugin param that bypasses
+	 * this filter if you want an events listing on single events.
+	 * @param  array $events Instace of all events
+	 * @return array         Filtered Events
+	 */
+	private function singleEventFilter( $events )
+	{
+		$enabled = $this->config->get('plugins.events.enable_single_event_filter');
+		if ( ! $enabled )
+		{
+			return $events;
+		}
+
+		$filteredEvents = $events;
+		$evt = $this->grav['uri']->param('evt');
+
+		if ( $evt !== false )
+		{
+			foreach( $filteredEvents as $key => $event )
+			{
+				if ( $event['token'] != $evt )
+				{
+					unset($filteredEvents[$key]);
+				}
 			}
 		}
 
