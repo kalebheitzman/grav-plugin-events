@@ -120,7 +120,7 @@
                             </li>
                             <li>
                                 <a href="../reports/markers.html">
-                                                                                                                                                                                                                                                                                                                                                <i class="icon-list-alt"></i>&#160;Markers <span class="label label-info pull-right">0</span>
+                                                                                                                                                                                                                                                                                                                                                <i class="icon-list-alt"></i>&#160;Markers <span class="label label-info pull-right">1</span>
                                 </a>
                             </li>
                             <li>
@@ -145,19 +145,19 @@
                                 <div class="accordion" style="margin-bottom: 0">
         <div class="accordion-group">
             <div class="accordion-heading">
-                                    <a class="accordion-toggle " data-toggle="collapse" data-target="#namespace-2074829076"></a>
+                                    <a class="accordion-toggle " data-toggle="collapse" data-target="#namespace-2085396849"></a>
                                 <a href="../namespaces/default.html" style="margin-left: 30px; padding-left: 0">\</a>
             </div>
-            <div id="namespace-2074829076" class="accordion-body collapse in">
+            <div id="namespace-2085396849" class="accordion-body collapse in">
                 <div class="accordion-inner">
 
                                                     <div class="accordion" style="margin-bottom: 0">
         <div class="accordion-group">
             <div class="accordion-heading">
-                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-372071791"></a>
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-714978510"></a>
                                 <a href="../namespaces/Events.html" style="margin-left: 30px; padding-left: 0">Events</a>
             </div>
-            <div id="namespace-372071791" class="accordion-body collapse ">
+            <div id="namespace-714978510" class="accordion-body collapse ">
                 <div class="accordion-inner">
 
                     
@@ -173,19 +173,19 @@
                                                     <div class="accordion" style="margin-bottom: 0">
         <div class="accordion-group">
             <div class="accordion-heading">
-                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-561657255"></a>
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-245587870"></a>
                                 <a href="../namespaces/Grav.html" style="margin-left: 30px; padding-left: 0">Grav</a>
             </div>
-            <div id="namespace-561657255" class="accordion-body collapse ">
+            <div id="namespace-245587870" class="accordion-body collapse ">
                 <div class="accordion-inner">
 
                                                     <div class="accordion" style="margin-bottom: 0">
         <div class="accordion-group">
             <div class="accordion-heading">
-                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-927668571"></a>
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-2051913516"></a>
                                 <a href="../namespaces/Grav.Plugin.html" style="margin-left: 30px; padding-left: 0">Plugin</a>
             </div>
-            <div id="namespace-927668571" class="accordion-body collapse ">
+            <div id="namespace-2051913516" class="accordion-body collapse ">
                 <div class="accordion-inner">
 
                     
@@ -226,7 +226,22 @@
 
                     <h1><small>\Grav\Plugin</small>EventsPlugin</h1>
                     <p><em>Events Plugin Class</em></p>
-                    
+                    <p>The Events Plugin provides Event Listings and Calendars for your Grav
+powered website. This plugin searches each page for <code>event:</code> front matter
+and then sets a custom taxonomy named <em>type</em> to <em>event</em>. It also sets
+a repeating and frequency taxonomy to build more intricate collections.
+The <code>event_repeat</code> taxonomy will take a string in the format <code>MTWRFSU</code> and
+the <code>event_freq</code> taxonomy will take <code>daily, weekly, monthly, or yearly</code>.
+These taxonomies are automatically added by the plugin so you don't need to
+add them to your configuration unless you just want to or need to build on
+top of them.</p>
+<p>Below is a sample of what an <code>event:</code> front matter section would look like.</p>
+<pre><code>event:
+    start: 01/01/2015 6:00pm
+    end: 01/01/2015 7:00pm
+    repeat: MTWRFSU
+    freq: weekly
+    until: 01/01/2020</code></pre>
                     
                                         
                     <section id="summary">
@@ -342,7 +357,7 @@
             <article class="property">
                 <h3 class="protected ">$now</h3>
                 <pre class="signature">$now : object</pre>
-                <p><em>Carbon Currente Date Time</em></p>
+                <p><em>Current Carbon DateTime</em></p>
                 
 
                                 <h4>Type</h4>
@@ -355,7 +370,14 @@
                                                             </dl>
             <h2>Tags</h2>
             <table class="table table-condensed">
-                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                                    <tr>
+                        <th>
+                            since
+                        </th>
+                        <td>
+                                                            <p>Initial Release</p>
+                                                    </td>
+                    </tr>
                             </table>
         </aside>
     </div>
@@ -379,7 +401,14 @@
                                                             </dl>
             <h2>Tags</h2>
             <table class="table table-condensed">
-                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                                    <tr>
+                        <th>
+                            since
+                        </th>
+                        <td>
+                                                            <p>Initial Release</p>
+                                                    </td>
+                    </tr>
                             </table>
         </aside>
     </div>
@@ -403,7 +432,14 @@
                                                             </dl>
             <h2>Tags</h2>
             <table class="table table-condensed">
-                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                                    <tr>
+                        <th>
+                            since
+                        </th>
+                        <td>
+                                                            <p>Initial Release</p>
+                                                    </td>
+                    </tr>
                             </table>
         </aside>
     </div>
@@ -427,7 +463,14 @@
                                                             </dl>
             <h2>Tags</h2>
             <table class="table table-condensed">
-                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                                    <tr>
+                        <th>
+                            since
+                        </th>
+                        <td>
+                                                            <p>Initial Release</p>
+                                                    </td>
+                    </tr>
                             </table>
         </aside>
     </div>
@@ -463,7 +506,14 @@
                                                                             </dl>
             <h2>Tags</h2>
             <table class="table table-condensed">
-                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                                    <tr>
+                        <th>
+                            since
+                        </th>
+                        <td>
+                                                            1.0.0                                <p>Initial Release</p>
+                                                    </td>
+                    </tr>
                             </table>
         </aside>
     </div>
@@ -475,8 +525,12 @@
                 <h3 class="public ">onPluginsInitialized()</h3>
                 <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
                 <pre class="signature" style="margin-right: 54px;">onPluginsInitialized() : void</pre>
-                <p><em>Initialize configuration</em></p>
-                
+                <p><em>Initialize plugin configuration</em></p>
+                <p>From here we determine if the pluing should run and set the custom
+taxonomies to store event information in. We also initialize the Events
+and Calendar class that this plugin utilizes and then we start
+intercepting Grav hooks to build our events list and insert any vars
+we need into the system.</p>
 
                 
                 
@@ -489,7 +543,14 @@
                                                                             </dl>
             <h2>Tags</h2>
             <table class="table table-condensed">
-                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                                    <tr>
+                        <th>
+                            since
+                        </th>
+                        <td>
+                                                            1.0.0                                <p>Initial Release</p>
+                                                    </td>
+                    </tr>
                             </table>
         </aside>
     </div>
@@ -502,7 +563,9 @@
                 <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
                 <pre class="signature" style="margin-right: 54px;">onTwigTemplatePaths() : void</pre>
                 <p><em>Add current directory to twig lookup paths.</em></p>
-                
+                <p>Add the templates directory to the twig directory look up path so we
+can load our page templates. These are overridable by the theme and
+are only meant as a starting point.</p>
 
                 
                 
@@ -515,7 +578,14 @@
                                                                             </dl>
             <h2>Tags</h2>
             <table class="table table-condensed">
-                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                                    <tr>
+                        <th>
+                            since
+                        </th>
+                        <td>
+                                                            1.0.0                                <p>Initial Release</p>
+                                                    </td>
+                    </tr>
                             </table>
         </aside>
     </div>
@@ -528,7 +598,10 @@
                 <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
                 <pre class="signature" style="margin-right: 54px;">onPagesInitialized() : void</pre>
                 <p><em>Check for repeating entries and add them to the page collection</em></p>
-                
+                <p>We initialze the <code>repeat</code> and <code>freq</code> based events alongside other
+events into an array that contains a token and the appropriate date
+and time information. This allows us to filter events later and insert
+them into Grav's page stack where needed</p>
 
                 
                 
@@ -541,7 +614,14 @@
                                                                             </dl>
             <h2>Tags</h2>
             <table class="table table-condensed">
-                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                                    <tr>
+                        <th>
+                            since
+                        </th>
+                        <td>
+                                                            1.0.0                                <p>Initial Release</p>
+                                                    </td>
+                    </tr>
                             </table>
         </aside>
     </div>
@@ -554,7 +634,8 @@
                 <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
                 <pre class="signature" style="margin-right: 54px;">onBlueprintCreated() : void</pre>
                 <p><em>Add Events blueprints to admin</em></p>
-                
+                <p>This is currently not operational. In the future we'd like to add
+blueprints associated with page templates through this plugin hook.</p>
 
                 
                 
@@ -567,7 +648,14 @@
                                                                             </dl>
             <h2>Tags</h2>
             <table class="table table-condensed">
-                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                                    <tr>
+                        <th>
+                            since
+                        </th>
+                        <td>
+                                                            1.0.0                                <p>Initial Release</p>
+                                                    </td>
+                    </tr>
                             </table>
         </aside>
     </div>
@@ -580,7 +668,15 @@
                 <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
                 <pre class="signature" style="margin-right: 54px;">onTwigSiteVariables() : void</pre>
                 <p><em>Set needed variables to display events</em></p>
-                
+                <p>We set various twig variables on the calendar and single event pages.</p>
+<p>Our most signicant variable is the <code>evt:</code> param found in a single
+event's URI. This var is used to refernece the main events listing via
+an event token that is a 6 digit alphanumeric string. This gives us the
+date and time information that we need to display for a single event
+page.</p>
+<p>For the calendar page, we load the appropriate js and css to make the
+calendar work smoothly as well as add the appropriate calendar twig
+variables.</p>
 
                 
                 
@@ -593,7 +689,14 @@
                                                                             </dl>
             <h2>Tags</h2>
             <table class="table table-condensed">
-                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                                    <tr>
+                        <th>
+                            since
+                        </th>
+                        <td>
+                                                            1.0.0                                <p>Initial Release</p>
+                                                    </td>
+                    </tr>
                             </table>
         </aside>
     </div>
@@ -649,7 +752,7 @@
                 <section class="span10 offset1">
                     <hr />
                     Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor </a> and authored
-                    on February 28th, 2016 at 00:59.
+                    on February 29th, 2016 at 14:35.
                 </section>
             </section>
         </section>

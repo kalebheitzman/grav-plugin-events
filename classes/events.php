@@ -13,9 +13,9 @@
  * @author     Kaleb Heitzman <kalebheitzman@gmail.com>
  * @copyright  2016 Kaleb Heitzman
  * @license    https://opensource.org/licenses/MIT MIT
- * @version    1.0.4
+ * @version    1.0.5 Documentation Release
  * @link       https://github.com/kalebheitzman/grav-plugin-events
- * @since      File available since Release 1.0.0
+ * @since      1.0.0 Initial Release
  */
 
 namespace Events;
@@ -42,7 +42,7 @@ use Grav\Common\Grav;
  * @author     Kaleb Heitzman <kalebheitzman@gmail.com>
  * @copyright  2016 Kaleb Heitzman
  * @license    https://opensource.org/licenses/MIT MIT
- * @version    1.0.4
+ * @version    1.0.5 Documentation Release
  * @link       https://github.com/kalebheitzman/grav-plugin-events
  * @since      1.0.0 Initial Release
  */
@@ -90,6 +90,10 @@ class Events
 
 	/**
 	 * Events Class Construct
+	 *
+	 * Through the construct we pull in the main Grav instance and the main
+	 * config instance. We also set up the main rules and params to calculate
+	 * against in other parts of this class.
 	 * 
 	 * @param object $grav   Grav Instance
 	 * @param object $config Grav Configuration
@@ -131,6 +135,9 @@ class Events
 
 	/**
 	 * Get an Event by Token
+	 *
+	 * Return the main 6 digit alphanumeric token. The token is protected so 
+	 * we use a getter to prevent unauthorized manipulation of the token.
 	 * 
 	 * @param  string $evt Event Token
 	 * @since  1.0.0 Initial Release
@@ -151,6 +158,12 @@ class Events
 
 	/**
 	 * Get an instance of events
+	 *
+	 * This is the bulkhead of this class. It creates an events listing using
+	 * various rules and params to add events to the page list while also
+	 * adding all events, including repeating, to an events array with a
+	 * searchable token. The events array contains the appropriate date
+	 * information for use in templates
 	 *
 	 * @since  1.0.0 Initial Release
 	 * 
@@ -190,6 +203,12 @@ class Events
 
 	/**
 	 * Initialize the Event
+	 *
+	 * Initialize the event with date and time information. We store a Carbon
+	 * DateTime object or each time needed as well as an epoch string. It may
+	 * be possible to reduce some overhead here using just one or the other 
+	 * but it doesn't seem like it's adding major time to the processing time
+	 * for generating dynamic events.
 	 * 
 	 * @param  object $event Grav Object
 	 * @since  1.0.0 Initial Release
@@ -365,6 +384,9 @@ class Events
 
 	/**
 	 * Filter the events by a date range
+	 *
+	 * Return a set of filtered events based on whether the start date falls
+	 * in the date range.
 	 * 
 	 * @param  array $events     Events instance
 	 * @param  object $startDate Carbon DateTime
@@ -464,7 +486,7 @@ class Events
 	/**
 	 * Date Range Filter
 	 *
-	 * We filter events based on 
+	 * We filter events based on a date range.
 	 * 
 	 * @param  array $events  Array of events instances
 	 * @since  1.0.0 Initial Release
@@ -483,6 +505,8 @@ class Events
 
 	/**
 	 * Get Events
+	 *
+	 * Returns an instance of all events
 	 *
 	 * @since  1.0.0 Initial Release
 	 * 
@@ -508,6 +532,8 @@ class Events
 	}
 
 	/**
+	 * Get Date Range
+	 * 
 	 * Get a date range based on params/plugin configuration
 	 *
 	 * @since  1.0.0 Initial Release
@@ -558,6 +584,8 @@ class Events
 	/**
 	 * Get Repeating Events by Repeat Rule
 	 *
+	 * This will get events based on the `MTWRFSU` rule.
+	 * 
 	 * @since  1.0.0 Initial Release
 	 * 
 	 * @return array Events
@@ -627,6 +655,9 @@ class Events
 
 	/**
 	 * Get Event Dates by Frequency
+	 *
+	 * Generate event dates based on the `daily, weekly, monthly, yearly` 
+	 * frequency rule that has been set.
 	 * 
 	 * @param  array $event Event instance
 	 * @since  1.0.0 Initial Release
@@ -715,6 +746,11 @@ class Events
 
 	/**
 	 * Calculate Iteration Count
+	 *
+	 * Determine how many times the event should be repeated based on the
+	 * date range and repeat rules. This will base the count on the start date
+	 * and how it relates to the daterange. It's possible for the end date to
+	 * fall outside of the date range because of this.
 	 * 
 	 * @param  array $event Event instance
 	 * @since  1.0.0 Initial Release
@@ -778,7 +814,10 @@ class Events
 	}
 
 	/**
-	 * Clones an Event with new dates
+	 * Clones an Event
+	 *
+	 * Clone an existing event with dates based off of `freq` and `repeat` 
+	 * rules. 
 	 * 
 	 * @param  array $newDates New Dates
 	 * @since  1.0.0 Initial Release
@@ -799,7 +838,11 @@ class Events
 	}
 
 	/**
-	 * Add the Filtered Events Stack to Grav Pages
+	 * Add Events to Grav
+	 * 
+	 * Add the Filtered Events Stack to Grav Pages. This helps generate the 
+	 * correct collection to be displayed on templates that call an event
+	 * collection. It does not create an actual routable page.
 	 * 
 	 * @since  1.0.0 Initial Release
 	 * @param array $eventsStack Array of Filtered Events
@@ -864,10 +907,14 @@ class Events
 
 	/**
 	 * Clone a New Page
+	 *
+	 * Clones a new dynamic page based off of the existing page and related 
+	 * new event dates.
 	 * 
 	 * @param  object $page  Grav Page Object
 	 * @param  array $event  Event instance
 	 * @since  1.0.0 Initial Release
+	 * @todo   Add the page as an actual routable page to the Grav Pages Stack
 	 * 
 	 * @return object        New Page Object
 	 */
@@ -928,7 +975,17 @@ class Events
 	}
 
 	/**
-	 * Convert event frontmatter to taxonomy
+	 * Convert Event Frontmatter to Taxonomy
+	 *
+	 * The Events plugin uses 3 custom taxonomies for generating collections.
+	 * 
+	 * `event` is used to specify the page as an event page.
+	 *
+	 * `event_repeat` is used to specify how the event repeats horizontally 
+	 * in any given week. It's the row based repeat rule.
+	 *
+	 * `event_freq` is used to specify how the even repeats vertically through 
+	 * the month, year, etc. It's the column based repeat rule.
 	 * 
 	 * @param array $taxonomy Taxonomy
 	 * @param array $event Event details
