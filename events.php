@@ -12,7 +12,7 @@
  * @author     Kaleb Heitzman <kalebheitzman@gmail.com>
  * @copyright  2016 Kaleb Heitzman
  * @license    https://opensource.org/licenses/MIT MIT
- * @version    1.0.4
+ * @version    1.0.5 Documentation Release
  * @link       https://github.com/kalebheitzman/grav-plugin-events
  * @since      1.0.0 Initial Release
  */
@@ -63,6 +63,7 @@ use Events\Events;
  *
  * @package     Events
  * @author      Kaleb Heitzman <kalebheitzman@gmail.com>
+ * @version 	1.0.5 Documentation Release
  * @since 		1.0.0 Initial Release
  */
 class EventsPlugin extends Plugin
