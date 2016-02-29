@@ -3,7 +3,7 @@
 
 1 [](#new)
 	* Added detailed code documentation via phpdoc. These can be found under the /docs folder.
-1 [](#bugfixes)
+2 [](#bugfixes)
 	* Updated changelog to work on Grav Website
 
 # v1.0.4
