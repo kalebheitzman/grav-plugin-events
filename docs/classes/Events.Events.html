@@ -120,7 +120,7 @@
                             </li>
                             <li>
                                 <a href="../reports/markers.html">
-                                                                                                                                                                                                                                                                                                                                                <i class="icon-list-alt"></i>&#160;Markers <span class="label label-info pull-right">0</span>
+                                                                                                                                                                                                                                                                                                                                                <i class="icon-list-alt"></i>&#160;Markers <span class="label label-info pull-right">1</span>
                                 </a>
                             </li>
                             <li>
@@ -145,19 +145,19 @@
                                 <div class="accordion" style="margin-bottom: 0">
         <div class="accordion-group">
             <div class="accordion-heading">
-                                    <a class="accordion-toggle " data-toggle="collapse" data-target="#namespace-1309878909"></a>
+                                    <a class="accordion-toggle " data-toggle="collapse" data-target="#namespace-15584356"></a>
                                 <a href="../namespaces/default.html" style="margin-left: 30px; padding-left: 0">\</a>
             </div>
-            <div id="namespace-1309878909" class="accordion-body collapse in">
+            <div id="namespace-15584356" class="accordion-body collapse in">
                 <div class="accordion-inner">
 
                                                     <div class="accordion" style="margin-bottom: 0">
         <div class="accordion-group">
             <div class="accordion-heading">
-                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-1923097518"></a>
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-1279356533"></a>
                                 <a href="../namespaces/Events.html" style="margin-left: 30px; padding-left: 0">Events</a>
             </div>
-            <div id="namespace-1923097518" class="accordion-body collapse ">
+            <div id="namespace-1279356533" class="accordion-body collapse ">
                 <div class="accordion-inner">
 
                     
@@ -173,19 +173,19 @@
                                                     <div class="accordion" style="margin-bottom: 0">
         <div class="accordion-group">
             <div class="accordion-heading">
-                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-487047467"></a>
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-29590647"></a>
                                 <a href="../namespaces/Grav.html" style="margin-left: 30px; padding-left: 0">Grav</a>
             </div>
-            <div id="namespace-487047467" class="accordion-body collapse ">
+            <div id="namespace-29590647" class="accordion-body collapse ">
                 <div class="accordion-inner">
 
                                                     <div class="accordion" style="margin-bottom: 0">
         <div class="accordion-group">
             <div class="accordion-heading">
-                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-1350345714"></a>
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-1796617043"></a>
                                 <a href="../namespaces/Grav.Plugin.html" style="margin-left: 30px; padding-left: 0">Plugin</a>
             </div>
-            <div id="namespace-1350345714" class="accordion-body collapse ">
+            <div id="namespace-1796617043" class="accordion-body collapse ">
                 <div class="accordion-inner">
 
                     
@@ -592,7 +592,9 @@ need added to Grav Pages.</p>
                 <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
                 <pre class="signature" style="margin-right: 54px;">__construct(object  <span class="argument">$grav</span>, object  <span class="argument">$config</span>) : void</pre>
                 <p><em>Events Class Construct</em></p>
-                
+                <p>Through the construct we pull in the main Grav instance and the main
+config instance. We also set up the main rules and params to calculate
+against in other parts of this class.</p>
 
                                     <h4>Parameters</h4>
                     <table class="table table-condensed table-hover">
@@ -638,7 +640,8 @@ need added to Grav Pages.</p>
                 <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
                 <pre class="signature" style="margin-right: 54px;">getEventByToken(string  <span class="argument">$evt</span>) : array</pre>
                 <p><em>Get an Event by Token</em></p>
-                
+                <p>Return the main 6 digit alphanumeric token. The token is protected so
+we use a getter to prevent unauthorized manipulation of the token.</p>
 
                                     <h4>Parameters</h4>
                     <table class="table table-condensed table-hover">
@@ -682,7 +685,11 @@ need added to Grav Pages.</p>
                 <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
                 <pre class="signature" style="margin-right: 54px;">instances() : object</pre>
                 <p><em>Get an instance of events</em></p>
-                
+                <p>This is the bulkhead of this class. It creates an events listing using
+various rules and params to add events to the page list while also
+adding all events, including repeating, to an events array with a
+searchable token. The events array contains the appropriate date
+information for use in templates</p>
 
                 
                 
@@ -718,7 +725,11 @@ need added to Grav Pages.</p>
                 <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
                 <pre class="signature" style="margin-right: 54px;">initEvent(  <span class="argument">$page</span>) : object</pre>
                 <p><em>Initialize the Event</em></p>
-                
+                <p>Initialize the event with date and time information. We store a Carbon
+DateTime object or each time needed as well as an epoch string. It may
+be possible to reduce some overhead here using just one or the other
+but it doesn't seem like it's adding major time to the processing time
+for generating dynamic events.</p>
 
                                     <h4>Parameters</h4>
                     <table class="table table-condensed table-hover">
@@ -836,7 +847,8 @@ limits etc. This will make Grav's job easier.</p>
                 <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
                 <pre class="signature" style="margin-right: 54px;">filterByDate(array  <span class="argument">$events</span>, object  <span class="argument">$startDate</span>, object  <span class="argument">$endDate</span>) : array</pre>
                 <p><em>Filter the events by a date range</em></p>
-                
+                <p>Return a set of filtered events based on whether the start date falls
+in the date range.</p>
 
                                     <h4>Parameters</h4>
                     <table class="table table-condensed table-hover">
@@ -983,7 +995,7 @@ we just pass events through unfiltered.</p>
                 <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
                 <pre class="signature" style="margin-right: 54px;">dateRangeFilter(array  <span class="argument">$events</span>) : array</pre>
                 <p><em>Date Range Filter</em></p>
-                <p>We filter events based on</p>
+                <p>We filter events based on a date range.</p>
 
                                     <h4>Parameters</h4>
                     <table class="table table-condensed table-hover">
@@ -1027,7 +1039,7 @@ we just pass events through unfiltered.</p>
                 <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
                 <pre class="signature" style="margin-right: 54px;">getEvents() : array</pre>
                 <p><em>Get Events</em></p>
-                
+                <p>Returns an instance of all events</p>
 
                 
                 
@@ -1106,8 +1118,8 @@ we just pass events through unfiltered.</p>
                 <h3 class="private ">getDateRange()</h3>
                 <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
                 <pre class="signature" style="margin-right: 54px;">getDateRange() : array</pre>
-                <p><em>Get a date range based on params/plugin configuration</em></p>
-                
+                <p><em>Get Date Range</em></p>
+                <p>Get a date range based on params/plugin configuration</p>
 
                 
                 
@@ -1143,7 +1155,7 @@ we just pass events through unfiltered.</p>
                 <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
                 <pre class="signature" style="margin-right: 54px;">getEventsByRepeat() : array</pre>
                 <p><em>Get Repeating Events by Repeat Rule</em></p>
-                
+                <p>This will get events based on the <code>MTWRFSU</code> rule.</p>
 
                 
                 
@@ -1225,7 +1237,8 @@ calculates how many times to repeat the event and what dates to set.</p>
                 <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
                 <pre class="signature" style="margin-right: 54px;">getFreqDates(array  <span class="argument">$event</span>) : array</pre>
                 <p><em>Get Event Dates by Frequency</em></p>
-                
+                <p>Generate event dates based on the <code>daily, weekly, monthly, yearly</code>
+frequency rule that has been set.</p>
 
                                     <h4>Parameters</h4>
                     <table class="table table-condensed table-hover">
@@ -1269,7 +1282,10 @@ calculates how many times to repeat the event and what dates to set.</p>
                 <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
                 <pre class="signature" style="margin-right: 54px;">calculateEventIteration(array  <span class="argument">$event</span>) : integer</pre>
                 <p><em>Calculate Iteration Count</em></p>
-                
+                <p>Determine how many times the event should be repeated based on the
+date range and repeat rules. This will base the count on the start date
+and how it relates to the daterange. It's possible for the end date to
+fall outside of the date range because of this.</p>
 
                                     <h4>Parameters</h4>
                     <table class="table table-condensed table-hover">
@@ -1359,8 +1375,9 @@ original date.</p>
                 <h3 class="private ">cloneEventWithNewDates()</h3>
                 <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
                 <pre class="signature" style="margin-right: 54px;">cloneEventWithNewDates(array  <span class="argument">$newDates</span>) : array</pre>
-                <p><em>Clones an Event with new dates</em></p>
-                
+                <p><em>Clones an Event</em></p>
+                <p>Clone an existing event with dates based off of <code>freq</code> and <code>repeat</code>
+rules.</p>
 
                                     <h4>Parameters</h4>
                     <table class="table table-condensed table-hover">
@@ -1403,8 +1420,10 @@ original date.</p>
                 <h3 class="private ">addEventsToGrav()</h3>
                 <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
                 <pre class="signature" style="margin-right: 54px;">addEventsToGrav(array  <span class="argument">$eventsStack</span>) : object</pre>
-                <p><em>Add the Filtered Events Stack to Grav Pages</em></p>
-                
+                <p><em>Add Events to Grav</em></p>
+                <p>Add the Filtered Events Stack to Grav Pages. This helps generate the
+correct collection to be displayed on templates that call an event
+collection. It does not create an actual routable page.</p>
 
                                     <h4>Parameters</h4>
                     <table class="table table-condensed table-hover">
@@ -1448,7 +1467,8 @@ original date.</p>
                 <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
                 <pre class="signature" style="margin-right: 54px;">cloneNewPage(object  <span class="argument">$page</span>, array  <span class="argument">$event</span>) : object</pre>
                 <p><em>Clone a New Page</em></p>
-                
+                <p>Clones a new dynamic page based off of the existing page and related
+new event dates.</p>
 
                                     <h4>Parameters</h4>
                     <table class="table table-condensed table-hover">
@@ -1485,6 +1505,14 @@ original date.</p>
                                                             1.0.0                                <p>Initial Release</p>
                                                     </td>
                     </tr>
+                                    <tr>
+                        <th>
+                            todo
+                        </th>
+                        <td>
+                                                                                            <p>Add the page as an actual routable page to the Grav Pages Stack</p>
+                                                    </td>
+                    </tr>
                             </table>
         </aside>
     </div>
@@ -1496,8 +1524,13 @@ original date.</p>
                 <h3 class="private ">eventFrontmatterToTaxonomy()</h3>
                 <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
                 <pre class="signature" style="margin-right: 54px;">eventFrontmatterToTaxonomy(  <span class="argument">$page</span>) : array</pre>
-                <p><em>Convert event frontmatter to taxonomy</em></p>
-                
+                <p><em>Convert Event Frontmatter to Taxonomy</em></p>
+                <p>The Events plugin uses 3 custom taxonomies for generating collections.</p>
+<p><code>event</code> is used to specify the page as an event page.</p>
+<p><code>event_repeat</code> is used to specify how the event repeats horizontally
+in any given week. It's the row based repeat rule.</p>
+<p><code>event_freq</code> is used to specify how the even repeats vertically through
+the month, year, etc. It's the column based repeat rule.</p>
 
                                     <h4>Parameters</h4>
                     <table class="table table-condensed table-hover">
@@ -1584,7 +1617,7 @@ original date.</p>
                 <section class="span10 offset1">
                     <hr />
                     Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor </a> and authored
-                    on February 28th, 2016 at 00:59.
+                    on February 29th, 2016 at 14:35.
                 </section>
             </section>
         </section>

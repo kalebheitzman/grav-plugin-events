@@ -40,6 +40,27 @@ use Events\Events;
 /**
  * Events Plugin Class
  *
+ * The Events Plugin provides Event Listings and Calendars for your Grav
+ * powered website. This plugin searches each page for `event:` front matter
+ * and then sets a custom taxonomy named *type* to *event*. It also sets 
+ * a repeating and frequency taxonomy to build more intricate collections.
+ * The `event_repeat` taxonomy will take a string in the format `MTWRFSU` and
+ * the `event_freq` taxonomy will take `daily, weekly, monthly, or yearly`.
+ * These taxonomies are automatically added by the plugin so you don't need to
+ * add them to your configuration unless you just want to or need to build on
+ * top of them.
+ *
+ * Below is a sample of what an `event:` front matter section would look like.
+ *
+ * ```
+ * event:
+ *  	start: 01/01/2015 6:00pm
+ *   	end: 01/01/2015 7:00pm
+ *    	repeat: MTWRFSU
+ *    	freq: weekly
+ *    	until: 01/01/2020
+ * ```
+ *
  * @package     Events
  * @author      Kaleb Heitzman <kalebheitzman@gmail.com>
  * @since 		1.0.0 Initial Release
@@ -47,31 +68,41 @@ use Events\Events;
 class EventsPlugin extends Plugin
 {
 	/**
-	 * Carbon Currente Date Time
+	 * Current Carbon DateTime
+	 *
+	 * @since  1.0.0 Initial Release
 	 * @var object
 	 */
 	protected $now;
 
 	/**
 	 * Events Events Class
+	 *
+	 * @since  1.0.0 Initial Release
 	 * @var object
 	 */
 	protected $events;
 
 	/**
 	 * Events Calendar Class
+	 *
+	 * @since  1.0.0 Initial Release
 	 * @var object
 	 */
 	protected $calendar;
 
 	/**
 	 * Date Range
+	 *
+	 * @since  1.0.0 Initial Release
 	 * @var array
 	 */
 	protected $dateRange;
 
 	/**
 	 * Get Subscribed Events
+	 *
+	 * @since  1.0.0 Initial Release
 	 * 
 	 * @return array
 	 */
@@ -83,7 +114,15 @@ class EventsPlugin extends Plugin
 	}
 
 	/**
-	 * Initialize configuration
+	 * Initialize plugin configuration
+	 *
+	 * From here we determine if the pluing should run and set the custom
+	 * taxonomies to store event information in. We also initialize the Events
+	 * and Calendar class that this plugin utilizes and then we start 
+	 * intercepting Grav hooks to build our events list and insert any vars
+	 * we need into the system. 
+	 *
+	 * @since  1.0.0 Initial Release
 	 *
 	 * @return  void 
 	 */
@@ -119,6 +158,12 @@ class EventsPlugin extends Plugin
 	/**
 	 * Add current directory to twig lookup paths.
 	 *
+	 * Add the templates directory to the twig directory look up path so we
+	 * can load our page templates. These are overridable by the theme and
+	 * are only meant as a starting point.
+	 *
+	 * @since  1.0.0 Initial Release
+	 *
 	 * @return void
 	 */ 
 	public function onTwigTemplatePaths()
@@ -130,6 +175,13 @@ class EventsPlugin extends Plugin
 	/**
 	 * Check for repeating entries and add them to the page collection
 	 *
+	 * We initialze the `repeat` and `freq` based events alongside other 
+	 * events into an array that contains a token and the appropriate date
+	 * and time information. This allows us to filter events later and insert
+	 * them into Grav's page stack where needed
+	 *
+	 * @since  1.0.0 Initial Release
+	 * 
 	 * @return  void 
 	 */
 	public function onPagesInitialized()
@@ -140,6 +192,12 @@ class EventsPlugin extends Plugin
 
 	/**
 	 * Add Events blueprints to admin
+	 *
+	 * This is currently not operational. In the future we'd like to add 
+	 * blueprints associated with page templates through this plugin hook.
+	 * 
+	 * @since  1.0.0 Initial Release
+	 * 
 	 * @return void
 	 */
 	public function onBlueprintCreated()
@@ -150,6 +208,20 @@ class EventsPlugin extends Plugin
 
 	/**
 	 * Set needed variables to display events
+	 *
+	 * We set various twig variables on the calendar and single event pages.
+	 * 
+	 * Our most signicant variable is the `evt:` param found in a single
+	 * event's URI. This var is used to refernece the main events listing via 
+	 * an event token that is a 6 digit alphanumeric string. This gives us the
+	 * date and time information that we need to display for a single event 
+	 * page.
+	 *
+	 * For the calendar page, we load the appropriate js and css to make the 
+	 * calendar work smoothly as well as add the appropriate calendar twig
+	 * variables.
+	 *
+	 * @since  1.0.0 Initial Release
 	 *
 	 * @return  void
 	 */

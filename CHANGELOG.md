@@ -2,7 +2,7 @@
 ## 02/29/2016
 
 1 [](#new)
-	* Added code documentation via phpdoc. These can be found under the /docs folder.
+	* Added detailed code documentation via phpdoc. These can be found under the /docs folder.
 1 [](#bugfixes)
 	* Updated changelog to work on Grav Website
 
