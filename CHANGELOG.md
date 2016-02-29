@@ -1,5 +1,13 @@
-# v1.0.4
+# v1.0.5
 ## 02/29/2016
+
+1 [](#new)
+	* Added code documentation via phpdoc. These can be found under the /docs folder.
+1 [](#bugfixes)
+	* Updated changelog to work on Grav Website
+
+# v1.0.4
+## 02/28/2016
 
 1 [](#new)
 	* Refactored code into events and calendar classes
