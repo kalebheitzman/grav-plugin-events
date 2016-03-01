@@ -4,6 +4,8 @@ This is an events plugin that works with [Grav CMS](http://getgrav.org)  1.0.10+
 
 [View the demo](http://brandr.grav.co) *Sidenote: the demo is running the development version of this plugin. From time to time you may see features that haven't been released yet.*
 
+Also, check out this [Gist](https://gist.github.com/kalebheitzman/edef3f0932150bca8a93) of proper page setup for Calendar, Events, and Event.
+
 ### Installation
 
 From the root of your Grav install.
