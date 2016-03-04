@@ -5,6 +5,22 @@
 	<h1>{{ page.title}}</h1>
 	<h2>{{ event.start|date('l, F d, Y, g:i') }}-{{ event.end|date('g:ia') }}</h2>
 
+	<p>
+		<strong>{{ event.header.event.start|date('F j, Y h:ia') }}</strong>
+
+		{% if event.header.event.freq is defined %}
+		/ Repeats {{ event.header.event.freq }}
+		{% endif %}
+
+		{% if event.header.event.repeat is defined %}
+		/ {{ event.header.event.repeatDisplay }}
+		{% endif %}
+
+		{% if event.header.event.until is defined %}
+		/ Until {{ event.header.event.until|date('F j, Y') }}
+		{% endif %}
+	</p>
+	
 	{{ page.content }}
 
 {% endblock %}

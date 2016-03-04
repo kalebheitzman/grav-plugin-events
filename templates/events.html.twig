@@ -10,21 +10,19 @@
 
     {% for event in collection %}
         <h3><a href="{{ event.url }}">{{ event.title }}</a></h3>
-        <h5>{{ event.header.event.start|date('F j, Y h:ia') }}</h5>
-
         <p>
+			<strong>{{ event.header.event.start|date('F j, Y h:ia') }}</strong>
+
 			{% if event.header.event.freq is defined %}
-    	    {{ event.header.event.freq|capitalize }}
+    	    / Repeats {{ event.header.event.freq }}
  	       	{% endif %}
 
-			{{ dump(event.header.event) }}
 	        {% if event.header.event.repeat is defined %}
-
-    	    on {{ event.header.event.repeatDisplay }}
+    	    / {{ event.header.event.repeatDisplay }}
  	       	{% endif %}
 
  	       	{% if event.header.event.until is defined %}
-    	    until {{ event.header.event.until|date('F j, Y') }}
+    	    / Until {{ event.header.event.until|date('F j, Y') }}
  	       	{% endif %}
  	    </p>
 
