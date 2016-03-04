@@ -259,7 +259,7 @@ class EventsPlugin extends Plugin
 		/**
 		 * Use the evt: param to serve up event date times.
 		 */
-		if ( $page->template() == 'event' )
+		if ( $page->template() == 'event' && $this->grav['uri']->param('evt') !== false )
 		{
 			$evt = $this->grav['uri']->param('evt');
 			$event = $this->events->getEventByToken( $evt );

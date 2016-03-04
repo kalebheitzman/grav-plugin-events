@@ -935,6 +935,7 @@ class Events
 		// set any other event frontmatter
 		if (isset($header->event['repeat'])) {
 			$newHeader->event['repeat'] = $header->event['repeat'];
+			$newHeader->event['repeatDisplay'] = $this->getRepeatDisplay( $header->event['repeat'] );
 		}
 		if (isset($header->event['freq'])) {
 			$newHeader->event['freq'] = $header->event['freq'];
@@ -1013,6 +1014,42 @@ class Events
 		}
 
 		return $taxonomy;
+	}
+
+
+	private function getRepeatDisplay( $repeat ) {
+
+		$rules = str_split( $repeat );
+
+		// repeat display rules
+		$repeatDisplay = [];
+		$repeatDisplay['M'] = 'Monday';
+		$repeatDisplay['T'] = 'Tuesday';
+		$repeatDisplay['W'] = 'Wednesday';
+		$repeatDisplay['R'] = 'Thursday';
+		$repeatDisplay['F'] = 'Friday';
+		$repeatDisplay['S'] = 'Saturday';
+		$repeatDisplay['U'] = 'Sunday';
+
+		// build the display
+		$display = [];
+		foreach ( $rules as $rule ) {
+			array_push($display, $repeatDisplay[$rule]);
+		}
+
+		$end = array_pop($display);
+		
+		if ( count($display) == 1 ) {
+			$joiner = ' and ';
+		} else {
+			$joiner = ', and ';
+		}
+
+		$start = implode(', ', $display);
+
+		$output = $start . $joiner . $end;
+
+		return $output;
 	}
 	
 }

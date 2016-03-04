@@ -1,3 +1,15 @@
+# v1.0.6
+## 03/19/2016
+
+1 [](#new)
+	* 
+
+2 [](#improvements)
+	* Default templates updated
+
+3 [](#bugfixes)
+	* Fixed repeating rule display from MTWRFSU to full Monday, Tuesdsay, etc
+
 # v1.0.5
 ## 02/29/2016
 
