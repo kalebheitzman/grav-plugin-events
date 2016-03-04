@@ -155,6 +155,7 @@ class EventsPlugin extends Plugin
 		$this->enable([
 			'onTwigTemplatePaths' => ['onTwigTemplatePaths', 0],
 			'onPagesInitialized' => ['onPagesInitialized', 0],
+			'onPageInitialized' => ['onPageInitialized', 0],
 			'onTwigSiteVariables' => ['onTwigSiteVariables', 0],
 		]);
 	}
@@ -192,6 +193,39 @@ class EventsPlugin extends Plugin
 	{
 		// get instances of all events
 		$pages = $this->events->instances();
+	}
+
+	/**
+	 * On Page Initialized
+	 *
+	 * Adds correct event header information to individual events based on the
+	 * events array and token generated. A single dynamic page has an a token
+	 * associated with in the url as evt:123456. We use this to pull the correct
+	 * information and update the header.
+	 *
+	 * @since 1.0.6 Templates Update
+	 *
+	 * @return void
+	 */
+	public function onPageInitialized()
+	{
+		// setup
+		$page = $this->grav['page'];
+
+		/**
+		 * Use the evt: param to serve up event date times.
+		 */
+		if ( $page->template() == 'event' && $this->grav['uri']->param('evt') !== false )
+		{
+			$evt = $this->grav['uri']->param('evt');
+			$event = $this->events->getEventByToken( $evt );
+
+			$newHeader = $page->header();
+			$newHeader->event['start'] = $event['startDate']->toDateTimeString();
+			$newHeader->event['end'] = $event['endDate']->toDateTimeString();
+
+			$page->header( $newHeader );
+		}
 	}
 
 	/**
@@ -257,18 +291,6 @@ class EventsPlugin extends Plugin
 			$assets->addCss($css);
 			$assets->add('jquery');
 			$assets->addJs($js);
-		}
-
-		/**
-		 * Use the evt: param to serve up event date times.
-		 */
-		if ( $page->template() == 'event' && $this->grav['uri']->param('evt') !== false )
-		{
-			$evt = $this->grav['uri']->param('evt');
-			$event = $this->events->getEventByToken( $evt );
-
-			$twig->twig_vars['event']['start'] = $event['startEpoch'];
-			$twig->twig_vars['event']['end'] = $event['endEpoch'];
 		}
 
 	}

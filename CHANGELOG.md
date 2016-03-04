@@ -6,9 +6,10 @@
 
 2 [](#improvements)
 	* Default templates updated
+	* Page load times have been decreased from ~250ms to ~90ms on PHP7.
 
 3 [](#bugfixes)
-	* Fixed repeating rule display from MTWRFSU to full Monday, Tuesday, etc
+	* Fixed repeating rule display from MTWRFSU to full Monday, Tuesday, etc in templates.
 
 # v1.0.5
 ## 02/29/2016
