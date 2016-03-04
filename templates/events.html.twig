@@ -14,7 +14,7 @@
 			<strong>{{ event.header.event.start|date('F j, Y h:ia') }}</strong>
 
 			{% if event.header.event.freq is defined %}
-    	    / Repeats {{ event.header.event.freq }}
+    	    / Repeats {{ event.header.event.freq|capitalize }}
  	       	{% endif %}
 
 	        {% if event.header.event.repeat is defined %}

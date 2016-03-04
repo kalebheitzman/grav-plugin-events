@@ -12,7 +12,7 @@
  * @author     Kaleb Heitzman <kalebheitzman@gmail.com>
  * @copyright  2016 Kaleb Heitzman
  * @license    https://opensource.org/licenses/MIT MIT
- * @version    1.0.4
+ * @version    1.0.5 Documentation Release
  * @link       https://github.com/kalebheitzman/grav-plugin-events
  * @since      1.0.0 Initial Release
  */
@@ -42,7 +42,7 @@ use Events\Events;
  *
  * The Events Plugin provides Event Listings and Calendars for your Grav
  * powered website. This plugin searches each page for `event:` front matter
- * and then sets a custom taxonomy named *type* to *event*. It also sets 
+ * and then sets a custom taxonomy named *type* to *event*. It also sets
  * a repeating and frequency taxonomy to build more intricate collections.
  * The `event_repeat` taxonomy will take a string in the format `MTWRFSU` and
  * the `event_freq` taxonomy will take `daily, weekly, monthly, or yearly`.
@@ -63,7 +63,11 @@ use Events\Events;
  *
  * @package     Events
  * @author      Kaleb Heitzman <kalebheitzman@gmail.com>
+ * @version 	1.0.5 Documentation Release
  * @since 		1.0.0 Initial Release
+ * @todo 		Implement Localization
+ * @todo 		Implement Date Formats
+ * @todo 		Implement ICS Feeds
  */
 class EventsPlugin extends Plugin
 {
@@ -103,10 +107,10 @@ class EventsPlugin extends Plugin
 	 * Get Subscribed Events
 	 *
 	 * @since  1.0.0 Initial Release
-	 * 
+	 *
 	 * @return array
 	 */
-	public static function getSubscribedEvents() 
+	public static function getSubscribedEvents()
 	{
 		return [
 			'onPluginsInitialized' => ['onPluginsInitialized', 0],
@@ -118,13 +122,13 @@ class EventsPlugin extends Plugin
 	 *
 	 * From here we determine if the pluing should run and set the custom
 	 * taxonomies to store event information in. We also initialize the Events
-	 * and Calendar class that this plugin utilizes and then we start 
+	 * and Calendar class that this plugin utilizes and then we start
 	 * intercepting Grav hooks to build our events list and insert any vars
-	 * we need into the system. 
+	 * we need into the system.
 	 *
 	 * @since  1.0.0 Initial Release
 	 *
-	 * @return  void 
+	 * @return  void
 	 */
 	public function onPluginsInitialized()
 	{
@@ -142,7 +146,7 @@ class EventsPlugin extends Plugin
 		// get the current datetime with c
 		$this->now = Carbon::now();
 
-		// set the calendar accessor 
+		// set the calendar accessor
 		$this->calendar = new Calendar();
 
 		// set the events accessor
@@ -165,7 +169,7 @@ class EventsPlugin extends Plugin
 	 * @since  1.0.0 Initial Release
 	 *
 	 * @return void
-	 */ 
+	 */
 	public function onTwigTemplatePaths()
 	{
 		// add templates to twig path
@@ -175,14 +179,14 @@ class EventsPlugin extends Plugin
 	/**
 	 * Check for repeating entries and add them to the page collection
 	 *
-	 * We initialze the `repeat` and `freq` based events alongside other 
+	 * We initialze the `repeat` and `freq` based events alongside other
 	 * events into an array that contains a token and the appropriate date
 	 * and time information. This allows us to filter events later and insert
 	 * them into Grav's page stack where needed
 	 *
 	 * @since  1.0.0 Initial Release
-	 * 
-	 * @return  void 
+	 *
+	 * @return  void
 	 */
 	public function onPagesInitialized()
 	{
@@ -193,11 +197,11 @@ class EventsPlugin extends Plugin
 	/**
 	 * Add Events blueprints to admin
 	 *
-	 * This is currently not operational. In the future we'd like to add 
+	 * This is currently not operational. In the future we'd like to add
 	 * blueprints associated with page templates through this plugin hook.
-	 * 
+	 *
 	 * @since  1.0.0 Initial Release
-	 * 
+	 *
 	 * @return void
 	 */
 	public function onBlueprintCreated()
@@ -210,14 +214,14 @@ class EventsPlugin extends Plugin
 	 * Set needed variables to display events
 	 *
 	 * We set various twig variables on the calendar and single event pages.
-	 * 
+	 *
 	 * Our most signicant variable is the `evt:` param found in a single
-	 * event's URI. This var is used to refernece the main events listing via 
+	 * event's URI. This var is used to refernece the main events listing via
 	 * an event token that is a 6 digit alphanumeric string. This gives us the
-	 * date and time information that we need to display for a single event 
+	 * date and time information that we need to display for a single event
 	 * page.
 	 *
-	 * For the calendar page, we load the appropriate js and css to make the 
+	 * For the calendar page, we load the appropriate js and css to make the
 	 * calendar work smoothly as well as add the appropriate calendar twig
 	 * variables.
 	 *
@@ -227,13 +231,13 @@ class EventsPlugin extends Plugin
 	 */
 	public function onTwigSiteVariables()
 	{
-		// setup 
+		// setup
 		$page = $this->grav['page'];
 		$collection = $page->collection();
 		$twig = $this->grav['twig'];
 
 		// only load the vars if calendar page
-		if ($page->template() == 'calendar') 
+		if ($page->template() == 'calendar')
 		{
 
 			$yearParam = $this->grav['uri']->param('year');
@@ -258,7 +262,7 @@ class EventsPlugin extends Plugin
 		/**
 		 * Use the evt: param to serve up event date times.
 		 */
-		if ( $page->template() == 'event' )
+		if ( $page->template() == 'event' && $this->grav['uri']->param('evt') !== false )
 		{
 			$evt = $this->grav['uri']->param('evt');
 			$event = $this->events->getEventByToken( $evt );
@@ -270,3 +274,4 @@ class EventsPlugin extends Plugin
 	}
 
 }
+
