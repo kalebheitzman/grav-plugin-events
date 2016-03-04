@@ -68,6 +68,7 @@ use Events\Events;
  * @todo 		Implement Localization
  * @todo 		Implement Date Formats
  * @todo 		Implement ICS Feeds
+ * @todo 		Implement All Day Option
  */
 class EventsPlugin extends Plugin
 {
@@ -224,6 +225,18 @@ class EventsPlugin extends Plugin
 			$newHeader->event['start'] = $event['startDate']->toDateTimeString();
 			$newHeader->event['end'] = $event['endDate']->toDateTimeString();
 
+			// set any other event frontmatter
+			if ( isset($event['repeat']) && $event['repeat'] !== false ) {
+				$newHeader->event['repeat'] = $event['repeat'];
+				$newHeader->event['repeatDisplay'] = $this->events->getRepeatDisplay( $event['repeat'] );
+			}
+			if ( isset($event['freq']) && $event['freq'] !== false ) {
+				$newHeader->event['freq'] = $event['freq'];
+			}
+			if ( isset($event['until']) && $event['until'] !== false ) {
+				$newHeader->event['until'] = $event['until'];
+			}
+
 			$page->header( $newHeader );
 		}
 	}
@@ -283,7 +296,10 @@ class EventsPlugin extends Plugin
 			// add calendar to twig as calendar
 			$twigVars['calendar']['events'] = $calVars;
 			$twig->twig_vars['calendar'] = array_shift($twigVars);
+		}
 
+		if ($page->template() == 'calendar' || $page->template() == 'event' )
+		{
 			// styles
 			$css = 'plugin://events/css-compiled/events.css';
 			$js = 'plugin://events/js/events.js';

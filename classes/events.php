@@ -932,7 +932,11 @@ class Events
 
 		$newHeader = (object) array_merge((array) $header, (array) $newHeader);
 
-		// set any other event frontmatter
+		/**
+		 *  Set any other event frontmatter. This is specifically related to the
+		 *  onPagesInitialized (all pages) hook. This same code is also used in
+		 *  the onPagesInitialized (single page) hook.
+		 */
 		if (isset($header->event['repeat'])) {
 			$newHeader->event['repeat'] = $header->event['repeat'];
 			$newHeader->event['repeatDisplay'] = $this->getRepeatDisplay( $header->event['repeat'] );
@@ -1023,7 +1027,7 @@ class Events
 	 * @param  string $repeat MTWRFSU
 	 * @return string         Human Readable Repeat Rules
 	 */
-	private function getRepeatDisplay( $repeat ) {
+	public function getRepeatDisplay( $repeat ) {
 
 		$rules = str_split( $repeat );
 

@@ -5,23 +5,28 @@
 	{{ dump(header) }}
 
 	<h1>{{ page.title}}</h1>
-	<h2>{{ header.event.start|date('l, F d, Y, g:i') }}-{{ header.event.end|date('g:ia') }}</h2>
+	<h2>
+		{{ header.event.start|date('l, F d, Y') }}<br />
+		{{ header.event.start|date('g:ia') }}-{{ header.event.end|date('g:ia') }}
+	</h2>
 
-	<p>
-		<strong>{{ header.event.start|date('F j, Y h:ia') }}</strong>
+	{{ dump(header.event) }}
 
-		{% if header.event.freq is defined %}
-		/ Repeats {{ header.event.freq|capitalize }}
-		{% endif %}
+	<div class="event-meta">
+		<ul>
+			{% if header.event.freq is defined %}
+			<li>Repeats {{ header.event.freq|capitalize }}</li>
+			{% endif %}
 
-		{% if header.event.repeat is defined %}
-		/ {{ header.event.repeatDisplay }}
-		{% endif %}
+			{% if header.event.repeat is defined %}
+			<li>{{ header.event.repeatDisplay }}</li>
+			{% endif %}
 
-		{% if header.event.until is defined %}
-		/ Until {{ header.event.until|date('F j, Y') }}
-		{% endif %}
-	</p>
+			{% if header.event.until is defined %}
+			<li>Until {{ header.event.until|date('F j, Y') }}</ul>
+			{% endif %}
+		</ul>
+	</div>
 
 	{{ page.content }}
 
