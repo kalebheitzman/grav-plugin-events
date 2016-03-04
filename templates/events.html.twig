@@ -12,12 +12,14 @@
         <h3><a href="{{ event.url }}">{{ event.title }}</a></h3>
         <h5>{{ event.header.event.start|date('F j, Y h:ia') }}</h5>
 
-        <p>	
+        <p>
 			{% if event.header.event.freq is defined %}
     	    {{ event.header.event.freq|capitalize }}
  	       	{% endif %}
 
+			{{ dump(event.header.event) }}
 	        {% if event.header.event.repeat is defined %}
+
     	    on {{ event.header.event.repeatDisplay }}
  	       	{% endif %}
 
@@ -25,7 +27,7 @@
     	    until {{ event.header.event.until|date('F j, Y') }}
  	       	{% endif %}
  	    </p>
- 	    
+
         {{ event.summary }}
 
     {% endfor %}
