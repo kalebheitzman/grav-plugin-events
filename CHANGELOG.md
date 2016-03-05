@@ -2,7 +2,7 @@
 ## 03/19/2016
 
 1 [](#new)
-	*
+	* Templates now display default tag and category taxonomy type as links.
 
 2 [](#improvements)
 	* Default templates updated

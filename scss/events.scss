@@ -58,8 +58,11 @@
 }
 
 .event-meta {
-	text-align: center;
 
+	&.center {
+		text-align: center;
+	}
+	
 	ul {
 
 		list-style: none;

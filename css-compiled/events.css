@@ -35,17 +35,17 @@
   margin-bottom: 5px;
   display: block; }
 
-.event-meta {
+.event-meta.center {
   text-align: center; }
-  .event-meta ul {
-    list-style: none;
-    margin: 0 auto;
-    padding: 0; }
-    .event-meta ul li {
-      display: inline-block; }
-    .event-meta ul li::after {
-      content: ' /'; }
-    .event-meta ul li:last-child::after {
-      content: none; }
+.event-meta ul {
+  list-style: none;
+  margin: 0 auto;
+  padding: 0; }
+  .event-meta ul li {
+    display: inline-block; }
+  .event-meta ul li::after {
+    content: ' /'; }
+  .event-meta ul li:last-child::after {
+    content: none; }
 
 /*# sourceMappingURL=events.css.map */

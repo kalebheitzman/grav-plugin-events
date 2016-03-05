@@ -10,24 +10,8 @@
 
     {% for event in collection %}
         <h3><a href="{{ event.url }}">{{ event.title }}</a></h3>
-        <p>
-			<strong>{{ event.header.event.start|date('F j, Y h:ia') }}</strong>
-
-			{% if event.header.event.freq is defined %}
-    	    / Repeats {{ event.header.event.freq|capitalize }}
- 	       	{% endif %}
-
-	        {% if event.header.event.repeat is defined %}
-    	    / {{ event.header.event.repeatDisplay }}
- 	       	{% endif %}
-
- 	       	{% if event.header.event.until is defined %}
-    	    / Until {{ event.header.event.until|date('F j, Y') }}
- 	       	{% endif %}
- 	    </p>
-
+		{% include 'partials/event-meta.html.twig' with { 'event': event.header.event, 'page': event, 'listing': true } %}
         {{ event.summary }}
-
     {% endfor %}
 
 	{% if config.plugins.pagination.enabled and collection.params.pagination %}

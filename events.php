@@ -298,7 +298,8 @@ class EventsPlugin extends Plugin
 			$twig->twig_vars['calendar'] = array_shift($twigVars);
 		}
 
-		if ($page->template() == 'calendar' || $page->template() == 'event' )
+		$templates = array( 'calendar', 'events', 'event' );
+		if ( in_array( $page->template(), $templates ) )
 		{
 			// styles
 			$css = 'plugin://events/css-compiled/events.css';

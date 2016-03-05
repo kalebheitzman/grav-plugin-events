@@ -10,23 +10,7 @@
 		{{ header.event.start|date('g:ia') }}-{{ header.event.end|date('g:ia') }}
 	</h2>
 
-	{{ dump(header.event) }}
-
-	<div class="event-meta">
-		<ul>
-			{% if header.event.freq is defined %}
-			<li>Repeats {{ header.event.freq|capitalize }}</li>
-			{% endif %}
-
-			{% if header.event.repeat is defined %}
-			<li>{{ header.event.repeatDisplay }}</li>
-			{% endif %}
-
-			{% if header.event.until is defined %}
-			<li>Until {{ header.event.until|date('F j, Y') }}</ul>
-			{% endif %}
-		</ul>
-	</div>
+	{% include 'partials/event-meta.html.twig' with { 'event': header.event, 'event_class': 'center' }%}
 
 	{{ page.content }}
 
