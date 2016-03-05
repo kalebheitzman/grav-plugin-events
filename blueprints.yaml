@@ -25,10 +25,22 @@ form:
     display_months_out:
       type: text
       label: Months Out to Display Events
-    date_format:
+    date_format.long:
       type: text
-      label: Date Format
-      default: m/d/Y g:ia
+      label: Long Date Format
+      default: Y-m-d h:ia
+    date_format.medium:
+      type: text
+      label: Medium Date Format
+      default: m/d/Y
+    date_format.short:
+      type: text
+      label: Short Date Format
+      default: M j
+    date_format.default:
+      type: text
+      label: Default Date Format
+      default: F j, Y h:ia
     filter_combinator:
       type: text
       label: Filter Combinator
