@@ -5,7 +5,7 @@
 	.controls {
 		text-align: center;
 		font-size: 1.2em;
-	}	
+	}
 
 	.title {
 		display: inline-block;
@@ -42,7 +42,7 @@
 		text-align: center;
 	}
 
-	.event { 
+	.event {
 
 		a {
 			text-align: right;
@@ -53,6 +53,30 @@
 			border-radius: 4px;
 			margin-bottom: 5px;
 			display: block;
+		}
+	}
+}
+
+.event-meta {
+
+	&.center {
+		text-align: center;
+	}
+	
+	ul {
+
+		list-style: none;
+		margin: 0 auto;
+		padding: 0;
+
+		li {
+			display: inline-block;
+		}
+		li::after {
+			content: ' /';
+		}
+		li:last-child::after {
+			content: none;
 		}
 	}
 }

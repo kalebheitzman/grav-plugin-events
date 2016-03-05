@@ -1,5 +1,5 @@
 name: Events
-version: 1.0.0
+version: 1.0.6
 description: "The **Events** plugin provides events for a Grav site using event frontmatter."
 icon: calendar
 author:
@@ -25,10 +25,22 @@ form:
     display_months_out:
       type: text
       label: Months Out to Display Events
-    date_format: 
+    date_format.long:
       type: text
-      label: Date Format
-      default: m/d/Y g:ia
+      label: Long Date Format
+      default: Y-m-d h:ia
+    date_format.medium:
+      type: text
+      label: Medium Date Format
+      default: m/d/Y
+    date_format.short:
+      type: text
+      label: Short Date Format
+      default: M j
+    date_format.default:
+      type: text
+      label: Default Date Format
+      default: F j, Y h:ia
     filter_combinator:
       type: text
       label: Filter Combinator
@@ -37,23 +49,23 @@ form:
       type: text
       label: Events Collection
       default: "'@page': '/events'"
-    show_past_events: 
+    show_past_events:
       type: toggle
       label: Show Past Events
       highlight: 1
       default: 0
-      options: 
+      options:
         1: Enabled
         0: Disabled
-      validate: 
+      validate:
         type: bool
-    enable_single_event_filter: 
+    enable_single_event_filter:
       type: toggle
       label: Enable Single Event Filter
       highlight: 1
       default: 1
-      options: 
+      options:
         1: Enabled
         0: Disabled
-      validate: 
+      validate:
         type: bool
