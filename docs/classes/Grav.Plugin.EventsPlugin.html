@@ -120,7 +120,7 @@
                             </li>
                             <li>
                                 <a href="../reports/markers.html">
-                                                                                                                                                                                                                                                                                                                                                <i class="icon-list-alt"></i>&#160;Markers <span class="label label-info pull-right">1</span>
+                                                                                                                                                                                                                                                                                                                                                <i class="icon-list-alt"></i>&#160;Markers <span class="label label-info pull-right">4</span>
                                 </a>
                             </li>
                             <li>
@@ -145,19 +145,19 @@
                                 <div class="accordion" style="margin-bottom: 0">
         <div class="accordion-group">
             <div class="accordion-heading">
-                                    <a class="accordion-toggle " data-toggle="collapse" data-target="#namespace-2085396849"></a>
+                                    <a class="accordion-toggle " data-toggle="collapse" data-target="#namespace-1986193722"></a>
                                 <a href="../namespaces/default.html" style="margin-left: 30px; padding-left: 0">\</a>
             </div>
-            <div id="namespace-2085396849" class="accordion-body collapse in">
+            <div id="namespace-1986193722" class="accordion-body collapse in">
                 <div class="accordion-inner">
 
                                                     <div class="accordion" style="margin-bottom: 0">
         <div class="accordion-group">
             <div class="accordion-heading">
-                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-714978510"></a>
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-2089375189"></a>
                                 <a href="../namespaces/Events.html" style="margin-left: 30px; padding-left: 0">Events</a>
             </div>
-            <div id="namespace-714978510" class="accordion-body collapse ">
+            <div id="namespace-2089375189" class="accordion-body collapse ">
                 <div class="accordion-inner">
 
                     
@@ -173,19 +173,19 @@
                                                     <div class="accordion" style="margin-bottom: 0">
         <div class="accordion-group">
             <div class="accordion-heading">
-                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-245587870"></a>
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-700111564"></a>
                                 <a href="../namespaces/Grav.html" style="margin-left: 30px; padding-left: 0">Grav</a>
             </div>
-            <div id="namespace-245587870" class="accordion-body collapse ">
+            <div id="namespace-700111564" class="accordion-body collapse ">
                 <div class="accordion-inner">
 
                                                     <div class="accordion" style="margin-bottom: 0">
         <div class="accordion-group">
             <div class="accordion-heading">
-                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-2051913516"></a>
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-81931629"></a>
                                 <a href="../namespaces/Grav.Plugin.html" style="margin-left: 30px; padding-left: 0">Plugin</a>
             </div>
-            <div id="namespace-2051913516" class="accordion-body collapse ">
+            <div id="namespace-81931629" class="accordion-body collapse ">
                 <div class="accordion-inner">
 
                     
@@ -263,6 +263,7 @@ top of them.</p>
                                                                     <a href="../classes/Grav.Plugin.EventsPlugin.html#method_onPluginsInitialized" class="">onPluginsInitialized()</a><br />
                                                                     <a href="../classes/Grav.Plugin.EventsPlugin.html#method_onTwigTemplatePaths" class="">onTwigTemplatePaths()</a><br />
                                                                     <a href="../classes/Grav.Plugin.EventsPlugin.html#method_onPagesInitialized" class="">onPagesInitialized()</a><br />
+                                                                    <a href="../classes/Grav.Plugin.EventsPlugin.html#method_onPageInitialized" class="">onPageInitialized()</a><br />
                                                                     <a href="../classes/Grav.Plugin.EventsPlugin.html#method_onBlueprintCreated" class="">onBlueprintCreated()</a><br />
                                                                     <a href="../classes/Grav.Plugin.EventsPlugin.html#method_onTwigSiteVariables" class="">onTwigSiteVariables()</a><br />
                                                             </section>
@@ -332,10 +333,28 @@ top of them.</p>
                         </tr>
                                             <tr>
                             <th>
+                                version
+                            </th>
+                            <td>
+                                                                    <p>Documentation Release</p>
+                                                            </td>
+                        </tr>
+                                            <tr>
+                            <th>
                                 since
                             </th>
                             <td>
                                                                     <p>Initial Release</p>
+                                                            </td>
+                        </tr>
+                                            <tr>
+                            <th>
+                                todo
+                            </th>
+                            <td>
+                                                                    <p>Implement Localization</p>
+                                                                    <p>Implement Date Formats</p>
+                                                                    <p>Implement ICS Feeds</p>
                                                             </td>
                         </tr>
                                         </table>
@@ -628,6 +647,42 @@ them into Grav's page stack where needed</p>
 
                                     <div class="row-fluid">
         <div class="span8 content class">
+            <a id="method_onPageInitialized" name="method_onPageInitialized" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">onPageInitialized()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">onPageInitialized() : void</pre>
+                <p><em>On Page Initialized</em></p>
+                <p>Adds correct event header information to individual events based on the
+events array and token generated. A single dynamic page has an a token
+associated with in the url as evt:123456. We use this to pull the correct
+information and update the header.</p>
+
+                
+                
+                				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            since
+                        </th>
+                        <td>
+                                                            1.0.6                                <p>Templates Update</p>
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
             <a id="method_onBlueprintCreated" name="method_onBlueprintCreated" class="anchor"></a>
             <article class="method">
                 <h3 class="public ">onBlueprintCreated()</h3>
@@ -752,7 +807,9 @@ variables.</p>
                 <section class="span10 offset1">
                     <hr />
                     Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor </a> and authored
-                    on February 29th, 2016 at 14:35.
+                    on 
+Warning: date_default_timezone_get(): It is not safe to rely on the system's timezone settings. You are *required* to use the date.timezone setting or the date_default_timezone_set() function. In case you used any of those methods and you are still getting this warning, you most likely misspelled the timezone identifier. We selected the timezone 'UTC' for now, but please set date.timezone to select your timezone. in phar:///usr/local/Cellar/phpdocumentor/2.8.5/libexec/phpDocumentor.phar/vendor/twig/twig/lib/Twig/Extension/Core.php on line 89
+March 4th, 2016 at 21:17.
                 </section>
             </section>
         </section>

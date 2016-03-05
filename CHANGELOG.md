@@ -1,3 +1,16 @@
+# v1.0.6
+## 03/19/2016
+
+1 [](#new)
+	* Templates now display default tag and category taxonomy type as links.
+
+2 [](#improvements)
+	* Default templates updated
+	* Page load times have been decreased from ~250ms to ~90ms on PHP7.
+
+3 [](#bugfixes)
+	* Fixed repeating rule display from MTWRFSU to full Monday, Tuesday, etc in templates.
+
 # v1.0.5
 ## 02/29/2016
 
@@ -14,9 +27,9 @@
 	* Added phpdoc based docs under the docs folder
 2 [](#improved)
 	* When generating a large number of events, page load speeds would drastically slow down. That has been improved to roughly 100ms on PHP 7 and 160ms on PHP 5.6
-	* Instead of using an epoch string in the url to generate date times, we use a unique 6 digit token and reference event date information via the 
+	* Instead of using an epoch string in the url to generate date times, we use a unique 6 digit token and reference event date information via the
 	token.
-3 [](#bugfixes) 
+3 [](#bugfixes)
 	* There were several repeating and frequency date issues that have now been resolved. Please update to 1.0.4 to ensure you don't run into these issues.
 
 # v1.0.3
