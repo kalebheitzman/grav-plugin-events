@@ -1041,6 +1041,11 @@ class Events
 		$repeatDisplay['S'] = 'Saturday';
 		$repeatDisplay['U'] = 'Sunday';
 
+		// output for a single repeat rule
+		if (count($rules) == 1) {
+			return $repeatDisplay[$repeat];
+		}
+
 		// build the display
 		$display = [];
 		foreach ( $rules as $rule ) {

@@ -1,6 +1,5 @@
 # v1.0.6
 ## 03/19/2016
-
 1 [](#new)
 	* Templates now display default tag and category taxonomy type as links.
 
@@ -10,10 +9,10 @@
 
 3 [](#bugfixes)
 	* Fixed repeating rule display from MTWRFSU to full Monday, Tuesday, etc in templates.
+	* Fixed singular repeating dispaly rule in templates.
 
 # v1.0.5
 ## 02/29/2016
-
 1 [](#new)
 	* Added detailed code documentation via phpdoc. These can be found under the /docs folder.
 2 [](#bugfixes)
@@ -21,7 +20,6 @@
 
 # v1.0.4
 ## 02/28/2016
-
 1 [](#new)
 	* Refactored code into events and calendar classes
 	* Added phpdoc based docs under the docs folder
@@ -34,13 +32,11 @@
 
 # v1.0.3
 ## 02/24/2016
-
 1 [](#bugfixes)
 	* Fixed major fatal error when events don't exist
 
 # v1.0.2
 ## 02/24/2016
-
 1 [](#new)
 	* Added calendar controls
 2 [](#improved)
@@ -51,12 +47,10 @@
 
 # v1.0.1
 ## 02/23/2016
-
 1 [](#new)
 	* Added calendar view with previous and next month navigation
 
 # v1.0.0
 ## 02/22/2016
-
 1. [](#new)
     * ChangeLog started...
