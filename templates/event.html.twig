@@ -2,7 +2,8 @@
 
 {% block content %}
 
-	{{ dump(header) }}
+	{% set first_image = page.media.images|first %}
+	{{ first_image.cropZoom(900, 300).html('','','center') }}
 
 	<h1>{{ page.title}}</h1>
 	<h2>
@@ -10,8 +11,8 @@
 		{{ header.event.start|date('g:ia') }}-{{ header.event.end|date('g:ia') }}
 	</h2>
 
-	{% include 'partials/event-meta.html.twig' with { 'event': header.event, 'event_class': 'center' }%}
+    {{ page.content }}
 
-	{{ page.content }}
+	{% include 'partials/event-meta.html.twig' with { 'event': header.event, 'event_class': 'center' }%}
 
 {% endblock %}

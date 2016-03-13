@@ -894,14 +894,9 @@ class Events
 
 		foreach( $pageList as $newPage )
 		{
-			//$this->$eventsByTimeID[] =
-			//dump($newPage->id());
 			$pages->addPage($newPage, $newPage->route());
 			$taxonomy->addTaxonomy($newPage, $page->taxonomy());
 		}
-
-		//dump($pages->routes());
-
 		return $pages;
 	}
 
@@ -972,6 +967,10 @@ class Events
 		$path = $page->path();
 		$newPath = $path . '-' . $event['token'];
 		$newPage->path($newPath);
+
+		// set the media
+		$media = $page->media();
+		$newPage->media($media);
 
 		// save the eventPageheader
 		$newPage->header($newHeader);

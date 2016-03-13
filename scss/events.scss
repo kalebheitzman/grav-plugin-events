@@ -57,12 +57,57 @@
 	}
 }
 
+// event summary
+.event-summary {
+	display: table;
+	padding: 1em 0;
+
+	.event-image {
+		display: table-cell;
+		min-width: 140px;
+		vertical-align: top;
+
+		img {
+			margin-top: 22px;
+		}
+	}
+
+	.event-content {
+		vertical-align: top;
+		display: table-cell;
+		width: 100%;
+	}
+
+}
+
+// single event
+.event {
+	display: table;
+
+	.event-image {
+		display: table-cell;
+		min-width: 350px;
+		vertical-align: top;
+
+		img {
+			margin-top: 22px;
+		}
+	}
+
+	.event-content {
+		vertical-align: top;
+		display: table-cell;
+		width: 100%;
+	}
+
+}
+
 .event-meta {
 
 	&.center {
 		text-align: center;
 	}
-	
+
 	ul {
 
 		list-style: none;

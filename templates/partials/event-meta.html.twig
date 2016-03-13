@@ -15,7 +15,9 @@
         {% if event.until is defined %}
         <li>Until {{ event.until|date('F j, Y') }}</li>
         {% endif %}
-
+    </ul>
+    
+    <ul>
         {% if page.taxonomy.category %}
         <li>
             {% for category in page.taxonomy.category %}

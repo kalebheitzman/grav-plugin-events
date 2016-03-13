@@ -9,10 +9,18 @@
 	{{ page.content }}
 
     {% for event in collection %}
-        <h3><a href="{{ event.url }}">{{ event.title }}</a></h3>
-		{% include 'partials/event-meta.html.twig' with { 'event': event.header.event, 'page': event, 'listing': true } %}
-        {{ event.summary }}
-		<p><a href="{{ event.url }}">More Information</a></p>
+	<article class="event-summary">
+		<div class="event-image">
+			{% set first_image = event.media.images|first %}
+			{{ first_image.cropZoom(120, 120).html }}
+		</div>
+		<div class="event-content">
+			<h3><a href="{{ event.url }}">{{ event.title }}</a></h3>
+			{% include 'partials/event-meta.html.twig' with { 'event': event.header.event, 'page': event, 'listing': true } %}
+        	{{ event.summary }}
+			<p><a href="{{ event.url }}">More Information</a></p>
+		</div>
+	</article>
     {% endfor %}
 
 	{% if config.plugins.pagination.enabled and collection.params.pagination %}

@@ -35,6 +35,33 @@
   margin-bottom: 5px;
   display: block; }
 
+.event-summary {
+  display: table;
+  padding: 1em 0; }
+  .event-summary .event-image {
+    display: table-cell;
+    min-width: 140px;
+    vertical-align: top; }
+    .event-summary .event-image img {
+      margin-top: 22px; }
+  .event-summary .event-content {
+    vertical-align: top;
+    display: table-cell;
+    width: 100%; }
+
+.event {
+  display: table; }
+  .event .event-image {
+    display: table-cell;
+    min-width: 350px;
+    vertical-align: top; }
+    .event .event-image img {
+      margin-top: 22px; }
+  .event .event-content {
+    vertical-align: top;
+    display: table-cell;
+    width: 100%; }
+
 .event-meta.center {
   text-align: center; }
 .event-meta ul {
