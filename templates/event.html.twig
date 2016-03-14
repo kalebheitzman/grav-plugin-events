@@ -1,17 +1,18 @@
-{% extends 'partials/base.html.twig' %}
+{% embed 'partials/base.html.twig' %}
 
-{% block content %}
+	{% block content %}
+		{% if config.plugins.breadcrumbs.enabled %}
+			{% include 'partials/breadcrumbs.html.twig' %}
+		{% endif %}
 
-	{{ dump(header) }}
+		<div class="blog-content-item grid pure-g-r">
+			<div id="item" class="block pure-u-2-3">
+			    {% include 'partials/event_item.html.twig' with {'event':page.parent, 'truncate':false, 'single':true} %}
+			</div>
+			<div id="sidebar" class="block size-1-3 pure-u-1-3">
+				{% include 'partials/sidebar_events.html.twig' with {'page':page.parent} %}
+			</div>
+		</div>
+	{% endblock %}
 
-	<h1>{{ page.title}}</h1>
-	<h2>
-		{{ header.event.start|date('l, F d, Y') }}<br />
-		{{ header.event.start|date('g:ia') }}-{{ header.event.end|date('g:ia') }}
-	</h2>
-
-	{% include 'partials/event-meta.html.twig' with { 'event': header.event, 'event_class': 'center' }%}
-
-	{{ page.content }}
-
-{% endblock %}
+{% endembed %}

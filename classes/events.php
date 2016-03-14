@@ -13,7 +13,7 @@
  * @author     Kaleb Heitzman <kalebheitzman@gmail.com>
  * @copyright  2016 Kaleb Heitzman
  * @license    https://opensource.org/licenses/MIT MIT
- * @version    1.0.5 Documentation Release
+ * @version    1.0.7 Templates Update
  * @link       https://github.com/kalebheitzman/grav-plugin-events
  * @since      1.0.0 Initial Release
  */
@@ -894,14 +894,9 @@ class Events
 
 		foreach( $pageList as $newPage )
 		{
-			//$this->$eventsByTimeID[] =
-			//dump($newPage->id());
 			$pages->addPage($newPage, $newPage->route());
 			$taxonomy->addTaxonomy($newPage, $page->taxonomy());
 		}
-
-		//dump($pages->routes());
-
 		return $pages;
 	}
 
@@ -973,6 +968,14 @@ class Events
 		$newPath = $path . '-' . $event['token'];
 		$newPage->path($newPath);
 
+		// set the media
+		$media = $page->media();
+		$newPage->media($media);
+
+		// set an event url for template use
+		$url = $page->url() . '/evt:' . $event['token'];
+		$newHeader->event_url = $url;
+
 		// save the eventPageheader
 		$newPage->header($newHeader);
 
@@ -1040,6 +1043,11 @@ class Events
 		$repeatDisplay['F'] = 'Friday';
 		$repeatDisplay['S'] = 'Saturday';
 		$repeatDisplay['U'] = 'Sunday';
+
+		// output for a single repeat rule
+		if (count($rules) == 1) {
+			return $repeatDisplay[$repeat];
+		}
 
 		// build the display
 		$display = [];

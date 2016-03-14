@@ -1,6 +1,14 @@
+/* taken from antimatter theme */
+$core-text:						#444;
+$core-accent:					#1BB3E9;
+$border-radius: 				3px;
+$font-weight-bold: 				600;
+$border-color: 					#EEEEEE;
+
 /* Events Plugin CSS */
 
 .calendar {
+	margin-top: 2em;
 
 	.controls {
 		text-align: center;
@@ -57,26 +65,69 @@
 	}
 }
 
+/* Events Display */
+
 .event-meta {
+	text-align: left;
+	font-style: italic;
 
-	&.center {
-		text-align: center;
-	}
-	
 	ul {
-
 		list-style: none;
-		margin: 0 auto;
 		padding: 0;
 
 		li {
 			display: inline-block;
 		}
-		li::after {
-			content: ' /';
-		}
-		li:last-child::after {
-			content: none;
-		}
 	}
+}
+
+.list-event-header {
+    position: relative;
+    h4 {
+
+        margin-bottom: 0.5rem;
+        a {
+            color: $core-text;
+            &:hover {
+                color: $core-accent;
+            }
+        }
+    }
+
+    img {
+        display: block;
+        margin-top: 1rem;
+        border-radius: $border-radius;
+    }
+}
+
+.list-event-date {
+    float: right;
+    text-align: right;
+	width: 150px;
+	margin-bottom: 1em;
+	span.day {
+		display: inline-block;
+		font-size: 3rem;
+		line-height: 1em;
+		margin-right: 2px;
+		font-weight: $font-weight-bold;
+	}
+	div.month-year {
+		display: inline-block;
+	}
+    span.month {
+        display: block;
+        font-size: 1rem;
+        font-weight: $font-weight-bold;
+		text-transform: uppercase;
+        line-height: 110%;
+    }
+    em {
+        display: block;
+        border-top: 1px solid $border-color;
+        font-style: normal;
+        text-transform: uppercase;
+		line-height: 1em;
+    }
 }
