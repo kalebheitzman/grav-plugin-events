@@ -2,8 +2,8 @@
 /**
  * Grav Events Plugin Calendar Class
  *
- * The Events Calendar Class provides variables for Twig to create a dynamic 
- * calendar with previous and next links that relate to month and year. This 
+ * The Events Calendar Class provides variables for Twig to create a dynamic
+ * calendar with previous and next links that relate to month and year. This
  * is used for display a traditional calendar and forming the rows and columns
  * that make up the calendar.
  *
@@ -11,7 +11,7 @@
  * @author     Kaleb Heitzman <kalebheitzman@gmail.com>
  * @copyright  2016 Kaleb Heitzman
  * @license    https://opensource.org/licenses/MIT MIT
- * @version    1.0.5 Documentation Release
+ * @version    1.0.7 Templates Update
  * @link       https://github.com/kalebheitzman/grav-plugin-events
  * @since      File available since Release 1.0.0
  */
@@ -23,12 +23,12 @@ use Carbon\Carbon;
 /**
  * Events Plugin Calendar Class
  *
- * The Events Calendar Class provides variables for Twig to create a dynamic 
- * calendar with previous and next links that relate to month and year. This 
- * class is also used to display a traditional calendar and form the rows 
- * and columns that make up the calendar. It does not calculate dates or 
- * manipulate any information. It's simply for displaying a nice **calendar 
- * page** on your Grav website. It is referenced under the 
+ * The Events Calendar Class provides variables for Twig to create a dynamic
+ * calendar with previous and next links that relate to month and year. This
+ * class is also used to display a traditional calendar and form the rows
+ * and columns that make up the calendar. It does not calculate dates or
+ * manipulate any information. It's simply for displaying a nice **calendar
+ * page** on your Grav website. It is referenced under the
  * `onTwigSiteVariables` hook in the root events plugin file.
  *
  * @package    Events
@@ -44,11 +44,11 @@ class Calendar
 	/**
 	 * Twig Calendar Vars
 	 *
-	 * Adds a url to the event header and stores each event in an associative 
-	 * array that can be accessed from twig calendar template via **year, 
+	 * Adds a url to the event header and stores each event in an associative
+	 * array that can be accessed from twig calendar template via **year,
 	 * month, and day** params. Here is an example of accessing a particular
 	 * day on a calendar.
-	 * 
+	 *
 	 * ```twig
 	 * {% for events in calendar.events[calendar.year][calendar.month][day] %}
 	 *  	{% for event in events %}
@@ -57,10 +57,10 @@ class Calendar
      *          {% endif %}
      *      {% endfor %}
 	 * {% endfor %}
-	 * ``` 
+	 * ```
 	 *
 	 * @param  object $collection Grav Collection
-	 * 
+	 *
 	 * @return array              Calendar variables for Twig
 	 */
 	public function calendarVars( $collection )
@@ -70,7 +70,7 @@ class Calendar
 		foreach($collection as $event) {
 			$header = $event->header();
 			$start = $header->event['start'];
-			
+
 			// build dates to create an associate array
 			$carbonStart = Carbon::parse($start);
 			$year = $carbonStart->year;
@@ -85,16 +85,16 @@ class Calendar
 		}
 
 		return $calendar;
-	}	
+	}
 
 	/**
 	 * Twig Display Vars
 	 *
 	 * Returns vars used to navigate and display content in the calendar twig
-	 * template. **Past, present, and future** vars are provided to twig for 
+	 * template. **Past, present, and future** vars are provided to twig for
 	 * creating custom navigation ui's. Below is a listing of some of the
 	 * variables that are available.
-	 * 
+	 *
 	 * ```twig
 	 * {% calendar.prevYear %}
 	 * {% calendar.nextYear %}
@@ -107,10 +107,10 @@ class Calendar
 	 * {% calendar.next %}
 	 * {% calendar.prev %}
 	 * ```
-	 * 
+	 *
 	 * @param  object $yearParam  Grav URI `year:` param
 	 * @param  object $monthParam  Grav URI `month:` param
-	 * 
+	 *
 	 * @return array              Twig Array
 	 */
 	public function twigVars($yearParam, $monthParam)
@@ -125,7 +125,7 @@ class Calendar
 
 		$monthYearString = "${yearParam}-${monthParam}-01";
 		$carbonMonthYear = Carbon::parse($monthYearString);
-		
+
 		// add vars for use in the calendar twig var
 		$twigVars['calendar']['daysInMonth'] = $carbonMonthYear->daysInMonth;
 		$twigVars['calendar']['currentDay'] = date('d');
@@ -139,11 +139,11 @@ class Calendar
 		// next dates
 		$nextMonth = $carbonMonthYear->copy()->addMonth();
 		$twigVars['calendar']['next']['date'] = $nextMonth->timestamp;
-		
+
 		// prev dates
 		$prevMonth = $carbonMonthYear->copy()->subMonth();
 		$twigVars['calendar']['prev']['date'] = $prevMonth->timestamp;
-		
+
 		// years
 		$nextYear = $carbonMonthYear->copy()->addYear();
 		$prevYear = $carbonMonthYear->copy()->subYear();
@@ -151,5 +151,5 @@ class Calendar
 		$twigVars['calendar']['nextYear'] = $nextYear;
 
 		return $twigVars;
-	}	
+	}
 }
