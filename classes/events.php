@@ -13,7 +13,7 @@
  * @author     Kaleb Heitzman <kalebheitzman@gmail.com>
  * @copyright  2016 Kaleb Heitzman
  * @license    https://opensource.org/licenses/MIT MIT
- * @version    1.0.5 Documentation Release
+ * @version    1.0.7 Templates Update
  * @link       https://github.com/kalebheitzman/grav-plugin-events
  * @since      1.0.0 Initial Release
  */
@@ -973,7 +973,7 @@ class Events
 		$newPage->media($media);
 
 		// set an event url for template use
-		$url = $page->url() . '/evt:' . $event['token'];		
+		$url = $page->url() . '/evt:' . $event['token'];
 		$newHeader->event_url = $url;
 
 		// save the eventPageheader
