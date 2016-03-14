@@ -1,78 +1,90 @@
+/* taken from antimatter theme */
 /* Events Plugin CSS */
-.calendar .controls {
-  text-align: center;
-  font-size: 1.2em; }
-.calendar .title {
-  display: inline-block;
-  min-width: 170px; }
-.calendar td {
-  vertical-align: top; }
-  .calendar td.current {
-    background: #f7f7f7; }
-.calendar .calendar-button {
-  display: inline-block;
-  line-height: 18px;
-  padding: 0.05em 0.25em 0.25em;
-  background-color: #bbb;
-  color: #fff;
-  border-radius: 4px;
-  min-width: 1.2em;
-  margin: 0 0.05em; }
-  .calendar .calendar-button:hover {
+.calendar {
+  margin-top: 2em; }
+  .calendar .controls {
+    text-align: center;
+    font-size: 1.2em; }
+  .calendar .title {
+    display: inline-block;
+    min-width: 170px; }
+  .calendar td {
+    vertical-align: top; }
+    .calendar td.current {
+      background: #f7f7f7; }
+  .calendar .calendar-button {
+    display: inline-block;
+    line-height: 18px;
+    padding: 0.05em 0.25em 0.25em;
+    background-color: #bbb;
     color: #fff;
-    transition: background-color 0.15s ease;
-    background-color: #999; }
-.calendar .calendar-button
-.headings {
-  text-align: center; }
-.calendar .event a {
+    border-radius: 4px;
+    min-width: 1.2em;
+    margin: 0 0.05em; }
+    .calendar .calendar-button:hover {
+      color: #fff;
+      transition: background-color 0.15s ease;
+      background-color: #999; }
+  .calendar .calendar-button
+  .headings {
+    text-align: center; }
+  .calendar .event a {
+    text-align: right;
+    background: #efefef;
+    padding: 0.5em;
+    font-size: 0.9em;
+    line-height: 1.1em;
+    border-radius: 4px;
+    margin-bottom: 5px;
+    display: block; }
+
+/* Events Display */
+.event-meta {
+  text-align: left;
+  font-style: italic; }
+  .event-meta ul {
+    list-style: none;
+    padding: 0; }
+    .event-meta ul li {
+      display: inline-block; }
+
+.list-event-header {
+  position: relative; }
+  .list-event-header h4 {
+    margin-bottom: 0.5rem; }
+    .list-event-header h4 a {
+      color: #444; }
+      .list-event-header h4 a:hover {
+        color: #1BB3E9; }
+  .list-event-header img {
+    display: block;
+    margin-top: 1rem;
+    border-radius: 3px; }
+
+.list-event-date {
+  float: right;
   text-align: right;
-  background: #efefef;
-  padding: 0.5em;
-  font-size: 0.9em;
-  line-height: 1.1em;
-  border-radius: 4px;
-  margin-bottom: 5px;
-  display: block; }
-
-.event-summary {
-  display: table;
-  padding: 1em 0; }
-  .event-summary .event-image {
-    display: table-cell;
-    min-width: 140px;
-    vertical-align: top; }
-    .event-summary .event-image img {
-      margin-top: 22px; }
-  .event-summary .event-content {
-    vertical-align: top;
-    display: table-cell;
-    width: 100%; }
-
-.event {
-  display: table; }
-  .event .event-image {
-    display: table-cell;
-    min-width: 350px;
-    vertical-align: top; }
-    .event .event-image img {
-      margin-top: 22px; }
-  .event .event-content {
-    vertical-align: top;
-    display: table-cell;
-    width: 100%; }
-
-.event-meta.center {
-  text-align: center; }
-.event-meta ul {
-  list-style: none;
-  margin: 0 auto;
-  padding: 0; }
-  .event-meta ul li {
+  width: 150px;
+  margin-bottom: 1em; }
+  .list-event-date span.day {
+    display: inline-block;
+    font-size: 3rem;
+    line-height: 1em;
+    margin-right: 2px;
+    font-weight: 600; }
+  .list-event-date div.month-year {
     display: inline-block; }
-  .event-meta ul li::after {
-    content: ' /'; }
-  .event-meta ul li:last-child::after {
-    content: none; }
+  .list-event-date span.month {
+    display: block;
+    font-size: 1rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    line-height: 110%; }
+  .list-event-date em {
+    display: block;
+    border-top: 1px solid #EEEEEE;
+    font-style: normal;
+    text-transform: uppercase;
+    line-height: 1em; }
 
 /*# sourceMappingURL=events.css.map */

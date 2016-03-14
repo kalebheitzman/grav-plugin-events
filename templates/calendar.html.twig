@@ -3,82 +3,91 @@
 {% set collection = page.collection() %}
 
 {% block content %}
+	{% set blog_image = page.media.images|first.grayscale().contrast(20).brightness(-100).colorize(-35,81,122) %}
 
-	<h1>{{ page.title }}</h1>
+	{% if blog_image %}
+	<div class="flush-top blog-header blog-header-image" style="background-image: url({{ blog_image.url }});">
+	{% else %}
+	<div class="blog-header">
+	{% endif %}
+		{{ page.content }}
+	</div>
 
-	{{ page.content }}
+	<div class="content-wrapper grid pure-g">
+		<div class="pure-u-1">
+		    {% set prevYearUrl = page.url ~ '/year:' ~ calendar.prevYear|date('Y') ~ '/month:' ~ calendar.prevYear|date('m') %}
+		    {% set nextYearUrl = page.url ~ '/year:' ~ calendar.nextYear|date('Y') ~ '/month:' ~ calendar.nextYear|date('m') %}
+		    {% set prevMonthUrl = page.url ~ '/year:' ~ calendar.prev.date|date('Y') ~ '/month:' ~ calendar.prev.date|date('m') %}
+		    {% set nextMonthUrl = page.url ~ '/year:' ~ calendar.next.date|date('Y') ~ '/month:' ~ calendar.next.date|date('m') %}
 
-    {% set prevYearUrl = page.url ~ '/year:' ~ calendar.prevYear|date('Y') ~ '/month:' ~ calendar.prevYear|date('m') %}
-    {% set nextYearUrl = page.url ~ '/year:' ~ calendar.nextYear|date('Y') ~ '/month:' ~ calendar.nextYear|date('m') %}
-    {% set prevMonthUrl = page.url ~ '/year:' ~ calendar.prev.date|date('Y') ~ '/month:' ~ calendar.prev.date|date('m') %}
-    {% set nextMonthUrl = page.url ~ '/year:' ~ calendar.next.date|date('Y') ~ '/month:' ~ calendar.next.date|date('m') %}
+		    <table class="calendar">
+		        <thead>
+		            <tr>
+		                <th colspan="1">
+		                    <a href="{{ prevMonthUrl }}" class="calendar-control">{{ calendar.prev.date|date('F Y') }}</a>
+		                </th>
+		                <th colspan="5" class="controls">
+		                    <a href="{{ prevMonthUrl }}" class="calendar-button calendar-control">&lsaquo;</a>
+		                    <a href="{{ prevYearUrl }}" class="calendar-button calendar-control">&laquo;</a>
+		                    <span class="title">{{ calendar.date|date('F Y') }}</span>
+		                    <a href="{{ nextYearUrl }}" class="calendar-button calendar-control">&raquo;</a>
+		                    <a href="{{ nextMonthUrl }}" class="calendar-button calendar-control">&rsaquo;</a>
+		                </th>
+		                <th colspan="1">
+		                    <a href="{{ nextMonthUrl }}" class="calendar-control">{{ calendar.next.date|date('F Y') }}</a>
+		                </th>
+		            </tr>
+		            <tr class="headings">
+		                <th width="14.2%">Sunday</th>
+		                <th width="14.2%">Monday</th>
+		                <th width="14.2%">Tuesday</th>
+		                <th width="14.2%">Wednesday</th>
+		                <th width="14.2%">Thursday</th>
+		                <th width="14.2%">Friday</th>
+		                <th width="14.2%">Saturday</th>
+		            </tr>
+		        </thead>
+		        <tbody>
+		            <tr>
+		            {% set startDow = calendar.date|date('F 1\\s\\t Y')|date('w') %}
+		            {% set dow = startDow %}
+		            {% for day in range(1,calendar.daysInMonth) %}
+		                {% if loop.first and startDow != 0 %}
+		                    <td colspan="{{ startDow }}"></td>
+		                {% endif %}
+		                <td {% if day == calendar.currentDay %}class="current"{% endif %}>
+		                    <div>
+		                        <div>{{ day }}</div>
+		                        <div>
+		                            {% for events in calendar.events[calendar.year][calendar.month][day] %}
+		                                {% for event in events %}
+		                                    {% if event.title %}
+		                                        <div class="event"><a href="{{ event.url }}">{{ event.title }}</a></div>
+		                                    {% endif %}
+		                                {% endfor %}
+		                            {% endfor %}
+		                        </div>
+		                    </div>
+		                </td>
+		                {% if loop.last and dow != 6 %}
+		                    <td colspan="{{ 6 - dow }}">&nbsp;</td>
+		                {% endif %}
+		                {% if dow == 6 %}
+		                    {% set dow = 0 %}
+		                </tr>
+		                <tr>
+		                {% else %}
+		                    {% set dow = dow + 1 %}
+		                {% endif %}
+		            {% endfor %}
+		            </tr>
+		        </tbody>
+		    </table>
 
-    <table class="calendar">
-        <thead>
-            <tr>
-                <th colspan="1">
-                    <a href="{{ prevMonthUrl }}" class="calendar-control">{{ calendar.prev.date|date('F Y') }}</a>
-                </th>
-                <th colspan="5" class="controls">
-                    <a href="{{ prevMonthUrl }}" class="calendar-button calendar-control">&lsaquo;</a>
-                    <a href="{{ prevYearUrl }}" class="calendar-button calendar-control">&laquo;</a>
-                    <span class="title">{{ calendar.date|date('F Y') }}</span>
-                    <a href="{{ nextYearUrl }}" class="calendar-button calendar-control">&raquo;</a>
-                    <a href="{{ nextMonthUrl }}" class="calendar-button calendar-control">&rsaquo;</a>
-                </th>
-                <th colspan="1">
-                    <a href="{{ nextMonthUrl }}" class="calendar-control">{{ calendar.next.date|date('F Y') }}</a>
-                </th>
-            </tr>
-            <tr class="headings">
-                <th width="14.2%">Sunday</th>
-                <th width="14.2%">Monday</th>
-                <th width="14.2%">Tuesday</th>
-                <th width="14.2%">Wednesday</th>
-                <th width="14.2%">Thursday</th>
-                <th width="14.2%">Friday</th>
-                <th width="14.2%">Saturday</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-            {% set startDow = calendar.date|date('F 1\\s\\t Y')|date('w') %}
-            {% set dow = startDow %}
-            {% for day in range(1,calendar.daysInMonth) %}
-                {% if loop.first and startDow != 0 %}
-                    <td colspan="{{ startDow }}"></td>
-                {% endif %}
-                <td {% if day == calendar.currentDay %}class="current"{% endif %}>
-                    <div>
-                        <div>{{ day }}</div>
-                        <div>
-                            {% for events in calendar.events[calendar.year][calendar.month][day] %}
-                                {% for event in events %}
-                                    {% if event.title %}
-                                        <div class="event"><a href="{{ event.url }}">{{ event.title }}</a></div>
-                                    {% endif %}
-                                {% endfor %}
-                            {% endfor %}
-                        </div>
-                    </div>
-                </td>
-                {% if loop.last and dow != 6 %}
-                    <td colspan="{{ 6 - dow }}">&nbsp;</td>
-                {% endif %}
-                {% if dow == 6 %}
-                    {% set dow = 0 %}
-                </tr>
-                <tr>
-                {% else %}
-                    {% set dow = dow + 1 %}
-                {% endif %}
-            {% endfor %}
-            </tr>
-        </tbody>
-    </table>
+		</div>
+	</div>
 
-    {% for event in collection %}
-        
-    {% endfor %}
+
+
 
 {% endblock %}

@@ -972,6 +972,10 @@ class Events
 		$media = $page->media();
 		$newPage->media($media);
 
+		// set an event url for template use
+		$url = $page->url() . '/evt:' . $event['token'];		
+		$newHeader->event_url = $url;
+
 		// save the eventPageheader
 		$newPage->header($newHeader);
 
