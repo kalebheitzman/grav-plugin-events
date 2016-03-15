@@ -13,7 +13,7 @@
  * @author     Kaleb Heitzman <kalebheitzman@gmail.com>
  * @copyright  2016 Kaleb Heitzman
  * @license    https://opensource.org/licenses/MIT MIT
- * @version    1.0.7 Templates Update
+ * @version    1.0.8
  * @link       https://github.com/kalebheitzman/grav-plugin-events
  * @since      1.0.0 Initial Release
  */
@@ -42,7 +42,7 @@ use Grav\Common\Grav;
  * @author     Kaleb Heitzman <kalebheitzman@gmail.com>
  * @copyright  2016 Kaleb Heitzman
  * @license    https://opensource.org/licenses/MIT MIT
- * @version    1.0.5 Documentation Release
+ * @version    1.0.8
  * @link       https://github.com/kalebheitzman/grav-plugin-events
  * @since      1.0.0 Initial Release
  */
@@ -183,6 +183,8 @@ class Events
 		$this->startRangeDate = $dateRange['start'];
 		$this->endRangeDate = $dateRange['end'];
 
+		$events = [];
+		$eventPages = [];
 		foreach ( $pages->instances() as $page ) {
 			// get the event instance
 			$event = $this->initEvent($page);
