@@ -1,3 +1,9 @@
+# v1.0.8
+## 03/15/2016
+
+1 [](#bugfix)
+	* Issue #8 - Fixed unset arrays causing fatal error
+
 # v1.0.7
 ## 03/14/2016
 
@@ -16,7 +22,7 @@
 	* Default templates updated
 	* Page load times have been decreased from ~250ms to ~90ms on PHP7.
 1. [](#bugfix)
-	* Fixed repeating rule display from MTWRFSU to full Monday, Tuesday, etc in templates.
+	* Issue #4 - Fixed repeating rule display from MTWRFSU to full Monday, Tuesday, etc in templates.
 	* Fixed singular repeating display rule in templates.
 
 # v1.0.5
@@ -62,6 +68,8 @@
 
 1. [](#new)
 	* Added calendar view with previous and next month navigation
+1. [](#bugfix)
+	* Issue #2 - Fixed Changelog format
 
 # v1.0.0
 ## 02/22/2016
