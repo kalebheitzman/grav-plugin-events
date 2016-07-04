@@ -1,13 +1,18 @@
 # v1.0.9
 ## 07/04/2016
-1 [](#bugfix)
+1. [](#improved)
+	* Added start and end times to calendar template
+	* Added demo link that points to the start for this calendar (advance forward to see new events, etc)
+	* Added a link to a github repo to see Event configuration under the user/pages Grav directory
+1. [](#bugfix)
 	* Issue #13 - Wrong link in read me for demo site.
 	* Issue #15 - Current day in current month only (not multiple months)
+	* Issue #16 - Update for Grav 1.1 fixed with 1.0.4 DateTools plugin
 
 # v1.0.8
 ## 03/15/2016
 
-1 [](#bugfix)
+1. [](#bugfix)
 	* Issue #8 - Fixed unset arrays causing fatal error
 
 # v1.0.7
