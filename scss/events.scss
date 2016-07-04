@@ -51,16 +51,16 @@ $border-color: 					#EEEEEE;
 	}
 
 	.event {
+		background: #efefef;
+		text-align: right;
+		padding: 0.5em;
+		font-size: 0.9em;
+		line-height: 1.1em;
+		border-radius: 4px;
+		margin-bottom: 5px;
+		display: block;
 
-		a {
-			text-align: right;
-			background: #efefef;
-			padding: 0.5em;
-			font-size: 0.9em;
-			line-height: 1.1em;
-			border-radius: 4px;
-			margin-bottom: 5px;
-			display: block;
+		a {			
 		}
 	}
 }

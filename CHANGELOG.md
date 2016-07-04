@@ -1,3 +1,9 @@
+# v1.0.9
+## 07/04/2016
+1 [](#bugfix)
+	* Issue #13 - Wrong link in read me for demo site.
+	* Issue #15 - Current day in current month only (not multiple months)
+
 # v1.0.8
 ## 03/15/2016
 

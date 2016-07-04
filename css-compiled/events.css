@@ -28,9 +28,9 @@
   .calendar .calendar-button
   .headings {
     text-align: center; }
-  .calendar .event a {
-    text-align: right;
+  .calendar .event {
     background: #efefef;
+    text-align: right;
     padding: 0.5em;
     font-size: 0.9em;
     line-height: 1.1em;

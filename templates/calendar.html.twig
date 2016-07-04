@@ -63,7 +63,10 @@
 		                            {% for events in calendar.events[calendar.year][calendar.month][day] %}
 		                                {% for event in events %}
 		                                    {% if event.title %}
-		                                        <div class="event"><a href="{{ event.url }}">{{ event.title }}</a></div>
+		                                        <div class="event">
+		                                        	<span class="event-title"><a href="{{ event.url }}">{{ event.title }}</a></span>
+		                                        	<span class="event-time">{{ event.event.start|date("g:ia") }}-{{ event.event.end|date("g:ia") }}</span>
+		                                        </div>
 		                                    {% endif %}
 		                                {% endfor %}
 		                            {% endfor %}
