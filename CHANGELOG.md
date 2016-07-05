@@ -1,3 +1,8 @@
+# v1.0.10
+## 07/04/2016
+1. [](#bugfix)
+	* Bumped version number
+
 # v1.0.9
 ## 07/04/2016
 1. [](#improved)
