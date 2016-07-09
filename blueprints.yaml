@@ -69,3 +69,11 @@ form:
         0: Disabled
       validate:
         type: bool
+    default_events_page:
+      type: text
+      label: The main page listing events
+      default: /events
+    sidebar_months:
+      type: text
+      label: Number of months for which to display next events in sidebar
+      default: 2

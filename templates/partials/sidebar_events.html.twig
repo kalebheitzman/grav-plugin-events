@@ -10,45 +10,9 @@
 	<h4>Some Text Widget</h4>
 	<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna.</p>
 </div>
-<div class="sidebar-content">
-	<h4>{{ datetools.startOfMonth|date('F') }} Events</h4>
-    {% set events =
-        page.collection({
-            'items':{
-                '@taxonomy.type':'event',
-            }
-        })
-        .dateRange(
-            datetools.startOfMonth,
-            datetools.endOfMonth
-        )
-        .order('date', 'asc')
-    %}
-    <ul>
-    {% for event in events %}
-        <li>{{ event.header.event.start|date('M d')}} <a href="{{ event.url }}">{{ event.title }}</a></li>
-    {% endfor %}
-    </ul>
-
-    <h4>{{ datetools.parseDate('first day of next month')|date('F') }} Events</h4>
-    {% set events2 =
-        page.collection({
-            'items':{
-                '@taxonomy.type':'event',
-            }
-        })
-        .dateRange(
-            datetools.parseDate('first day of next month'),
-            datetools.parseDate('last day of next month')
-        )
-        .order('date', 'asc')
-    %}
-    <ul>
-    {% for event in events2 %}
-        <li>{{ event.header.event.start|date('M d')}} <a href="{{ event.url }}">{{ event.title }}</a></li>
-    {% endfor %}
-    </ul>
-</div>
+{% if config.plugins.events.enabled %}
+    {% include 'partials/events_sidebar.html.twig' %}
+{% endif %}
 {% if config.plugins.taxonomylist.enabled %}
 <div class="sidebar-content">
     <h4>Popular Tags</h4>
