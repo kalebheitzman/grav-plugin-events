@@ -5,7 +5,7 @@
     {% set header_image_height = page.header.header_image_height|defined(300) %}
     {% set header_image_file = page.header.header_image_file %}
 
-    <div class="list-event-header h-event h-entry">
+    <div class="list-event-header h-event">
         <div class="list-event-date">
             <div class="date">
                 <span class="day">{{ page.header.event.start|date("d") }}</span>
@@ -15,7 +15,7 @@
                 </div>
             </div>
             <div class="time">
-                <time class="dt-start" datetime="{{ page.date|date("c") }}">{{ page.header.event.start|date('gia') }}</time>-<time class="dt-end" datetime="{{ page.date|date("c") }}">{{ page.header.event.end|date('gia') }}</time>
+                <time class="dt-start" datetime="{{ page.header.event.start|date("c") }}">{{ page.header.event.start|date('gia') }}</time>-<time class="dt-end" datetime="{{ page.header.event.end|date("c") }}">{{ page.header.event.end|date('gia') }}</time>
             </div>
         </div>
         {% if page.header.link %}

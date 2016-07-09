@@ -21,7 +21,7 @@
         <h4>{{ curTime|date('F') }} Events</h4>
         <ul>
         {% for event in events %}
-            <li class="h-event h-entry"><time class="dt-start" datetime="{{ event.header.event.start|date("c") }}">{{ event.header.event.start|date('M d')}}</time><time class="dt-end" datetime="{{ event.header.event.end|date("c") }}"></time> <a href="{{ event.url }}" class="u-url p-name">{{ event.title }}</a></li>
+            <li class="h-event"><time class="dt-start" datetime="{{ event.header.event.start|date("c") }}">{{ event.header.event.start|date('M d')}}</time><time class="dt-end" datetime="{{ event.header.event.end|date("c") }}"></time> <a href="{{ event.url }}" class="u-url p-name">{{ event.title }}</a></li>
         {% endfor %}
         </ul>
         {% set curtime = curTime.addMonth() %}
