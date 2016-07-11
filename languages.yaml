@@ -1,11 +1,13 @@
 en:
   PLUGIN_EVENTS:
+    MONTH_EVENTS: %s Events
     SIDEBAR_FEED:
       NAME: %s | Events (next %d months)
       DESCRIPTION: %s's events in the next %d months. For more upcoming events: %s
       MORE_EVENTS: More events.
 fr:
   PLUGIN_EVENTS:
+    MONTH_EVENTS: Évènements de %s
     SIDEBAR_FEED:
       NAME: %s | Évènements (%d prochains mois)
       DESCRIPTION: Les événements de %s dans les deux prochains mois.

@@ -3,27 +3,34 @@
         <a class="p-name u-url" href="{{ config.plugins.events.default_events_page }}">{{ "PLUGIN_EVENTS.SIDEBAR_FEED.NAME"|t(site.title|e, 2) }}</a>
         <p class="p-summary">{{ "PLUGIN_EVENTS.SIDEBAR_FEED.DESCRIPTION"|t(site.title|e, 2, config.plugins.events.default_events_page) }}</p>
     </div>
-    {% set months = config.plugins.events.sidebar_months %}
-    {% set curTime = clone(datetools) %}
-    
-    {% for i in range(0, months - 1) %}
-        {% set events = page.collection({
-                'items':{
-                    '@taxonomy.type':'event',
-                }
-            })
-            .dateRange(
-                curTime.today,
-                curTime.endOfMonth
-            )
-            .order('date', 'asc')
-        %}
-        <h4>{{ curTime|date('F') }} Events</h4>
-        <ul>
-        {% for event in events %}
-            <li class="h-event"><time class="dt-start" datetime="{{ event.header.event.start|date("c") }}">{{ event.header.event.start|date('M d')}}</time><time class="dt-end" datetime="{{ event.header.event.end|date("c") }}"></time> <a href="{{ event.url }}" class="u-url p-name">{{ event.title }}</a></li>
-        {% endfor %}
-        </ul>
-        {% set curtime = curTime.addMonth() %}
+    {% set events = page.collection({
+        'items':{
+            '@taxonomy.type':'event',
+        }
+    }).dateRange(
+            datetools.startOfMonth,
+            datetools.endOfMonth
+    ).order('date', 'asc')
+    %}
+    <h4>{{ 'PLUGIN_EVENTS.MONTH_EVENTS'|t('MONTHS_OF_THE_YEAR'|ta(datetools.startOfMonth|date('n') -1)) }}</h4>
+    <ul>
+    {% for event in events %}
+        <li class="h-event"><time class="dt-start" datetime="{{ event.header.event.start|date("c") }}">{{ event.header.event.start|date('M d')}}</time><time class="dt-end" datetime="{{ event.header.event.end|date("c") }}"></time> <a href="{{ event.url }}" class="u-url p-name">{{ event.title }}</a></li>
     {% endfor %}
+    </ul>
+    {% set events = page.collection({
+        'items':{
+            '@taxonomy.type':'event',
+        }
+    }).dateRange(
+        datetools.parseDate('first day of next month'),
+        datetools.parseDate('last day of next month')
+    ).order('date', 'asc')
+    %}
+    <h4>{{ 'PLUGIN_EVENTS.MONTH_EVENTS'|t('MONTHS_OF_THE_YEAR'|ta(datetools.parseDate('first day of next month')|date('n') -1)) }}</h4>
+    <ul>
+    {% for event in events %}
+        <li class="h-event"><time class="dt-start" datetime="{{ event.header.event.start|date("c") }}">{{ event.header.event.start|date('M d')}}</time><time class="dt-end" datetime="{{ event.header.event.end|date("c") }}"></time> <a href="{{ event.url }}" class="u-url p-name">{{ event.title }}</a></li>
+    {% endfor %}
+    </ul>
 </div>
