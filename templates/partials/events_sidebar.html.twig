@@ -1,7 +1,10 @@
 <div class="sidebar-content h-feed">
     <div style="display: none;">
         <a class="p-name u-url" href="{{ config.plugins.events.default_events_page }}">{{ "PLUGIN_EVENTS.SIDEBAR_FEED.NAME"|t(site.title|e, 2) }}</a>
-        <p class="p-summary">{{ "PLUGIN_EVENTS.SIDEBAR_FEED.DESCRIPTION"|t(site.title|e, 2, config.plugins.events.default_events_page) }}</p>
+        <p class="p-summary">
+            {{ "PLUGIN_EVENTS.SIDEBAR_FEED.DESCRIPTION"|t(site.title|e, 2) }}
+            <a href="{{ base_url ~ config.plugins.events.default_events_page }}">{{ "PLUGIN_EVENTS.SIDEBAR_FEED.MORE_EVENTS"|t }}</a>
+        </p>
     </div>
     {% set events = page.collection({
         'items':{

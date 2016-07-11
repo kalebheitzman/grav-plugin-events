@@ -3,7 +3,7 @@ en:
     MONTH_EVENTS: %s Events
     SIDEBAR_FEED:
       NAME: %s | Events (next %d months)
-      DESCRIPTION: %s's events in the next %d months. For more upcoming events: %s
+      DESCRIPTION: %s's events in the next %d months.
       MORE_EVENTS: More events.
 fr:
   PLUGIN_EVENTS:

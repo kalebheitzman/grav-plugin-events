@@ -10,7 +10,11 @@
             <div class="date">
                 <span class="day">{{ page.header.event.start|date("d") }}</span>
                 <div class="month-year">
-                    <span class="month">{{ page.header.event.start|date("M") }}</span>
+                    {% if config.plugins.events.date_translate %}
+                    <span class="month">{{ 'MONTHS_OF_THE_YEARS'|ta(page.header.event.start|date('n') - 1) }}</span>
+                    {% else %}
+                    <span class="month">{{ page.header.event.start|date('M') }}</span>
+                    {% endif %}
                     <em>{{ page.header.event.start|date("Y") }}</em>
                 </div>
             </div>

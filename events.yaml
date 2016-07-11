@@ -4,10 +4,11 @@ date_format:
     medium: m/d/Y
     short: M j
     default: F j, Y h:ia
+date_translate: false
 filter_combinator: and
 taxonomy_type: event
 event_template_types: calendar, events, event
 display_months_out: 3
 show_past_events: false
 enable_single_event_filter: true
-default_events_page: /events
+default_events_page: events

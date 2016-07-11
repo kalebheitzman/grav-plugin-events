@@ -41,6 +41,16 @@ form:
       type: text
       label: Default Date Format
       default: F j, Y h:ia
+    date_translate:
+      type: toggle
+      label: Translate dates
+      highlight: 1
+      default: 0
+      options:
+        1: Enabled
+        0: Disabled
+      validate:
+        type: bool
     filter_combinator:
       type: text
       label: Filter Combinator
@@ -72,8 +82,4 @@ form:
     default_events_page:
       type: text
       label: The main page listing events
-      default: /events
-    sidebar_months:
-      type: text
-      label: Number of months for which to display next events in sidebar
-      default: 2
+      default: events
