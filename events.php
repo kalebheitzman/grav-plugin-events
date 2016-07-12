@@ -114,7 +114,8 @@ class EventsPlugin extends Plugin
 	public static function getSubscribedEvents()
 	{
 		return [
-			'onPluginsInitialized' => ['onPluginsInitialized', 0],
+			'onPluginsInitialized' => ['onPluginsInitialized', 0],            
+			'onGetPageTemplates'   => ['onGetPageTemplates', 0],
 		];
 	}
 
@@ -255,6 +256,20 @@ class EventsPlugin extends Plugin
 	{
 		// todo: add events event blueprint to admin
 		// $this->grav['blueprints'];
+	}
+	
+	/**
+	 * Association with page templates
+	 */
+	public function onGetPageTemplates(Event $event)
+	{
+		/**
+	         * @var Types $types
+	         */
+	        $types = $event->types;
+	        $types->register('event', __DIR__.'/blueprints/event.yaml');
+	        $types->register('events', __DIR__.'/blueprints/events.yaml');
+	        $types->register('calendar', __DIR__.'/blueprints/calendar.yaml');
 	}
 
 	/**
