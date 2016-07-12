@@ -41,7 +41,7 @@ form:
       type: text
       label: Default Date Format
       default: F j, Y h:ia
-    date_translate:
+    date_format.translate:
       type: toggle
       label: Translate dates
       highlight: 1
