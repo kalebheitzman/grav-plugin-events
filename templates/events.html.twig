@@ -18,7 +18,11 @@
 			{% endif %}
 
 		<div class="content-wrapper blog-content-list grid pure-g">
-			<div id="listing" class="block pure-u-2-3">
+			<div id="listing" class="block pure-u-2-3 h-feed">
+			    <div style="display: none">
+			        <a href="{{ page.url() }}" class="p-name u-url">{{ header.feed.name|default(page.title)|e }}</a>
+			        <p class="p-summary">{{ header.feed.description|default(header.title)|e }}</p>
+			    </div>
 				{% for child in collection %}
 			        {% include 'partials/event_item.html.twig' with {'event':page, 'page':child, 'truncate':true} %}
 			    {% endfor %}

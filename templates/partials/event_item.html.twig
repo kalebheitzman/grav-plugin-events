@@ -1,4 +1,4 @@
-<div class="list-item">
+<div class="list-item h-event">
 
     {% set header_image = page.header.header_image|defined(true) %}
     {% set header_image_width  = page.header.header_image_width|defined(900) %}
@@ -10,23 +10,23 @@
             <div class="date">
                 <span class="day">{{ page.header.event.start|date("d") }}</span>
                 <div class="month-year">
-                    <span class="month">{{ page.header.event.start|date("M") }}</span>
+                    <span class="month">{{ config.plugins.events.date_format.translate ? 'MONTHS_OF_THE_YEAR'|ta(page.header.event.start|date('n') - 1) : page.header.event.start|date('M') }}</span>
                     <em>{{ page.header.event.start|date("Y") }}</em>
                 </div>
             </div>
             <div class="time">
-                {{ page.header.event.start|date('gia') }}-{{ page.header.event.end|date('gia') }}
+                <time class="dt-start" datetime="{{ page.header.event.start|date("c") }}">{{ page.header.event.start|date('gia') }}</time>-<time class="dt-end" datetime="{{ page.header.event.end|date("c") }}">{{ page.header.event.end|date('gia') }}</time>
             </div>
         </div>
         {% if page.header.link %}
-            <h4>
+            <h4 class="p-name">
                 {% if page.header.continue_link is not sameas(false) %}
-                <a href="{{ page.url }}"><i class="fa fa-angle-double-right"></i></a>
+                <a href="{{ page.url }}" class="u-url"><i class="fa fa-angle-double-right"></i></a>
                 {% endif %}
-                <a href="{{ page.header.link }}">{{ page.title }}</a>
+                <a href="{{ page.header.link }}" class="u-url">{{ page.title }}</a>
             </h4>
         {% else %}
-            <h4><a href="{{ page.header.event_url }}">{{ page.title }}</a></h4>
+            <h4 class="p-name"><a href="{{ page.header.event_url }}" class="u-url">{{ page.title }}</a></h4>
         {% endif %}
 
         {% if page.taxonomy.category %}
@@ -40,7 +40,7 @@
         {% if page.taxonomy.tag %}
         <span class="tags">
             {% for tag in page.taxonomy.tag %}
-            <a href="{{ event.url|rtrim('/') }}/tag{{ config.system.param_sep }}{{ tag }}">{{ tag }}</a>
+            <a href="{{ event.url|rtrim('/') }}/tag{{ config.system.param_sep }}{{ tag }}" class="p-category">{{ tag }}</a>
             {% endfor %}
         </span>
         {% endif %}
@@ -63,15 +63,20 @@
         {% set show_prev_next = true %}
         {% endif %}
     {% elseif truncate and page.summary != page.content %}
-        {{ page.summary }}
+        <div class="p-summary">
+            {{ page.summary }}
         <p><a href="{{ page.url }}">Continue Reading...</a></p>
+        </div>
     {% elseif truncate %}
         {% if page.summary != page.content %}
-            {{ page.content|truncate(550) }}
+            <div class="p-summary">
+                {{ page.content|truncate(550) }}
         {% else %}
-            {{ page.content }}
+            <div class="p-description">
+                {{ page.content }}
         {% endif %}
-        <p><a href="{{ page.url }}">Continue Reading...</a></p>
+            </div>
+        <p><a href="{{ page.url }}">{{ 'BLOG.ITEM.CONTINUE_READING'|t }}</a></p>
     {% else %}
         {% include 'partials/event_meta.html.twig' with {'page':page} %}
         {{ page.content }}
@@ -83,11 +88,11 @@
 
         <p class="prev-next">
             {% if not page.isFirst %}
-                <a class="button" href="{{ page.nextSibling.url }}"><i class="fa fa-chevron-left"></i> Next Event</a>
+                <a class="button" href="{{ page.nextSibling.url }}"><i class="fa fa-chevron-left"></i> {{ 'BLOG.ITEM.NEXT_POST'|t }}</a>
             {% endif %}
 
             {% if not page.isLast %}
-                <a class="button" href="{{ page.prevSibling.url }}">Previous Event <i class="fa fa-chevron-right"></i></a>
+                <a class="button" href="{{ page.prevSibling.url }}">{{ 'BLOG.ITEM.PREV_POST'|t }} <i class="fa fa-chevron-right"></i></a>
             {% endif %}
         </p>
     {% endif %}
