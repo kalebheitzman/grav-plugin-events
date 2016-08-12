@@ -12,7 +12,7 @@
  * @author     Kaleb Heitzman <kalebheitzman@gmail.com>
  * @copyright  2016 Kaleb Heitzman
  * @license    https://opensource.org/licenses/MIT MIT
- * @version    1.0.8
+ * @version    1.0.10
  * @link       https://github.com/kalebheitzman/grav-plugin-events
  * @since      1.0.0 Initial Release
  */
@@ -63,9 +63,8 @@ use Events\Events;
  *
  * @package     Events
  * @author      Kaleb Heitzman <kalebheitzman@gmail.com>
- * @version 	1.0.8
+ * @version 	1.0.10
  * @since 		1.0.0 Initial Release
- * @todo 		Implement Localization
  * @todo 		Implement Date Formats
  * @todo 		Implement ICS Feeds
  * @todo 		Implement All Day Option
