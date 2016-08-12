@@ -4,7 +4,7 @@ This is an events plugin that works with [Grav CMS](http://getgrav.org)  1.0.10+
 
 [View the demo](https://grav.brandr.co/calendar/year:2016/month:03) *Sidenote: the demo is running the development version of this plugin. From time to time you may see features that haven't been released yet.*
 
-Also, check out this [Repo](https://github.com/kalebheitzman/grav-brandr-pages) for proper page setup for Calendar, Events, and Event.
+Also, check out this [Repo](https://github.com/kalebheitzman/grav-brandr-pages) of proper page setup for Calendar, Events, and Event.
 
 ### Installation
 
@@ -13,20 +13,6 @@ From the root of your Grav install.
 ```
 $ bin/gpm install events
 ```
-
-### Configuration
-
-#### Date translations
-
-Date translations can be enabled by setting `date_format.translate` to true in the config. They use the official [Grav translation files](https://github.com/getgrav/grav/tree/develop/system/languages), so if your language is missing, don't hesitate to contribute upstream.
-
-#### Sidebar link
-
-The sidebar template `partials/events_sidebar.html.twig` provides, if set, a link to see more events.
-
-You can configure it by changing the value of `default_events_page` in the config. Note that the expected pagename is relative to the root of your website.
-
-So if you want to point to `YOUR_SITE/events` (or `YOUR_SITE/lang/events` if translations are enabled in Grav), just set it to `events`.
 
 ### Todo
 
@@ -117,9 +103,9 @@ A collection of weekend events.
 
 <ul>
     {% for event in events %}
-        <li class="h-event">
-            <a href="{{ event.url }}" class="p-name u-url">{{ event.title }}</a>
-            <time class="dt-start" datetime="{{ event.header.event.start|date('c') }}">{{ event.header.event.start|date('F j, Y') }}</time>
+        <li>
+            <a href="{{ event.url }}">{{ event.title }}</a>
+            {{ event.header.event.start|date('F j, Y') }}
         </li>
     {% endfor %}
 </ul>
