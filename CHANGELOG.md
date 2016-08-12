@@ -1,5 +1,5 @@
-# v1.0.X (unreleased)
-## 07/12/2016
+# v1.0.11
+## 08/12/2016
 1. [](#new)
 - [microformats2](http://microformats.org) support
 - Dates are now translated in the `event_item` template, if `events.date_format.translate` setting
