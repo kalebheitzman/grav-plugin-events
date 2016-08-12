@@ -1,5 +1,5 @@
 name: Events
-version: 1.0.10
+version: 1.0.8
 description: "The **Events** plugin provides events for a Grav site using event frontmatter."
 icon: calendar
 author:
@@ -41,16 +41,6 @@ form:
       type: text
       label: Default Date Format
       default: F j, Y h:ia
-    date_format.translate:
-      type: toggle
-      label: Translate dates
-      highlight: 1
-      default: 0
-      options:
-        1: Enabled
-        0: Disabled
-      validate:
-        type: bool
     filter_combinator:
       type: text
       label: Filter Combinator
@@ -79,7 +69,3 @@ form:
         0: Disabled
       validate:
         type: bool
-    default_events_page:
-      type: text
-      label: The main page listing events
-      default: events
