@@ -24,27 +24,27 @@
 		        <thead>
 		            <tr>
 		                <th colspan="1">
-		                    <a href="{{ prevMonthUrl }}" class="calendar-control">{{ calendar.prev.date|date('F Y') }}</a>
+		                    <a href="{{ prevMonthUrl }}" class="calendar-control">{{ 'MONTHS_OF_THE_YEAR'|ta(calendar.prev.date|date('n') - 1) ~ calendar.prev.date|date(' Y') }}</a>
 		                </th>
 		                <th colspan="5" class="controls">
 		                    <a href="{{ prevMonthUrl }}" class="calendar-button calendar-control">&lsaquo;</a>
 		                    <a href="{{ prevYearUrl }}" class="calendar-button calendar-control">&laquo;</a>
-		                    <span class="title">{{ calendar.date|date('F Y') }}</span>
+		                    <span class="title">{{ 'MONTHS_OF_THE_YEAR'|ta(calendar.date|date('n') - 1) ~ calendar.date|date(' Y') }}</span>
 		                    <a href="{{ nextYearUrl }}" class="calendar-button calendar-control">&raquo;</a>
 		                    <a href="{{ nextMonthUrl }}" class="calendar-button calendar-control">&rsaquo;</a>
 		                </th>
 		                <th colspan="1">
-		                    <a href="{{ nextMonthUrl }}" class="calendar-control">{{ calendar.next.date|date('F Y') }}</a>
+		                    <a href="{{ nextMonthUrl }}" class="calendar-control">{{ 'MONTHS_OF_THE_YEAR'|ta(calendar.next.date|date('n') - 1) ~ calendar.next.date|date(' Y') }}</a>
 		                </th>
 		            </tr>
 		            <tr class="headings">
-		                <th width="14.2%">Sunday</th>
-		                <th width="14.2%">Monday</th>
-		                <th width="14.2%">Tuesday</th>
-		                <th width="14.2%">Wednesday</th>
-		                <th width="14.2%">Thursday</th>
-		                <th width="14.2%">Friday</th>
-		                <th width="14.2%">Saturday</th>
+		                <th width="14.2%">{{ 'DAYS_OF_THE_WEEK'|ta(0) }}</th>
+		                <th width="14.2%">{{ 'DAYS_OF_THE_WEEK'|ta(1) }}</th>
+		                <th width="14.2%">{{ 'DAYS_OF_THE_WEEK'|ta(2) }}</th>
+		                <th width="14.2%">{{ 'DAYS_OF_THE_WEEK'|ta(3) }}</th>
+		                <th width="14.2%">{{ 'DAYS_OF_THE_WEEK'|ta(4) }}</th>
+		                <th width="14.2%">{{ 'DAYS_OF_THE_WEEK'|ta(5) }}</th>
+		                <th width="14.2%">{{ 'DAYS_OF_THE_WEEK'|ta(6) }}</th>
 		            </tr>
 		        </thead>
 		        <tbody>
@@ -63,9 +63,9 @@
 		                            {% for events in calendar.events[calendar.year][calendar.month][day] %}
 		                                {% for event in events %}
 		                                    {% if event.title %}
-		                                        <div class="event">
-		                                        	<span class="event-title"><a href="{{ event.url }}">{{ event.title }}</a></span>
-		                                        	<span class="event-time">{{ event.event.start|date("g:ia") }}-{{ event.event.end|date("g:ia") }}</span>
+		                                        <div class="event h-event">
+		                                        	<span class="event-title"><a href="{{ event.url }}" class="p-name u-url">{{ event.title }}</a></span>
+		                                        	<span class="event-time"><time class="dt-start" datetime="{{ event.event.start|date("c") }}">{{ event.event.start|date("g:ia") }}</time>-<time class="dt-end" datetime="{{ event.event.end|date("c") }}">{{ event.event.end|date("g:ia") }}</time></span>
 		                                        </div>
 		                                    {% endif %}
 		                                {% endfor %}
