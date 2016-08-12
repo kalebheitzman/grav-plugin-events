@@ -128,3 +128,7 @@ A collection of weekend events.
 ### DateTools Plugin
 
 Be sure to checkout the [DateTools Plugin](https://github.com/kalebheitzman/grav-plugin-datetools). It will supercharge your dateRange filters.
+
+### Contributers
+
+[paulcmal](https://github.com/paulcmal), [Piterden](https://github.com/Piterden)
