@@ -12,3 +12,10 @@ fr:
       NAME: %s | Évènements (%d prochains mois)
       DESCRIPTION: Les événements de %s dans les deux prochains mois.
       MORE_EVENTS: Plus d'évènements.
+de:
+  PLUGIN_EVENTS:
+    MONTH_EVENTS: %s Veranstaltungen
+    SIDEBAR_FEED:
+      NAME: %s | Veranstaltungen (nächsten %d Monat)
+      DESCRIPTION: %s's Veranstaltungen in den nächsten %d Monaten.
+      MORE_EVENTS: Mehr Veranstaltungen.
