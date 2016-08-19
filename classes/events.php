@@ -13,7 +13,7 @@
  * @author     Kaleb Heitzman <kalebheitzman@gmail.com>
  * @copyright  2016 Kaleb Heitzman
  * @license    https://opensource.org/licenses/MIT MIT
- * @version    1.0.12
+ * @version    1.0.13
  * @link       https://github.com/kalebheitzman/grav-plugin-events
  * @since      1.0.0 Initial Release
  */
@@ -74,9 +74,19 @@ class Events
 	protected $eventPages;
 
 	/**
+	 * @var array Event Stack
+	 */
+	protected $eventStack;
+
+	/**
 	 * @var array All Event Times by ID
 	 */
 	protected $eventsByToken;
+
+	/**
+	 * @var array Tokenized Event Stack
+	 */
+	protected $tokenizedEventStack;
 
 	/**
 	 * @var array Repeat Rules
@@ -180,27 +190,144 @@ class Events
 		 * load times up by only calculating the events we need displayed on page.
 		 */
 		$dateRange = $this->getDateRange();
+
 		$this->startRangeDate = $dateRange['start'];
 		$this->endRangeDate = $dateRange['end'];
 
-		$events = [];
+		#### $events = [];
 		$eventPages = [];
+
 		foreach ( $pages->instances() as $page ) {
 			// get the event instance
 			$event = $this->initEvent($page);
 			// process the event for repeating dates
 			if ( ! is_null($event) ) {
 				$eventPages[$page->id()] = $page;
-				$events[$page->id()] = $this->processEvents();
+			
+				// is this the best place to process this????
+				#### $events[$page->id()] = $this->processEvents();
 			}
 		}
 
 		// set some processing vars
 		$this->eventPages = $eventPages;
-		$this->events = $events;
+		#### $this->events = $events;
+
+		$this->events = $this->initEventStack();
 
 		// process the event stack
 		return $this->processEventPages();
+	}
+
+	/**
+	 * Initialize the events stack
+	 *
+	 * From here, we want to build a list of dates to repeat the event on.
+	 * This involves calculating new start and end dates that fall within the
+	 * dateRange that has been set.
+	 *
+	 * @since  1.0.13 
+	 *
+	 * @return void
+	 */
+	private function initEventStack()
+	{
+
+		foreach ($this->eventPages as $eventPage) {
+			$event = [];
+
+			/**
+			 * Getting the associated date information with the event to store
+			 * as protected vars in the instantiated object. This will allow us
+			 * to use these for calculations throughout the rest of the class.
+			 */
+			$header 	= $eventPage->header();
+	 		$start 		= isset($header->event['start']) ? $header->event['start'] : false;
+	 		$end  		= isset($header->event['end']) ? $header->event['end'] : false;
+			$repeat 	= isset($header->event['repeat']) ? $header->event['repeat'] : false;
+			$freq 		= isset($header->event['freq']) ? $header->event['freq'] : false;
+			$until 		= isset($header->event['until']) ? $header->event['until'] : false;
+
+			/**
+			 * Bug out if start or end is null. We can't do the calculations if
+			 * these are missing.
+			 */
+			if ( ! $start  || ! $end ) return;
+
+			// get the epoch strings to use for later calculations
+			$event['startDate'] = $this->getCarbonDate( $start );
+			$event['endDate'] = $this->getCarbonDate( $end );
+			$event['untilDate'] = $this->getCarbonDate( $until );
+
+			// get the epoch time string
+			$event['startEpoch'] = strtotime( $start );
+			$event['endEpoch'] = strtotime( $end );
+			$event['untilEpoch'] = strtotime( $until );
+
+			// store the repeat rules
+			$event['repeat'] = $repeat;
+			$event['freq'] = $freq;
+
+			// we save the event title to generate tokens against
+			$event['id'] = $eventPage->id();
+			$event['title'] = $header->title;
+
+			// push the original event to the eventStack
+			$this->eventStack[$event['id']][$event['startEpoch']] = $event;
+
+			/**
+			 * Does the event have a repeat rule? If so, we need to clone the
+			 * event horizontally across the week.
+			 */
+			if ( $event['repeat'] !== false)
+			{	
+				$eventsByRepeat = $this->getEventsByRepeat( $event );
+				foreach ($eventsByRepeat as $singleEvent) {
+
+					$this->eventStack[$event['id']][$singleEvent['startEpoch']] = $singleEvent;
+				}
+			}
+
+		}
+
+		/**
+		 * including and repeat based events, generate a list of event
+		 * dates that we can add to the stack
+		 */
+		foreach ($this->eventStack as $singleEventsStack) {
+			foreach ($singleEventsStack as $singleEvent) {
+				/**
+				 * Does the event have frequency rules? If so, we need to clone the
+				 * event vertically down the calendar.
+				 */
+				if ( $singleEvent['freq'] !== false && $singleEvent['untilEpoch'] !== false )
+				{
+					// get a list of new event dates
+					$eventsByFreq = $this->getEventsByFreq( $singleEvent );
+					// add the events to the stack as full event instances (dates)
+					foreach ($eventsByFreq as $singleEventInStack) {
+						$this->eventStack[$singleEventInStack['id']][$singleEventInStack['startEpoch']] = $singleEventInStack;
+					}
+				}	
+			}
+		}
+
+		/**
+		 * Generate a token to keep urls safer. When we look up a cloned page
+		 * we'll look for the token and pull time/date info from it and send
+		 * it via twig vars.
+		 */
+		foreach ( $this->eventStack as $key => $singleEventStack )
+		{
+			foreach ( $singleEventStack as $key2 => $singleEvent ) {
+				$time = $singleEvent['startDate']->format('Ymdhi');
+				$token = substr( md5( $singleEvent['id'] . $singleEvent['startEpoch'] ),0,6);
+				$this->eventStack[$key][$key2]['token'] = $token;
+				$this->eventsByToken[$token] = $singleEvent;
+			}
+		}
+
+		return $this->eventStack;
 	}
 
 	/**
@@ -264,75 +391,6 @@ class Events
 		$this->event['id'] = $page->id();
 
 		return $this->event;
-	}
-
-	/**
-	 * Process Events
-	 *
-	 * From here, we want to build a list of dates to repeat the event on.
-	 * This involves calculating new start and end dates that fall within the
-	 * dateRange that has been set.
-	 *
-	 * @since  1.0.0 Initial Release
-	 *
-	 * @return void
-	 */
-	private function processEvents()
-	{
-		// get the event
-		$event = $this->event;
-		// create an events stack
-		$eventsStack[] = $event;
-
-		/**
-		 * Does the event have a repeat rule? If so, we need to clone the
-		 * event horizontally across the week.
-		 */
-		if ( $event['repeat'] !== false)
-		{
-			$eventsByRepeat = $this->getEventsByRepeat();
-			foreach ($eventsByRepeat as $singleEvent) {
-				$eventsStack[] = $singleEvent;
-			}
-		}
-
-		/**
-		 * Does the event have frequency rules? If so, we need to clone the
-		 * event vertically down the calendar.
-		 */
-		if ( $event['freq'] !== false )
-		{
-			/**
-			 * including and repeat based events, generate a list of event
-			 * dates that we can add to the stack
-			 */
-			foreach ($eventsStack as $key => $singleEvent) {
-				// get a list of new event dates
-				$eventsByFreq = $this->getEventsByFreq( $singleEvent );
-				// add the events to the stack as full event instances (dates)
-				foreach ($eventsByFreq as $singleEvent) {
-					$eventsStack[] = $singleEvent;
-				}
-			}
-		}
-
-		/**
-		 * Generate a token to keep urls safer. When we look up a cloned page
-		 * we'll look for the token and pull time/date info from it and send
-		 * it via twig vars.
-		 */
-		foreach ( $eventsStack as $key => $singleEvent )
-		{
-			$time = $singleEvent['startDate']->format('Ymdhi');
-			$token = substr( md5( $singleEvent['id'] . $singleEvent['startEpoch'] ),0,6);
-			$singleEvent['token'] = $token;
-			$eventsStack[$key] = $singleEvent;
-
-			// save the event information to the token
-			$this->eventsByToken[$token] = $singleEvent;
-		}
-
-		return $eventsStack;
 	}
 
 	/**
@@ -419,7 +477,7 @@ class Events
 	}
 
 	/**
-	 * Singl Events Filter
+	 * Single Events Filter
 	 *
 	 * Check to see if this is a single event and if it is, return the single
 	 * event. This prevents a single event page from  displaying any other
@@ -434,6 +492,7 @@ class Events
 	private function singleEventFilter( $events )
 	{
 		$enabled = $this->config->get('plugins.events.enable_single_event_filter');
+		// dump($enabled);
 		if ( ! $enabled )
 		{
 			return $events;
@@ -592,10 +651,11 @@ class Events
 	 *
 	 * @return array Events
 	 */
-	private function getEventsByRepeat()
+	private function getEventsByRepeat( $event = null )
 	{
 		// get the event
-		$event = $this->event;
+		if ( is_null( $event) )
+			$event = $this->event;
 
 		// store the events
 		$events = [];
@@ -610,8 +670,8 @@ class Events
 		// more than one repeat rule so we create new dates for each new event
 		else {
 			foreach ($rules as $key => $rule) {
-				$newDates = $this->getRepeatDates( $rule );
-				$events[] = $this->cloneEventWithNewDates( $newDates );
+				$newDates = $this->getRepeatDates( $rule, $event );
+				$events[] = $this->cloneEventWithNewDates( $newDates, $event );
 			}
 		}
 		return $events;
@@ -645,11 +705,7 @@ class Events
 		 */
 		foreach ( $newDates as $key => $newDate )
 		{
-			// no need to process the first event
-			if ( $key == 0 ) { continue; }
-			else {
-				$events[] = $this->cloneEventWithNewDates( $newDate );
-			}
+			$events[] = $this->cloneEventWithNewDates( $newDate, $event );
 		}
 
 		return $events;
@@ -699,12 +755,18 @@ class Events
 					$sWeekOfMonth = $startDate->weekOfMonth;
 					$sHours = $startDate->hour;
 					$sMinutes = $startDate->minute;
+					$sMonth = $startDate->month;
+					$sYear = $startDate->year;
+					$sNext = $startDate->addMonths($i)->firstOfMonth();
 
 					// end vars
 					$eDayOfWeek = $endDate->dayOfWeek;
 					$eWeekOfMonth = $endDate->weekOfMonth;
 					$eHours = $endDate->hour;
 					$eMinutes = $endDate->minute;
+					$eMonth = $endDate->month;
+					$eYear = $endDate->year;
+					$eNext = $endDate->addMonths($i)->firstOfMonth();
 
 					// weeks
 					$rd[1] = 'first';
@@ -722,9 +784,23 @@ class Events
 					$ry[5] = 'friday';
 					$ry[6] = 'saturday';
 
+					// months
+					$rm[1] = 'jan';
+					$rm[2] = 'feb';
+					$rm[3] = 'mar';
+					$rm[4] = 'apr';
+					$rm[5] = 'may';
+					$rm[6] = 'jun';
+					$rm[7] = 'jul';
+					$rm[8] = 'aug';
+					$rm[9] = 'sep';
+					$rm[10] = 'oct';
+					$rm[11] = 'nov';
+					$rm[12] = 'dec';
+
 					// get the correct next date
-					$sStringDateTime = $rd[$sWeekOfMonth] . ' ' . $ry[$sDayOfWeek] . ' of +' . $i . 'months';
-					$eStringDateTime = $rd[$eWeekOfMonth] . ' ' . $ry[$eDayOfWeek] . ' of +' . $i . 'months';
+					$sStringDateTime = $rd[$sWeekOfMonth] . ' ' . $ry[$sDayOfWeek] . ' of ' . $rm[$sNext->month] . ' ' . $sNext->year;
+					$eStringDateTime = $rd[$eWeekOfMonth] . ' ' . $ry[$eDayOfWeek] . ' of ' . $rm[$eNext->month] . ' ' . $eNext->year;
 
 					$newStart = Carbon::parse($sStringDateTime)->addHours($sHours)->addMinutes($sMinutes);
 					$newEnd = Carbon::parse($eStringDateTime)->addHours($eHours)->addMinutes($eMinutes);
@@ -796,9 +872,10 @@ class Events
 	 *
 	 * @return array        New Start and End Dates
 	 */
-	private function getRepeatDates( $rule )
+	private function getRepeatDates( $rule, $event = null )
 	{
-		$event = $this->event;
+		if ( is_null( $event ) ) 
+			$event = $this->event;
 
 		// get the start and end day of week (DOW)
 		$sDOW = $event['startDate']->dayOfWeek;
@@ -826,9 +903,10 @@ class Events
 	 *
 	 * @return array           Event with New Dates
 	 */
-	private function cloneEventWithNewDates( $newDates )
+	private function cloneEventWithNewDates( $newDates, $event = null )
 	{
-		$event = $this->event;
+		if ( is_null( $event ) )
+			$event = $this->event;
 
 		// set the new dates and return the new event instance
 		$event['startDate'] = $newDates['startDate'];
