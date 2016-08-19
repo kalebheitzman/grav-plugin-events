@@ -131,4 +131,4 @@ Be sure to checkout the [DateTools Plugin](https://github.com/kalebheitzman/grav
 
 ### Contributers
 
-[paulcmal](https://github.com/paulcmal), [Piterden](https://github.com/Piterden)
+[paulcmal](https://github.com/paulcmal), [Piterden](https://github.com/Piterden), [aender6840](https://github.com/aender6840)
