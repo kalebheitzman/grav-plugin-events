@@ -1,7 +1,7 @@
 # v1.0.12
 ## 08/xx/2016
 1. [](#new)
-	* Added German translation from @aender6840
+	* Issue #24 - Added German translation from @aender6840
 
 # v1.0.11
 ## 08/12/2016
