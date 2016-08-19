@@ -1,6 +1,6 @@
 # Events Plugin for Grav CMS
 
-This is an events plugin that works with [Grav CMS](http://getgrav.org)  1.0.10+. You can create single and repeating events using `event` frontmatter on any page you choose. The Events Plugin provides templates for both listing and full calendar views. *Be sure to copy over the yaml files in the blueprints folder so you can edit events in your admin section.*
+This is an events plugin that works with [Grav CMS](http://getgrav.org)  1.1.3+. You can create single and repeating events using `event` frontmatter on any page you choose. The Events Plugin provides templates for both listing and full calendar views. *Be sure to copy over the yaml files in the blueprints folder so you can edit events in your admin section.*
 
 [View the demo](https://grav.brandr.co/calendar/year:2016/month:03) *Sidenote: the demo is running the development version of this plugin. From time to time you may see features that haven't been released yet.*
 
