@@ -1,5 +1,5 @@
 # v1.0.13
-## 08/##/2016
+## 08/19/2016
 
 1. [](#new)
 	* Added Events sidebar with events listing

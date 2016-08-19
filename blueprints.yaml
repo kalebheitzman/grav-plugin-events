@@ -1,5 +1,5 @@
 name: Events
-version: 1.0.12
+version: 1.0.13
 description: "The **Events** plugin provides events for a Grav site using event frontmatter."
 icon: calendar
 author:
