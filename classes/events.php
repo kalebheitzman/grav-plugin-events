@@ -84,6 +84,11 @@ class Events
 	protected $eventsByToken;
 
 	/**
+	 * @var array Tokenized Event Stack
+	 */
+	protected $tokenizedEventStack;
+
+	/**
 	 * @var array Repeat Rules
 	 */
 	protected $repeatRules;
@@ -209,7 +214,6 @@ class Events
 		#### $this->events = $events;
 
 		$this->events = $this->initEventStack();
-		dump($this->events);
 
 		// process the event stack
 		return $this->processEventPages();
@@ -312,16 +316,15 @@ class Events
 		 * we'll look for the token and pull time/date info from it and send
 		 * it via twig vars.
 		 */
-		/*foreach ( $eventsStack as $key => $singleEvent )
+		foreach ( $this->eventStack as $key => $singleEventStack )
 		{
-			$time = $singleEvent['startDate']->format('Ymdhi');
-			$token = substr( md5( $singleEvent['id'] . $singleEvent['startEpoch'] ),0,6);
-			$singleEvent['token'] = $token;
-			$eventsStack[$key] = $singleEvent;
-
-			// save the event information to the token
-			$this->eventsByToken[$token] = $singleEvent;
-		}*/
+			foreach ( $singleEventStack as $key2 => $singleEvent ) {
+				$time = $singleEvent['startDate']->format('Ymdhi');
+				$token = substr( md5( $singleEvent['id'] . $singleEvent['startEpoch'] ),0,6);
+				$this->eventStack[$key][$key2]['token'] = $token;
+				// $this->tokenizedEventStack[$token] = $singleEvent;
+			}
+		}
 
 		return $this->eventStack;
 	}
@@ -388,61 +391,6 @@ class Events
 
 		return $this->event;
 	}
-
-	#### 
-	/**
-	 * Process Events
-	 *
-	 * From here, we want to build a list of dates to repeat the event on.
-	 * This involves calculating new start and end dates that fall within the
-	 * dateRange that has been set.
-	 *
-	 * @since  1.0.0 Initial Release
-	 *
-	 * @return void
-	 */
-	#### 
-	/* private function processEvents()
-	{
-		// get the event
-		$event = $this->event;
-		// create an events stack
-		$eventsStack[] = $event;
-
-		/**
-		 * Does the event have a repeat rule? If so, we need to clone the
-		 * event horizontally across the week.
-		 */
-		/*if ( $event['repeat'] !== false)
-		{
-			$eventsByRepeat = $this->getEventsByRepeat();
-			foreach ($eventsByRepeat as $singleEvent) {
-				$eventsStack[] = $singleEvent;
-			}
-		}
-
-		/**
-		 * Does the event have frequency rules? If so, we need to clone the
-		 * event vertically down the calendar.
-		 */
-		/*if ( $event['freq'] !== false )
-		{
-			/**
-			 * including and repeat based events, generate a list of event
-			 * dates that we can add to the stack
-			 */
-			/*foreach ($eventsStack as $key => $singleEvent) {
-				// get a list of new event dates
-				$eventsByFreq = $this->getEventsByFreq( $singleEvent );
-				// add the events to the stack as full event instances (dates)
-				foreach ($eventsByFreq as $singleEvent) {
-					$eventsStack[] = $singleEvent;
-				}
-			}
-		}
-
-		/*return $eventsStack;
-	} */
 
 	/**
 	 * Process Event Pages
@@ -528,7 +476,7 @@ class Events
 	}
 
 	/**
-	 * Singl Events Filter
+	 * Single Events Filter
 	 *
 	 * Check to see if this is a single event and if it is, return the single
 	 * event. This prevents a single event page from  displaying any other
@@ -543,6 +491,7 @@ class Events
 	private function singleEventFilter( $events )
 	{
 		$enabled = $this->config->get('plugins.events.enable_single_event_filter');
+		// dump($enabled);
 		if ( ! $enabled )
 		{
 			return $events;
@@ -805,12 +754,18 @@ class Events
 					$sWeekOfMonth = $startDate->weekOfMonth;
 					$sHours = $startDate->hour;
 					$sMinutes = $startDate->minute;
+					$sMonth = $startDate->month;
+					$sYear = $startDate->year;
+					$sNext = $startDate->addMonths($i)->firstOfMonth();
 
 					// end vars
 					$eDayOfWeek = $endDate->dayOfWeek;
 					$eWeekOfMonth = $endDate->weekOfMonth;
 					$eHours = $endDate->hour;
 					$eMinutes = $endDate->minute;
+					$eMonth = $endDate->month;
+					$eYear = $endDate->year;
+					$eNext = $endDate->addMonths($i)->firstOfMonth();
 
 					// weeks
 					$rd[1] = 'first';
@@ -828,12 +783,27 @@ class Events
 					$ry[5] = 'friday';
 					$ry[6] = 'saturday';
 
+					// months
+					$rm[1] = 'jan';
+					$rm[2] = 'feb';
+					$rm[3] = 'mar';
+					$rm[4] = 'apr';
+					$rm[5] = 'may';
+					$rm[6] = 'jun';
+					$rm[7] = 'jul';
+					$rm[8] = 'aug';
+					$rm[9] = 'sep';
+					$rm[10] = 'oct';
+					$rm[11] = 'nov';
+					$rm[12] = 'dec';
+
 					// get the correct next date
-					$sStringDateTime = $rd[$sWeekOfMonth] . ' ' . $ry[$sDayOfWeek] . ' of +' . $i . 'months';
-					$eStringDateTime = $rd[$eWeekOfMonth] . ' ' . $ry[$eDayOfWeek] . ' of +' . $i . 'months';
+					$sStringDateTime = $rd[$sWeekOfMonth] . ' ' . $ry[$sDayOfWeek] . ' of ' . $rm[$sNext->month] . ' ' . $sNext->year;
+					$eStringDateTime = $rd[$eWeekOfMonth] . ' ' . $ry[$eDayOfWeek] . ' of ' . $rm[$eNext->month] . ' ' . $eNext->year;
 
 					$newStart = Carbon::parse($sStringDateTime)->addHours($sHours)->addMinutes($sMinutes);
 					$newEnd = Carbon::parse($eStringDateTime)->addHours($eHours)->addMinutes($eMinutes);
+
 					break;
 
 				case 'yearly':
