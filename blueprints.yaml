@@ -21,7 +21,7 @@ form:
     event_template_types:
       type: text
       label: Event Template Types
-      default: calendar, events, event
+      default: event
     display_months_out:
       type: text
       label: Months Out to Display Events

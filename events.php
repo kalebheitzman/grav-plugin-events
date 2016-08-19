@@ -210,6 +210,10 @@ class EventsPlugin extends Plugin
 	 */
 	public function onPageInitialized()
 	{
+		/**
+		 * THIS ENTIRE SECTION MAY NEED TO BE REWORKED. IM NOT SURE 
+		 */
+
 		// setup
 		$page = $this->grav['page'];
 

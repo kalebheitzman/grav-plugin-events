@@ -1,3 +1,9 @@
+# v1.0.13
+## 08/##/2016
+
+1. [](#bugfix)
+	* Fixed event template types in blueprints.
+
 # v1.0.12
 ## 08/18/2016
 
