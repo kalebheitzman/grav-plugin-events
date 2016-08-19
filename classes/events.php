@@ -300,7 +300,7 @@ class Events
 				 * Does the event have frequency rules? If so, we need to clone the
 				 * event vertically down the calendar.
 				 */
-				if ( $singleEvent['freq'] !== false )
+				if ( $singleEvent['freq'] !== false && $singleEvent['untilEpoch'] !== false )
 				{
 					// get a list of new event dates
 					$eventsByFreq = $this->getEventsByFreq( $singleEvent );
