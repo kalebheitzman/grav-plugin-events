@@ -28,20 +28,9 @@ You can configure it by changing the value of `default_events_page` in the confi
 
 So if you want to point to `YOUR_SITE/events` (or `YOUR_SITE/lang/events` if translations are enabled in Grav), just set it to `events`.
 
-### Todo
-
-Blueprints and Templates are included in this plugin for the Frontend and Admin side of things. I don't know how to include them yet so please feel free to copy them over to your theme (or symlink them to keep up-to-date with Event Plugin updates).
-
 ### How it works
 
-**Events** parses all of your markdown files for event frontmatter and then
-automagically assigns taxonomies to your events based on whether they repeat
-through the week and through what intervals. This lets you build powerful
-collections based on the `event_freq` and `event_repeat` intervals. This lets
-you create custom displays. Forexample, if you want to build a list of all
-events that happen on Mondays you can filter on `'@taxonomy.event_repeat':['M']`
-or pull out your Weekly events by filtering on
-`'@taxonomy.event_freq':'weekly'`.
+**Events** parses all of your markdown files for event frontmatter and then automagically assigns taxonomies to your events based on whether they repeat through the week and through what intervals. This lets you build powerful collections based on the `event_freq` and `event_repeat` intervals. This lets you create custom displays. Forexample, if you want to build a list of all events that happen on Mondays you can filter on `'@taxonomy.event_repeat':['M']` or pull out your Weekly events by filtering on `'@taxonomy.event_freq':'weekly'`.
 
 This plugin processes event frontmatter specified in the header in multiple
 ways. It adds any page found with event frontmatter to `@taxonomy.type = event`.
