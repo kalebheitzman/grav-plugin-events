@@ -3,6 +3,9 @@
 
 1. [](#bugfix)
 	* Fixed event template types in blueprints.
+	* Fixed monthly frequency dates.
+	* Fixed doubling of events. 
+	* Fixed repeat rules.
 
 # v1.0.12
 ## 08/18/2016

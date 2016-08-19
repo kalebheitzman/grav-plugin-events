@@ -283,10 +283,11 @@ class Events
 			{	
 				$eventsByRepeat = $this->getEventsByRepeat( $event );
 				foreach ($eventsByRepeat as $singleEvent) {
-					
-					$this->eventStack[$event['id']][$singleEvent['startEpoch']] = $event;
+
+					$this->eventStack[$event['id']][$singleEvent['startEpoch']] = $singleEvent;
 				}
 			}
+
 		}
 
 		/**
@@ -669,8 +670,8 @@ class Events
 		// more than one repeat rule so we create new dates for each new event
 		else {
 			foreach ($rules as $key => $rule) {
-				$newDates = $this->getRepeatDates( $rule );
-				$events[] = $this->cloneEventWithNewDates( $newDates );
+				$newDates = $this->getRepeatDates( $rule, $event );
+				$events[] = $this->cloneEventWithNewDates( $newDates, $event );
 			}
 		}
 		return $events;
@@ -803,7 +804,6 @@ class Events
 
 					$newStart = Carbon::parse($sStringDateTime)->addHours($sHours)->addMinutes($sMinutes);
 					$newEnd = Carbon::parse($eStringDateTime)->addHours($eHours)->addMinutes($eMinutes);
-
 					break;
 
 				case 'yearly':
@@ -872,9 +872,10 @@ class Events
 	 *
 	 * @return array        New Start and End Dates
 	 */
-	private function getRepeatDates( $rule )
+	private function getRepeatDates( $rule, $event = null )
 	{
-		$event = $this->event;
+		if ( is_null( $event ) ) 
+			$event = $this->event;
 
 		// get the start and end day of week (DOW)
 		$sDOW = $event['startDate']->dayOfWeek;
