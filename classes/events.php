@@ -323,7 +323,7 @@ class Events
 				$time = $singleEvent['startDate']->format('Ymdhi');
 				$token = substr( md5( $singleEvent['id'] . $singleEvent['startEpoch'] ),0,6);
 				$this->eventStack[$key][$key2]['token'] = $token;
-				// $this->tokenizedEventStack[$token] = $singleEvent;
+				$this->eventsByToken[$token] = $singleEvent;
 			}
 		}
 

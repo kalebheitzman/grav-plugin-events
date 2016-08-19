@@ -1,6 +1,8 @@
 # v1.0.13
 ## 08/##/2016
 
+1. [](#new)
+	* Added Events sidebar with events listing
 1. [](#bugfix)
 	* Fixed event template types in blueprints.
 	* Fixed monthly frequency dates.
