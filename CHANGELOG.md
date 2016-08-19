@@ -1,8 +1,18 @@
+# v1.0.12
+## 08/xx/2016
+1. [](#new)
+	* Added German translation from @aender6840
+
 # v1.0.11
 ## 08/12/2016
 1. [](#new)
-- [microformats2](http://microformats.org) support
-- Dates are now translated in the `event_item` template, if `events.date_format.translate` setting
+	* [microformats2](http://microformats.org) support
+	* Dates are now translated in the `event_item` template, if `events.date_format.translate` setting
+
+# v1.0.10
+## 07/04/2016
+1. [](#bugfix)
+	* Bumped version number
 
 # v1.0.9
 ## 07/04/2016
