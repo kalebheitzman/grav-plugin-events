@@ -4,10 +4,12 @@
 1. [](#new)
 	* Added Events sidebar with events listing
 1. [](#bugfix)
+	* Issue #21 - Admin form now automatically shows up
 	* Fixed event template types in blueprints.
 	* Fixed monthly frequency dates.
 	* Fixed doubling of events. 
 	* Fixed repeat rules.
+	* Removed uncoded show future events toggle
 
 # v1.0.12
 ## 08/18/2016

@@ -210,10 +210,6 @@ class EventsPlugin extends Plugin
 	 */
 	public function onPageInitialized()
 	{
-		/**
-		 * THIS ENTIRE SECTION MAY NEED TO BE REWORKED. IM NOT SURE 
-		 */
-
 		// setup
 		$page = $this->grav['page'];
 
@@ -222,6 +218,7 @@ class EventsPlugin extends Plugin
 		 */
 		if ( $page->template() == 'event' && $this->grav['uri']->param('evt') !== false )
 		{
+
 			$evt = $this->grav['uri']->param('evt');
 			$event = $this->events->getEventByToken( $evt );
 

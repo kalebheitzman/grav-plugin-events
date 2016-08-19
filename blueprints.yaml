@@ -59,16 +59,6 @@ form:
       type: text
       label: Events Collection
       default: "'@page': '/events'"
-    show_past_events:
-      type: toggle
-      label: Show Past Events
-      highlight: 1
-      default: 0
-      options:
-        1: Enabled
-        0: Disabled
-      validate:
-        type: bool
     enable_single_event_filter:
       type: toggle
       label: Enable Single Event Filter
