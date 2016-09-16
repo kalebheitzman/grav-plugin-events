@@ -13,7 +13,7 @@
  * @author     Kaleb Heitzman <kalebheitzman@gmail.com>
  * @copyright  2016 Kaleb Heitzman
  * @license    https://opensource.org/licenses/MIT MIT
- * @version    1.0.13
+ * @version    1.0.14
  * @link       https://github.com/kalebheitzman/grav-plugin-events
  * @since      1.0.0 Initial Release
  */
@@ -232,6 +232,8 @@ class Events
 	 */
 	private function initEventStack()
 	{
+		// initialize the event stack
+		$this->eventStack = [];
 
 		foreach ($this->eventPages as $eventPage) {
 			$event = [];
