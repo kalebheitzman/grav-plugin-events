@@ -1,3 +1,9 @@
+# v1.0.14
+## 09/15/2016
+
+1. [#bugfix]
+	* Issue #25 - Variable not initialized throws error in for loop. 
+
 # v1.0.13
 ## 08/19/2016
 

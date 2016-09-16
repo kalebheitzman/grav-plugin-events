@@ -11,7 +11,7 @@
  * @author     Kaleb Heitzman <kalebheitzman@gmail.com>
  * @copyright  2016 Kaleb Heitzman
  * @license    https://opensource.org/licenses/MIT MIT
- * @version    1.0.13
+ * @version    1.0.14
  * @link       https://github.com/kalebheitzman/grav-plugin-events
  * @since      File available since Release 1.0.0
  */
