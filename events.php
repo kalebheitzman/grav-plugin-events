@@ -179,7 +179,7 @@ class EventsPlugin extends Plugin
 	public function onTwigTemplatePaths()
 	{
 		// add templates to twig path
-		$this->grav['twig']->twig_paths[] = __DIR__ . '/templates';
+		// $this->grav['twig']->twig_paths[] = __DIR__ . '/templates';
 	}
 
 	/**
@@ -267,13 +267,14 @@ class EventsPlugin extends Plugin
 	 */
 	public function onGetPageTemplates(Event $event)
 	{
-		/**
-	         * @var Types $types
-	         */
-	        $types = $event->types;
-	        $types->register('event', __DIR__.'/blueprints/event.yaml');
-	        $types->register('events', __DIR__.'/blueprints/events.yaml');
-	        $types->register('calendar', __DIR__.'/blueprints/calendar.yaml');
+		$types = $event->types;
+
+        /* @var Locator $locator */
+        $locator = Grav::instance()['locator'];
+
+        // Set blueprints & templates.
+        $types->scanBlueprints($locator->findResource('plugin://' . $this->name . '/blueprints'));
+        $types->scanTemplates($locator->findResource('plugin://' . $this->name . '/templates'));
 	}
 
 	/**
