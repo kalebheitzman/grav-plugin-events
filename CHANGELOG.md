@@ -2,7 +2,7 @@
 ## 09/20/2016
 
 1. [#new]
-	* Added a location field
+	* Added a location field with auto geodecoded coordinates from address
 
 # v1.0.14
 ## 09/15/2016
