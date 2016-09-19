@@ -372,5 +372,4 @@ class EventsPlugin extends Plugin
 			$obj->header($header);
         }
     }
-
 }
