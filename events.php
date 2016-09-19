@@ -12,7 +12,7 @@
  * @author     Kaleb Heitzman <kalebheitzman@gmail.com>
  * @copyright  2016 Kaleb Heitzman
  * @license    https://opensource.org/licenses/MIT MIT
- * @version    1.0.14
+ * @version    1.0.15
  * @link       https://github.com/kalebheitzman/grav-plugin-events
  * @since      1.0.0 Initial Release
  */
@@ -135,7 +135,11 @@ class EventsPlugin extends Plugin
 	{
 		// Nothing else is needed for admin so close it out
 		if ( $this->isAdmin() ) {
-			$this->active = false;
+
+			$this->enable([
+				'onAdminSave' => ['onAdminSave', 0],
+			]);
+
 			return;
 		}
 
@@ -327,4 +331,45 @@ class EventsPlugin extends Plugin
 
 	}
 
+	/**
+	 * onAdminSave Plugin Hook
+	 *
+	 * This hook fires a reverse geocoding hook for the location feild
+	 * on single events
+	 * 
+	 * @param  Event  $event
+	 *
+	 * @since  1.0.15 Location Field Update
+	 * 
+	 * @return void
+	 */
+	public function onAdminSave(Event $event)
+    {
+        $obj = $event['object'];
+
+        if ($obj instanceof Page &&  $obj->template() == 'event' ) {
+
+        	// get the header
+        	$header = $obj->header();
+        	$location = $header->event['location'];
+
+        	// build a url
+        	$url = "http://maps.googleapis.com/maps/api/geocode/json?address=" . urlencode($location); 
+
+        	// fetch the results
+			$ch = curl_init();
+   			curl_setopt($ch, CURLOPT_URL, $url);
+   			curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+   			$geoloc = json_decode(curl_exec($ch), true);
+
+   			// build the coord string
+   			$lat = $geoloc['results'][0]['geometry']['location']['lat'];
+			$lng = $geoloc['results'][0]['geometry']['location']['lng'];
+			$coords = $lat . ", " . $lng;
+
+			// set the header info
+			$header->event['coordinates'] = $coords;
+			$obj->header($header);
+        }
+    }
 }
