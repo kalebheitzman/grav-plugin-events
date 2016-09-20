@@ -342,6 +342,10 @@ class EventsPlugin extends Plugin
 
         if ($obj instanceof Page &&  $obj->template() == 'event' ) {
 
+        	if ( ! isset( $header->event['location'] ) ) {
+        		return;
+        	}
+
         	// get the header
         	$header = $obj->header();
         	$location = $header->event['location'];

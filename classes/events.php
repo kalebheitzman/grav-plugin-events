@@ -203,15 +203,11 @@ class Events
 			// process the event for repeating dates
 			if ( ! is_null($event) ) {
 				$eventPages[$page->id()] = $page;
-			
-				// is this the best place to process this????
-				#### $events[$page->id()] = $this->processEvents();
 			}
 		}
 
 		// set some processing vars
 		$this->eventPages = $eventPages;
-		#### $this->events = $events;
 
 		$this->events = $this->initEventStack();
 
@@ -965,6 +961,13 @@ class Events
 		{
 			// get the page associated with each of these events
 			$page = $this->eventPages[$pageID];
+
+			$taxonomy = $page->taxonomy();
+			$eventTaxonomies = array('type' => array('event'));
+
+
+			$newTaxonomy = array_merge($taxonomy, $eventTaxonomies);
+			$page->taxonomy($newTaxonomy);
 
 			// update the page with the new taxonomy for collections
 			$taxonomy = $this->eventFrontmatterToTaxonomy( $page );
