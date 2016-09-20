@@ -3,7 +3,9 @@
 
 1. [#new]
 	* Added a location field with auto geodecoded coordinates from address
-
+1. [#improved]
+	* Cleaned up plugin bluprint but preserved old options in comments
+	
 # v1.0.14
 ## 09/15/2016
 

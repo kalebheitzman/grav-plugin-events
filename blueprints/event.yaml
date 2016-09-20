@@ -28,10 +28,6 @@ form:
               help: Use the date selector to enter an end date and time for this event.
               validate:
                 type: required
-            header.event.rf:
-              type: section
-              title: Repeat & Frequency
-              underline: true
             header.event.repeat:
               type: text
               label: Repeat

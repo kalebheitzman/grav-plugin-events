@@ -296,8 +296,23 @@ class Events
 		 * including and repeat based events, generate a list of event
 		 * dates that we can add to the stack
 		 */
+
+		$missingFreq = Carbon::now()->addMonths(3);
+		$missingFreqEpoch = intval($missingFreq->format('U'));
+
 		foreach ($this->eventStack as $singleEventsStack) {
 			foreach ($singleEventsStack as $singleEvent) {
+
+				/**
+				 * if the event does not have a repeat until date then set it 				
+				 * to match what is under plugin settings. It defaults to 3 
+				 * months out
+				 */
+				if ( $singleEvent['untilEpoch'] == false ) {
+					$singleEvent['untilEpoch'] = $missingFreqEpoch;
+					$singleEvent['untilDate'] = $missingFreq;
+				}
+
 				/**
 				 * Does the event have frequency rules? If so, we need to clone the
 				 * event vertically down the calendar.

@@ -181,7 +181,7 @@ class EventsPlugin extends Plugin
 	public function onTwigTemplatePaths()
 	{
 		// add templates to twig path
-		// $this->grav['twig']->twig_paths[] = __DIR__ . '/templates';
+		$this->grav['twig']->twig_paths[] = __DIR__ . '/templates';
 	}
 
 	/**
