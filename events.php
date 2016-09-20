@@ -310,6 +310,10 @@ class EventsPlugin extends Plugin
 			$twig->twig_vars['calendar'] = array_shift($twigVars);
 		}
 
+		#$pages = $this->grav['pages']->all();
+		#$events = $pages->ofType('event');
+		#$twig->twig_vars['events'] = $events;
+
 		$templates = array( 'calendar', 'events', 'event' );
 		if ( in_array( $page->template(), $templates ) )
 		{
@@ -327,7 +331,7 @@ class EventsPlugin extends Plugin
 	/**
 	 * onAdminSave Plugin Hook
 	 *
-	 * This hook fires a reverse geocoding hook for the location feild
+	 * This hook fires a reverse geocoding hook for the location field
 	 * on single events
 	 * 
 	 * @param  Event  $event

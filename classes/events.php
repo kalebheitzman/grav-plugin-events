@@ -84,11 +84,6 @@ class Events
 	protected $eventsByToken;
 
 	/**
-	 * @var array Tokenized Event Stack
-	 */
-	protected $tokenizedEventStack;
-
-	/**
 	 * @var array Repeat Rules
 	 */
 	protected $repeatRules;
@@ -194,7 +189,6 @@ class Events
 		$this->startRangeDate = $dateRange['start'];
 		$this->endRangeDate = $dateRange['end'];
 
-		#### $events = [];
 		$eventPages = [];
 
 		foreach ( $pages->instances() as $page ) {
@@ -961,10 +955,14 @@ class Events
 		{
 			// get the page associated with each of these events
 			$page = $this->eventPages[$pageID];
+			//$header = $page->header();
+			//$header->date = $header->event['start'];
+			//$page->header($header);
+
+			//dump($page->header());
 
 			$taxonomy = $page->taxonomy();
 			$eventTaxonomies = array('type' => array('event'));
-
 
 			$newTaxonomy = array_merge($taxonomy, $eventTaxonomies);
 			$page->taxonomy($newTaxonomy);
@@ -997,6 +995,7 @@ class Events
 			$pages->addPage($newPage, $newPage->route());
 			$taxonomy->addTaxonomy($newPage, $page->taxonomy());
 		}
+
 		return $pages;
 	}
 
@@ -1024,6 +1023,7 @@ class Events
 		$newHeader = new \stdClass();
 		$newHeader->event['start'] = $event['startDate']->format('d-m-Y H:i');
 		$newHeader->event['end'] = $event['endDate']->format('d-m-Y H:i');
+		$newHeader->date = $event['startDate']->format('d-m-Y H:i');
 
 		$newHeader = (object) array_merge((array) $header, (array) $newHeader);
 
