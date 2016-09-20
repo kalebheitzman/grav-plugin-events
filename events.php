@@ -59,11 +59,13 @@ use Events\Events;
  *    	repeat: MTWRFSU
  *    	freq: weekly
  *    	until: 01/01/2020
+ *    	location: Raleigh, NC
+ *    	coordinates: 35.7795897, -78.6381787
  * ```
  *
  * @package     Events
  * @author      Kaleb Heitzman <kalebheitzman@gmail.com>
- * @version 	1.0.11
+ * @version 	1.0.15
  * @since 		1.0.0 Initial Release
  * @todo 		Implement Date Formats
  * @todo 		Implement ICS Feeds
@@ -245,25 +247,11 @@ class EventsPlugin extends Plugin
 			$page->header( $newHeader );
 		}
 	}
-
-	/**
-	 * Add Events blueprints to admin
-	 *
-	 * This is currently not operational. In the future we'd like to add
-	 * blueprints associated with page templates through this plugin hook.
-	 *
-	 * @since  1.0.0 Initial Release
-	 *
-	 * @return void
-	 */
-	public function onBlueprintCreated()
-	{
-		// todo: add events event blueprint to admin
-		// $this->grav['blueprints'];
-	}
 	
 	/**
 	 * Association with page templates
+	 *
+	 * @since  1.0.15 Location Fields
 	 */
 	public function onGetPageTemplates(Event $event)
 	{
@@ -275,6 +263,10 @@ class EventsPlugin extends Plugin
         // Set blueprints & templates.
         $types->scanBlueprints($locator->findResource('plugin://' . $this->name . '/blueprints'));
         $types->scanTemplates($locator->findResource('plugin://' . $this->name . '/templates'));
+
+        // reverse the FUBARd order of blueprints
+        $event = array_reverse($types['event']);
+        $types['event'] = $event;
 	}
 
 	/**
