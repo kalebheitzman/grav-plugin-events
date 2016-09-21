@@ -284,8 +284,12 @@ class EventsPlugin extends Plugin
 			$twig->twig_vars['calendar'] = array_shift($twigVars);
 		}
 
-		$assets = $this->grav['assets'];
+		#$pages = $this->grav['pages']->all();
+		#$events = $pages->ofType('event');
+		#$twig->twig_vars['events'] = $events;
 
+		$assets = $this->grav['assets'];
+		
 		$templates = array( 'calendar', 'events', 'event' );
 		if ( in_array( $page->template(), $templates ) )
 		{

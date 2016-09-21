@@ -6,7 +6,7 @@
             'taxonomy@.type': 'event'
         }
     })
-    .dateRange(datetools.today|date('m/d/Y'))
+    .dateRange(datetools.today|date('m/d/Y'),datetools.parseDate('+1 month'))
     .order('date', 'asc') 
 %}
 

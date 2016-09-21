@@ -30,6 +30,68 @@ html {
       margin-right: 0; }
 
 /* single event item */
+.event-article {
+  padding: 1rem 0; }
+  .event-article .event-header {
+    display: block; }
+    .event-article .event-header::after {
+      clear: both;
+      content: "";
+      display: block; }
+    .event-article .event-header .event-title {
+      float: left;
+      display: block;
+      margin-right: 4.11092%;
+      width: 70.25402%; }
+      .event-article .event-header .event-title:last-child {
+        margin-right: 0; }
+    .event-article .event-header .event-date {
+      float: left;
+      display: block;
+      margin-right: 4.11092%;
+      width: 25.63506%;
+      text-align: right; }
+      .event-article .event-header .event-date:last-child {
+        margin-right: 0; }
+      .event-article .event-header .event-date .day {
+        display: block;
+        font-size: 3.25rem;
+        font-weight: bold;
+        margin: 1rem 0; }
+      .event-article .event-header .event-date .month {
+        display: block;
+        text-transform: uppercase;
+        font-weight: bold;
+        font-size: 1.5rem; }
+      .event-article .event-header .event-date .time {
+        display: block; }
+      .event-article .event-header .event-date .year {
+        display: none; }
+  .event-article .event-content {
+    display: block; }
+    .event-article .event-content::after {
+      clear: both;
+      content: "";
+      display: block; }
+  .event-article .event-footer {
+    display: block; }
+    .event-article .event-footer::after {
+      clear: both;
+      content: "";
+      display: block; }
+
+.events-list {
+  list-style: none;
+  padding-left: 0; }
+  .events-list .event-day {
+    font-weight: bold;
+    font-size: 2rem;
+    margin-top: 1.25rem; }
+  .events-list .event-dow {
+    margin-top: 0.25rem;
+    margin-bottom: 0.25rem;
+    font-style: italic; }
+
 /* Events Plugin CSS */
 .calendar {
   margin-top: 2em; }
@@ -68,54 +130,5 @@ html {
     border-radius: 4px;
     margin-bottom: 5px;
     display: block; }
-
-/* Events Display */
-.event-meta {
-  text-align: left;
-  font-style: italic; }
-  .event-meta ul {
-    list-style: none;
-    padding: 0; }
-    .event-meta ul li {
-      display: inline-block; }
-
-.list-event-header {
-  position: relative; }
-  .list-event-header h4 {
-    margin-bottom: 0.5rem; }
-    .list-event-header h4 a {
-      color: #444; }
-      .list-event-header h4 a:hover {
-        color: #1BB3E9; }
-  .list-event-header img {
-    display: block;
-    margin-top: 1rem;
-    border-radius: 3px; }
-
-.list-event-date {
-  float: right;
-  text-align: right;
-  width: 150px;
-  margin-bottom: 1em; }
-  .list-event-date span.day {
-    display: inline-block;
-    font-size: 3rem;
-    line-height: 1em;
-    margin-right: 2px;
-    font-weight: 600; }
-  .list-event-date div.month-year {
-    display: inline-block; }
-  .list-event-date span.month {
-    display: block;
-    font-size: 1rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    line-height: 110%; }
-  .list-event-date em {
-    display: block;
-    border-top: 1px solid #EEEEEE;
-    font-style: normal;
-    text-transform: uppercase;
-    line-height: 1em; }
 
 /*# sourceMappingURL=events.css.map */

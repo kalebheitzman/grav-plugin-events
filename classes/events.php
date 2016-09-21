@@ -429,6 +429,10 @@ class Events
 		$token = substr( md5( $id . $header->event['start'] ),0,6);
 		$header->token = $token;
 
+		// set the media
+		$media = $page->media();
+		$clone->media($media);
+
 		// build a unique path
 		$path = $clone->path() . '/' . $token;
 		$clone->path( $path );

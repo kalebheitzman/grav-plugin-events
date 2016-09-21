@@ -5,47 +5,26 @@
         <h2 class="event-title"><a href="{{ page.url }}" class="u-url">{{ page.title }}</a></h2>
         
         <time class="event-date" datetime="{{ page.date|date("c") }}">
-            <div class="day">{{ page.header.event.start|date("d") }}</div>
-            <div class="month-year">
-                <span class="month">{{ config.plugins.events.date_format.translate ? 'MONTHS_OF_THE_YEAR'|ta(page.header.event.start|date('n') - 1) : page.header.event.start|date('M') }}</span>
-                <em>{{ page.header.event.start|date("Y") }}</em>
-            </div>
-            <div class="time">
-                <time class="dt-start" datetime="{{ page.header.event.start|date("c") }}">{{ page.header.event.start|date('gia') }}</time>-<time class="dt-end" datetime="{{ page.header.event.end|date("c") }}">{{ page.header.event.end|date('gia') }}</time>
-            </div>
-        </div>
+            <span class="day">{{ page.header.event.start|date("d") }}</span>
+            <span class="month">{{ config.plugins.events.date_format.translate ? 'MONTHS_OF_THE_YEAR'|ta(page.header.event.start|date('n') - 1) : page.header.event.start|date('M') }}</span>
+            <span class="time">
+                {{ page.header.event.start|date('g:ia') }}&ndash;{{ page.header.event.end|date('g:ia') }}
+            </span>
+            <span class="year">{{ page.header.event.start|date("Y") }}</span>
+        </time>
 
     </header>
 
-    <section class="event-content">
+    {{ dump(page.media) }}
+    {% set image = page.media.images|first %}
+    {% if image != null %}
+    <section class="events-masthead">
+        {{ image.cropZoom(960,320).html }}
+    </section>
+    {% endif %}
 
-        {% if page.header.continue_link is sameas(false) %}
-            {{ page.content }}
-            {% if not truncate %}
-            {% set show_prev_next = true %}
-            {% endif %}
-        {% elseif truncate and page.summary != page.content %}
-            <div class="p-summary">
-                {{ page.summary }}
-            <p><a href="{{ page.url }}">Continue Reading...</a></p>
-            </div>
-        {% elseif truncate %}
-            {% if page.summary != page.content %}
-                <div class="p-summary">
-                    {{ page.content|truncate(550) }}
-            {% else %}
-                <div class="p-description">
-                    {{ page.content }}
-            {% endif %}
-                </div>
-            <p><a href="{{ page.url }}">{{ 'BLOG.ITEM.CONTINUE_READING'|t }}</a></p>
-        {% else %}
-            {% include 'partials/event_meta.html.twig' with {'page':page} %}
-            {{ page.content }}
-            {# set show_prev_next = true #}
-            {% set show_prev_next = false %}
-        {% endif %}
-        
+    <section class="event-content">
+        {{ page.content }}
     </section>
 
     <footer class="event-footer">
@@ -56,9 +35,9 @@
                 <a href="{{ event.url|rtrim('/') }}/category{{ config.system.param_sep }}{{ category }}">{{ category }}</a>
                 {% endfor %}
             </span>
-            {% endif %}
+        {% endif %}
 
-            {% if page.taxonomy.tag %}
+        {% if page.taxonomy.tag %}
             <span class="tags">
                 {% for tag in page.taxonomy.tag %}
                 <a href="{{ event.url|rtrim('/') }}/tag{{ config.system.param_sep }}{{ tag }}" class="p-category">{{ tag }}</a>
@@ -67,33 +46,5 @@
         {% endif %}
 
     </footer>
-
-    <div class="list-event-header">
-
-        
-
-        {% if header_image %}
-            {% if header_image_file %}
-                {% set header_image_media = page.media.images[header_image_file] %}
-            {% else %}
-                {% set header_image_media = page.media.images|first %}
-            {% endif %}
-            {{ header_image_media.cropZoom(header_image_width, header_image_height).html }}
-        {% endif %}
-    </div>
-
-    {% if show_prev_next %}
-
-        <p class="prev-next">
-            {% if not page.isFirst %}
-                <a class="button" href="{{ page.nextSibling.url }}"><i class="fa fa-chevron-left"></i> {{ 'BLOG.ITEM.NEXT_POST'|t }}</a>
-            {% endif %}
-
-            {% if not page.isLast %}
-                <a class="button" href="{{ page.prevSibling.url }}">{{ 'BLOG.ITEM.PREV_POST'|t }} <i class="fa fa-chevron-right"></i></a>
-            {% endif %}
-        </p>
-
-    {% endif %}
 
 </article>
