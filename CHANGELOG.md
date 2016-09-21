@@ -1,10 +1,11 @@
 # v1.0.15
-## 09/20/2016
+## 09/21/2016
 
 1. [#new]
 	* Added a location field with auto geodecoded coordinates from address
 1. [#improved]
 	* Cleaned up plugin bluprint but preserved old options in comments
+	# Refactored classes/events to use collections instead of custom events object
 	
 # v1.0.14
 ## 09/15/2016

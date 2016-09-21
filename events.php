@@ -164,6 +164,7 @@ class EventsPlugin extends Plugin
 			'onPagesInitialized' => ['onPagesInitialized', 0],
 			'onPageInitialized' => ['onPageInitialized', 0],
 			'onTwigSiteVariables' => ['onTwigSiteVariables', 0],
+			'onCollectionProcessed' => ['onCollectionProcessed', 0],
 		]);
 	}
 
@@ -199,7 +200,7 @@ class EventsPlugin extends Plugin
 	public function onPagesInitialized()
 	{
 		// get instances of all events
-		$pages = $this->events->instances();
+		$pages = $this->events->all();
 	}
 
 	/**
@@ -218,34 +219,6 @@ class EventsPlugin extends Plugin
 	{
 		// setup
 		$page = $this->grav['page'];
-
-		/**
-		 * Use the evt: param to serve up event date times.
-		 */
-		if ( $page->template() == 'event' && $this->grav['uri']->param('evt') !== false )
-		{
-
-			$evt = $this->grav['uri']->param('evt');
-			$event = $this->events->getEventByToken( $evt );
-
-			$newHeader = $page->header();
-			$newHeader->event['start'] = $event['startDate']->toDateTimeString();
-			$newHeader->event['end'] = $event['endDate']->toDateTimeString();
-
-			// set any other event frontmatter
-			if ( isset($event['repeat']) && $event['repeat'] !== false ) {
-				$newHeader->event['repeat'] = $event['repeat'];
-				$newHeader->event['repeatDisplay'] = $this->events->getRepeatDisplay( $event['repeat'] );
-			}
-			if ( isset($event['freq']) && $event['freq'] !== false ) {
-				$newHeader->event['freq'] = $event['freq'];
-			}
-			if ( isset($event['until']) && $event['until'] !== false ) {
-				$newHeader->event['until'] = $event['until'];
-			}
-
-			$page->header( $newHeader );
-		}
 	}
 	
 	/**
@@ -292,7 +265,8 @@ class EventsPlugin extends Plugin
 	{
 		// setup
 		$page = $this->grav['page'];
-		$collection = $page->collection();
+		$pages = $this->grav['pages'];
+		$collection = $pages->all()->ofType('event');
 		$twig = $this->grav['twig'];
 
 		// only load the vars if calendar page
@@ -373,4 +347,17 @@ class EventsPlugin extends Plugin
 			$obj->header($header);
         }
     }
+
+    /**
+     * Create pagination object for the page.
+     *
+     * @param Event $event
+     */
+    public function onCollectionProcessed(Event $event)
+    {
+    	/** @var Collection $collection */
+        $collection = $event['collection'];
+
+    }
+
 }
