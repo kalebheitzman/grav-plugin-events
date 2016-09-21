@@ -284,21 +284,22 @@ class EventsPlugin extends Plugin
 			$twig->twig_vars['calendar'] = array_shift($twigVars);
 		}
 
-		#$pages = $this->grav['pages']->all();
-		#$events = $pages->ofType('event');
-		#$twig->twig_vars['events'] = $events;
+		$assets = $this->grav['assets'];
 
 		$templates = array( 'calendar', 'events', 'event' );
 		if ( in_array( $page->template(), $templates ) )
 		{
 			// styles
-			$css = 'plugin://events/css-compiled/events.css';
+			
 			$js = 'plugin://events/js/events.js';
-			$assets = $this->grav['assets'];
-			$assets->addCss($css);
+			
+			
 			$assets->add('jquery');
 			$assets->addJs($js);
 		}
+
+		$css = 'plugin://events/css-compiled/events.css';
+		$assets->addCss($css);
 
 	}
 

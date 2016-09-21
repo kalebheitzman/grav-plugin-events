@@ -1,6 +1,7 @@
 {% embed 'partials/base.html.twig' %}
 
 	{% block content %}
+		
 		{% if config.plugins.breadcrumbs.enabled %}
 			{% include 'partials/breadcrumbs.html.twig' %}
 		{% endif %}
@@ -13,6 +14,7 @@
 				{% include 'partials/sidebar_events.html.twig' with {'page':page.parent} %}
 			</div>
 		</div>
+		
 	{% endblock %}
 
 {% endembed %}

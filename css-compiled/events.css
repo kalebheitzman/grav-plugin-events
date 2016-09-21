@@ -1,4 +1,35 @@
+html {
+  box-sizing: border-box; }
+
+*, *::after, *::before {
+  box-sizing: inherit; }
+
 /* taken from antimatter theme */
+/* events */
+.events-container {
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto; }
+  .events-container::after {
+    clear: both;
+    content: "";
+    display: block; }
+  .events-container .events-listing {
+    float: left;
+    display: block;
+    margin-right: 10.1484%;
+    width: 63.28387%; }
+    .events-container .events-listing:last-child {
+      margin-right: 0; }
+  .events-container .events-sidebar {
+    float: left;
+    display: block;
+    margin-right: 10.1484%;
+    width: 26.56773%; }
+    .events-container .events-sidebar:last-child {
+      margin-right: 0; }
+
+/* single event item */
 /* Events Plugin CSS */
 .calendar {
   margin-top: 2em; }
@@ -26,7 +57,7 @@
       transition: background-color 0.15s ease;
       background-color: #999; }
   .calendar .calendar-button
-  .headings {
+.headings {
     text-align: center; }
   .calendar .event {
     background: #efefef;

@@ -1,9 +1,52 @@
+// import bourbon & friends
+@import "../bower_components/bourbon/app/assets/stylesheets/bourbon";
+@import "../bower_components/neat/app/assets/stylesheets/neat";
+
 /* taken from antimatter theme */
-$core-text:						#444;
-$core-accent:					#1BB3E9;
-$border-radius: 				3px;
-$font-weight-bold: 				600;
-$border-color: 					#EEEEEE;
+$events-core-text:						#444;
+$events-core-accent:					#1BB3E9;
+$events-border-radius: 				3px;
+$events-font-weight-bold: 				600;
+$events-border-color: 					#EEEEEE;
+
+/* events */
+.events-container {
+	@include outer-container();
+
+	.events-listing {
+		@include span-columns(2 of 3);
+	}
+
+	.events-sidebar {
+		@include span-columns(1 of 3);
+	}
+}
+
+/* single event item */
+.event-article {
+
+	.event-header {
+
+
+		.event-title {
+
+		}
+
+		.event-date {
+
+		}
+
+	}
+
+	.event-content {
+
+	}
+
+	.event-footer {
+
+	}
+
+}
 
 /* Events Plugin CSS */
 
@@ -87,9 +130,9 @@ $border-color: 					#EEEEEE;
 
         margin-bottom: 0.5rem;
         a {
-            color: $core-text;
+            color: $events-core-text;
             &:hover {
-                color: $core-accent;
+                color: $events-core-accent;
             }
         }
     }
@@ -97,7 +140,7 @@ $border-color: 					#EEEEEE;
     img {
         display: block;
         margin-top: 1rem;
-        border-radius: $border-radius;
+        border-radius: $events-border-radius;
     }
 }
 
@@ -111,7 +154,7 @@ $border-color: 					#EEEEEE;
 		font-size: 3rem;
 		line-height: 1em;
 		margin-right: 2px;
-		font-weight: $font-weight-bold;
+		font-weight: $events-font-weight-bold;
 	}
 	div.month-year {
 		display: inline-block;
@@ -119,13 +162,13 @@ $border-color: 					#EEEEEE;
     span.month {
         display: block;
         font-size: 1rem;
-        font-weight: $font-weight-bold;
+        font-weight: $events-font-weight-bold;
 		text-transform: uppercase;
         line-height: 110%;
     }
     em {
         display: block;
-        border-top: 1px solid $border-color;
+        border-top: 1px solid $events-border-color;
         font-style: normal;
         text-transform: uppercase;
 		line-height: 1em;
