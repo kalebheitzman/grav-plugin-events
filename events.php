@@ -115,7 +115,7 @@ class EventsPlugin extends Plugin
 	public static function getSubscribedEvents()
 	{
 		return [
-			'onPluginsInitialized' => ['onPluginsInitialized', 0],            
+			'onPluginsInitialized' => ['onPluginsInitialized', 0],
 			'onGetPageTemplates'   => ['onGetPageTemplates', 0],
 		];
 	}
@@ -220,7 +220,7 @@ class EventsPlugin extends Plugin
 		// setup
 		$page = $this->grav['page'];
 	}
-	
+
 	/**
 	 * Association with page templates
 	 *
@@ -289,15 +289,15 @@ class EventsPlugin extends Plugin
 		#$twig->twig_vars['events'] = $events;
 
 		$assets = $this->grav['assets'];
-		
+
 		$templates = array( 'calendar', 'events', 'event' );
 		if ( in_array( $page->template(), $templates ) )
 		{
 			// styles
-			
+
 			$js = 'plugin://events/js/events.js';
-			
-			
+
+
 			$assets->add('jquery');
 			$assets->addJs($js);
 		}
@@ -312,11 +312,11 @@ class EventsPlugin extends Plugin
 	 *
 	 * This hook fires a reverse geocoding hook for the location field
 	 * on single events
-	 * 
+	 *
 	 * @param  Event  $event
 	 *
 	 * @since  1.0.15 Location Field Update
-	 * 
+	 *
 	 * @return void
 	 */
 	public function onAdminSave(Event $event)
@@ -334,7 +334,7 @@ class EventsPlugin extends Plugin
         	$location = $header->event['location'];
 
         	// build a url
-        	$url = "http://maps.googleapis.com/maps/api/geocode/json?address=" . urlencode($location); 
+        	$url = "http://maps.googleapis.com/maps/api/geocode/json?address=" . urlencode($location);
 
         	// fetch the results
 			$ch = curl_init();

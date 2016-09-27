@@ -205,8 +205,6 @@ html {
           position: relative; }
       .calendar-container table tbody tr td .events .event {
         line-height: 1.2; }
-        .calendar-container table tbody tr td .events .event time {
-          display: none; }
         .calendar-container table tbody tr td .events .event:hover {
           height: auto; }
 
