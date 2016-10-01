@@ -6,6 +6,7 @@
     'items': {
       '@taxonomy': {
         'type': 'event',
+        'category': 'featured'
       }
     },
     'dateRange': {
@@ -123,7 +124,7 @@
   {% if config.plugins.pagination.enabled and events.params.pagination %}
       {% include 'partials/pagination.html.twig' with {'base_url':page.url, 'pagination':collection.params.pagination} %}
   {% endif %}
-  
+
 {% endblock %}
 
 {% endembed %}

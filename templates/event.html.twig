@@ -2,10 +2,10 @@
 
 {% block content %}
 
-<div class="events-container">
+<div class="event-container">
 
-	<section class="events-listing">
-		
+	<section class="event-listing">
+
 		{% if config.plugins.breadcrumbs.enabled %}
 			{% include 'partials/breadcrumbs.html.twig' %}
 		{% endif %}
@@ -14,12 +14,10 @@
 
 	</section>
 
-	<aside class="events-sidebar">
-		{% include 'partials/events_sidebar.html.twig' with {'page':page.parent} %}
-	</aside>
+	{% include 'partials/events_sidebar.html.twig' with {'page':page.parent} %}
 
 </div>
-	
+
 {% endblock %}
 
 {% endembed %}

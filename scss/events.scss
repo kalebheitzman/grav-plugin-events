@@ -435,6 +435,101 @@ $event-border-radius: 						4px !default;
 /* html5 .event-container element */
 .event-container {
 	@include outer-container();
+
+	.event-listing {
+		@include span-columns(5 of 7);
+	}
+
+	.events-sidebar {
+		@include span-columns(2 of 7);
+	}
+}
+
+/* html5 .event-article element */
+.event-article {
+	padding: 1rem 0;
+
+	.event-header {
+		@include row();
+		position: relative;
+
+		.event-date {
+			position: absolute;
+			text-align: right;
+			top: 0;
+			right: 0;
+			padding: 0.25rem 1rem;
+			@include background(rgba(255,255,255,0.85));
+			color: #222;
+			height: 140px;
+			width: 160px;
+
+			.day {
+				display: block;
+				font-size: 3.75rem;
+				font-weight: bold;
+				margin: 0;
+				line-height: 1;
+			}
+			.month {
+				display: block;
+				text-transform: uppercase;
+				font-weight: bold;
+				font-size: 1.35rem;
+				line-height: 1;
+				margin: 0.5rem 0;
+			}
+			.time {
+				display: block;
+				line-height: 1;
+			}
+			.year {
+				display: none;
+			}
+		}
+
+	}
+
+	.event-content {
+		@include row();
+	}
+
+	.event-footer {
+		@include row();
+	}
+
+}
+
+/* html5 .events-sidebar element */
+.events-sidebar {
+
+	.events-list {
+		list-style: none;
+		padding-left: 0;
+
+		.event-day {
+			font-size: 2rem;
+			margin-top: 1rem;
+		}
+		.event-dow {
+			font-size: 1.2rem;
+		}
+	}
+}
+
+/* html5 .event-tags element */
+.event-tags {
+	display: inline-block;
+
+	a {
+		display: inline-block;
+		border: 1px solid $event-button-color;
+		border-radius: $event-border-radius;
+		padding: 0 0.5rem;
+		text-transform: uppercase;
+		font-size: .85rem;
+		font-weight: normal;
+	}
 }
 
 /* clear user agent styles */

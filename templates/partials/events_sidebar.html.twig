@@ -1,27 +1,39 @@
 
-{% set events = page.collection({
-        'items':{
-            '@taxonomy.type':'event',
+{# get events by taxonomy #}
+{% set events =
+    page.collection({
+      'items': {
+        '@taxonomy': {
+          'type': 'event',
         }
-    }).dateRange(
-        datetools.today,
-        datetools.parseDate('+10 days')
-    ).order('date', 'asc')
+      },
+      'dateRange': {
+        'start': datetools.today|date('m/d/Y'),
+        'end': datetools.parseDate('+1 month')|date('m/d/Y')
+      },
+      'order': {
+        'by': 'date',
+        'dir': 'asc'
+      },
+      'limit': 10,
+      'pagination': true
+    })
 %}
-    
-<ul class="events-list">
-{% set current_header = null %}
-{% for event in events %}
-    {% set date_header = event.header.event.start|date('F d') %}
-    {% if date_header != current_header %}
-    <li class="event-day">{{ date_header }}</li>
-    <li class="event-dow">{{ event.header.event.start|date('l') }}</li>
-    {% endif %}
-    <li>
-        <time datetime="{{ event.header.event.start|date("c") }}">{{ event.header.event.start|date('g:i a')}}</time>
-        <a href="{{ event.url }}" class="u-url p-name">{{ event.title }}</a>
-    </li>
-    {% set current_header = event.header.event.start|date('F d') %}
-{% endfor %}
-</ul>
 
+<aside class="events-sidebar">
+  <ul class="events-list">
+  {% set current_header = null %}
+  {% for event in events %}
+      {% set date_header = event.header.event.start|date('F d') %}
+      {% if date_header != current_header %}
+      <li class="event-day">{{ date_header }}</li>
+      <li class="event-dow">{{ event.header.event.start|date('l') }}</li>
+      {% endif %}
+      <li>
+          <time datetime="{{ event.header.event.start|date("c") }}">{{ event.header.event.start|date('g:i a')}}</time>
+          <a href="{{ event.url }}" class="u-url p-name">{{ event.title }}</a>
+      </li>
+      {% set current_header = event.header.event.start|date('F d') %}
+  {% endfor %}
+  </ul>
+</aside>

@@ -316,6 +316,94 @@ html {
     clear: both;
     content: "";
     display: block; }
+  .event-container .event-listing {
+    float: left;
+    display: block;
+    margin-right: 4.11092%;
+    width: 70.25402%; }
+    .event-container .event-listing:last-child {
+      margin-right: 0; }
+  .event-container .events-sidebar {
+    float: left;
+    display: block;
+    margin-right: 4.11092%;
+    width: 25.63506%; }
+    .event-container .events-sidebar:last-child {
+      margin-right: 0; }
+
+/* html5 .event-article element */
+.event-article {
+  padding: 1rem 0; }
+  .event-article .event-header {
+    display: block;
+    position: relative; }
+    .event-article .event-header::after {
+      clear: both;
+      content: "";
+      display: block; }
+    .event-article .event-header .event-date {
+      position: absolute;
+      text-align: right;
+      top: 0;
+      right: 0;
+      padding: 0.25rem 1rem;
+      background: rgba(255, 255, 255, 0.85);
+      background: rgba(255, 255, 255, 0.85);
+      color: #222;
+      height: 140px;
+      width: 160px; }
+      .event-article .event-header .event-date .day {
+        display: block;
+        font-size: 3.75rem;
+        font-weight: bold;
+        margin: 0;
+        line-height: 1; }
+      .event-article .event-header .event-date .month {
+        display: block;
+        text-transform: uppercase;
+        font-weight: bold;
+        font-size: 1.35rem;
+        line-height: 1;
+        margin: 0.5rem 0; }
+      .event-article .event-header .event-date .time {
+        display: block;
+        line-height: 1; }
+      .event-article .event-header .event-date .year {
+        display: none; }
+  .event-article .event-content {
+    display: block; }
+    .event-article .event-content::after {
+      clear: both;
+      content: "";
+      display: block; }
+  .event-article .event-footer {
+    display: block; }
+    .event-article .event-footer::after {
+      clear: both;
+      content: "";
+      display: block; }
+
+/* html5 .events-sidebar element */
+.events-sidebar .events-list {
+  list-style: none;
+  padding-left: 0; }
+  .events-sidebar .events-list .event-day {
+    font-size: 2rem;
+    margin-top: 1rem; }
+  .events-sidebar .events-list .event-dow {
+    font-size: 1.2rem; }
+
+/* html5 .event-tags element */
+.event-tags {
+  display: inline-block; }
+  .event-tags a {
+    display: inline-block;
+    border: 1px solid #1BB3E9;
+    border-radius: 4px;
+    padding: 0 0.5rem;
+    text-transform: uppercase;
+    font-size: .85rem;
+    font-weight: normal; }
 
 /* clear user agent styles */
 .clear-user-agent-styles table,
