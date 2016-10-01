@@ -1,9 +1,7 @@
 {% extends 'partials/base.html.twig' %}
 
-{% set collection = page.collection() %}
-
 {% block content %}
-<section class="calendar-container">
+<section class="calendar-container clear-user-agent-styles">
 
 	<h2 class="calendar-title">{{ page.title }}</h2>
 
@@ -17,18 +15,28 @@
     <table class="calendar">
         <thead>
             <tr class="controls-container">
-                <th colspan="1">
-                    <a href="{{ prevMonthUrl }}" class="calendar-control">{{ 'MONTHS_OF_THE_YEAR'|ta(calendar.prev.date|date('n') - 1) ~ calendar.prev.date|date(' Y') }}</a>
+                <th colspan="2">
+                    <a href="{{ prevMonthUrl }}" class="calendar-control calendar-hide">{{ 'MONTHS_OF_THE_YEAR'|ta(calendar.prev.date|date('n') - 1) ~ calendar.prev.date|date(' Y') }}</a>
                 </th>
-                <th colspan="5" class="controls">
+                <th colspan="3" class="controls">
                     <a href="{{ prevMonthUrl }}" class="calendar-button calendar-control">&lsaquo;</a>
                     <a href="{{ prevYearUrl }}" class="calendar-button calendar-control">&laquo;</a>
                     <span class="month-title">{{ 'MONTHS_OF_THE_YEAR'|ta(calendar.date|date('n') - 1) ~ calendar.date|date(' Y') }}</span>
                     <a href="{{ nextYearUrl }}" class="calendar-button calendar-control">&raquo;</a>
                     <a href="{{ nextMonthUrl }}" class="calendar-button calendar-control">&rsaquo;</a>
                 </th>
-                <th colspan="1">
-                    <a href="{{ nextMonthUrl }}" class="calendar-control">{{ 'MONTHS_OF_THE_YEAR'|ta(calendar.next.date|date('n') - 1) ~ calendar.next.date|date(' Y') }}</a>
+                <th colspan="2">
+                    <a href="{{ nextMonthUrl }}" class="calendar-control calendar-hide">{{ 'MONTHS_OF_THE_YEAR'|ta(calendar.next.date|date('n') - 1) ~ calendar.next.date|date(' Y') }}</a>
+										<ul class="calendar-legend">
+											<li class="calendar-day-expander">
+												<span class="key">View More</span>
+												<span class="color">31</span>
+											</li>
+											<li class="calendar-today">
+												<span class="key">Today</span>
+												<span class="color">{{ "now"|date('j') }}</span>
+											</li>
+										</ul>
                 </th>
             </tr>
             <tr class="headings">
@@ -72,7 +80,7 @@
 		                                    </li>
 		                                {% endif %}
 		                            {% endfor %}
-		                           	
+
 		                        {% endfor %}
 	                        </ul>
                         {% endif %}

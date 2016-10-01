@@ -1,18 +1,61 @@
 // import bourbon & friends
-@import "../bower_components/bourbon/app/assets/stylesheets/bourbon";
-@import "../bower_components/neat/app/assets/stylesheets/neat";
+@import "../node_modules/bourbon/app/assets/stylesheets/bourbon";
+@import "../node_modules/bourbon-neat/app/assets/stylesheets/neat";
 
 /* taken from antimatter theme */
-$calendar-control-button-bg:		#efefef !default;
+$calendar-control-button-bg:			#efefef !default;
 $calendar-control-button-color:		#222222 !default;
-$calendar-headings-bg:				transparent !default;
-$calendar-headings-color:			#222222 !default;
-$calendar-day-bg: 					#dddddd !default;
-$calendar-day-color:				#222222 !default;
-$calendar-day-current-bg:			#1BB3E9 !default;
-$calendar-day-current-color:		#ffffff !default;
-$calendar-event-link-color:			#222222 !default;
-$calendar-day-block-bg:				#efefef !default;
+$calendar-headings-bg:						transparent !default;
+$calendar-headings-color:					#222222 !default;
+$calendar-day-bg: 								#dddddd !default;
+$calendar-day-color:							#222222 !default;
+$calendar-day-current-bg:					#1BB3E9 !default;
+$calendar-day-current-color:			#ffffff !default;
+$calendar-event-link-color:				#222222 !default;
+$calendar-day-block-bg:						#efefef !default;
+
+/* html5 .calendar-hide */
+.calendar-hide {
+	display: none;
+}
+
+/* html5 .calendar-legend */
+.calendar-legend {
+	list-style: none;
+	padding-left: 0;
+	text-align: right;
+	width: 100%;
+
+	li {
+		display: inline-block;
+		margin-left: 0.5rem;
+		font-weight: 100;
+
+		span.color {
+			display: inline-block;
+			width: 1.75rem;
+			font-size: 0.75rem;
+			line-height: 1.75rem;
+			background: $calendar-day-bg;
+			text-align: center;
+		}
+		span.key {
+			display: inline-block;
+			line-height: 1.5rem;
+			font-size: .75rem;
+		}
+
+		&.calendar-today {
+			.color {
+				background: $calendar-day-current-bg;
+				color: $calendar-day-current-color;
+			}
+		}
+		&.calendar-day-expander {
+
+		}
+	}
+}
 
 /* html5 .events-container element */
 .events-container {
@@ -134,21 +177,19 @@ $calendar-day-block-bg:				#efefef !default;
 		}
 	}
 
-	table {
+	.calendar {
+		font-family: sans-serif;
+		font-weight: 100;
 
 		thead {
 
 			tr {
 
 				th {
-					font-weight: normal;					
+					font-weight: normal;
+					background: $calendar-headings-bg;
 				}
 
-				th[colspan="1"] {
-					a {
-						display: none;
-					}
-				}
 			}
 
 			.calendar-button
@@ -183,8 +224,8 @@ $calendar-day-block-bg:				#efefef !default;
 						.events {
 
 							.day {
-								background: $calendar-day-current-bg;	
-								color: $calendar-day-current-color;	
+								background: $calendar-day-current-bg;
+								color: $calendar-day-current-color;
 							}
 						}
 					}
@@ -248,7 +289,7 @@ $calendar-day-block-bg:				#efefef !default;
 								}
 							}
 
-							li:before { 
+							li:before {
 							    content: "";
 							    border-color: transparent #111;
 							    border-style: solid;
@@ -278,4 +319,19 @@ $calendar-day-block-bg:				#efefef !default;
 			}
 		}
 	}
+}
+
+/* clear user agent styles */
+.clear-user-agent-styles table,
+.clear-user-agent-styles thead,
+.clear-user-agent-styles tbody,
+.clear-user-agent-styles tfoot,
+.clear-user-agent-styles tr,
+.clear-user-agent-styles th,
+.clear-user-agent-styles td {
+    border: none;
+    border-color: inherit;
+    vertical-align: inherit;
+    text-align: left;
+    font-weight: inherit;
 }
