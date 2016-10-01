@@ -2,7 +2,7 @@
 @import "../node_modules/bourbon/app/assets/stylesheets/bourbon";
 @import "../node_modules/bourbon-neat/app/assets/stylesheets/neat";
 
-/* taken from antimatter theme */
+/* colors taken from antimatter theme */
 $calendar-control-button-bg:			#efefef !default;
 $calendar-control-button-color:		#222222 !default;
 $calendar-headings-bg:						transparent !default;
@@ -13,6 +13,18 @@ $calendar-day-current-bg:					#1BB3E9 !default;
 $calendar-day-current-color:			#ffffff !default;
 $calendar-event-link-color:				#222222 !default;
 $calendar-day-block-bg:						#efefef !default;
+
+$event-item-border: 							1px solid #efefef !default;
+$event-image-border-radius: 			3px !default;
+$event-button-color:							#1BB3E9 !default;
+$event-button-bg:									#ffffff !default;
+$event-button-border:							2px solid $event-button-color !default;
+$event-button-hover-color:				#fff !default;
+$event-button-hover-bg:						$event-button-color !default;
+$event-button-hover-border:				2px solid $event-button-color !default;
+$event-button-border-radius:			4px !default;
+$event-button-padding:						0.5rem 2rem;
+$event-border-radius: 						4px !default;
 
 /* html5 .calendar-hide */
 .calendar-hide {
@@ -54,84 +66,6 @@ $calendar-day-block-bg:						#efefef !default;
 		&.calendar-day-expander {
 
 		}
-	}
-}
-
-/* html5 .events-container element */
-.events-container {
-	@include outer-container();
-
-	.events-listing {
-		@include span-columns(2 of 3);
-	}
-
-	.events-sidebar {
-		@include span-columns(1 of 3);
-	}
-}
-
-/* html5 .event-article element */
-.event-article {
-	padding: 1rem 0;
-
-	.event-header {
-		@include row();
-
-		.event-title {
-			@include span-columns(5 of 7);
-		}
-
-		.event-date {
-			@include span-columns(2 of 7);
-			text-align: right;
-
-			.day {
-				display: block;
-				font-size: 3.25rem;
-				font-weight: bold;
-				margin: 1rem 0;
-			}
-			.month {
-				display: block;
-				text-transform: uppercase;
-				font-weight: bold;
-				font-size: 1.5rem;
-			}
-			.time {
-				display: block;
-			}
-			.year {
-				display: none;
-			}
-		}
-
-	}
-
-	.event-content {
-		@include row();
-	}
-
-	.event-footer {
-		@include row();
-	}
-
-}
-
-/* html5 .events-list element */
-.events-list {
-	list-style: none;
-	padding-left: 0;
-
-	.event-day {
-		font-weight: bold;
-		font-size: 2rem;
-		margin-top: 1.25rem;
-	}
-
-	.event-dow {
-		margin-top: 0.25rem;
-		margin-bottom: 0.25rem;
-		font-style: italic;
 	}
 }
 
@@ -332,22 +266,7 @@ $calendar-day-block-bg:						#efefef !default;
 	}
 }
 
-/* clear user agent styles */
-.clear-user-agent-styles table,
-.clear-user-agent-styles thead,
-.clear-user-agent-styles tbody,
-.clear-user-agent-styles tfoot,
-.clear-user-agent-styles tr,
-.clear-user-agent-styles th,
-.clear-user-agent-styles td {
-    border: none;
-    border-color: inherit;
-    vertical-align: inherit;
-    text-align: left;
-    font-weight: inherit;
-}
-
-/* .calendar-modal */
+/* html5 .calendar-modal element */
 .calendar-modal {
 	position: fixed;
 	top: 0;
@@ -382,4 +301,153 @@ $calendar-day-block-bg:						#efefef !default;
 			cursor: pointer;
 		}
 	}
+}
+
+/* html5 .event-button element */
+.event-button {
+	display: inline-block;
+	border: $event-button-border;
+	border-radius: $event-button-border-radius;
+	padding: $event-button-padding;
+	color: $event-button-color;
+	background: $event-button-bg;
+
+	&:hover {
+		color: $event-button-hover-color;
+		border: $event-button-hover-border;
+		background: $event-button-hover-bg;
+	}
+}
+
+/* html5 .events-container element */
+.events-container {
+	@include outer-container();
+
+	.featured-events {
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: space-between;
+
+		.featured-event {
+			flex-basis: 40%;
+    	flex-grow: 1;
+			margin: 0 1rem 2rem;
+
+			.featured-event-masthead {
+				position: relative;
+
+				img {
+					display: block;
+					border-top-left-radius: $event-border-radius;
+					border-top-right-radius: $event-border-radius;
+				}
+
+				.featured-event-title {
+					position: absolute;
+					bottom: 2rem;
+					padding: 0 2rem;
+					margin: 0;
+					@include background(rgba(255,255,255,0.8));
+
+					color: #222;
+
+					a {
+						color: #222;
+					}
+				}
+			}
+
+			.featured-event-content {
+				border: 1px solid #efefef;
+				padding: 0.5rem 2rem;
+				overflow: hidden;
+
+				border-bottom-left-radius: $event-border-radius;
+				border-bottom-right-radius: $event-border-radius;
+
+				.event-meta-information {
+					padding-left: 0;
+					list-style: none;
+					display: block;
+
+					li {
+						display: inline-block;
+
+						i {
+							width: 1.5rem;
+						}
+					}
+				}
+			}
+		}
+	}
+
+	.events-listing {
+		padding-bottom: 2rem;
+
+		.event-item {
+			@include row();
+			border-bottom: $event-item-border;
+			padding: 1rem 0;
+
+			&:last-child {
+				border-bottom: 0;
+			}
+
+			.event-image {
+				@include span-columns(1 of 5);
+
+				img {
+					padding: 0;
+					margin: 1rem 0 0;
+					border-radius: $event-image-border-radius;
+				}
+			}
+
+			.event-content {
+				@include span-columns(4 of 5);
+				@include row();
+
+				.featured-event-title {
+					line-height: 1;
+				}
+
+				.event-meta {
+					@include span-columns(4);
+					@include omega();
+
+					ul {
+						list-style: none;
+						padding-left: 0;
+					}
+				}
+
+				.event-summary {
+					@include span-columns(8);
+					@include omega();
+				}
+			}
+
+		}
+	}
+}
+
+/* html5 .event-container element */
+.event-container {
+	@include outer-container();
+}
+
+/* clear user agent styles */
+.clear-user-agent-styles table,
+.clear-user-agent-styles thead,
+.clear-user-agent-styles tbody,
+.clear-user-agent-styles tfoot,
+.clear-user-agent-styles tr,
+.clear-user-agent-styles th,
+.clear-user-agent-styles td {
+    border: none;
+    border-color: inherit;
+    vertical-align: inherit;
+    text-align: left;
+    font-weight: inherit;
 }

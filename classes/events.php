@@ -138,7 +138,6 @@ class Events
 		 * [daily, weekly, monthly, yearly]
 		 */
 		$this->processReoccuringEvents( $events );
-		$events = $this->pages->all()->ofType('event');
 
 		// merge the collection back into grav pages
 		return $this->pages;
@@ -447,6 +446,5 @@ class Events
 		// return the clone
 		return $clone;
 	}
-
 
 }

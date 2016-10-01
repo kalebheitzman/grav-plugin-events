@@ -1,39 +1,129 @@
 {% embed 'partials/base.html.twig' %}
 
-{% set collection =
+{# get the featured events #}
+{% set featured_events =
+  page.collection({
+    'items': {
+      '@taxonomy': {
+        'type': 'event',
+      }
+    },
+    'dateRange': {
+      'start': datetools.today|date('m/d/Y'),
+      'end': datetools.parseDate('+1 month')|date('m/d/Y')
+    },
+    'order': {
+      'by': 'date',
+      'dir': 'asc'
+    },
+    'limit': 3
+  })
+%}
+
+{# get events by taxonomy #}
+{% set events =
     page.collection({
-        'items':{
-            'taxonomy@.type': 'event'
+      'items': {
+        '@taxonomy': {
+          'type': 'event',
         }
+      },
+      'dateRange': {
+        'start': datetools.today|date('m/d/Y'),
+        'end': datetools.parseDate('+1 month')|date('m/d/Y')
+      },
+      'order': {
+        'by': 'date',
+        'dir': 'asc'
+      },
+      'limit': 10,
+      'pagination': true
     })
-    .dateRange(datetools.today|date('m/d/Y'),datetools.parseDate('+1 month'))
-    .order('date', 'asc') 
 %}
 
 {% block content %}
-<div class="events-container">
 
-	<section class="events-listing">
+  <div class="events-container">
 
-		{% if config.plugins.breadcrumbs.enabled %}
-			{% include 'partials/breadcrumbs.html.twig' %}
-		{% endif %}
+    <header>
+      <h1 class="center">{{ page.title }}</h1>
+    </header>
 
-		{% for child in collection %}
-	        {% include 'partials/event_item.html.twig' with {'event':page, 'page':child, 'truncate':true} %}
-	    {% endfor %}
+    <section class="featured-events">
+      {% for event in featured_events %}
+        <article class="featured-event">
+          <div class="featured-event-masthead">
+            {% set image = event.media.images|first %}
+            {% if image != null %}
+              {{ image.cropZoom(1200,500).html }}
+            {% endif %}
+            <h3 class="featured-event-title"><a href="{{ event.url }}">{{ event.title }}</a></h3>
+          </div>
 
-        {% if config.plugins.pagination.enabled and collection.params.pagination %}
-            {% include 'partials/pagination.html.twig' with {'base_url':page.url, 'pagination':collection.params.pagination} %}
-        {% endif %}
+          <div class="featured-event-content">
 
-	</section><!--.events-->
+            <ul class="event-meta-information">
+              <li class="when"><i class="fa fa-calendar"></i> {{ item.header.event.start|date(J, d) }}</li>
+              {% if item.header.event.location %}
+                <li class="where"><i class="fa fa-location-arrow"></i> {{ item.header.event.location }}</li>
+              {% endif %}
+            </ul>
 
-	<aside class="events-sidebar">
-		{% include 'partials/events_sidebar.html.twig' with {'page':page} %}
-	</aside>
+            {{ event.summary(200) }}
 
-</div>
+            <p>
+              <a href="{{ event.url }}" class="event-button" />Learn More</a>
+            </p>
+
+          </div>
+        </article>
+      {% endfor %}
+
+    </section>
+
+    <section class="events-listing">
+      {% for item in events %}
+
+        <article class="event-item">
+
+          <div class="event-image">
+            {% set image = item.media.images|first %}
+    				{% if image != null %}
+    					<a href="{{ item.url }}">{{ image.cropZoom(512,512).html }}</a>
+            {% else %}
+            &nbsp;
+    				{% endif %}
+          </div>
+
+          <section class="event-content">
+
+            <h3>{{ item.title }}</h3>
+
+            <div class="event-meta">
+              <ul>
+                <li class="when"><i class="fa fa-calendar"></i> {{ item.header.event.start|date(J, d) }}</li>
+                {% if item.header.event.location %}
+                  <li class="where"><i class="fa fa-location-arrow"></i> {{ item.header.event.location }}</li>
+                {% endif %}
+              </ul>
+              <a href="{{ item.url }}" class="event-button">Learn More</a>
+            </div>
+
+            <div class="event-summary">
+              {{ item.summary(250) }}
+            </div>
+
+          </section>
+        </article>
+      {% endfor %}
+    </section>
+	</div>
+
+  {# Render the pagination list #}
+  {% if config.plugins.pagination.enabled and events.params.pagination %}
+      {% include 'partials/pagination.html.twig' with {'base_url':page.url, 'pagination':collection.params.pagination} %}
+  {% endif %}
+  
 {% endblock %}
 
 {% endembed %}
