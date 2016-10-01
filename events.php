@@ -295,7 +295,7 @@ class EventsPlugin extends Plugin
 		{
 			// styles
 
-			$js = 'plugin://events/js/events.js';
+			$js = 'plugin://events/js-compiled/events.js';
 
 			$assets->add('jquery');
 			$assets->addJs($js);

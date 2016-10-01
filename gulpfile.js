@@ -19,7 +19,7 @@ gulp.task('coffee', function() {
 	return gulp.src(['coffee/*.coffee','coffee/**/*.coffee','crafted/src/coffee/**/*.coffee'])
     .pipe(sourcemaps.init())
 		.pipe(coffee().on('error', gutil.log))
-    .pipe(concat('crafted.js'))
+    .pipe(concat('events.js'))
 		.pipe(gulp.dest('js-compiled'))
     .pipe(sourcemaps.write('.'));
 })
