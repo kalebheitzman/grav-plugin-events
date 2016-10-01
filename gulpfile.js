@@ -12,7 +12,7 @@ gulp.task('sass', function() {
     .pipe(sourcemaps.init())
     .pipe(sass.sync().on('error', sass.logError))
     .pipe(sourcemaps.write('.'))
-    .pipe(gulp.dest('css-compiled'));
+    .pipe(gulp.dest('assets'));
 });
 
 gulp.task('coffee', function() {
@@ -20,7 +20,7 @@ gulp.task('coffee', function() {
     .pipe(sourcemaps.init())
 		.pipe(coffee().on('error', gutil.log))
     .pipe(concat('events.js'))
-		.pipe(gulp.dest('js-compiled'))
+		.pipe(gulp.dest('assets'))
     .pipe(sourcemaps.write('.'));
 })
 
