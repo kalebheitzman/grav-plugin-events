@@ -26,6 +26,19 @@
         event.preventDefault();
         return false;
       });
+      $('.calendar-day-link').on('click', function(event) {
+        var content, title;
+        title = $(this).attr('title');
+        content = $(this).parent().next('.events-list').html();
+        $('.calendar-modal-title').html(title);
+        $('.calendar-modal-content').html(content);
+        $('.calendar-modal').fadeIn(150);
+        event.preventDefault();
+        return false;
+      });
+      $('.calendar-close-modal').on('click', function(event) {
+        return $('.calendar-modal').fadeOut(100);
+      });
     });
   })(jQuery);
 

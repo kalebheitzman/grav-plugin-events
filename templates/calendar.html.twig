@@ -60,9 +60,11 @@
                 {% endif %}
                 <td {% if (day == calendar.currentDay) and (month == calendar.date|date("F")) %}class="current"{% endif %}>
                     <div class="events">
-                        <div class="day">{{ day }}</div>
                         {% if calendar.events[calendar.year][calendar.month][day] != null %}
-                        	<div class="expand">+</div>
+													{% set title_date = calendar.month ~ '/' ~ day ~ '/' ~ calendar.year %}
+													<div class="day"><a class="calendar-day-link" href="#!" title="{{ title_date|date('l, F j, Y') }}">{{ day }}</a></div>
+												{% else %}
+													<div class="day">{{ day }}</div>
                         {% endif %}
                         <div class="events-list">
                         {% if calendar.events[calendar.year][calendar.month][day] != null %}
@@ -101,6 +103,14 @@
             </tr>
         </tbody>
     </table>
+
+		<div class="calendar-modal">
+		  <div class="calendar-modal-inner">
+				<div class="calendar-close-modal">X</div>
+				<h2 class="calendar-modal-title"></h2>
+				<div class="calendar-modal-content"></div>
+			</div>
+		</div>
 
 </section><!--.calendar-container-->
 

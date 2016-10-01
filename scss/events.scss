@@ -243,7 +243,7 @@ $calendar-day-block-bg:						#efefef !default;
 
 						.day {
 							background: $calendar-day-bg;
-							color: $calendar-day-color;
+							color: lighten($calendar-day-color, 40);
 							width: 1.75rem;
 							height: 1.75rem;
 							line-height: 1.75rem;
@@ -252,6 +252,17 @@ $calendar-day-block-bg:						#efefef !default;
 							position: absolute;
 							top: 0;
 							right: 0;
+							a {
+								display: block;
+								width: 100%;
+								height: 100%;
+								color: $calendar-day-color;
+
+								&:hover {
+									background: $calendar-day-current-bg;
+									color: $calendar-day-current-color;
+								}
+							}
 						}
 
 						.expand {
@@ -334,4 +345,41 @@ $calendar-day-block-bg:						#efefef !default;
     vertical-align: inherit;
     text-align: left;
     font-weight: inherit;
+}
+
+/* .calendar-modal */
+.calendar-modal {
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	width: 100%;
+	height: 100%;
+	z-index: 99;
+	@include background(rgba(0,0,0,0.2));
+
+	display: flex;
+  align-items: center;
+  justify-content: center;
+
+	display: none;
+
+	.calendar-modal-inner {
+		background: #fff;
+		max-width: 700px;
+		margin: 6rem auto;
+		padding: 2rem 4rem;
+		position: relative;
+
+		.calendar-close-modal {
+			position: absolute;
+			right: 1rem;
+			top: 0;
+			font-size: 3rem;
+			font-family: sans-serif;
+			font-weight: 100;
+			cursor: pointer;
+		}
+	}
 }

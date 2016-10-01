@@ -1,6 +1,7 @@
 (($) ->
   $(document).ready ->
 
+    # Function to change the page url
     ChangeUrl = (page, url) ->
       if typeof history.pushState != 'undefined'
         obj =
@@ -11,6 +12,7 @@
         alert 'Browser does not support HTML5.'
       return
 
+    # Calendar Controls
     $('.calendar').on 'click', 'a.calendar-control', (event) ->
       href = $(this).attr('href')
       $.get href, (data) ->
@@ -20,8 +22,25 @@
       ChangeUrl document.title, href
       event.preventDefault()
       false
+
+    # Calendar Modal
+    $('.calendar-day-link').on 'click', (event) ->
+
+      title = $(this).attr('title');
+      content = $(this).parent().next('.events-list').html();
+
+      $('.calendar-modal-title').html(title);
+      $('.calendar-modal-content').html(content);
+
+      $('.calendar-modal').fadeIn(150);
+
+      event.preventDefault()
+      false
+
+    $('.calendar-close-modal').on 'click', (event) ->
+      $('.calendar-modal').fadeOut(100);
+
     return
-    
   return
 ) jQuery
 

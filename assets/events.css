@@ -187,7 +187,7 @@ html {
         font-size: 0.75rem; }
         .calendar-container .calendar tbody tr td .events .day {
           background: #dddddd;
-          color: #222222;
+          color: #888888;
           width: 1.75rem;
           height: 1.75rem;
           line-height: 1.75rem;
@@ -196,6 +196,14 @@ html {
           position: absolute;
           top: 0;
           right: 0; }
+          .calendar-container .calendar tbody tr td .events .day a {
+            display: block;
+            width: 100%;
+            height: 100%;
+            color: #222222; }
+            .calendar-container .calendar tbody tr td .events .day a:hover {
+              background: #1BB3E9;
+              color: #ffffff; }
         .calendar-container .calendar tbody tr td .events .expand {
           background: #dddddd;
           color: #222222;
@@ -252,5 +260,36 @@ html {
   vertical-align: inherit;
   text-align: left;
   font-weight: inherit; }
+
+/* .calendar-modal */
+.calendar-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 99;
+  background: rgba(0, 0, 0, 0.2);
+  background: rgba(0, 0, 0, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  display: none; }
+  .calendar-modal .calendar-modal-inner {
+    background: #fff;
+    max-width: 700px;
+    margin: 6rem auto;
+    padding: 2rem 4rem;
+    position: relative; }
+    .calendar-modal .calendar-modal-inner .calendar-close-modal {
+      position: absolute;
+      right: 1rem;
+      top: 0;
+      font-size: 3rem;
+      font-family: sans-serif;
+      font-weight: 100;
+      cursor: pointer; }
 
 /*# sourceMappingURL=events.css.map */
