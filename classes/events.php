@@ -156,8 +156,6 @@ class Events
 	 */
 	private function preprocessEventPages( $events )
 	{
-		$collection = new \Grav\Common\Page\Collection();
-
 		foreach ( $events as $page ) {
 
 			// get header information
@@ -195,18 +193,11 @@ class Events
 			$eventTaxonomies = array('type' => array('event'));
 			$newTaxonomy = array_merge($taxonomy, $eventTaxonomies);
 
-			// set the new taxonomy
+			$page->taxonomy($newTaxonomy);
 			$header->taxonomy = $newTaxonomy;
-
-			// set the page header
-			$page->header($header);
-
-			// add this page to the collection
-			$collection->addPage($page);
-			$this->taxonomy->addTaxonomy($page, $page->taxonomy());
 		}
 
-		return $collection;
+		return $events;
 	}
 
 	/**
