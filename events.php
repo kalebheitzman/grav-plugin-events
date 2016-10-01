@@ -297,7 +297,6 @@ class EventsPlugin extends Plugin
 
 			$js = 'plugin://events/js/events.js';
 
-
 			$assets->add('jquery');
 			$assets->addJs($js);
 		}
@@ -320,37 +319,37 @@ class EventsPlugin extends Plugin
 	 * @return void
 	 */
 	public function onAdminSave(Event $event)
-    {
-        $obj = $event['object'];
+  {
+  	$obj = $event['object'];
 
-        if ($obj instanceof Page &&  $obj->template() == 'event' ) {
+      if ($obj instanceof Page &&  $obj->template() == 'event' ) {
 
-        	if ( ! isset( $header->event['location'] ) ) {
-        		return;
-        	}
+      	if ( ! isset( $header->event['location'] ) ) {
+      		return;
+      	}
 
-        	// get the header
-        	$header = $obj->header();
-        	$location = $header->event['location'];
+      	// get the header
+      	$header = $obj->header();
+      	$location = $header->event['location'];
 
-        	// build a url
-        	$url = "http://maps.googleapis.com/maps/api/geocode/json?address=" . urlencode($location);
+      	// build a url
+      	$url = "http://maps.googleapis.com/maps/api/geocode/json?address=" . urlencode($location);
 
-        	// fetch the results
-			$ch = curl_init();
-   			curl_setopt($ch, CURLOPT_URL, $url);
-   			curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-   			$geoloc = json_decode(curl_exec($ch), true);
+      	// fetch the results
+				$ch = curl_init();
+ 				curl_setopt($ch, CURLOPT_URL, $url);
+ 				curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+ 				$geoloc = json_decode(curl_exec($ch), true);
 
-   			// build the coord string
-   			$lat = $geoloc['results'][0]['geometry']['location']['lat'];
-			$lng = $geoloc['results'][0]['geometry']['location']['lng'];
-			$coords = $lat . ", " . $lng;
+ 				// build the coord string
+ 				$lat = $geoloc['results'][0]['geometry']['location']['lat'];
+				$lng = $geoloc['results'][0]['geometry']['location']['lng'];
+				$coords = $lat . ", " . $lng;
 
-			// set the header info
-			$header->event['coordinates'] = $coords;
-			$obj->header($header);
-        }
+				// set the header info
+				$header->event['coordinates'] = $coords;
+				$obj->header($header);
+      }
     }
 
     /**

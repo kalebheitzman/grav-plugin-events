@@ -134,7 +134,7 @@ class Events
 
 		/**
 		 * STEP 3: Process Reoccuring Events
-		 * add reoccuring events to the collection 
+		 * add reoccuring events to the collection
 		 * [daily, weekly, monthly, yearly]
 		 */
 		$this->processReoccuringEvents( $events );
@@ -148,25 +148,27 @@ class Events
 	 * STEP 1: Preprocess the Event
 	 * Preprocess Event Pages
 	 *
-	 * Take an events collection and preprocess the page header, etc for later 
+	 * Take an events collection and preprocess the page header, etc for later
 	 * date processing, slug processing, etc.
-	 * 	
+	 *
 	 * @param  object $events Grav Collection
 	 * @return object         Grav Collection
 	 */
 	private function preprocessEventPages( $events )
 	{
+		$collection = new \Grav\Common\Page\Collection();
+
 		foreach ( $events as $page ) {
 
 			// get header information
 			$header = $page->header();
 			if ( ! isset( $header->event['start'] ) ) {
-				return; 
+				return;
 			}
 
 			// process date information
 			$event = $header->event;
-			
+
 			// build a carbon events object to insert into header frontmatter
 			$carbonEvent = [];
 			$carbonEvent['start'] = Carbon::parse( $event['start'] );
@@ -188,26 +190,33 @@ class Events
 			// store the new carbon based dates in the header frontmatter
 			$header->_event = $carbonEvent;
 
-			// add taxonomies 
+			// add taxonomies
 			$taxonomy = $page->taxonomy();
 			$eventTaxonomies = array('type' => array('event'));
 			$newTaxonomy = array_merge($taxonomy, $eventTaxonomies);
-			
-			$page->taxonomy($newTaxonomy);
+
+			// set the new taxonomy
 			$header->taxonomy = $newTaxonomy;
+
+			// set the page header
+			$page->header($header);
+
+			// add this page to the collection
+			$collection->addPage($page);
+			$this->taxonomy->addTaxonomy($page, $page->taxonomy());
 		}
 
-		return $events;
+		return $collection;
 	}
 
 	/**
 	 * STEP 2: Process Repeating Events
 	 * Process Repeating Events [MTWRFSU]
-	 * 
+	 *
 	 * @param  object $events Grav Collection
 	 *
 	 * @since  1.0.15 Major Refactor
-	 * 
+	 *
 	 * @return object         Grav Collection
 	 */
 	private function processRepeatingEvents( $events )
@@ -242,10 +251,10 @@ class Events
 
 						$dates['start'] = $header->_event['start']->copy()->addDays($s_diff);
 						$dates['end'] = $header->_event['end']->copy()->addDays($e_diff);
-						
+
 						// clone the page and add the new dates
 						$clone = $this->cloneEvent( $page, $dates );
-						
+
 						// insert the page into grav pages
 						$this->pages->addPage( $clone );
 						$this->taxonomy->addTaxonomy($clone, $clone->taxonomy());
@@ -269,7 +278,7 @@ class Events
 	private function processReoccuringEvents( $events )
 	{
 		foreach ( $events as $page ) {
-			
+
 			$header = $page->header();
 
 			if ( isset( $header->event['freq'] ) && isset( $header->event['until'] ) ) {
@@ -410,7 +419,7 @@ class Events
 	 * @return object        Grav Page
 	 */
 	private function cloneEvent( $page, $dates ) {
-		
+
 		// clone the page
 		$clone = clone $page;
 
