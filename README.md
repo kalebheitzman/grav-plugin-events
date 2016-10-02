@@ -52,23 +52,15 @@ The `event.start:` and `event.end:` dates can be specified using `m/d/y` or `d-m
 This plugin supports creating repeating events using `event.repeat:`,
 `event.freq:`, and `event.until:`.
 
-`event.repeat:` specifies what days you would like for your event to repeat horizontally across a calendar. This can be for Monday through Sunday as specified by `MTWRFSU`.
+`event.repeat:` specifies what days you would like for your event to repeat horizontally across a calendar. This can be for Monday through Sunday as specified by `MTWRFSU`. (**M**onday, **T**uesday, **W**ednesday, Th**U**rsday, **F**riday, **S**aturday, S**U**nday).
 
-- **M**onday
-- **T**uesday
-- **W**ednesday
-- Th**U**rsday
-- **F**riday
-- **S**aturday
-- S**U**nday
+`event.freq:` can be set to `daily, weekly, monthly, or yearly.`
 
-`event.freq` can be set to `daily, weekly, monthly, or yearly.`
-
-`event.until` is a date and time specification like `01/01/2016 12:00am`
+`event.until:` is a date and time specification like `01/01/2016 12:00am`
 
 ### Event frontmatter example
 
-You can edit the front matter of your pages or use the Admin plugin with the supplied blueprints to update event information.
+You can edit the front matter of your pages or use the Admin plugin with the supplied blueprints to update event information. If you use the Admin plugin, coordinates will automatically be geo-decoded from address that you enter.
 
 ```
 event:
@@ -77,6 +69,8 @@ event:
     repeat: MTWRFSU
     freq: weekly
     until: 01/01/2020
+    location: Raleigh, NC
+    coordinates:
 ```
 
 ### Collection frontmatter example

@@ -2,7 +2,7 @@ en:
   PLUGIN_EVENTS:
     CALENDAR:
       TODAY: Today
-      VIEW_MORE: View More
+      VIEW_MORE: Click a Day to View More
     EVENTS:
       BUTTON: Learn More
 fr:
