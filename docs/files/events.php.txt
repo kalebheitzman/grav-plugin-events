@@ -147,7 +147,7 @@ class EventsPlugin extends Plugin
 		}
 
 		// Add these to taxonomy for events management
-		$event_taxonomies = array('type', 'event_freq', 'event_repeat');
+		$event_taxonomies = array('type', 'event_freq', 'event_repeat', 'event_location');
 		$taxonomy_config = array_merge((array)$this->config->get('site.taxonomies'), $event_taxonomies);
 		$this->config->set('site.taxonomies', $taxonomy_config);
 
@@ -219,8 +219,8 @@ class EventsPlugin extends Plugin
     $locator = Grav::instance()['locator'];
 
     // Set blueprints & templates.
-    $types->scanBlueprints($locator->findResources('plugin://' . $this->name . '/blueprints'));
-    $types->scanTemplates($locator->findResources('plugin://' . $this->name . '/templates'));
+    $types->scanBlueprints($locator->findResource('plugin://events/blueprints'));
+    $types->scanTemplates($locator->findResource('plugin://events/templates'));
 
     // reverse the FUBARd order of blueprints
     $event = array_reverse($types['event']);
@@ -289,11 +289,11 @@ class EventsPlugin extends Plugin
 		// check to see if the object is a `Page` with template `event`
     if ($obj instanceof Page &&  $obj->template() == 'event' ) {
 
-			// check for location information
-    	if ( isset( $header->event['location'] ) ) {
+			// get the header
+			$header = $obj->header();
 
-				// get the header
-	    	$header = $obj->header();
+			// check for location information
+    	if ( isset( $header->event['location'] ) && ! isset( $header->event['coordinates'] ) ) {
 	    	$location = $header->event['location'];
 
 	    	// build a url
