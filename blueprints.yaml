@@ -1,5 +1,5 @@
 name: Events
-version: 1.0.14
+version: 1.0.15
 description: "The **Events** plugin provides events for a Grav site using event frontmatter."
 icon: calendar
 author:
@@ -18,47 +18,20 @@ dependencies:
 form:
   validation: loose
   fields:
+    processing:
+      type: section
+      title: Processing
     event_template_types:
       type: text
       label: Event Template Types
+      help: What templates should be checked for event related content?
       default: event
     display_months_out:
       type: text
       label: Months Out to Display Events
-    date_format.long:
-      type: text
-      label: Long Date Format
-      default: Y-m-d h:ia
-    date_format.medium:
-      type: text
-      label: Medium Date Format
-      default: m/d/Y
-    date_format.short:
-      type: text
-      label: Short Date Format
-      default: M j
-    date_format.default:
-      type: text
-      label: Default Date Format
-      default: F j, Y h:ia
-    date_format.translate:
-      type: toggle
-      label: Translate dates
-      highlight: 1
-      default: 0
-      options:
-        1: Enabled
-        0: Disabled
-      validate:
-        type: bool
-    filter_combinator:
-      type: text
-      label: Filter Combinator
-      default: and
-    events_collection:
-      type: text
-      label: Events Collection
-      default: "'@page': '/events'"
+      help: In integer form, how many months out should repeating dates display?
+      default: 3
+      placeholder: 3
     enable_single_event_filter:
       type: toggle
       label: Enable Single Event Filter
@@ -69,7 +42,48 @@ form:
         0: Disabled
       validate:
         type: bool
-    default_events_page:
+    #date_format.long:
+    #  type: text
+    #  label: Long Date Format
+    #  default: Y-m-d h:ia
+    #date_format.medium:
+    #  type: text
+    #  label: Medium Date Format
+    #  default: m/d/Y
+    #date_format.short:
+    #  type: text
+    #  label: Short Date Format
+    #  default: M j
+    #date_format.default:
+    #  type: text
+    #  label: Default Date Format
+    #  default: F j, Y h:ia
+    tranlation:
+      type: section
+      title: Translation
+    date_format.translate:
+      type: toggle
+      label: Translate dates
+      help: Translations can be found in language.yaml
+      highlight: 1
+      default: 0
+      options:
+        1: Enabled
+        0: Disabled
+      validate:
+        type: bool
+    collections:
+      type: section
+      title: Collections
+    filter_combinator:
       type: text
-      label: The main page listing events
-      default: events
+      label: Filter Combinator
+      default: and
+    events_collection:
+      type: text
+      label: Events Collection
+      default: "'@page': '/events'"
+    #default_events_page:
+    #  type: text
+    #  label: The main page listing events
+    #  default: events

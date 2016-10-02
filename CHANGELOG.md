@@ -1,8 +1,21 @@
+# v1.0.15
+## 10/02/2016
+
+1. [#new]
+	* Added a location field with auto geo-decoded coordinates from address
+	* New visual styles and templates for calendar and events
+	* Calendar shows a modal when clicking on a day so the end user can see every event that day.
+	* French language translation has been added
+1. [#improved]
+	* Cleaned up plugin blueprint but preserved old options in comments
+	* The events processor has been rewritten from the ground up to use Page and Collection objects instead of a custom tokenized array for serving pages.
+	* Atoum testing framework has been added to the plugin and I'll be writing tests in the near future.
+
 # v1.0.14
 ## 09/15/2016
 
 1. [#bugfix]
-	* Issue #25 - Variable not initialized throws error in for loop. 
+	* Issue #25 - Variable not initialized throws error in for loop.
 
 # v1.0.13
 ## 08/19/2016
@@ -13,7 +26,7 @@
 	* Issue #21 - Admin form now automatically shows up
 	* Fixed event template types in blueprints.
 	* Fixed monthly frequency dates.
-	* Fixed doubling of events. 
+	* Fixed doubling of events.
 	* Fixed repeat rules.
 	* Removed uncoded show future events toggle
 

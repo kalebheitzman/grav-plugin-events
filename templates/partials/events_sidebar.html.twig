@@ -1,59 +1,39 @@
-<div class="sidebar-content h-feed">
-    
-    <div style="display: none;">
-        <a class="p-name u-url" href="{{ base_url ~ config.plugins.events.default_events_page }}">{{ "PLUGIN_EVENTS.SIDEBAR_FEED.NAME"|t(site.title|e, 2) }}</a>
-        <p class="p-summary">
-            {{ "PLUGIN_EVENTS.SIDEBAR_FEED.DESCRIPTION"|t(site.title|e, 2) }}
-            <a href="{{ base_url ~ config.plugins.events.default_events_page }}">{{ "PLUGIN_EVENTS.SIDEBAR_FEED.MORE_EVENTS"|t }}</a>
-        </p>
-    </div>
-    
-    {% set events = page.collection({
-        'items':{
-            '@taxonomy.type':'event',
-        }
-    }).dateRange(
-            datetools.startOfMonth,
-            datetools.endOfMonth
-    ).order('date', 'asc')
-    %}
-    <h4>{{ 'PLUGIN_EVENTS.MONTH_EVENTS'|t('MONTHS_OF_THE_YEAR'|ta(datetools.startOfMonth|date('n') -1)) }}</h4>
-    <ul>
-    {% for event in events %}
-        <li class="h-event"><time class="dt-start" datetime="{{ event.header.event.start|date("c") }}">{{ event.header.event.start|date('M d')}}</time><time class="dt-end" datetime="{{ event.header.event.end|date("c") }}"></time> <a href="{{ event.url }}" class="u-url p-name">{{ event.title }}</a></li>
-    {% endfor %}
-    </ul>
 
-    {% set events = page.collection({
-        'items':{
-            '@taxonomy.type':'event',
+{# get events by taxonomy #}
+{% set events =
+    page.collection({
+      'items': {
+        '@taxonomy': {
+          'type': 'event',
         }
-    }).dateRange(
-        datetools.parseDate('first day of next month'),
-        datetools.parseDate('last day of next month')
-    ).order('date', 'asc')
-    %}
-    <h4>{{ 'PLUGIN_EVENTS.MONTH_EVENTS'|t('MONTHS_OF_THE_YEAR'|ta(datetools.parseDate('first day of next month')|date('n') -1)) }}</h4>
-    <ul>
-    {% for event in events %}
-        <li class="h-event"><time class="dt-start" datetime="{{ event.header.event.start|date("c") }}">{{ event.header.event.start|date('M d')}}</time><time class="dt-end" datetime="{{ event.header.event.end|date("c") }}"></time> <a href="{{ event.url }}" class="u-url p-name">{{ event.title }}</a></li>
-    {% endfor %}
-    </ul>
+      },
+      'dateRange': {
+        'start': datetools.today|date('m/d/Y'),
+        'end': datetools.parseDate('+1 month')|date('m/d/Y')
+      },
+      'order': {
+        'by': 'date',
+        'dir': 'asc'
+      },
+      'limit': 10,
+      'pagination': true
+    })
+%}
 
-    {% set events = page.collection({
-        'items':{
-            '@taxonomy.type':'event',
-        }
-    }).dateRange(
-        datetools.parseDate('first day of next month +1month'),
-        datetools.parseDate('last day of next month +1month')
-    ).order('date', 'asc')
-    %}
-    <h4>{{ 'PLUGIN_EVENTS.MONTH_EVENTS'|t('MONTHS_OF_THE_YEAR'|ta(datetools.parseDate('first day of next month +1month')|date('n') -1)) }}</h4>
-    <ul>
-    {% for event in events %}
-        <li class="h-event"><time class="dt-start" datetime="{{ event.header.event.start|date("c") }}">{{ event.header.event.start|date('M d')}}</time><time class="dt-end" datetime="{{ event.header.event.end|date("c") }}"></time> <a href="{{ event.url }}" class="u-url p-name">{{ event.title }}</a></li>
-    {% endfor %}
-    </ul>
-
-</div>
+<aside class="events-sidebar">
+  <ul class="events-list">
+  {% set current_header = null %}
+  {% for event in events %}
+      {% set date_header = event.header.event.start|date('F d') %}
+      {% if date_header != current_header %}
+      <li class="event-day">{{ date_header }}</li>
+      <li class="event-dow">{{ event.header.event.start|date('l') }}</li>
+      {% endif %}
+      <li>
+          <time datetime="{{ event.header.event.start|date("c") }}">{{ event.header.event.start|date('g:i a')}}</time>
+          <a href="{{ event.url }}" class="u-url p-name">{{ event.title }}</a>
+      </li>
+      {% set current_header = event.header.event.start|date('F d') %}
+  {% endfor %}
+  </ul>
+</aside>

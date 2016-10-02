@@ -1,101 +1,45 @@
-<div class="list-item h-event">
+<article class="event-article">
 
-    {% set header_image = page.header.header_image|defined(true) %}
-    {% set header_image_width  = page.header.header_image_width|defined(900) %}
-    {% set header_image_height = page.header.header_image_height|defined(300) %}
-    {% set header_image_file = page.header.header_image_file %}
+    <header class="event-header">
+      <time class="event-date" datetime="{{ page.date|date("c") }}">
+          <span class="day">{{ page.header.event.start|date("d") }}</span>
+          <span class="month">{{ config.plugins.events.date_format.translate ? 'MONTHS_OF_THE_YEAR'|ta(page.header.event.start|date('n') - 1) : page.header.event.start|date('M') }}</span>
+          <span class="time">
+              {{ page.header.event.start|date('g:ia') }}&ndash;{{ page.header.event.end|date('g:ia') }}
+          </span>
+          <span class="year">{{ page.header.event.start|date("Y") }}</span>
+      </time>
 
-    <div class="list-event-header">
-        <div class="list-event-date">
-            <div class="date">
-                <span class="day">{{ page.header.event.start|date("d") }}</span>
-                <div class="month-year">
-                    <span class="month">{{ config.plugins.events.date_format.translate ? 'MONTHS_OF_THE_YEAR'|ta(page.header.event.start|date('n') - 1) : page.header.event.start|date('M') }}</span>
-                    <em>{{ page.header.event.start|date("Y") }}</em>
-                </div>
-            </div>
-            <div class="time">
-                <time class="dt-start" datetime="{{ page.header.event.start|date("c") }}">{{ page.header.event.start|date('gia') }}</time>-<time class="dt-end" datetime="{{ page.header.event.end|date("c") }}">{{ page.header.event.end|date('gia') }}</time>
-            </div>
-        </div>
-        {% if page.header.link %}
-            <h4 class="p-name">
-                {% if page.header.continue_link is not sameas(false) %}
-                <a href="{{ page.url }}" class="u-url"><i class="fa fa-angle-double-right"></i></a>
-                {% endif %}
-                <a href="{{ page.header.link }}" class="u-url">{{ page.title }}</a>
-            </h4>
-        {% else %}
-            <h4 class="p-name"><a href="{{ page.header.event_url }}" class="u-url">{{ page.title }}</a></h4>
-        {% endif %}
+      {% set image = page.media.images|first %}
+      {% if image != null %}
+          {{ image.cropZoom(960,320).html }}
+      {% endif %}
+
+    </header>
+
+    <section class="event-content">
+        <h2 class="event-title"><a href="{{ page.url }}">{{ page.title }}</a></h2>
+        {{ page.content }}
+    </section>
+
+    <footer class="event-footer">
 
         {% if page.taxonomy.category %}
-        <span class="tags">
-            {% for category in page.taxonomy.category %}
-            <a href="{{ event.url|rtrim('/') }}/category{{ config.system.param_sep }}{{ category }}">{{ category }}</a>
-            {% endfor %}
-        </span>
+            <span class="event-tags">
+                {% for category in page.taxonomy.category %}
+                <a href="{{ event.url|rtrim('/') }}/category{{ config.system.param_sep }}{{ category }}">{{ category }}</a>
+                {% endfor %}
+            </span>
         {% endif %}
 
         {% if page.taxonomy.tag %}
-        <span class="tags">
-            {% for tag in page.taxonomy.tag %}
-            <a href="{{ event.url|rtrim('/') }}/tag{{ config.system.param_sep }}{{ tag }}" class="p-category">{{ tag }}</a>
-            {% endfor %}
-        </span>
+            <span class="event-tags">
+                {% for tag in page.taxonomy.tag %}
+                <a href="{{ event.url|rtrim('/') }}/tag{{ config.system.param_sep }}{{ tag }}">{{ tag }}</a>
+                {% endfor %}
+            </span>
         {% endif %}
 
-        {% if header_image %}
-            {% if header_image_file %}
-                {% set header_image_media = page.media.images[header_image_file] %}
-            {% else %}
-                {% set header_image_media = page.media.images|first %}
-            {% endif %}
-            {{ header_image_media.cropZoom(header_image_width, header_image_height).html }}
-        {% endif %}
-    </div>
+    </footer>
 
-    <div class="list-blog-padding">
-
-    {% if page.header.continue_link is sameas(false) %}
-        {{ page.content }}
-        {% if not truncate %}
-        {% set show_prev_next = true %}
-        {% endif %}
-    {% elseif truncate and page.summary != page.content %}
-        <div class="p-summary">
-            {{ page.summary }}
-        <p><a href="{{ page.url }}">Continue Reading...</a></p>
-        </div>
-    {% elseif truncate %}
-        {% if page.summary != page.content %}
-            <div class="p-summary">
-                {{ page.content|truncate(550) }}
-        {% else %}
-            <div class="p-description">
-                {{ page.content }}
-        {% endif %}
-            </div>
-        <p><a href="{{ page.url }}">{{ 'BLOG.ITEM.CONTINUE_READING'|t }}</a></p>
-    {% else %}
-        {% include 'partials/event_meta.html.twig' with {'page':page} %}
-        {{ page.content }}
-        {# set show_prev_next = true #}
-        {% set show_prev_next = false %}
-    {% endif %}
-
-    {% if show_prev_next %}
-
-        <p class="prev-next">
-            {% if not page.isFirst %}
-                <a class="button" href="{{ page.nextSibling.url }}"><i class="fa fa-chevron-left"></i> {{ 'BLOG.ITEM.NEXT_POST'|t }}</a>
-            {% endif %}
-
-            {% if not page.isLast %}
-                <a class="button" href="{{ page.prevSibling.url }}">{{ 'BLOG.ITEM.PREV_POST'|t }} <i class="fa fa-chevron-right"></i></a>
-            {% endif %}
-        </p>
-    {% endif %}
-
-    </div>
-</div>
+</article>

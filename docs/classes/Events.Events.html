@@ -120,7 +120,7 @@
                             </li>
                             <li>
                                 <a href="../reports/markers.html">
-                                                                                                                                                                                                                                                                                                                                                <i class="icon-list-alt"></i>&#160;Markers <span class="label label-info pull-right">4</span>
+                                                                                                                                                                                                                                                                                                                                                <i class="icon-list-alt"></i>&#160;Markers <span class="label label-info pull-right">3</span>
                                 </a>
                             </li>
                             <li>
@@ -145,19 +145,19 @@
                                 <div class="accordion" style="margin-bottom: 0">
         <div class="accordion-group">
             <div class="accordion-heading">
-                                    <a class="accordion-toggle " data-toggle="collapse" data-target="#namespace-402006699"></a>
+                                    <a class="accordion-toggle " data-toggle="collapse" data-target="#namespace-1124309382"></a>
                                 <a href="../namespaces/default.html" style="margin-left: 30px; padding-left: 0">\</a>
             </div>
-            <div id="namespace-402006699" class="accordion-body collapse in">
+            <div id="namespace-1124309382" class="accordion-body collapse in">
                 <div class="accordion-inner">
 
                                                     <div class="accordion" style="margin-bottom: 0">
         <div class="accordion-group">
             <div class="accordion-heading">
-                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-42123125"></a>
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-2021867984"></a>
                                 <a href="../namespaces/Events.html" style="margin-left: 30px; padding-left: 0">Events</a>
             </div>
-            <div id="namespace-42123125" class="accordion-body collapse ">
+            <div id="namespace-2021867984" class="accordion-body collapse ">
                 <div class="accordion-inner">
 
                     
@@ -173,19 +173,19 @@
                                                     <div class="accordion" style="margin-bottom: 0">
         <div class="accordion-group">
             <div class="accordion-heading">
-                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-1991279867"></a>
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-429318637"></a>
                                 <a href="../namespaces/Grav.html" style="margin-left: 30px; padding-left: 0">Grav</a>
             </div>
-            <div id="namespace-1991279867" class="accordion-body collapse ">
+            <div id="namespace-429318637" class="accordion-body collapse ">
                 <div class="accordion-inner">
 
                                                     <div class="accordion" style="margin-bottom: 0">
         <div class="accordion-group">
             <div class="accordion-heading">
-                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-1333688282"></a>
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-1700405011"></a>
                                 <a href="../namespaces/Grav.Plugin.html" style="margin-left: 30px; padding-left: 0">Plugin</a>
             </div>
-            <div id="namespace-1333688282" class="accordion-body collapse ">
+            <div id="namespace-1700405011" class="accordion-body collapse ">
                 <div class="accordion-inner">
 
                     
@@ -226,13 +226,11 @@
 
                     <h1><small>\Events</small>Events</h1>
                     <p><em>Events Plugin Events Class</em></p>
-                    <p>The Events Class instantiates an instance of all Events available in Grav
-and provides filters for filtering out uneeded events, setting offsets,
-limits and etc. This creates a listing of events applies repeat rules,
-for example <strong>MTWRFSU</strong>, frequency rules, for example <strong>daily, weekly,
-monthly, or yearly,</strong> creates event instances with just date information
-tied to a 6 digit token, and then it filters down and adds an events that
-need added to Grav Pages.</p>
+                    <p>The Events Class processes <code>event:</code> frontmatter and adds virtual Event pages
+to the Grav page stack depending on <strong>frequency</strong> and <strong>repeat</strong> rules. Each
+virtual page is assigned a new route using a static &amp; unique 6 character
+token based off the existing page id and date.</p>
+<p>PHP version 5.6+</p>
                     
                                         
                     <section id="summary">
@@ -251,8 +249,7 @@ need added to Grav Pages.</p>
                         <section class="row-fluid public">
                             <section class="span4">
                                                                     <a href="../classes/Events.Events.html#method___construct" class="">__construct()</a><br />
-                                                                    <a href="../classes/Events.Events.html#method_getEventByToken" class="">getEventByToken()</a><br />
-                                                                    <a href="../classes/Events.Events.html#method_instances" class="">instances()</a><br />
+                                                                    <a href="../classes/Events.Events.html#method_all" class="">all()</a><br />
                                                             </section>
                             <section class="span4">
                                                                     <em>No public properties found</em>
@@ -266,14 +263,8 @@ need added to Grav Pages.</p>
                                                                     <em>No protected methods found</em>
                                                             </section>
                             <section class="span4">
-                                                                    <a href="../classes/Events.Events.html#property_grav" class="">$grav</a><br />
-                                                                    <a href="../classes/Events.Events.html#property_config" class="">$config</a><br />
-                                                                    <a href="../classes/Events.Events.html#property_event" class="">$event</a><br />
-                                                                    <a href="../classes/Events.Events.html#property_events" class="">$events</a><br />
-                                                                    <a href="../classes/Events.Events.html#property_eventPages" class="">$eventPages</a><br />
-                                                                    <a href="../classes/Events.Events.html#property_eventsByToken" class="">$eventsByToken</a><br />
-                                                                    <a href="../classes/Events.Events.html#property_repeatRules" class="">$repeatRules</a><br />
-                                                                    <a href="../classes/Events.Events.html#property_carbonRules" class="">$carbonRules</a><br />
+                                                                    <a href="../classes/Events.Events.html#property_pages" class="">$pages</a><br />
+                                                                    <a href="../classes/Events.Events.html#property_taxonomy" class="">$taxonomy</a><br />
                                                             </section>
                             <section class="span4">
                                 <em>N/A</em>
@@ -281,26 +272,10 @@ need added to Grav Pages.</p>
                         </section>
                         <section class="row-fluid private">
                             <section class="span4">
-                                                                    <a href="../classes/Events.Events.html#method_initEvent" class="">initEvent()</a><br />
-                                                                    <a href="../classes/Events.Events.html#method_processEvents" class="">processEvents()</a><br />
-                                                                    <a href="../classes/Events.Events.html#method_processEventPages" class="">processEventPages()</a><br />
-                                                                    <a href="../classes/Events.Events.html#method_filterByDate" class="">filterByDate()</a><br />
-                                                                    <a href="../classes/Events.Events.html#method_singleEventFilter" class="">singleEventFilter()</a><br />
-                                                                    <a href="../classes/Events.Events.html#method_urlParamsFilter" class="">urlParamsFilter()</a><br />
-                                                                    <a href="../classes/Events.Events.html#method_dateRangeFilter" class="">dateRangeFilter()</a><br />
-                                                                    <a href="../classes/Events.Events.html#method_getEvents" class="">getEvents()</a><br />
-                                                                    <a href="../classes/Events.Events.html#method_getCarbonDate" class="">getCarbonDate()</a><br />
-                                                                    <a href="../classes/Events.Events.html#method_getDateRange" class="">getDateRange()</a><br />
-                                                                    <a href="../classes/Events.Events.html#method_getEventsByRepeat" class="">getEventsByRepeat()</a><br />
-                                                                    <a href="../classes/Events.Events.html#method_getEventsByFreq" class="">getEventsByFreq()</a><br />
-                                                                    <a href="../classes/Events.Events.html#method_getFreqDates" class="">getFreqDates()</a><br />
-                                                                    <a href="../classes/Events.Events.html#method_calculateEventIteration" class="">calculateEventIteration()</a><br />
-                                                                    <a href="../classes/Events.Events.html#method_getRepeatDates" class="">getRepeatDates()</a><br />
-                                                                    <a href="../classes/Events.Events.html#method_cloneEventWithNewDates" class="">cloneEventWithNewDates()</a><br />
-                                                                    <a href="../classes/Events.Events.html#method_addEventsToGrav" class="">addEventsToGrav()</a><br />
-                                                                    <a href="../classes/Events.Events.html#method_cloneNewPage" class="">cloneNewPage()</a><br />
-                                                                    <a href="../classes/Events.Events.html#method_eventFrontmatterToTaxonomy" class="">eventFrontmatterToTaxonomy()</a><br />
-                                                                    <a href="../classes/Events.Events.html#method_getRepeatDisplay" class="">getRepeatDisplay()</a><br />
+                                                                    <a href="../classes/Events.Events.html#method_preprocessEventPages" class="">preprocessEventPages()</a><br />
+                                                                    <a href="../classes/Events.Events.html#method_processRepeatingEvents" class="">processRepeatingEvents()</a><br />
+                                                                    <a href="../classes/Events.Events.html#method_processReoccuringEvents" class="">processReoccuringEvents()</a><br />
+                                                                    <a href="../classes/Events.Events.html#method_clonePage" class="">clonePage()</a><br />
                                                             </section>
                             <section class="span4">
                                                                     <em>No private properties found</em>
@@ -328,11 +303,19 @@ need added to Grav Pages.</p>
                         
                         
                                                                             <dt>See also</dt>
-                                                                                    <dd><a href="https://github.com/kalebheitzman/grav-plugin-events"><div class="namespace-wrapper">https://github.com/kalebheitzman/grav-plugin-events</div></a></dd>
+                                                                                        <dd><a href="https://github.com/kalebheitzman/grav-plugin-events"><span class="namespace-wrapper">https://github.com/kalebheitzman/grav-plugin-events</span></a></dd>
                                                     
                                                                         </dl>
                     <h2>Tags</h2>
                     <table class="table table-condensed">
+                                            <tr>
+                            <th>
+                                category
+                            </th>
+                            <td>
+                                                                    <p>Plugins</p>
+                                                            </td>
+                        </tr>
                                             <tr>
                             <th>
                                 author
@@ -362,7 +345,7 @@ need added to Grav Pages.</p>
                                 version
                             </th>
                             <td>
-                                                                    <p>Documentation Release</p>
+                                                                    <p>Major Refactor</p>
                                                             </td>
                         </tr>
                                             <tr>
@@ -388,16 +371,16 @@ need added to Grav Pages.</p>
 
                                                     <div class="row-fluid">
         <div class="span8 content class">
-            <a id="property_grav" name="property_grav" class="anchor"></a>
+            <a id="property_pages" name="property_pages" class="anchor"></a>
             <article class="property">
-                <h3 class="protected ">$grav</h3>
-                <pre class="signature">$grav : object</pre>
+                <h3 class="protected ">$pages</h3>
+                <pre class="signature">$pages : object</pre>
                 <p><em></em></p>
                 
 
                                 <h4>Type</h4>
                 object
-                &mdash; Grav Object                            </article>
+                &mdash; Grav Pages                            </article>
         </div>
         <aside class="span4 detailsbar">
             <h1><i class="icon-arrow-down"></i></h1>
@@ -405,23 +388,30 @@ need added to Grav Pages.</p>
                                                             </dl>
             <h2>Tags</h2>
             <table class="table table-condensed">
-                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                                    <tr>
+                        <th>
+                            since
+                        </th>
+                        <td>
+                                                            <p>Initial Release</p>
+                                                    </td>
+                    </tr>
                             </table>
         </aside>
     </div>
 
                                     <div class="row-fluid">
         <div class="span8 content class">
-            <a id="property_config" name="property_config" class="anchor"></a>
+            <a id="property_taxonomy" name="property_taxonomy" class="anchor"></a>
             <article class="property">
-                <h3 class="protected ">$config</h3>
-                <pre class="signature">$config : object</pre>
+                <h3 class="protected ">$taxonomy</h3>
+                <pre class="signature">$taxonomy : object</pre>
                 <p><em></em></p>
                 
 
                                 <h4>Type</h4>
                 object
-                &mdash; Grav Config                            </article>
+                &mdash; Grav Taxonomy                            </article>
         </div>
         <aside class="span4 detailsbar">
             <h1><i class="icon-arrow-down"></i></h1>
@@ -429,151 +419,14 @@ need added to Grav Pages.</p>
                                                             </dl>
             <h2>Tags</h2>
             <table class="table table-condensed">
-                                    <tr><td colspan="2"><em>None found</em></td></tr>
-                            </table>
-        </aside>
-    </div>
-
-                                    <div class="row-fluid">
-        <div class="span8 content class">
-            <a id="property_event" name="property_event" class="anchor"></a>
-            <article class="property">
-                <h3 class="protected ">$event</h3>
-                <pre class="signature">$event : array</pre>
-                <p><em></em></p>
-                
-
-                                <h4>Type</h4>
-                array
-                &mdash; Event Instance                            </article>
-        </div>
-        <aside class="span4 detailsbar">
-            <h1><i class="icon-arrow-down"></i></h1>
-                        <dl>
-                                                            </dl>
-            <h2>Tags</h2>
-            <table class="table table-condensed">
-                                    <tr><td colspan="2"><em>None found</em></td></tr>
-                            </table>
-        </aside>
-    </div>
-
-                                    <div class="row-fluid">
-        <div class="span8 content class">
-            <a id="property_events" name="property_events" class="anchor"></a>
-            <article class="property">
-                <h3 class="protected ">$events</h3>
-                <pre class="signature">$events : array</pre>
-                <p><em></em></p>
-                
-
-                                <h4>Type</h4>
-                array
-                &mdash; All Events Dates                            </article>
-        </div>
-        <aside class="span4 detailsbar">
-            <h1><i class="icon-arrow-down"></i></h1>
-                        <dl>
-                                                            </dl>
-            <h2>Tags</h2>
-            <table class="table table-condensed">
-                                    <tr><td colspan="2"><em>None found</em></td></tr>
-                            </table>
-        </aside>
-    </div>
-
-                                    <div class="row-fluid">
-        <div class="span8 content class">
-            <a id="property_eventPages" name="property_eventPages" class="anchor"></a>
-            <article class="property">
-                <h3 class="protected ">$eventPages</h3>
-                <pre class="signature">$eventPages : array</pre>
-                <p><em></em></p>
-                
-
-                                <h4>Type</h4>
-                array
-                &mdash; All Events                            </article>
-        </div>
-        <aside class="span4 detailsbar">
-            <h1><i class="icon-arrow-down"></i></h1>
-                        <dl>
-                                                            </dl>
-            <h2>Tags</h2>
-            <table class="table table-condensed">
-                                    <tr><td colspan="2"><em>None found</em></td></tr>
-                            </table>
-        </aside>
-    </div>
-
-                                    <div class="row-fluid">
-        <div class="span8 content class">
-            <a id="property_eventsByToken" name="property_eventsByToken" class="anchor"></a>
-            <article class="property">
-                <h3 class="protected ">$eventsByToken</h3>
-                <pre class="signature">$eventsByToken : array</pre>
-                <p><em></em></p>
-                
-
-                                <h4>Type</h4>
-                array
-                &mdash; All Event Times by ID                            </article>
-        </div>
-        <aside class="span4 detailsbar">
-            <h1><i class="icon-arrow-down"></i></h1>
-                        <dl>
-                                                            </dl>
-            <h2>Tags</h2>
-            <table class="table table-condensed">
-                                    <tr><td colspan="2"><em>None found</em></td></tr>
-                            </table>
-        </aside>
-    </div>
-
-                                    <div class="row-fluid">
-        <div class="span8 content class">
-            <a id="property_repeatRules" name="property_repeatRules" class="anchor"></a>
-            <article class="property">
-                <h3 class="protected ">$repeatRules</h3>
-                <pre class="signature">$repeatRules : array</pre>
-                <p><em></em></p>
-                
-
-                                <h4>Type</h4>
-                array
-                &mdash; Repeat Rules                            </article>
-        </div>
-        <aside class="span4 detailsbar">
-            <h1><i class="icon-arrow-down"></i></h1>
-                        <dl>
-                                                            </dl>
-            <h2>Tags</h2>
-            <table class="table table-condensed">
-                                    <tr><td colspan="2"><em>None found</em></td></tr>
-                            </table>
-        </aside>
-    </div>
-
-                                    <div class="row-fluid">
-        <div class="span8 content class">
-            <a id="property_carbonRules" name="property_carbonRules" class="anchor"></a>
-            <article class="property">
-                <h3 class="protected ">$carbonRules</h3>
-                <pre class="signature">$carbonRules : array</pre>
-                <p><em></em></p>
-                
-
-                                <h4>Type</h4>
-                array
-                &mdash; Carbon Rules                            </article>
-        </div>
-        <aside class="span4 detailsbar">
-            <h1><i class="icon-arrow-down"></i></h1>
-                        <dl>
-                                                            </dl>
-            <h2>Tags</h2>
-            <table class="table table-condensed">
-                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                                    <tr>
+                        <th>
+                            since
+                        </th>
+                        <td>
+                                                            <p>Initial Release</p>
+                                                    </td>
+                    </tr>
                             </table>
         </aside>
     </div>
@@ -591,25 +444,11 @@ need added to Grav Pages.</p>
             <article class="method">
                 <h3 class="public ">__construct()</h3>
                 <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
-                <pre class="signature" style="margin-right: 54px;">__construct(object  <span class="argument">$grav</span>, object  <span class="argument">$config</span>) : void</pre>
+                <pre class="signature" style="margin-right: 54px;">__construct() : void</pre>
                 <p><em>Events Class Construct</em></p>
-                <p>Through the construct we pull in the main Grav instance and the main
-config instance. We also set up the main rules and params to calculate
-against in other parts of this class.</p>
+                <p>Setup a pointer to pages and taxonomy for processing cloned event pages
+into Grav.</p>
 
-                                    <h4>Parameters</h4>
-                    <table class="table table-condensed table-hover">
-                                                    <tr>
-                                <td>object</td>
-                                <td>$grav </td>
-                                <td><p>Grav Instance</p></td>
-                            </tr>
-                                                    <tr>
-                                <td>object</td>
-                                <td>$config </td>
-                                <td><p>Grav Configuration</p></td>
-                            </tr>
-                                            </table>
                 
                 
                 				
@@ -635,62 +474,25 @@ against in other parts of this class.</p>
 
                                     <div class="row-fluid">
         <div class="span8 content class">
-            <a id="method_getEventByToken" name="method_getEventByToken" class="anchor"></a>
+            <a id="method_all" name="method_all" class="anchor"></a>
             <article class="method">
-                <h3 class="public ">getEventByToken()</h3>
+                <h3 class="public ">all()</h3>
                 <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
-                <pre class="signature" style="margin-right: 54px;">getEventByToken(string  <span class="argument">$evt</span>) : array</pre>
-                <p><em>Get an Event by Token</em></p>
-                <p>Return the main 6 digit alphanumeric token. The token is protected so
-we use a getter to prevent unauthorized manipulation of the token.</p>
-
-                                    <h4>Parameters</h4>
-                    <table class="table table-condensed table-hover">
-                                                    <tr>
-                                <td>string</td>
-                                <td>$evt </td>
-                                <td><p>Event Token</p></td>
-                            </tr>
-                                            </table>
-                
-                
-                                    <h4>Returns</h4>
-                    array
-                                            &mdash; <p>Event instance</p>
-                                    				
-                            </article>
-        </div>
-        <aside class="span4 detailsbar">
-            <h1><i class="icon-arrow-down"></i></h1>
-                                                            <dl>
-                                                                            </dl>
-            <h2>Tags</h2>
-            <table class="table table-condensed">
-                                    <tr>
-                        <th>
-                            since
-                        </th>
-                        <td>
-                                                            1.0.0                                <p>Initial Release</p>
-                                                    </td>
-                    </tr>
-                            </table>
-        </aside>
-    </div>
-
-                                    <div class="row-fluid">
-        <div class="span8 content class">
-            <a id="method_instances" name="method_instances" class="anchor"></a>
-            <article class="method">
-                <h3 class="public ">instances()</h3>
-                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
-                <pre class="signature" style="margin-right: 54px;">instances() : object</pre>
-                <p><em>Get an instance of events</em></p>
-                <p>This is the bulkhead of this class. It creates an events listing using
-various rules and params to add events to the page list while also
-adding all events, including repeating, to an events array with a
-searchable token. The events array contains the appropriate date
-information for use in templates</p>
+                <pre class="signature" style="margin-right: 54px;">all() : object</pre>
+                <p><em>Process Event Pages</em></p>
+                <p>This is where the Events plugin processes events into new dynamic pages.
+There are 3 processing steps for updating <code>$this-&gt;pages</code> before returning
+it for use in the main plugin Events class.</p>
+<h3>STEP 1: Preprocess the Event</h3>
+<p>This processes all Grav pages for <code>event:</code> frontmatter and runs appropriate
+filters for adding the page to <code>@taxonomy.type: event</code>.</p>
+<h3>STEP 2: Process Repeating Events</h3>
+<p>In this step, we process the page for the horizontal structure of events.
+This processes events with <code>event: repeat</code> frontmatter duplicating pages
+and updating dates based on <code>MTWRFSU</code> params.</p>
+<h3>STEP 3: Process Reoccuring Events</h3>
+<p>The final processing step looks at pages with <code>event: freq</code> frontmatter.
+This clones the event vertically on a calender using <code>daily, weekly, monthly, yearly</code> params.</p>
 
                 
                 
@@ -711,7 +513,7 @@ information for use in templates</p>
                             since
                         </th>
                         <td>
-                                                            1.0.0                                <p>Initial Release</p>
+                                                            1.0.15                                <p>Major Refactor</p>
                                                     </td>
                     </tr>
                             </table>
@@ -720,725 +522,184 @@ information for use in templates</p>
 
                                                                     <div class="row-fluid">
         <div class="span8 content class">
-            <a id="method_initEvent" name="method_initEvent" class="anchor"></a>
+            <a id="method_preprocessEventPages" name="method_preprocessEventPages" class="anchor"></a>
             <article class="method">
-                <h3 class="private ">initEvent()</h3>
+                <h3 class="private ">preprocessEventPages()</h3>
                 <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
-                <pre class="signature" style="margin-right: 54px;">initEvent(  <span class="argument">$page</span>) : object</pre>
-                <p><em>Initialize the Event</em></p>
-                <p>Initialize the event with date and time information. We store a Carbon
-DateTime object or each time needed as well as an epoch string. It may
-be possible to reduce some overhead here using just one or the other
-but it doesn't seem like it's adding major time to the processing time
-for generating dynamic events.</p>
+                <pre class="signature" style="margin-right: 54px;">preprocessEventPages(object  <span class="argument">$collection</span>) : object</pre>
+                <p><em>STEP 1: Preprocess Event Pages</em></p>
+                <p>Preprocess the front matter for processing down the line
+this adds carbon <code>_event:</code> frontmatter data for processing repeating
+dates and etc.</p>
 
                                     <h4>Parameters</h4>
                     <table class="table table-condensed table-hover">
                                                     <tr>
-                                <td></td>
+                                <td>object</td>
+                                <td>$collection </td>
+                                <td><p>Grav Collection</p></td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    object
+                                            &mdash; <p>$events Grav Collection</p>
+                                    				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            since
+                        </th>
+                        <td>
+                                                            1.0.15                                <p>Major Refactor</p>
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_processRepeatingEvents" name="method_processRepeatingEvents" class="anchor"></a>
+            <article class="method">
+                <h3 class="private ">processRepeatingEvents()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">processRepeatingEvents(object  <span class="argument">$collection</span>) : object</pre>
+                <p><em>STEP 2: Process Repeating Events</em></p>
+                <p>Search for <code>event: repeat:</code> frontmatter and add repeating events to the
+collection via [MTWRFSU].</p>
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>object</td>
+                                <td>$collection </td>
+                                <td><p>Grav Collection</p></td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    object
+                                            &mdash; <p>Grav Collection</p>
+                                    				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            since
+                        </th>
+                        <td>
+                                                            1.0.15                                <p>Major Refactor</p>
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_processReoccuringEvents" name="method_processReoccuringEvents" class="anchor"></a>
+            <article class="method">
+                <h3 class="private ">processReoccuringEvents()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">processReoccuringEvents(object  <span class="argument">$collection</span>) : object</pre>
+                <p><em>STEP 3: Process Reoccuring Events</em></p>
+                <p>Search for <code>event: freq:</code> frontmatter and add pages vertically down
+the calendar to the collection. This processor will also look for
+<code>event: until:</code> frontmatter for determining when to stop processing the
+reoccuring event. If this front matter doesn't exist, then the plugin will
+look for a value set in the plugin config (+6 months) and process
+reoccuring event out to this date. If you need the event to reoccur further
+than this default then you must set an until date.</p>
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>object</td>
+                                <td>$collection </td>
+                                <td><p>Grav Collection</p></td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    object
+                                            &mdash; <p>Grav Collection</p>
+                                    				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            since
+                        </th>
+                        <td>
+                                                            1.0.15                                <p>Major Refactor</p>
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_clonePage" name="method_clonePage" class="anchor"></a>
+            <article class="method">
+                <h3 class="private ">clonePage()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">clonePage(object  <span class="argument">$page</span>, array  <span class="argument">$dates</span>, string  <span class="argument">$rule = null</span>) : object</pre>
+                <p><em>Clone an Event Page</em></p>
+                <p>This function clones a Grav Page and adds it as a virtual page to
+<code>$this-&gt;pages</code>. It also adds the page to <code>$this-&gt;taxonomy</code> so that we can
+query pages in templates and collection headers using <code>@taxonomy.event</code>.
+This will not create a physical page that is added to the filesystem.</p>
+<p>Adding a new page to the system happens by adding the new dates to the
+<code>event:</code> frontmatter, updating the <code>$page-&gt;date</code>, and adding a new and
+unique <code>$page-&gt;path</code> and <code>$page-&gt;route</code>.</p>
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>object</td>
                                 <td>$page </td>
-                                <td></td>
+                                <td><p>Grav Page</p></td>
                             </tr>
-                                            </table>
-                
-                
-                                    <h4>Returns</h4>
-                    object
-                                            &mdash; <p>Event Object</p>
-                                    				
-                            </article>
-        </div>
-        <aside class="span4 detailsbar">
-            <h1><i class="icon-arrow-down"></i></h1>
-                                                            <dl>
-                                                                            </dl>
-            <h2>Tags</h2>
-            <table class="table table-condensed">
-                                    <tr>
-                        <th>
-                            since
-                        </th>
-                        <td>
-                                                            1.0.0                                <p>Initial Release</p>
-                                                    </td>
-                    </tr>
-                            </table>
-        </aside>
-    </div>
-
-                                    <div class="row-fluid">
-        <div class="span8 content class">
-            <a id="method_processEvents" name="method_processEvents" class="anchor"></a>
-            <article class="method">
-                <h3 class="private ">processEvents()</h3>
-                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
-                <pre class="signature" style="margin-right: 54px;">processEvents() : void</pre>
-                <p><em>Process Events</em></p>
-                <p>From here, we want to build a list of dates to repeat the event on.
-This involves calculating new start and end dates that fall within the
-dateRange that has been set.</p>
-
-                
-                
-                				
-                            </article>
-        </div>
-        <aside class="span4 detailsbar">
-            <h1><i class="icon-arrow-down"></i></h1>
-                                                            <dl>
-                                                                            </dl>
-            <h2>Tags</h2>
-            <table class="table table-condensed">
-                                    <tr>
-                        <th>
-                            since
-                        </th>
-                        <td>
-                                                            1.0.0                                <p>Initial Release</p>
-                                                    </td>
-                    </tr>
-                            </table>
-        </aside>
-    </div>
-
-                                    <div class="row-fluid">
-        <div class="span8 content class">
-            <a id="method_processEventPages" name="method_processEventPages" class="anchor"></a>
-            <article class="method">
-                <h3 class="private ">processEventPages()</h3>
-                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
-                <pre class="signature" style="margin-right: 54px;">processEventPages() : void</pre>
-                <p><em>Process Event Pages</em></p>
-                <p>We have a full list of events and new event datetimes at this point.
-This will process and add the events to the event stack. The easiest
-way that this works is by adding the events directly to grav pages
-and grav taxonomy. This will list everything including the repeat
-dates. The downfall of this is that it slows those particular pages
-down. So this is the spot to apply filters like date range, offsets,
-limits etc. This will make Grav's job easier.</p>
-
-                
-                
-                				
-                            </article>
-        </div>
-        <aside class="span4 detailsbar">
-            <h1><i class="icon-arrow-down"></i></h1>
-                                                            <dl>
-                                                                            </dl>
-            <h2>Tags</h2>
-            <table class="table table-condensed">
-                                    <tr>
-                        <th>
-                            since
-                        </th>
-                        <td>
-                                                            1.0.0                                <p>Initial Release</p>
-                                                    </td>
-                    </tr>
-                            </table>
-        </aside>
-    </div>
-
-                                    <div class="row-fluid">
-        <div class="span8 content class">
-            <a id="method_filterByDate" name="method_filterByDate" class="anchor"></a>
-            <article class="method">
-                <h3 class="private ">filterByDate()</h3>
-                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
-                <pre class="signature" style="margin-right: 54px;">filterByDate(array  <span class="argument">$events</span>, object  <span class="argument">$startDate</span>, object  <span class="argument">$endDate</span>) : array</pre>
-                <p><em>Filter the events by a date range</em></p>
-                <p>Return a set of filtered events based on whether the start date falls
-in the date range.</p>
-
-                                    <h4>Parameters</h4>
-                    <table class="table table-condensed table-hover">
                                                     <tr>
                                 <td>array</td>
-                                <td>$events </td>
-                                <td><p>Events instance</p></td>
+                                <td>$dates </td>
+                                <td><p>Carbon Dates</p></td>
                             </tr>
-                                                    <tr>
-                                <td>object</td>
-                                <td>$startDate </td>
-                                <td><p>Carbon DateTime</p></td>
-                            </tr>
-                                                    <tr>
-                                <td>object</td>
-                                <td>$endDate </td>
-                                <td><p>Carbon DateTime</p></td>
-                            </tr>
-                                            </table>
-                
-                
-                                    <h4>Returns</h4>
-                    array
-                                            &mdash; <p>Array of events</p>
-                                    				
-                            </article>
-        </div>
-        <aside class="span4 detailsbar">
-            <h1><i class="icon-arrow-down"></i></h1>
-                                                            <dl>
-                                                                            </dl>
-            <h2>Tags</h2>
-            <table class="table table-condensed">
-                                    <tr>
-                        <th>
-                            since
-                        </th>
-                        <td>
-                                                            1.0.0                                <p>Initial Release</p>
-                                                    </td>
-                    </tr>
-                            </table>
-        </aside>
-    </div>
-
-                                    <div class="row-fluid">
-        <div class="span8 content class">
-            <a id="method_singleEventFilter" name="method_singleEventFilter" class="anchor"></a>
-            <article class="method">
-                <h3 class="private ">singleEventFilter()</h3>
-                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
-                <pre class="signature" style="margin-right: 54px;">singleEventFilter(array  <span class="argument">$events</span>) : array</pre>
-                <p><em>Singl Events Filter</em></p>
-                <p>Check to see if this is a single event and if it is, return the single
-event. This prevents a single event page from  displaying any other
-events by default. It should check for a plugin param that bypasses
-this filter if you want an events listing on single events.</p>
-
-                                    <h4>Parameters</h4>
-                    <table class="table table-condensed table-hover">
-                                                    <tr>
-                                <td>array</td>
-                                <td>$events </td>
-                                <td><p>Instace of all events</p></td>
-                            </tr>
-                                            </table>
-                
-                
-                                    <h4>Returns</h4>
-                    array
-                                            &mdash; <p>Filtered Events</p>
-                                    				
-                            </article>
-        </div>
-        <aside class="span4 detailsbar">
-            <h1><i class="icon-arrow-down"></i></h1>
-                                                            <dl>
-                                                                            </dl>
-            <h2>Tags</h2>
-            <table class="table table-condensed">
-                                    <tr>
-                        <th>
-                            since
-                        </th>
-                        <td>
-                                                            1.0.0                                <p>Initial Release</p>
-                                                    </td>
-                    </tr>
-                            </table>
-        </aside>
-    </div>
-
-                                    <div class="row-fluid">
-        <div class="span8 content class">
-            <a id="method_urlParamsFilter" name="method_urlParamsFilter" class="anchor"></a>
-            <article class="method">
-                <h3 class="private ">urlParamsFilter()</h3>
-                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
-                <pre class="signature" style="margin-right: 54px;">urlParamsFilter(array  <span class="argument">$events</span>) : array</pre>
-                <p><em>URL Param Filter</em></p>
-                <p>We check for the year: and month: url params. Additionally we
-instantiate these params if we're on a calendar template. If not,
-we just pass events through unfiltered.</p>
-
-                                    <h4>Parameters</h4>
-                    <table class="table table-condensed table-hover">
-                                                    <tr>
-                                <td>array</td>
-                                <td>$events </td>
-                                <td><p>Array of events instances</p></td>
-                            </tr>
-                                            </table>
-                
-                
-                                    <h4>Returns</h4>
-                    array
-                                            &mdash; <p>Array of events instances</p>
-                                    				
-                            </article>
-        </div>
-        <aside class="span4 detailsbar">
-            <h1><i class="icon-arrow-down"></i></h1>
-                                                            <dl>
-                                                                            </dl>
-            <h2>Tags</h2>
-            <table class="table table-condensed">
-                                    <tr>
-                        <th>
-                            since
-                        </th>
-                        <td>
-                                                            1.0.0                                <p>Initial Release</p>
-                                                    </td>
-                    </tr>
-                            </table>
-        </aside>
-    </div>
-
-                                    <div class="row-fluid">
-        <div class="span8 content class">
-            <a id="method_dateRangeFilter" name="method_dateRangeFilter" class="anchor"></a>
-            <article class="method">
-                <h3 class="private ">dateRangeFilter()</h3>
-                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
-                <pre class="signature" style="margin-right: 54px;">dateRangeFilter(array  <span class="argument">$events</span>) : array</pre>
-                <p><em>Date Range Filter</em></p>
-                <p>We filter events based on a date range.</p>
-
-                                    <h4>Parameters</h4>
-                    <table class="table table-condensed table-hover">
-                                                    <tr>
-                                <td>array</td>
-                                <td>$events </td>
-                                <td><p>Array of events instances</p></td>
-                            </tr>
-                                            </table>
-                
-                
-                                    <h4>Returns</h4>
-                    array
-                                            &mdash; <p>Array of events instances</p>
-                                    				
-                            </article>
-        </div>
-        <aside class="span4 detailsbar">
-            <h1><i class="icon-arrow-down"></i></h1>
-                                                            <dl>
-                                                                            </dl>
-            <h2>Tags</h2>
-            <table class="table table-condensed">
-                                    <tr>
-                        <th>
-                            since
-                        </th>
-                        <td>
-                                                            1.0.0                                <p>Initial Release</p>
-                                                    </td>
-                    </tr>
-                            </table>
-        </aside>
-    </div>
-
-                                    <div class="row-fluid">
-        <div class="span8 content class">
-            <a id="method_getEvents" name="method_getEvents" class="anchor"></a>
-            <article class="method">
-                <h3 class="private ">getEvents()</h3>
-                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
-                <pre class="signature" style="margin-right: 54px;">getEvents() : array</pre>
-                <p><em>Get Events</em></p>
-                <p>Returns an instance of all events</p>
-
-                
-                
-                                    <h4>Returns</h4>
-                    array
-                                            &mdash; <p>Array of events</p>
-                                    				
-                            </article>
-        </div>
-        <aside class="span4 detailsbar">
-            <h1><i class="icon-arrow-down"></i></h1>
-                                                            <dl>
-                                                                            </dl>
-            <h2>Tags</h2>
-            <table class="table table-condensed">
-                                    <tr>
-                        <th>
-                            since
-                        </th>
-                        <td>
-                                                            1.0.0                                <p>Initial Release</p>
-                                                    </td>
-                    </tr>
-                            </table>
-        </aside>
-    </div>
-
-                                    <div class="row-fluid">
-        <div class="span8 content class">
-            <a id="method_getCarbonDate" name="method_getCarbonDate" class="anchor"></a>
-            <article class="method">
-                <h3 class="private ">getCarbonDate()</h3>
-                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
-                <pre class="signature" style="margin-right: 54px;">getCarbonDate(string  <span class="argument">$dateString</span>) : object</pre>
-                <p><em>Get Carbon DateTime from a date and time string</em></p>
-                
-
-                                    <h4>Parameters</h4>
-                    <table class="table table-condensed table-hover">
-                                                    <tr>
-                                <td>string</td>
-                                <td>$dateString </td>
-                                <td><p>Date and Time String</p></td>
-                            </tr>
-                                            </table>
-                
-                
-                                    <h4>Returns</h4>
-                    object
-                                            &mdash; <p>Carbon DateTime</p>
-                                    				
-                            </article>
-        </div>
-        <aside class="span4 detailsbar">
-            <h1><i class="icon-arrow-down"></i></h1>
-                                                            <dl>
-                                                                            </dl>
-            <h2>Tags</h2>
-            <table class="table table-condensed">
-                                    <tr>
-                        <th>
-                            since
-                        </th>
-                        <td>
-                                                            1.0.0                                <p>Initial Release</p>
-                                                    </td>
-                    </tr>
-                            </table>
-        </aside>
-    </div>
-
-                                    <div class="row-fluid">
-        <div class="span8 content class">
-            <a id="method_getDateRange" name="method_getDateRange" class="anchor"></a>
-            <article class="method">
-                <h3 class="private ">getDateRange()</h3>
-                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
-                <pre class="signature" style="margin-right: 54px;">getDateRange() : array</pre>
-                <p><em>Get Date Range</em></p>
-                <p>Get a date range based on params/plugin configuration</p>
-
-                
-                
-                                    <h4>Returns</h4>
-                    array
-                                            &mdash; <p>Array of CarbonDate Objects to check against</p>
-                                    				
-                            </article>
-        </div>
-        <aside class="span4 detailsbar">
-            <h1><i class="icon-arrow-down"></i></h1>
-                                                            <dl>
-                                                                            </dl>
-            <h2>Tags</h2>
-            <table class="table table-condensed">
-                                    <tr>
-                        <th>
-                            since
-                        </th>
-                        <td>
-                                                            1.0.0                                <p>Initial Release</p>
-                                                    </td>
-                    </tr>
-                            </table>
-        </aside>
-    </div>
-
-                                    <div class="row-fluid">
-        <div class="span8 content class">
-            <a id="method_getEventsByRepeat" name="method_getEventsByRepeat" class="anchor"></a>
-            <article class="method">
-                <h3 class="private ">getEventsByRepeat()</h3>
-                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
-                <pre class="signature" style="margin-right: 54px;">getEventsByRepeat() : array</pre>
-                <p><em>Get Repeating Events by Repeat Rule</em></p>
-                <p>This will get events based on the <code>MTWRFSU</code> rule.</p>
-
-                
-                
-                                    <h4>Returns</h4>
-                    array
-                                            &mdash; <p>Events</p>
-                                    				
-                            </article>
-        </div>
-        <aside class="span4 detailsbar">
-            <h1><i class="icon-arrow-down"></i></h1>
-                                                            <dl>
-                                                                            </dl>
-            <h2>Tags</h2>
-            <table class="table table-condensed">
-                                    <tr>
-                        <th>
-                            since
-                        </th>
-                        <td>
-                                                            1.0.0                                <p>Initial Release</p>
-                                                    </td>
-                    </tr>
-                            </table>
-        </aside>
-    </div>
-
-                                    <div class="row-fluid">
-        <div class="span8 content class">
-            <a id="method_getEventsByFreq" name="method_getEventsByFreq" class="anchor"></a>
-            <article class="method">
-                <h3 class="private ">getEventsByFreq()</h3>
-                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
-                <pre class="signature" style="margin-right: 54px;">getEventsByFreq(array  <span class="argument">$event</span>) : array</pre>
-                <p><em>Get Events By Frequency</em></p>
-                <p>This takes a single event (and any cloned events from the repeat rules)
-and creates new event dates based on the date range, and frequency. It
-calculates how many times to repeat the event and what dates to set.</p>
-
-                                    <h4>Parameters</h4>
-                    <table class="table table-condensed table-hover">
-                                                    <tr>
-                                <td>array</td>
-                                <td>$event </td>
-                                <td><p>Event Dates, Times, and Rules</p></td>
-                            </tr>
-                                            </table>
-                
-                
-                                    <h4>Returns</h4>
-                    array
-                                            &mdash; <p>New Events</p>
-                                    				
-                            </article>
-        </div>
-        <aside class="span4 detailsbar">
-            <h1><i class="icon-arrow-down"></i></h1>
-                                                            <dl>
-                                                                            </dl>
-            <h2>Tags</h2>
-            <table class="table table-condensed">
-                                    <tr>
-                        <th>
-                            since
-                        </th>
-                        <td>
-                                                            1.0.0                                <p>Initial Release</p>
-                                                    </td>
-                    </tr>
-                            </table>
-        </aside>
-    </div>
-
-                                    <div class="row-fluid">
-        <div class="span8 content class">
-            <a id="method_getFreqDates" name="method_getFreqDates" class="anchor"></a>
-            <article class="method">
-                <h3 class="private ">getFreqDates()</h3>
-                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
-                <pre class="signature" style="margin-right: 54px;">getFreqDates(array  <span class="argument">$event</span>) : array</pre>
-                <p><em>Get Event Dates by Frequency</em></p>
-                <p>Generate event dates based on the <code>daily, weekly, monthly, yearly</code>
-frequency rule that has been set.</p>
-
-                                    <h4>Parameters</h4>
-                    <table class="table table-condensed table-hover">
-                                                    <tr>
-                                <td>array</td>
-                                <td>$event </td>
-                                <td><p>Event instance</p></td>
-                            </tr>
-                                            </table>
-                
-                
-                                    <h4>Returns</h4>
-                    array
-                                            &mdash; <p>New Event Dates</p>
-                                    				
-                            </article>
-        </div>
-        <aside class="span4 detailsbar">
-            <h1><i class="icon-arrow-down"></i></h1>
-                                                            <dl>
-                                                                            </dl>
-            <h2>Tags</h2>
-            <table class="table table-condensed">
-                                    <tr>
-                        <th>
-                            since
-                        </th>
-                        <td>
-                                                            1.0.0                                <p>Initial Release</p>
-                                                    </td>
-                    </tr>
-                            </table>
-        </aside>
-    </div>
-
-                                    <div class="row-fluid">
-        <div class="span8 content class">
-            <a id="method_calculateEventIteration" name="method_calculateEventIteration" class="anchor"></a>
-            <article class="method">
-                <h3 class="private ">calculateEventIteration()</h3>
-                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
-                <pre class="signature" style="margin-right: 54px;">calculateEventIteration(array  <span class="argument">$event</span>) : integer</pre>
-                <p><em>Calculate Iteration Count</em></p>
-                <p>Determine how many times the event should be repeated based on the
-date range and repeat rules. This will base the count on the start date
-and how it relates to the daterange. It's possible for the end date to
-fall outside of the date range because of this.</p>
-
-                                    <h4>Parameters</h4>
-                    <table class="table table-condensed table-hover">
-                                                    <tr>
-                                <td>array</td>
-                                <td>$event </td>
-                                <td><p>Event instance</p></td>
-                            </tr>
-                                            </table>
-                
-                
-                                    <h4>Returns</h4>
-                    integer
-                                            &mdash; <p>Iteration</p>
-                                    				
-                            </article>
-        </div>
-        <aside class="span4 detailsbar">
-            <h1><i class="icon-arrow-down"></i></h1>
-                                                            <dl>
-                                                                            </dl>
-            <h2>Tags</h2>
-            <table class="table table-condensed">
-                                    <tr>
-                        <th>
-                            since
-                        </th>
-                        <td>
-                                                            1.0.0                                <p>Initial Release</p>
-                                                    </td>
-                    </tr>
-                            </table>
-        </aside>
-    </div>
-
-                                    <div class="row-fluid">
-        <div class="span8 content class">
-            <a id="method_getRepeatDates" name="method_getRepeatDates" class="anchor"></a>
-            <article class="method">
-                <h3 class="private ">getRepeatDates()</h3>
-                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
-                <pre class="signature" style="margin-right: 54px;">getRepeatDates(string  <span class="argument">$rule</span>) : array</pre>
-                <p><em>Calculate a Repeating Date</em></p>
-                <p>This calculates horizontal dates throughout the week. This is different
-than claculating the repeating dates based on frequency. This is for
-specifying dates in the MTWRFSU format and calucating dates off of the
-original date.</p>
-
-                                    <h4>Parameters</h4>
-                    <table class="table table-condensed table-hover">
                                                     <tr>
                                 <td>string</td>
                                 <td>$rule </td>
-                                <td><p>Repeat Rule</p></td>
-                            </tr>
-                                            </table>
-                
-                
-                                    <h4>Returns</h4>
-                    array
-                                            &mdash; <p>New Start and End Dates</p>
-                                    				
-                            </article>
-        </div>
-        <aside class="span4 detailsbar">
-            <h1><i class="icon-arrow-down"></i></h1>
-                                                            <dl>
-                                                                            </dl>
-            <h2>Tags</h2>
-            <table class="table table-condensed">
-                                    <tr>
-                        <th>
-                            since
-                        </th>
-                        <td>
-                                                            1.0.0                                <p>Initial Release</p>
-                                                    </td>
-                    </tr>
-                            </table>
-        </aside>
-    </div>
-
-                                    <div class="row-fluid">
-        <div class="span8 content class">
-            <a id="method_cloneEventWithNewDates" name="method_cloneEventWithNewDates" class="anchor"></a>
-            <article class="method">
-                <h3 class="private ">cloneEventWithNewDates()</h3>
-                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
-                <pre class="signature" style="margin-right: 54px;">cloneEventWithNewDates(array  <span class="argument">$newDates</span>) : array</pre>
-                <p><em>Clones an Event</em></p>
-                <p>Clone an existing event with dates based off of <code>freq</code> and <code>repeat</code>
-rules.</p>
-
-                                    <h4>Parameters</h4>
-                    <table class="table table-condensed table-hover">
-                                                    <tr>
-                                <td>array</td>
-                                <td>$newDates </td>
-                                <td><p>New Dates</p></td>
-                            </tr>
-                                            </table>
-                
-                
-                                    <h4>Returns</h4>
-                    array
-                                            &mdash; <p>Event with New Dates</p>
-                                    				
-                            </article>
-        </div>
-        <aside class="span4 detailsbar">
-            <h1><i class="icon-arrow-down"></i></h1>
-                                                            <dl>
-                                                                            </dl>
-            <h2>Tags</h2>
-            <table class="table table-condensed">
-                                    <tr>
-                        <th>
-                            since
-                        </th>
-                        <td>
-                                                            1.0.0                                <p>Initial Release</p>
-                                                    </td>
-                    </tr>
-                            </table>
-        </aside>
-    </div>
-
-                                    <div class="row-fluid">
-        <div class="span8 content class">
-            <a id="method_addEventsToGrav" name="method_addEventsToGrav" class="anchor"></a>
-            <article class="method">
-                <h3 class="private ">addEventsToGrav()</h3>
-                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
-                <pre class="signature" style="margin-right: 54px;">addEventsToGrav(array  <span class="argument">$eventsStack</span>) : object</pre>
-                <p><em>Add Events to Grav</em></p>
-                <p>Add the Filtered Events Stack to Grav Pages. This helps generate the
-correct collection to be displayed on templates that call an event
-collection. It does not create an actual routable page.</p>
-
-                                    <h4>Parameters</h4>
-                    <table class="table table-condensed table-hover">
-                                                    <tr>
-                                <td>array</td>
-                                <td>$eventsStack </td>
-                                <td><p>Array of Filtered Events</p></td>
+                                <td><p>Rule for repeating events</p></td>
                             </tr>
                                             </table>
                 
                 
                                     <h4>Returns</h4>
                     object
-                                            &mdash; <p>Grav Pages</p>
+                                            &mdash; <p>Grav Page</p>
                                     				
                             </article>
         </div>
@@ -1453,153 +714,9 @@ collection. It does not create an actual routable page.</p>
                             since
                         </th>
                         <td>
-                                                            1.0.0                                <p>Initial Release</p>
+                                                            1.0.1                                <p>Initial Release</p>
                                                     </td>
                     </tr>
-                            </table>
-        </aside>
-    </div>
-
-                                    <div class="row-fluid">
-        <div class="span8 content class">
-            <a id="method_cloneNewPage" name="method_cloneNewPage" class="anchor"></a>
-            <article class="method">
-                <h3 class="private ">cloneNewPage()</h3>
-                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
-                <pre class="signature" style="margin-right: 54px;">cloneNewPage(object  <span class="argument">$page</span>, array  <span class="argument">$event</span>) : object</pre>
-                <p><em>Clone a New Page</em></p>
-                <p>Clones a new dynamic page based off of the existing page and related
-new event dates.</p>
-
-                                    <h4>Parameters</h4>
-                    <table class="table table-condensed table-hover">
-                                                    <tr>
-                                <td>object</td>
-                                <td>$page </td>
-                                <td><p>Grav Page Object</p></td>
-                            </tr>
-                                                    <tr>
-                                <td>array</td>
-                                <td>$event </td>
-                                <td><p>Event instance</p></td>
-                            </tr>
-                                            </table>
-                
-                
-                                    <h4>Returns</h4>
-                    object
-                                            &mdash; <p>New Page Object</p>
-                                    				
-                            </article>
-        </div>
-        <aside class="span4 detailsbar">
-            <h1><i class="icon-arrow-down"></i></h1>
-                                                            <dl>
-                                                                            </dl>
-            <h2>Tags</h2>
-            <table class="table table-condensed">
-                                    <tr>
-                        <th>
-                            since
-                        </th>
-                        <td>
-                                                            1.0.0                                <p>Initial Release</p>
-                                                    </td>
-                    </tr>
-                                    <tr>
-                        <th>
-                            todo
-                        </th>
-                        <td>
-                                                                                            <p>Add the page as an actual routable page to the Grav Pages Stack</p>
-                                                    </td>
-                    </tr>
-                            </table>
-        </aside>
-    </div>
-
-                                    <div class="row-fluid">
-        <div class="span8 content class">
-            <a id="method_eventFrontmatterToTaxonomy" name="method_eventFrontmatterToTaxonomy" class="anchor"></a>
-            <article class="method">
-                <h3 class="private ">eventFrontmatterToTaxonomy()</h3>
-                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
-                <pre class="signature" style="margin-right: 54px;">eventFrontmatterToTaxonomy(  <span class="argument">$page</span>) : array</pre>
-                <p><em>Convert Event Frontmatter to Taxonomy</em></p>
-                <p>The Events plugin uses 3 custom taxonomies for generating collections.</p>
-<p><code>event</code> is used to specify the page as an event page.</p>
-<p><code>event_repeat</code> is used to specify how the event repeats horizontally
-in any given week. It's the row based repeat rule.</p>
-<p><code>event_freq</code> is used to specify how the even repeats vertically through
-the month, year, etc. It's the column based repeat rule.</p>
-
-                                    <h4>Parameters</h4>
-                    <table class="table table-condensed table-hover">
-                                                    <tr>
-                                <td></td>
-                                <td>$page </td>
-                                <td></td>
-                            </tr>
-                                            </table>
-                
-                
-                                    <h4>Returns</h4>
-                    array
-                                            &mdash; <p>Grav Taxonomy Items</p>
-                                    				
-                            </article>
-        </div>
-        <aside class="span4 detailsbar">
-            <h1><i class="icon-arrow-down"></i></h1>
-                                                            <dl>
-                                                                            </dl>
-            <h2>Tags</h2>
-            <table class="table table-condensed">
-                                    <tr>
-                        <th>
-                            since
-                        </th>
-                        <td>
-                                                            1.0.0                                <p>Initial Release</p>
-                                                    </td>
-                    </tr>
-                            </table>
-        </aside>
-    </div>
-
-                                    <div class="row-fluid">
-        <div class="span8 content class">
-            <a id="method_getRepeatDisplay" name="method_getRepeatDisplay" class="anchor"></a>
-            <article class="method">
-                <h3 class="private ">getRepeatDisplay()</h3>
-                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
-                <pre class="signature" style="margin-right: 54px;">getRepeatDisplay(string  <span class="argument">$repeat</span>) : string</pre>
-                <p><em>Get Repeat Display Text</em></p>
-                <p>Generates display text based on the repeat rules that are set.</p>
-
-                                    <h4>Parameters</h4>
-                    <table class="table table-condensed table-hover">
-                                                    <tr>
-                                <td>string</td>
-                                <td>$repeat </td>
-                                <td><p>MTWRFSU</p></td>
-                            </tr>
-                                            </table>
-                
-                
-                                    <h4>Returns</h4>
-                    string
-                                            &mdash; <p>Human Readable Repeat Rules</p>
-                                    				
-                            </article>
-        </div>
-        <aside class="span4 detailsbar">
-            <h1><i class="icon-arrow-down"></i></h1>
-                                                            <dl>
-                                                                            </dl>
-            <h2>Tags</h2>
-            <table class="table table-condensed">
-                                    <tr><td colspan="2"><em>None found</em></td></tr>
                             </table>
         </aside>
     </div>
@@ -1655,9 +772,7 @@ the month, year, etc. It's the column based repeat rule.</p>
                 <section class="span10 offset1">
                     <hr />
                     Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor </a> and authored
-                    on 
-Warning: date_default_timezone_get(): It is not safe to rely on the system's timezone settings. You are *required* to use the date.timezone setting or the date_default_timezone_set() function. In case you used any of those methods and you are still getting this warning, you most likely misspelled the timezone identifier. We selected the timezone 'UTC' for now, but please set date.timezone to select your timezone. in phar:///usr/local/Cellar/phpdocumentor/2.8.5/libexec/phpDocumentor.phar/vendor/twig/twig/lib/Twig/Extension/Core.php on line 89
-March 4th, 2016 at 21:17.
+                    on October 2nd, 2016 at 21:54.
                 </section>
             </section>
         </section>

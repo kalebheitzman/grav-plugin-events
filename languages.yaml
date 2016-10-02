@@ -1,21 +1,21 @@
 en:
   PLUGIN_EVENTS:
-    MONTH_EVENTS: %s Events
-    SIDEBAR_FEED:
-      NAME: %s | Events (next %d months)
-      DESCRIPTION: %s's events in the next %d months.
-      MORE_EVENTS: More events.
+    CALENDAR:
+      TODAY: Today
+      VIEW_MORE: View more
+    EVENTS:
+      BUTTON: Learn more
 fr:
   PLUGIN_EVENTS:
-    MONTH_EVENTS: Évènements de %s
-    SIDEBAR_FEED:
-      NAME: %s | Évènements (%d prochains mois)
-      DESCRIPTION: Les événements de %s dans les deux prochains mois.
-      MORE_EVENTS: Plus d'évènements.
+    CALENDAR:
+      TODAY: "Aujourd'hui"
+      VIEW_MORE: Détails
+    EVENTS:
+      BUTTON: En savoir plus
 de:
   PLUGIN_EVENTS:
-    MONTH_EVENTS: %s Veranstaltungen
-    SIDEBAR_FEED:
-      NAME: %s | Veranstaltungen (nächsten %d Monat)
-      DESCRIPTION: %s's Veranstaltungen in den nächsten %d Monaten.
-      MORE_EVENTS: Mehr Veranstaltungen.
+    CALENDAR:
+      TODAY: Heute
+      VIEW_MORE: Mehr sehen
+    EVENTS:
+      BUTTON: Erfahren Sie mehr
