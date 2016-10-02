@@ -73,7 +73,7 @@
             {{ event.summary(200) }}
 
             <p>
-              <a href="{{ event.url }}" class="event-button" />Learn More</a>
+              <a href="{{ event.url }}" class="event-button" />{{ 'PLUGIN_EVENTS.EVENTS.BUTTON'|t }}</a>
             </p>
 
           </div>
@@ -107,7 +107,7 @@
                   <li class="where"><i class="fa fa-location-arrow"></i> {{ item.header.event.location }}</li>
                 {% endif %}
               </ul>
-              <a href="{{ item.url }}" class="event-button">Learn More</a>
+              <a href="{{ item.url }}" class="event-button">{{ 'PLUGIN_EVENTS.EVENTS.BUTTON'|t }}</a>
             </div>
 
             <div class="event-summary">

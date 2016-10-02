@@ -1,17 +1,19 @@
 # v1.0.15
-## 09/21/2016
+## 10/02/2016
 
 1. [#new]
-	* Added a location field with auto geodecoded coordinates from address
+	* Added a location field with auto geo-decoded coordinates from address
+	* New visual styles and templates for calendar and events
+	* Calendar shows a modal when clicking on a day so the end user can see every event that day.
 1. [#improved]
-	* Cleaned up plugin bluprint but preserved old options in comments
-	# Refactored classes/events to use collections instead of custom events object
-	
+	* Cleaned up plugin blueprint but preserved old options in comments
+	* The events and calendar class have been refactored cutting down page process times to about 1/2 second uncached.
+
 # v1.0.14
 ## 09/15/2016
 
 1. [#bugfix]
-	* Issue #25 - Variable not initialized throws error in for loop. 
+	* Issue #25 - Variable not initialized throws error in for loop.
 
 # v1.0.13
 ## 08/19/2016
@@ -22,7 +24,7 @@
 	* Issue #21 - Admin form now automatically shows up
 	* Fixed event template types in blueprints.
 	* Fixed monthly frequency dates.
-	* Fixed doubling of events. 
+	* Fixed doubling of events.
 	* Fixed repeat rules.
 	* Removed uncoded show future events toggle
 
