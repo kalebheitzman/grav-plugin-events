@@ -312,8 +312,8 @@ class Events
 					// update the start and end dates of the event frontmatter
 					switch($freq) {
 						case 'daily':
-							$newStart = $newStart->addDays($i);
-							$newEnd = $newEnd->addDays($i);
+							$newStart = $start->copy()->addDays($i);
+							$newEnd = $end->copy()->addDays($i);
 							break;
 
 						case 'weekly':
@@ -325,22 +325,22 @@ class Events
 						// number of days each month.
 						case 'monthly':
 							// start vars
-							$sDayOfWeek = $start->dayOfWeek;
-							$sWeekOfMonth = $start->weekOfMonth;
-							$sHours = $start->hour;
-							$sMinutes = $start->minute;
-							$sMonth = $start->month;
-							$sYear = $start->year;
-							$sNext = $start->addMonths($i)->firstOfMonth();
+							$sDayOfWeek = $start->copy()->dayOfWeek;
+							$sWeekOfMonth = $start->copy()->weekOfMonth;
+							$sHours = $start->copy()->hour;
+							$sMinutes = $start->copy()->minute;
+							$sMonth = $start->copy()->month;
+							$sYear = $start->copy()->year;
+							$sNext = $start->copy()->addMonths($i)->firstOfMonth();
 
 							// end vars
-							$eDayOfWeek = $end->dayOfWeek;
-							$eWeekOfMonth = $end->weekOfMonth;
-							$eHours = $end->hour;
-							$eMinutes = $end->minute;
-							$eMonth = $end->month;
-							$eYear = $end->year;
-							$eNext = $end->addMonths($i)->firstOfMonth();
+							$eDayOfWeek = $end->copy()->dayOfWeek;
+							$eWeekOfMonth = $end->copy()->weekOfMonth;
+							$eHours = $end->copy()->hour;
+							$eMinutes = $end->copy()->minute;
+							$eMonth = $end->copy()->month;
+							$eYear = $end->copy()->year;
+							$eNext = $end->copy()->addMonths($i)->firstOfMonth();
 
 							// weeks
 							$rd[1] = 'first';
@@ -381,8 +381,8 @@ class Events
 							break;
 
 						case 'yearly':
-							$newStart = $newStart->addYears($i);
-							$newEnd = $newEnd->addYears($i);
+							$newStart = $start->copy()->addYears($i);
+							$newEnd = $end->copy()->addYears($i);
 							break;
 					}
 
