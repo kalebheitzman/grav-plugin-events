@@ -12,7 +12,7 @@
  * @author     Kaleb Heitzman <kalebheitzman@gmail.com>
  * @copyright  2016 Kaleb Heitzman
  * @license    https://opensource.org/licenses/MIT MIT
- * @version    1.0.5 Documentation Release
+ * @version    1.0.15
  * @link       https://github.com/kalebheitzman/grav-plugin-events
  * @since      1.0.0 Initial Release
  */
@@ -59,15 +59,17 @@ use Events\Events;
  *    	repeat: MTWRFSU
  *    	freq: weekly
  *    	until: 01/01/2020
+ *    	location: Raleigh, NC
+ *    	coordinates: 35.7795897, -78.6381787
  * ```
  *
  * @package     Events
  * @author      Kaleb Heitzman <kalebheitzman@gmail.com>
- * @version 	1.0.5 Documentation Release
+ * @version 	1.0.15
  * @since 		1.0.0 Initial Release
- * @todo 		Implement Localization
  * @todo 		Implement Date Formats
  * @todo 		Implement ICS Feeds
+ * @todo 		Implement All Day Option
  */
 class EventsPlugin extends Plugin
 {
@@ -114,6 +116,7 @@ class EventsPlugin extends Plugin
 	{
 		return [
 			'onPluginsInitialized' => ['onPluginsInitialized', 0],
+			'onGetPageTemplates'   => ['onGetPageTemplates', 0],
 		];
 	}
 
@@ -134,7 +137,11 @@ class EventsPlugin extends Plugin
 	{
 		// Nothing else is needed for admin so close it out
 		if ( $this->isAdmin() ) {
-			$this->active = false;
+
+			$this->enable([
+				'onAdminSave' => ['onAdminSave', 0],
+			]);
+
 			return;
 		}
 
@@ -157,6 +164,7 @@ class EventsPlugin extends Plugin
 			'onPagesInitialized' => ['onPagesInitialized', 0],
 			'onPageInitialized' => ['onPageInitialized', 0],
 			'onTwigSiteVariables' => ['onTwigSiteVariables', 0],
+			'onCollectionProcessed' => ['onCollectionProcessed', 0],
 		]);
 	}
 
@@ -192,7 +200,7 @@ class EventsPlugin extends Plugin
 	public function onPagesInitialized()
 	{
 		// get instances of all events
-		$pages = $this->events->instances();
+		$pages = $this->events->all();
 	}
 
 	/**
@@ -211,37 +219,27 @@ class EventsPlugin extends Plugin
 	{
 		// setup
 		$page = $this->grav['page'];
-
-		/**
-		 * Use the evt: param to serve up event date times.
-		 */
-		if ( $page->template() == 'event' && $this->grav['uri']->param('evt') !== false )
-		{
-			$evt = $this->grav['uri']->param('evt');
-			$event = $this->events->getEventByToken( $evt );
-
-			$newHeader = $page->header();
-			$newHeader->event['start'] = $event['startDate']->toDateTimeString();
-			$newHeader->event['end'] = $event['endDate']->toDateTimeString();
-
-			$page->header( $newHeader );
-		}
 	}
 
 	/**
-	 * Add Events blueprints to admin
+	 * Association with page templates
 	 *
-	 * This is currently not operational. In the future we'd like to add
-	 * blueprints associated with page templates through this plugin hook.
-	 *
-	 * @since  1.0.0 Initial Release
-	 *
-	 * @return void
+	 * @since  1.0.15 Location Fields
 	 */
-	public function onBlueprintCreated()
+	public function onGetPageTemplates(Event $event)
 	{
-		// todo: add events event blueprint to admin
-		// $this->grav['blueprints'];
+		$types = $event->types;
+
+        /* @var Locator $locator */
+        $locator = Grav::instance()['locator'];
+
+        // Set blueprints & templates.
+        $types->scanBlueprints($locator->findResource('plugin://' . $this->name . '/blueprints'));
+        $types->scanTemplates($locator->findResource('plugin://' . $this->name . '/templates'));
+
+        // reverse the FUBARd order of blueprints
+        $event = array_reverse($types['event']);
+        $types['event'] = $event;
 	}
 
 	/**
@@ -267,7 +265,8 @@ class EventsPlugin extends Plugin
 	{
 		// setup
 		$page = $this->grav['page'];
-		$collection = $page->collection();
+		$pages = $this->grav['pages'];
+		$collection = $pages->all()->ofType('event');
 		$twig = $this->grav['twig'];
 
 		// only load the vars if calendar page
@@ -283,17 +282,87 @@ class EventsPlugin extends Plugin
 			// add calendar to twig as calendar
 			$twigVars['calendar']['events'] = $calVars;
 			$twig->twig_vars['calendar'] = array_shift($twigVars);
+		}
 
+		#$pages = $this->grav['pages']->all();
+		#$events = $pages->ofType('event');
+		#$twig->twig_vars['events'] = $events;
+
+		$assets = $this->grav['assets'];
+
+		$templates = array( 'calendar', 'events', 'event' );
+		if ( in_array( $page->template(), $templates ) )
+		{
 			// styles
-			$css = 'plugin://events/css-compiled/events.css';
-			$js = 'plugin://events/js/events.js';
-			$assets = $this->grav['assets'];
-			$assets->addCss($css);
+
+			$js = 'plugin://events/assets/events.js';
+
 			$assets->add('jquery');
 			$assets->addJs($js);
 		}
 
+		$css = 'plugin://events/assets/events.css';
+		$assets->addCss($css);
+
 	}
+
+	/**
+	 * onAdminSave Plugin Hook
+	 *
+	 * This hook fires a reverse geocoding hook for the location field
+	 * on single events
+	 *
+	 * @param  Event  $event
+	 *
+	 * @since  1.0.15 Location Field Update
+	 *
+	 * @return void
+	 */
+	public function onAdminSave(Event $event)
+  {
+  	$obj = $event['object'];
+
+      if ($obj instanceof Page &&  $obj->template() == 'event' ) {
+
+      	if ( ! isset( $header->event['location'] ) ) {
+      		return;
+      	}
+
+      	// get the header
+      	$header = $obj->header();
+      	$location = $header->event['location'];
+
+      	// build a url
+      	$url = "http://maps.googleapis.com/maps/api/geocode/json?address=" . urlencode($location);
+
+      	// fetch the results
+				$ch = curl_init();
+ 				curl_setopt($ch, CURLOPT_URL, $url);
+ 				curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+ 				$geoloc = json_decode(curl_exec($ch), true);
+
+ 				// build the coord string
+ 				$lat = $geoloc['results'][0]['geometry']['location']['lat'];
+				$lng = $geoloc['results'][0]['geometry']['location']['lng'];
+				$coords = $lat . ", " . $lng;
+
+				// set the header info
+				$header->event['coordinates'] = $coords;
+				$obj->header($header);
+      }
+    }
+
+    /**
+     * Create pagination object for the page.
+     *
+     * @param Event $event
+     */
+    public function onCollectionProcessed(Event $event)
+    {
+    	/** @var Collection $collection */
+        $collection = $event['collection'];
+
+    }
 
 }
 
