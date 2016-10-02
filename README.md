@@ -73,15 +73,24 @@ event:
     coordinates: '35.7795897, -78.6381787'
 ```
 
-### Collection frontmatter example
+### Collection frontmatter examples
 
 A collection of weekend events.
 
-```
+```yaml
 collection:
     @items:
         @taxonomy.type: event
         @taxonomy.event_repeat: [S, U]
+```
+
+A collection of events that repeat weekly.
+
+```yaml
+collection:
+  @items:
+    @taxonomy.type: event
+    @taxonomy.event_freq: 'weekly'
 ```
 
 ### Twig templates and example
