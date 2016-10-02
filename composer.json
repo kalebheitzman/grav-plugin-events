@@ -1,5 +1,5 @@
 {
-	"name": "grav-plugin-events",
+	"name": "Grav Plugin Events",
   "version": "1.0.15",
   "description": "Events plugin for Grav CMS",
 	"require": {
