@@ -91,6 +91,8 @@ html {
       .calendar-container .calendar tbody tr td.current .events .day {
         background: #1BB3E9;
         color: #ffffff; }
+        .calendar-container .calendar tbody tr td.current .events .day a {
+          color: #ffffff; }
       .calendar-container .calendar tbody tr td .events-list {
         background: #efefef;
         width: auto;

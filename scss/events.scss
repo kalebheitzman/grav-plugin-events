@@ -3,6 +3,8 @@
 @import "../node_modules/bourbon-neat/app/assets/stylesheets/neat";
 
 /* colors taken from antimatter theme */
+
+// calender specific variables
 $calendar-control-button-bg:			#efefef !default;
 $calendar-control-button-color:		#222222 !default;
 $calendar-headings-bg:						transparent !default;
@@ -14,6 +16,7 @@ $calendar-day-current-color:			#ffffff !default;
 $calendar-event-link-color:				#222222 !default;
 $calendar-day-block-bg:						#efefef !default;
 
+// event(s) specific variables
 $event-item-border: 							1px solid #efefef !default;
 $event-image-border-radius: 			3px !default;
 $event-button-color:							#1BB3E9 !default;
@@ -167,6 +170,10 @@ $event-border-radius: 						4px !default;
 							.day {
 								background: $calendar-day-current-bg;
 								color: $calendar-day-current-color;
+
+								a {
+									color: $calendar-day-current-color;
+								}
 							}
 						}
 					}
@@ -193,6 +200,7 @@ $event-border-radius: 						4px !default;
 							position: absolute;
 							top: 0;
 							right: 0;
+
 							a {
 								display: block;
 								width: 100%;
