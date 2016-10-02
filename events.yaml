@@ -8,7 +8,7 @@ date_format:
 filter_combinator: and
 taxonomy_type: event
 event_template_types: calendar, events, event
-display_months_out: 3
+display_months_out: 6
 show_past_events: false
 enable_single_event_filter: true
 default_events_page: events
