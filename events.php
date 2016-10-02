@@ -147,7 +147,7 @@ class EventsPlugin extends Plugin
 		}
 
 		// Add these to taxonomy for events management
-		$event_taxonomies = array('type', 'event_freq', 'event_repeat');
+		$event_taxonomies = array('type', 'event_freq', 'event_repeat', 'event_location');
 		$taxonomy_config = array_merge((array)$this->config->get('site.taxonomies'), $event_taxonomies);
 		$this->config->set('site.taxonomies', $taxonomy_config);
 

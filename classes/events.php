@@ -183,10 +183,32 @@ class Events
 			// store the new carbon based dates in the header frontmatter
 			$header->_event = $carbonEvent;
 
+			// create new event taxonomy
+			$eventTaxonomy = [];
+			$eventTaxonomy['type'] = 'event';
+
+			// get freq taxonomy
+			if ( isset($event['freq']) ) {
+				$eventTaxonomy['event_freq'] = $event['freq'];
+			}
+
+			// get repeat taxonomy
+			if ( isset($event['repeat']) ) {
+				$rules = str_split($event['repeat']);
+				$eventTaxonomy['event_repeat'] = [];
+				foreach($rules as $rule) {
+					array_push($eventTaxonomy['event_repeat'], $rule);
+				}
+			}
+
+			// get location taxonomy
+			if ( isset($event['location']) ) {
+				$eventTaxonomy['event_location'] = $event['location'];
+			}
+
 			// add taxonomies
 			$taxonomy = $page->taxonomy();
-			$eventTaxonomies = array('type' => array('event'));
-			$newTaxonomy = array_merge($taxonomy, $eventTaxonomies);
+			$newTaxonomy = array_merge($taxonomy, $eventTaxonomy);
 
 			// set the page taxonomy
 			$page->taxonomy($newTaxonomy);
