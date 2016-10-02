@@ -21,6 +21,18 @@ You can also install this plugin from the Admin plugin using the plugins search 
 
 Date translations can be enabled by setting `date_format.translate` to true in the config. They use the official [Grav translation files](https://github.com/getgrav/grav/tree/develop/system/languages), so if your language is missing, don't hesitate to contribute upstream.
 
+### Taxonomy
+
+**Events** creates a few different taxonomy types and adds them programatically to Grav. You do not need to specify them in a config file as they are automatically inserted into the system based off of event frontmatter on event pages.
+
+Currently, the following taxonomies are created and available for building page collections:
+
+`@taxonomy.event_repeat` with params `[M,T,W,R,F,S,U]` When using this taxonomy, be sure to separate your repeat rules with a comma. When adding them to `event.repeat: MTWRFSU` do not separate the rules with a comma.
+
+`@taxonomy.event_freq` with params `[daily, weekly, monthly, yearly]`.
+
+`@taxonomy.type` with param `event`.
+
 ### How it works
 
 **Events** parses all of your markdown files for `event:` frontmatter and then automagically assigns taxonomies to your events based on whether they repeat through the week and through what intervals. This lets you build powerful collections based on the `event_freq` and `event_repeat` intervals. This lets you create custom displays. For example, if you want to build a list of all events that happen on Mondays you can filter on `'@taxonomy.event_repeat':['M']` or pull out your Weekly events by filtering on `'@taxonomy.event_freq':'weekly'`.
