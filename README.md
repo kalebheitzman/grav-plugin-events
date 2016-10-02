@@ -62,15 +62,15 @@ This plugin supports creating repeating events using `event.repeat:`,
 
 You can edit the front matter of your pages or use the Admin plugin with the supplied blueprints to update event information. If you use the Admin plugin, coordinates will automatically be geo-decoded from address that you enter.
 
-```
+```twig
 event:
-    start: 01/01/2015 6:00pm
-    end: 01/01/2015 7:00pm
-    repeat: MTWRFSU
+    start: '01/01/2015 6:00pm'
+    end: '01/01/2015 7:00pm'
+    repeat: 'MTWRFSU'
     freq: weekly
-    until: 01/01/2020
-    location: Raleigh, NC
-    coordinates: 35.7795897, -78.6381787
+    until: '01/01/2020'
+    location: 'Raleigh, NC'
+    coordinates: '35.7795897, -78.6381787'
 ```
 
 ### Collection frontmatter example
