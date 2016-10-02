@@ -33,7 +33,7 @@ use Carbon\Carbon;
  * @link       https://github.com/kalebheitzman/grav-plugin-events
  * @since      1.0.0 Initial Release
  */
-class Calendar
+class CalendarProcessor
 {
 	/**
 	 * Twig Calendar Vars

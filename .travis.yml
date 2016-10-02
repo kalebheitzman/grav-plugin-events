@@ -5,3 +5,5 @@ php:
   - '7.0'
   - hhvm
   - nightly
+before_script: composer require atoum/atoum
+script: vendor/bin/atoum

@@ -15,8 +15,8 @@ namespace Grav\Plugin;
 
 // import classes
 require_once __DIR__.'/vendor/autoload.php';
-require_once __DIR__.'/classes/calendar.php';
-require_once __DIR__.'/classes/events.php';
+require_once __DIR__.'/classes/calendarProcessor.php';
+require_once __DIR__.'/classes/eventsProcessor.php';
 
 use Grav\Common\Plugin;
 use Grav\Common\Grav;
@@ -28,8 +28,8 @@ use RocketTheme\Toolbox\Event\Event;
 
 use Carbon\Carbon;
 
-use Events\Calendar;
-use Events\Events;
+use Events\CalendarProcessor;
+use Events\EventsProcessor;
 
 /**
  * Grav Events
@@ -155,10 +155,10 @@ class EventsPlugin extends Plugin
 		$this->now = Carbon::now();
 
 		// set the calendar accessor
-		$this->calendar = new Calendar();
+		$this->calendar = new \Events\CalendarProcessor();
 
 		// set the events accessor
-		$this->events = new Events();
+		$this->events = new \Events\EventsProcessor();
 
 		// enable the following hooks
 		$this->enable([

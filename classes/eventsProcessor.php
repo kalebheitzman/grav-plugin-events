@@ -39,7 +39,7 @@ use Grav\Common\Grav;
  * @link       https://github.com/kalebheitzman/grav-plugin-events
  * @since      1.0.0 Initial Release
  */
-class Events
+class EventsProcessor
 {
 	/**
 	 * @var  object Grav Pages
