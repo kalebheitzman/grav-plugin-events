@@ -67,6 +67,9 @@ class Calendar
 	{
 		// build a calendar array to use in twig
 		$calendar = array();
+
+		$collection->order('date', 'asc');
+
 		foreach($collection as $event) {
 			$header = $event->header();
 			$start = $header->event['start'];
