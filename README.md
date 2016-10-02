@@ -102,7 +102,7 @@ collection:
     @taxonomy.category: [ featured ]
 ```
 
-### Twig templates and examples
+### Collection twig examples
 
 A collection of weekend events with a _dateRange_ using the [DateTools Plugin.](https://github.com/kalebheitzman/grav-plugin-datetools) Note the use of limit for pagination. This plugin uses Grav's [Pagination Plugin](https://github.com/getgrav/grav-plugin-pagination) automatically if it is enabled.
 
@@ -131,7 +131,9 @@ A collection of weekend events with a _dateRange_ using the [DateTools Plugin.](
     {% for event in events %}
         <li>
             <a href="{{ event.url }}">{{ event.title }}</a>
-            <time class="dt-start" datetime="{{ event.header.event.start|date('c') }}">{{ event.header.event.start|date('F j, Y') }}</time>
+            <time class="dt-start" datetime="{{ event.header.event.start|date('c') }}">
+              {{ event.header.event.start|date('F j, Y') }}
+            </time>
         </li>
     {% endfor %}
 </ul>
@@ -139,4 +141,4 @@ A collection of weekend events with a _dateRange_ using the [DateTools Plugin.](
 
 ### DateTools Plugin
 
-Be sure to checkout the [DateTools Plugin](https://github.com/kalebheitzman/grav-plugin-datetools). This plugin uses DateTools to filter date ranges on collection in twig templates. 
+Be sure to checkout the [DateTools Plugin](https://github.com/kalebheitzman/grav-plugin-datetools). This plugin uses DateTools to filter date ranges on collection in twig templates.
