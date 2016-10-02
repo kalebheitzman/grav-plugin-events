@@ -2,20 +2,20 @@ en:
   PLUGIN_EVENTS:
     CALENDAR:
       TODAY: Today
-      VIEW_MORE: Click a Day to View More
+      VIEW_MORE: View more
     EVENTS:
-      BUTTON: Learn More
+      BUTTON: Learn more
 fr:
   PLUGIN_EVENTS:
     CALENDAR:
-      TODAY: Today
-      VIEW_MORE: View More
+      TODAY: "Aujourd'hui"
+      VIEW_MORE: Détails
     EVENTS:
-      BUTTON: Learn More
+      BUTTON: En savoir plus
 de:
   PLUGIN_EVENTS:
     CALENDAR:
-      TODAY: Today
-      VIEW_MORE: View More
+      TODAY: Heute
+      VIEW_MORE: Mehr sehen
     EVENTS:
-      BUTTON: Learn More
+      BUTTON: Erfahren Sie mehr
