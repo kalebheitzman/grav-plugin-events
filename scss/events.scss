@@ -115,12 +115,18 @@ $event-border-radius: 						4px !default;
 		font-family: sans-serif;
 		font-weight: 100;
 
+		tr.headings {
+			th {
+				text-align: center;
+			}
+		}
+
 		thead {
 
 			tr {
 
 				th {
-					font-weight: normal;
+					font-weight: 100;
 					background: $calendar-headings-bg;
 				}
 
@@ -129,6 +135,7 @@ $event-border-radius: 						4px !default;
 			.calendar-button
 			.headings {
 				text-align: center;
+
 			}
 
 			.controls-container {

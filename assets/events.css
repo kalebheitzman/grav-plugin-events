@@ -72,8 +72,10 @@ html {
   .calendar-container .calendar {
     font-family: sans-serif;
     font-weight: 100; }
+    .calendar-container .calendar tr.headings th {
+      text-align: center; }
     .calendar-container .calendar thead tr th {
-      font-weight: normal;
+      font-weight: 100;
       background: transparent; }
     .calendar-container .calendar thead .calendar-button
 .headings {
