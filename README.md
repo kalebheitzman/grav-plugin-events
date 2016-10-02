@@ -1,5 +1,7 @@
 # Events Plugin for Grav CMS
 
+[![Join the chat at https://gitter.im/grav-plugin-events/Lobby](https://badges.gitter.im/grav-plugin-events/Lobby.svg)](https://gitter.im/grav-plugin-events/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 This is an events plugin for [Grav CMS](http://getgrav.org)  1.1.5+.
 
 Create single and repeating events using `event:` frontmatter on any page you choose. The Events Plugin provides templates for calendar, events, and event views and supports creating events via the [Admin plugin.](https://github.com/getgrav/grav-plugin-admin)
