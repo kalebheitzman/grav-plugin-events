@@ -27,11 +27,11 @@ Date translations can be enabled by setting `date_format.translate` to true in t
 
 Currently, the following taxonomies are created and available for building page collections:
 
-`@taxonomy.event_repeat` with params `[M,T,W,R,F,S,U]` When using this taxonomy, be sure to separate your repeat rules with a comma. When adding them to `event.repeat: MTWRFSU` do not separate the rules with a comma.
+`'@taxonomy.event_repeat'` with params `[M,T,W,R,F,S,U]` When using this taxonomy, be sure to separate your repeat rules with a comma. When adding them to `event.repeat: MTWRFSU` do not separate the rules with a comma.
 
-`@taxonomy.event_freq` with params `[daily, weekly, monthly, yearly]`.
+`'@taxonomy.event_freq'` with params `[daily, weekly, monthly, yearly]`.
 
-`@taxonomy.type` with param `event`.
+`'@taxonomy.type'` with param `'event'`.
 
 ### How it works
 
