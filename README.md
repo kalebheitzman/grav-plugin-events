@@ -104,7 +104,7 @@ collection:
 
 ### Twig templates and examples
 
-A collection of weekend events with a _dateRange_ using the [DateTools plugin.](https://github.com/kalebheitzman/grav-plugin-datetools) Note the use of limit for pagination. This plugin uses Grav's [Pagination Plugin](https://github.com/getgrav/grav-plugin-pagination) automatically if it is enabled.
+A collection of weekend events with a _dateRange_ using the [DateTools Plugin.](https://github.com/kalebheitzman/grav-plugin-datetools) Note the use of limit for pagination. This plugin uses Grav's [Pagination Plugin](https://github.com/getgrav/grav-plugin-pagination) automatically if it is enabled.
 
 ```
 {% set events =
@@ -129,8 +129,8 @@ A collection of weekend events with a _dateRange_ using the [DateTools plugin.](
 
 <ul>
     {% for event in events %}
-        <li class="h-event">
-            <a href="{{ event.url }}" class="p-name u-url">{{ event.title }}</a>
+        <li>
+            <a href="{{ event.url }}">{{ event.title }}</a>
             <time class="dt-start" datetime="{{ event.header.event.start|date('c') }}">{{ event.header.event.start|date('F j, Y') }}</time>
         </li>
     {% endfor %}
@@ -139,8 +139,4 @@ A collection of weekend events with a _dateRange_ using the [DateTools plugin.](
 
 ### DateTools Plugin
 
-Be sure to checkout the [DateTools Plugin](https://github.com/kalebheitzman/grav-plugin-datetools). It will supercharge your dateRange filters.
-
-### Contributers
-
-[paulcmal](https://github.com/paulcmal), [Piterden](https://github.com/Piterden), [aender6840](https://github.com/aender6840)
+Be sure to checkout the [DateTools Plugin](https://github.com/kalebheitzman/grav-plugin-datetools). This plugin uses DateTools to filter date ranges on collection in twig templates. 
