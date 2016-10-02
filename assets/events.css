@@ -169,18 +169,19 @@ html {
   width: 100%;
   height: 100%;
   z-index: 99;
-  background: rgba(0, 0, 0, 0.2);
-  background: rgba(0, 0, 0, 0.2);
   display: flex;
   align-items: center;
   justify-content: center;
+  background: rgba(0, 0, 0, 0.25);
+  background: rgba(0, 0, 0, 0.25);
   display: none; }
   .calendar-modal .calendar-modal-inner {
     background: #fff;
     max-width: 700px;
     margin: 6rem auto;
     padding: 2rem 4rem;
-    position: relative; }
+    position: relative;
+    font-family: sans-serif; }
     .calendar-modal .calendar-modal-inner .calendar-close-modal {
       position: absolute;
       right: 1rem;
@@ -189,6 +190,15 @@ html {
       font-family: sans-serif;
       font-weight: 100;
       cursor: pointer; }
+    .calendar-modal .calendar-modal-inner .calendar-modal-title {
+      font-size: 2rem; }
+    .calendar-modal .calendar-modal-inner .calendar-modal-content ul {
+      list-style: none;
+      padding-left: 0; }
+      .calendar-modal .calendar-modal-inner .calendar-modal-content ul li time {
+        width: 5rem;
+        display: inline-block;
+        color: #222; }
 
 /* html5 .event-button element */
 .event-button {

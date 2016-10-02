@@ -32,12 +32,24 @@
         content = $(this).parent().next('.events-list').html();
         $('.calendar-modal-title').html(title);
         $('.calendar-modal-content').html(content);
-        $('.calendar-modal').fadeIn(150);
+        $('.calendar-modal').fadeIn(100);
         event.preventDefault();
         return false;
       });
       $('.calendar-close-modal').on('click', function(event) {
-        return $('.calendar-modal').fadeOut(100);
+        $('.calendar-modal').fadeOut(100);
+        event.preventDefault();
+        return false;
+      });
+      $(document).keyup(function(event) {
+        if (event.keyCode === 27) {
+          return $('.calendar-modal').fadeOut(100);
+        }
+      });
+      $(document).on('click', function(event) {
+        if (!$(event.target).closest('.calendar-modal-inner').is(":visible")) {
+          return $('.calendar-modal').fadeOut(100);
+        }
       });
     });
   })(jQuery);
