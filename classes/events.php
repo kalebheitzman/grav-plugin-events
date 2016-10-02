@@ -192,8 +192,12 @@ class Events
 			$eventTaxonomies = array('type' => array('event'));
 			$newTaxonomy = array_merge($taxonomy, $eventTaxonomies);
 
+			// set the page taxonomy
 			$page->taxonomy($newTaxonomy);
 			$header->taxonomy = $newTaxonomy;
+
+			// add the page to the taxonomy map
+			$this->taxonomy->addTaxonomy($page, $newTaxonomy);
 		}
 
 		return $events;
