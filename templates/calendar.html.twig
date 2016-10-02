@@ -29,11 +29,11 @@
                     <a href="{{ nextMonthUrl }}" class="calendar-control calendar-hide">{{ 'MONTHS_OF_THE_YEAR'|ta(calendar.next.date|date('n') - 1) ~ calendar.next.date|date(' Y') }}</a>
 										<ul class="calendar-legend">
 											<li class="calendar-day-expander">
-												<span class="key">View More</span>
+												<span class="key">{{ 'PLUGIN_EVENTS.CALENDAR.VIEW_MORE'|t }}</span>
 												<span class="color">31</span>
 											</li>
 											<li class="calendar-today">
-												<span class="key">Today</span>
+												<span class="key">{{ 'PLUGIN_EVENTS.CALENDAR.TODAY'|t }}</span>
 												<span class="color">{{ "now"|date('j') }}</span>
 											</li>
 										</ul>
