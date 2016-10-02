@@ -1,4 +1,7 @@
 {
+	"name": "grav-plugin-events",
+  "version": "1.0.15",
+  "description": "Events plugin for Grav CMS",
 	"require": {
 		"nesbot/Carbon": "*"
 	},
