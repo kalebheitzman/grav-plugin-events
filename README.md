@@ -1,6 +1,7 @@
 # Events Plugin for Grav CMS
 
 [![Join the chat at https://gitter.im/grav-plugin-events/Lobby](https://badges.gitter.im/grav-plugin-events/Lobby.svg)](https://gitter.im/grav-plugin-events/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+[![Build Status](https://travis-ci.org/kalebheitzman/grav-plugin-events.svg?branch=develop)](https://travis-ci.org/kalebheitzman/grav-plugin-events)
 
 This is an events plugin for [Grav CMS](http://getgrav.org)  1.1.5+.
 
