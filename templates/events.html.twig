@@ -64,9 +64,9 @@
           <div class="featured-event-content">
 
             <ul class="event-meta-information">
-              <li class="when"><i class="fa fa-calendar"></i> {{ item.header.event.start|date(J, d) }}</li>
-              {% if item.header.event.location %}
-                <li class="where"><i class="fa fa-location-arrow"></i> {{ item.header.event.location }}</li>
+              <li class="when"><i class="fa fa-calendar"></i> {{ event.header.event.start|date(J, d) }}</li>
+              {% if event.header.event.location %}
+                <li class="where"><i class="fa fa-location-arrow"></i> {{ event.header.event.location }}</li>
               {% endif %}
             </ul>
 

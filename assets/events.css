@@ -257,9 +257,10 @@ html {
           list-style: none;
           display: block; }
           .events-container .featured-events .featured-event .featured-event-content .event-meta-information li {
-            display: inline-block; }
+            display: inline-block;
+            margin-right: 1em; }
             .events-container .featured-events .featured-event .featured-event-content .event-meta-information li i {
-              width: 1.5rem; }
+              width: 1rem; }
   .events-container .events-listing {
     padding-bottom: 2rem; }
     .events-container .events-listing .event-item {
