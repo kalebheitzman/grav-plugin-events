@@ -151,7 +151,7 @@ class Events
 	 * date processing, slug processing, etc.
 	 *
 	 * @param  object $events Grav Collection
-	 * @return object         Grav Collection
+	 * @return object $events Grav Collection
 	 */
 	private function preprocessEventPages( $events )
 	{
