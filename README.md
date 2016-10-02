@@ -35,16 +35,13 @@ Currently, the following taxonomies are created and available for building page 
 
 ### How it works
 
-**Events** parses all of your markdown files for `event:` frontmatter and then automagically assigns taxonomies to your events based on whether they repeat through the week and through what intervals. This lets you build powerful collections based on the `event_freq` and `event_repeat` intervals. This lets you create custom displays. For example, if you want to build a list of all events that happen on Mondays you can filter on `'@taxonomy.event_repeat':['M']` or pull out your Weekly events by filtering on `'@taxonomy.event_freq':'weekly'`.
+**Events** parses all of your markdown files for `event:` frontmatter and then automagically assigns taxonomies to your events based on whether they repeat through the week and through what intervals. This lets you build powerful collections based on the `event_freq:` and `event_repeat:` intervals. This lets you create custom displays. For example, if you want to build a list of all events that happen on Mondays you can filter on `'@taxonomy.event_repeat':['M']` or pull out your Weekly events by filtering on `'@taxonomy.event_freq':'weekly'`.
 
-This plugin processes event frontmatter specified in the header in multiple
-ways. It adds any page found with event frontmatter to `''@taxonomy.type': 'event'`.
-This allows you to build collections based on this taxonomy type. The Taxonomy
-`type` is added dynamically to your Grav install.
+It also adds any page found with event frontmatter to `''@taxonomy.type': 'event'`. This allows you to build collections based on this taxonomy type.
 
-The `date` of a page will be set to `event.start` automatically if not specified. This allows you to order your events by date.
+The `date` of a page will be set to `event.start` automatically if not specified. This allows you to order your events by date using the `order:` paramater for collections.
 
-If the event is a repeating event, pages will be added to the pages collection with the correct dates and times for use throughout the rest of a Grav site. Currently, repeating pages use the same page slug with an epoch suffix related to the start date of the next event.
+If the event is a repeating event, pages will be added to the pages collection with the correct dates and times for use throughout the rest of a Grav site. Each virtual page is given a unique path with a 6 character tokenized suffix. The URL generated is safe to copy and paste on other sites and will go back to the specific reoccurring or repeating date of the event.
 
 ### Dates and times
 
