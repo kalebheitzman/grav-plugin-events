@@ -325,22 +325,22 @@ class Events
 						// number of days each month.
 						case 'monthly':
 							// start vars
-							$sDayOfWeek = $newStart->dayOfWeek;
-							$sWeekOfMonth = $newStart->weekOfMonth;
-							$sHours = $newStart->hour;
-							$sMinutes = $newStart->minute;
-							$sMonth = $newStart->month;
-							$sYear = $newStart->year;
-							$sNext = $newStart->addMonths($i)->firstOfMonth();
+							$sDayOfWeek = $start->dayOfWeek;
+							$sWeekOfMonth = $start->weekOfMonth;
+							$sHours = $start->hour;
+							$sMinutes = $start->minute;
+							$sMonth = $start->month;
+							$sYear = $start->year;
+							$sNext = $start->addMonths($i)->firstOfMonth();
 
 							// end vars
-							$eDayOfWeek = $newEnd->dayOfWeek;
-							$eWeekOfMonth = $newEnd->weekOfMonth;
-							$eHours = $newEnd->hour;
-							$eMinutes = $newEnd->minute;
-							$eMonth = $newEnd->month;
-							$eYear = $newEnd->year;
-							$eNext = $newEnd->addMonths($i)->firstOfMonth();
+							$eDayOfWeek = $end->dayOfWeek;
+							$eWeekOfMonth = $end->weekOfMonth;
+							$eHours = $end->hour;
+							$eMinutes = $end->minute;
+							$eMonth = $end->month;
+							$eYear = $end->year;
+							$eNext = $end->addMonths($i)->firstOfMonth();
 
 							// weeks
 							$rd[1] = 'first';

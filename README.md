@@ -70,7 +70,7 @@ event:
     freq: weekly
     until: 01/01/2020
     location: Raleigh, NC
-    coordinates:
+    coordinates: 35.7795897, -78.6381787
 ```
 
 ### Collection frontmatter example
