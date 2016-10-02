@@ -44,7 +44,7 @@ $event-border-radius: 						4px !default;
 	li {
 		display: inline-block;
 		margin-left: 0.5rem;
-		font-weight: 100;
+	
 
 		span.color {
 			display: inline-block;
@@ -116,7 +116,7 @@ $event-border-radius: 						4px !default;
 
 	.calendar {
 		font-family: sans-serif;
-		font-weight: 100;
+	
 
 		tr.headings {
 			th {
@@ -129,7 +129,7 @@ $event-border-radius: 						4px !default;
 			tr {
 
 				th {
-					font-weight: 100;
+				
 					background: $calendar-headings-bg;
 				}
 
@@ -312,7 +312,7 @@ $event-border-radius: 						4px !default;
 			top: 0;
 			font-size: 3rem;
 			font-family: sans-serif;
-			font-weight: 100;
+		
 			cursor: pointer;
 		}
 

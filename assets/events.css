@@ -17,8 +17,7 @@ html {
   width: 100%; }
   .calendar-legend li {
     display: inline-block;
-    margin-left: 0.5rem;
-    font-weight: 100; }
+    margin-left: 0.5rem; }
     .calendar-legend li span.color {
       display: inline-block;
       width: 1.75rem;
@@ -70,12 +69,10 @@ html {
         transition: background-color 0.15s ease;
         background-color: #d7d7d7; }
   .calendar-container .calendar {
-    font-family: sans-serif;
-    font-weight: 100; }
+    font-family: sans-serif; }
     .calendar-container .calendar tr.headings th {
       text-align: center; }
     .calendar-container .calendar thead tr th {
-      font-weight: 100;
       background: transparent; }
     .calendar-container .calendar thead .calendar-button
 .headings {
@@ -192,7 +189,6 @@ html {
       top: 0;
       font-size: 3rem;
       font-family: sans-serif;
-      font-weight: 100;
       cursor: pointer; }
     .calendar-modal .calendar-modal-inner .calendar-modal-title {
       font-size: 2rem; }
