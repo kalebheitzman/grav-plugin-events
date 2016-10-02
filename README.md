@@ -39,20 +39,28 @@ Currently, the following taxonomies are created and available for building page 
 
 It also adds any page found with event frontmatter to `''@taxonomy.type': 'event'`. This allows you to build collections based on this taxonomy type.
 
-The `date` of a page will be set to `event.start` automatically if not specified. This allows you to order your events by date using the `order:` paramater for collections.
+The `date:` of a page will be set to `event.start:` automatically if not specified. This allows you to order your events by date using the `order:` paramater for collections.
 
 If the event is a repeating event, pages will be added to the pages collection with the correct dates and times for use throughout the rest of a Grav site. Each virtual page is given a unique path with a 6 character tokenized suffix. The URL generated is safe to copy and paste on other sites and will go back to the specific reoccurring or repeating date of the event.
 
-### Dates and times
+### Specifying dates and times
 
-The `event.start` and `event.end` dates can be specified using `m/d/y` or `d-m-y` formats along with times.
+The `event.start:` and `event.end:` dates can be specified using `m/d/y` or `d-m-y` formats along with times.
 
 ### Repeating dates
 
-This plugin supports creating repeating events using `event.repeat`,
-`event.freq`, and `event.until`.
+This plugin supports creating repeating events using `event.repeat:`,
+`event.freq:`, and `event.until:`.
 
-`event.repeat` specifies what days you would like for your event to repeat. This can be for Monday through Sunday as specified by MTWRFSU. (**M**onday, **T**uesday, **W**ednesday, Th**U**rsday, **F**riday, **S**aturday, S**U**nday)
+`event.repeat:` specifies what days you would like for your event to repeat horizontally across a calendar. This can be for Monday through Sunday as specified by `MTWRFSU`.
+
+**M**onday
+**T**uesday
+**W**ednesday
+Th**U**rsday
+**F**riday
+**S**aturday
+S**U**nday
 
 `event.freq` can be set to `daily, weekly, monthly, or yearly.`
 
