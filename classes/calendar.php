@@ -52,10 +52,10 @@ class Calendar
 	 * ```twig
 	 * {% for events in calendar.events[calendar.year][calendar.month][day] %}
 	 *  	{% for event in events %}
-     *          {% if event.title %}
-     *              <div class="event"><a href="{{ event.url }}">{{ event.title }}</a></div>
-     *          {% endif %}
-     *      {% endfor %}
+   *          {% if event.title %}
+   *              <div class="event"><a href="{{ event.url }}">{{ event.title }}</a></div>
+   *          {% endif %}
+   *      {% endfor %}
 	 * {% endfor %}
 	 * ```
 	 *

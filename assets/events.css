@@ -297,8 +297,8 @@ html {
           clear: both;
           content: "";
           display: block; }
-        .events-container .events-listing .event-item .event-content .featured-event-title {
-          line-height: 1; }
+        .events-container .events-listing .event-item .event-content h3 {
+          margin: 0; }
         .events-container .events-listing .event-item .event-content .event-meta {
           float: left;
           display: block;
@@ -310,6 +310,8 @@ html {
           .events-container .events-listing .event-item .event-content .event-meta ul {
             list-style: none;
             padding-left: 0; }
+            .events-container .events-listing .event-item .event-content .event-meta ul li i {
+              width: 1.5rem; }
         .events-container .events-listing .event-item .event-content .event-summary {
           float: left;
           display: block;

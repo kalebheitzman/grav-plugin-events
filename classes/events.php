@@ -129,7 +129,7 @@ class Events
 		 * STEP 2: Process Repeating Events
 		 * add repeating events to the collection [MTWRFSU]
 		 */
-		$this->processRepeatingEvents( $events );
+		$clones = $this->processRepeatingEvents( $events );
 		$events = $this->pages->all()->ofType('event');
 
 		/**
@@ -211,6 +211,8 @@ class Events
 	 */
 	private function processRepeatingEvents( $events )
 	{
+		$clones = [];
+
 		// look for events with repeat rules
 		foreach ( $events as $page ) {
 			$header = $page->header();
@@ -239,24 +241,20 @@ class Events
 						$s_diff = ( $carbonRules[$rule]-$s_dow );
 						$e_diff = ( $carbonRules[$rule]-$e_dow );
 
-						$dates['start'] = $header->_event['start']->copy()->addDays($s_diff);
-						$dates['end'] = $header->_event['end']->copy()->addDays($e_diff);
+						if ($s_diff != 0) {
+							$dates['start'] = $header->_event['start']->copy()->addDays($s_diff);
+							$dates['end'] = $header->_event['end']->copy()->addDays($e_diff);
 
-						// clone the page and add the new dates
-						$clone = $this->cloneEvent( $page, $dates );
+							// clone the page and add the new dates
+							$this->cloneEvent( $page, $dates, $rule );
+							$clones[] = [ $page, $dates, $rules ];
+						}
 
-						// insert the page into grav pages
-						$this->pages->addPage( $clone );
-						$this->taxonomy->addTaxonomy($clone, $clone->taxonomy());
 					}
-				}
-				// only one repeat rule
-				else {
-
 				}
 			}
 		}
-		return $events;
+		return $clones;
 	}
 
 	/**
@@ -390,11 +388,7 @@ class Events
 					$dates['end'] = $newEnd;
 
 					// get the new cloned event
-					$clone = $this->cloneEvent( $page, $dates );
-
-					// insert the page into grav pages
-					$this->pages->addPage( $clone );
-					$this->taxonomy->addTaxonomy($clone, $clone->taxonomy());
+					$this->cloneEvent( $page, $dates );
 				}
 			}
 		}
@@ -406,9 +400,10 @@ class Events
 	 * Clone an Event Page
 	 * @param  object $page  Grav Page
 	 * @param  array $dates  Carbon Dates
+	 * @param  integer $key	 Key for repeating events
 	 * @return object        Grav Page
 	 */
-	private function cloneEvent( $page, $dates ) {
+	private function cloneEvent( $page, $dates, $rule = null ) {
 
 		// clone the page
 		$clone = clone $page;
@@ -423,28 +418,44 @@ class Events
 		$header->event['end'] = $dates['end']->format('m/d/Y g:i a');
 		$clone->date($header->date);
 
+		// set the media
+		$media = $page->media();
+		$clone->media($media);
+
+		// a token is needed because the key is null
 		// build a page token for lookup
 		$id = $clone->id();
 		$token = substr( md5( $id . $header->event['start'] ),0,6);
 		$header->token = $token;
 
-		// set the media
-		$media = $page->media();
-		$clone->media($media);
+		// store a processing token for future repeating pages
+		if ( ! is_null( $rule ) ) {
+			$header->_event['rule'] = $rule;
+			$header->_event['token'] = $token;
+		}
+
+		// build the path
+		$path = $page->path() . '/' . $token;
+		// build the route
+		$route = $page->route() . '/' . $token;
+
+		// check to see if this has been tokenized already and
+		// clean it up.
+		if ( is_null($rule) && isset($header->_event['rule']) ) {
+			$path = str_replace('/' . $header->_event['token'], '', $path);
+			$route = str_replace('/' . $header->_event['token'], '', $route);
+		}
 
 		// build a unique path
-		$path = $clone->path() . '/' . $token;
 		$clone->path( $path );
-
 		// build a unique route
-		$route = $clone->route() . '/' . $token;
 		$clone->route( $route );
-
 		// update the clone with the new header
 		$clone->header( $header );
 
-		// return the clone
-		return $clone;
+		// insert the page into grav pages
+		$this->pages->addPage( $clone );
+		$this->taxonomy->addTaxonomy($clone, $clone->taxonomy());
 	}
 
 }

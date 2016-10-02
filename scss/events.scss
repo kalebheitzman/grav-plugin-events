@@ -438,8 +438,8 @@ $event-border-radius: 						4px !default;
 				@include span-columns(4 of 5);
 				@include row();
 
-				.featured-event-title {
-					line-height: 1;
+				h3 {
+					margin: 0;
 				}
 
 				.event-meta {
@@ -449,6 +449,13 @@ $event-border-radius: 						4px !default;
 					ul {
 						list-style: none;
 						padding-left: 0;
+
+						li {
+
+							i {
+								width: 1.5rem;
+							}
+						}
 					}
 				}
 
