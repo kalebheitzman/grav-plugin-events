@@ -69,7 +69,7 @@ use Events\Events;
  * @author     Kaleb Heitzman <kalebheitzman@gmail.com>
  * @copyright  2016 Kaleb Heitzman
  * @license    https://opensource.org/licenses/MIT MIT
- * @version    1.0.15
+ * @version    1.0.15 Major Refactor
  * @link       https://github.com/kalebheitzman/grav-plugin-events
  * @since      1.0.0 Initial Release
  *
@@ -208,7 +208,8 @@ class EventsPlugin extends Plugin
 	 * Association with page templates
 	 *
 	 * @param	 Event Event
-	 * @since  1.0.15 Location Fields
+	 * @since  1.0.15 Major Refactor
+	 * @return void
 	 */
 	public function onGetPageTemplates(Event $event)
 	{
@@ -244,7 +245,6 @@ class EventsPlugin extends Plugin
 		$collection = $pages->all()->ofType('event');
 		$twig = 			$this->grav['twig'];
 		$assets = 		$this->grav['assets'];
-
 
 		// only load the vars if calendar page
 		if ($page->template() == 'calendar')
