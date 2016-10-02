@@ -211,8 +211,6 @@ class Events
 	 */
 	private function processRepeatingEvents( $events )
 	{
-		$clones = [];
-
 		// look for events with repeat rules
 		foreach ( $events as $page ) {
 			$header = $page->header();
@@ -246,15 +244,13 @@ class Events
 							$dates['end'] = $header->_event['end']->copy()->addDays($e_diff);
 
 							// clone the page and add the new dates
-							$this->cloneEvent( $page, $dates, $rule );
-							$clones[] = [ $page, $dates, $rules ];
+							$clone = $this->cloneEvent( $page, $dates, $rule );
 						}
-
 					}
 				}
 			}
 		}
-		return $clones;
+		return $events;
 	}
 
 	/**
@@ -387,6 +383,11 @@ class Events
 					$dates['start'] = $newStart;
 					$dates['end'] = $newEnd;
 
+					// access the saved original for repeating MTWRFSU events
+					if (isset($page->header()->_event['page'])) {
+						$page = $page->header()->_event['page'];
+					}
+
 					// get the new cloned event
 					$this->cloneEvent( $page, $dates );
 				}
@@ -432,6 +433,7 @@ class Events
 		if ( ! is_null( $rule ) ) {
 			$header->_event['rule'] = $rule;
 			$header->_event['token'] = $token;
+			$header->_event['page'] = $page;
 		}
 
 		// build the path
@@ -456,6 +458,8 @@ class Events
 		// insert the page into grav pages
 		$this->pages->addPage( $clone );
 		$this->taxonomy->addTaxonomy($clone, $clone->taxonomy());
+
+		return $clone;
 	}
 
 }
