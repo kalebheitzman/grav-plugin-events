@@ -112,12 +112,12 @@ A collection of weekend events with a _dateRange_ using the [DateTools Plugin.](
     'items': {
       '@taxonomy': {
         'type': 'event',
-        '@taxonomy.event_repeat': ['S','U']
+        'event_repeat': ['S','U']
       }
     },
     'dateRange': {
-      'start': datetools.startOfMonth,
-      'end': datetools.endOfMonth
+      'start': datetools.startOfWeek,
+      'end': datetools.endOfWeek
     },
     'order': {
       'by': 'date',
