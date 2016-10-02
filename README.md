@@ -100,29 +100,31 @@ collection:
   @items:
     @taxonomy.type: 'event'
     @taxonomy.category: [ featured ]
+```
 
-### Twig templates and example
+### Twig templates and examples
 
-It's easy to create a collection of events using Grav taxonomy search feature and the following taxonomies that are added by the Events plugin.
-
-`@taxonomy.type` and the term `event` are added to all pages that have `event` frontmatter.
-
-`@taxonomy.event_repeat` and `['M', 'T', 'W', 'R', 'F', 'S', 'U']` are added to events that specify `event.repeat: MTWRFSU`.
-
-`@taxonomy.event_freq` and `daily, weekly, monthly, or yearly` are added to events that specify `event.freq` and the appropriate option.
-
-A collection of weekend events.
+A collection of weekend events with a _dateRange_ using the [DateTools plugin.](https://github.com/kalebheitzman/grav-plugin-datetools) Note the use of limit for pagination. This plugin uses Grav's [Pagination Plugin](https://github.com/getgrav/grav-plugin-pagination) automatically if it is enabled.
 
 ```
 {% set events =
-    page.collection({
-        'items':{
-            '@taxonomy.type':'event',
-            '@taxonomy.event_repeat':['S','U']
-        }
-    })
-    .dateRange(datetools.startOfMonth, datetools.endOfMonth)
-    .order('date', 'asc')
+  page.collection({
+    'items': {
+      '@taxonomy': {
+        'type': 'event',
+        '@taxonomy.event_repeat': ['S','U']
+      }
+    },
+    'dateRange': {
+      'start': datetools.startOfMonth,
+      'end': datetools.endOfMonth
+    },
+    'order': {
+      'by': 'date',
+      'dir': 'asc'
+    },
+    'limit': 10
+  })
 %}
 
 <ul>
