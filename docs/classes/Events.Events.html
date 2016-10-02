@@ -115,7 +115,7 @@
                         <ul class="dropdown-menu">
                             <li>
                                 <a href="../reports/errors.html">
-                                                                                                                                                                                                                                                                                                                                                <i class="icon-list-alt"></i>&#160;Errors <span class="label label-info pull-right">3</span>
+                                                                                                                                                                                                                                                                                                                                                <i class="icon-list-alt"></i>&#160;Errors <span class="label label-info pull-right">0</span>
                                 </a>
                             </li>
                             <li>
@@ -145,19 +145,19 @@
                                 <div class="accordion" style="margin-bottom: 0">
         <div class="accordion-group">
             <div class="accordion-heading">
-                                    <a class="accordion-toggle " data-toggle="collapse" data-target="#namespace-458358351"></a>
+                                    <a class="accordion-toggle " data-toggle="collapse" data-target="#namespace-1033160228"></a>
                                 <a href="../namespaces/default.html" style="margin-left: 30px; padding-left: 0">\</a>
             </div>
-            <div id="namespace-458358351" class="accordion-body collapse in">
+            <div id="namespace-1033160228" class="accordion-body collapse in">
                 <div class="accordion-inner">
 
                                                     <div class="accordion" style="margin-bottom: 0">
         <div class="accordion-group">
             <div class="accordion-heading">
-                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-1234320624"></a>
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-1082299034"></a>
                                 <a href="../namespaces/Events.html" style="margin-left: 30px; padding-left: 0">Events</a>
             </div>
-            <div id="namespace-1234320624" class="accordion-body collapse ">
+            <div id="namespace-1082299034" class="accordion-body collapse ">
                 <div class="accordion-inner">
 
                     
@@ -173,19 +173,19 @@
                                                     <div class="accordion" style="margin-bottom: 0">
         <div class="accordion-group">
             <div class="accordion-heading">
-                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-132581133"></a>
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-757775714"></a>
                                 <a href="../namespaces/Grav.html" style="margin-left: 30px; padding-left: 0">Grav</a>
             </div>
-            <div id="namespace-132581133" class="accordion-body collapse ">
+            <div id="namespace-757775714" class="accordion-body collapse ">
                 <div class="accordion-inner">
 
                                                     <div class="accordion" style="margin-bottom: 0">
         <div class="accordion-group">
             <div class="accordion-heading">
-                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-1988221410"></a>
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-1012697157"></a>
                                 <a href="../namespaces/Grav.Plugin.html" style="margin-left: 30px; padding-left: 0">Plugin</a>
             </div>
-            <div id="namespace-1988221410" class="accordion-body collapse ">
+            <div id="namespace-1012697157" class="accordion-body collapse ">
                 <div class="accordion-inner">
 
                     
@@ -226,13 +226,11 @@
 
                     <h1><small>\Events</small>Events</h1>
                     <p><em>Events Plugin Events Class</em></p>
-                    <p>The Events Class instantiates an instance of all Events available in Grav
-and provides filters for filtering out uneeded events, setting offsets,
-limits and etc. This creates a listing of events applies repeat rules,
-for example <strong>MTWRFSU</strong>, frequency rules, for example <strong>daily, weekly,
-monthly, or yearly,</strong> creates event instances with just date information
-tied to a 6 digit token, and then it filters down and adds an events that
-need added to Grav Pages.</p>
+                    <p>The Events Class processes <code>event:</code> frontmatter and adds virtual Event pages
+to the Grav page stack depending on <strong>frequency</strong> and <strong>repeat</strong> rules. Each
+virtual page is assigned a new route using a static &amp; unique 6 character
+token based off the existing page id and date.</p>
+<p>PHP version 5.6+</p>
                     
                                         
                     <section id="summary">
@@ -265,10 +263,7 @@ need added to Grav Pages.</p>
                                                                     <em>No protected methods found</em>
                                                             </section>
                             <section class="span4">
-                                                                    <a href="../classes/Events.Events.html#property_grav" class="">$grav</a><br />
-                                                                    <a href="../classes/Events.Events.html#property_config" class="">$config</a><br />
                                                                     <a href="../classes/Events.Events.html#property_pages" class="">$pages</a><br />
-                                                                    <a href="../classes/Events.Events.html#property_events" class="">$events</a><br />
                                                                     <a href="../classes/Events.Events.html#property_taxonomy" class="">$taxonomy</a><br />
                                                             </section>
                             <section class="span4">
@@ -280,7 +275,7 @@ need added to Grav Pages.</p>
                                                                     <a href="../classes/Events.Events.html#method_preprocessEventPages" class="">preprocessEventPages()</a><br />
                                                                     <a href="../classes/Events.Events.html#method_processRepeatingEvents" class="">processRepeatingEvents()</a><br />
                                                                     <a href="../classes/Events.Events.html#method_processReoccuringEvents" class="">processReoccuringEvents()</a><br />
-                                                                    <a href="../classes/Events.Events.html#method_cloneEvent" class="">cloneEvent()</a><br />
+                                                                    <a href="../classes/Events.Events.html#method_clonePage" class="">clonePage()</a><br />
                                                             </section>
                             <section class="span4">
                                                                     <em>No private properties found</em>
@@ -315,6 +310,14 @@ need added to Grav Pages.</p>
                     <table class="table table-condensed">
                                             <tr>
                             <th>
+                                category
+                            </th>
+                            <td>
+                                                                    <p>Plugins</p>
+                                                            </td>
+                        </tr>
+                                            <tr>
+                            <th>
                                 author
                             </th>
                             <td>
@@ -342,7 +345,7 @@ need added to Grav Pages.</p>
                                 version
                             </th>
                             <td>
-                                                                    
+                                                                    <p>Major Refactor</p>
                                                             </td>
                         </tr>
                                             <tr>
@@ -368,54 +371,6 @@ need added to Grav Pages.</p>
 
                                                     <div class="row-fluid">
         <div class="span8 content class">
-            <a id="property_grav" name="property_grav" class="anchor"></a>
-            <article class="property">
-                <h3 class="protected ">$grav</h3>
-                <pre class="signature">$grav : object</pre>
-                <p><em></em></p>
-                
-
-                                <h4>Type</h4>
-                object
-                &mdash; Grav Object                            </article>
-        </div>
-        <aside class="span4 detailsbar">
-            <h1><i class="icon-arrow-down"></i></h1>
-                        <dl>
-                                                            </dl>
-            <h2>Tags</h2>
-            <table class="table table-condensed">
-                                    <tr><td colspan="2"><em>None found</em></td></tr>
-                            </table>
-        </aside>
-    </div>
-
-                                    <div class="row-fluid">
-        <div class="span8 content class">
-            <a id="property_config" name="property_config" class="anchor"></a>
-            <article class="property">
-                <h3 class="protected ">$config</h3>
-                <pre class="signature">$config : object</pre>
-                <p><em></em></p>
-                
-
-                                <h4>Type</h4>
-                object
-                &mdash; Grav Config                            </article>
-        </div>
-        <aside class="span4 detailsbar">
-            <h1><i class="icon-arrow-down"></i></h1>
-                        <dl>
-                                                            </dl>
-            <h2>Tags</h2>
-            <table class="table table-condensed">
-                                    <tr><td colspan="2"><em>None found</em></td></tr>
-                            </table>
-        </aside>
-    </div>
-
-                                    <div class="row-fluid">
-        <div class="span8 content class">
             <a id="property_pages" name="property_pages" class="anchor"></a>
             <article class="property">
                 <h3 class="protected ">$pages</h3>
@@ -433,31 +388,14 @@ need added to Grav Pages.</p>
                                                             </dl>
             <h2>Tags</h2>
             <table class="table table-condensed">
-                                    <tr><td colspan="2"><em>None found</em></td></tr>
-                            </table>
-        </aside>
-    </div>
-
-                                    <div class="row-fluid">
-        <div class="span8 content class">
-            <a id="property_events" name="property_events" class="anchor"></a>
-            <article class="property">
-                <h3 class="protected ">$events</h3>
-                <pre class="signature">$events : object</pre>
-                <p><em></em></p>
-                
-
-                                <h4>Type</h4>
-                object
-                &mdash; Grav Collection                            </article>
-        </div>
-        <aside class="span4 detailsbar">
-            <h1><i class="icon-arrow-down"></i></h1>
-                        <dl>
-                                                            </dl>
-            <h2>Tags</h2>
-            <table class="table table-condensed">
-                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                                    <tr>
+                        <th>
+                            since
+                        </th>
+                        <td>
+                                                            <p>Initial Release</p>
+                                                    </td>
+                    </tr>
                             </table>
         </aside>
     </div>
@@ -481,7 +419,14 @@ need added to Grav Pages.</p>
                                                             </dl>
             <h2>Tags</h2>
             <table class="table table-condensed">
-                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                                    <tr>
+                        <th>
+                            since
+                        </th>
+                        <td>
+                                                            <p>Initial Release</p>
+                                                    </td>
+                    </tr>
                             </table>
         </aside>
     </div>
@@ -499,25 +444,11 @@ need added to Grav Pages.</p>
             <article class="method">
                 <h3 class="public ">__construct()</h3>
                 <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
-                <pre class="signature" style="margin-right: 54px;">__construct(object  <span class="argument">$grav</span>, object  <span class="argument">$config</span>) : void</pre>
+                <pre class="signature" style="margin-right: 54px;">__construct() : void</pre>
                 <p><em>Events Class Construct</em></p>
-                <p>Through the construct we pull in the main Grav instance and the main
-config instance. We also set up the main rules and params to calculate
-against in other parts of this class.</p>
+                <p>Setup a pointer to pages and taxonomy for processing cloned event pages
+into Grav.</p>
 
-                                    <h4>Parameters</h4>
-                    <table class="table table-condensed table-hover">
-                                                    <tr>
-                                <td>object</td>
-                                <td>$grav </td>
-                                <td><p>Grav Instance</p></td>
-                            </tr>
-                                                    <tr>
-                                <td>object</td>
-                                <td>$config </td>
-                                <td><p>Grav Configuration</p></td>
-                            </tr>
-                                            </table>
                 
                 
                 				
@@ -548,12 +479,20 @@ against in other parts of this class.</p>
                 <h3 class="public ">all()</h3>
                 <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
                 <pre class="signature" style="margin-right: 54px;">all() : object</pre>
-                <p><em>Get an instance of events</em></p>
-                <p>This is the bulkhead of this class. It creates an events listing using
-various rules and params to add events to the page list while also
-adding all events, including repeating, to an events array with a
-searchable token. The events array contains the appropriate date
-information for use in templates</p>
+                <p><em>Process Event Pages</em></p>
+                <p>This is where the Events plugin processes events into new dynamic pages.
+There are 3 processing steps for updating <code>$this-&gt;pages</code> before returning
+it for use in the main plugin Events class.</p>
+<h3>STEP 1: Preprocess the Event</h3>
+<p>This processes all Grav pages for <code>event:</code> frontmatter and runs appropriate
+filters for adding the page to <code>@taxonomy.type: event</code>.</p>
+<h3>STEP 2: Process Repeating Events</h3>
+<p>In this step, we process the page for the horizontal structure of events.
+This processes events with <code>event: repeat</code> frontmatter duplicating pages
+and updating dates based on <code>MTWRFSU</code> params.</p>
+<h3>STEP 3: Process Reoccuring Events</h3>
+<p>The final processing step looks at pages with <code>event: freq</code> frontmatter.
+This clones the event vertically on a calender using <code>daily, weekly, monthly, yearly</code> params.</p>
 
                 
                 
@@ -574,7 +513,7 @@ information for use in templates</p>
                             since
                         </th>
                         <td>
-                                                            1.0.0                                <p>Initial Release</p>
+                                                            1.0.15                                <p>Major Refactor</p>
                                                     </td>
                     </tr>
                             </table>
@@ -587,17 +526,17 @@ information for use in templates</p>
             <article class="method">
                 <h3 class="private ">preprocessEventPages()</h3>
                 <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
-                <pre class="signature" style="margin-right: 54px;">preprocessEventPages(object  <span class="argument">$events</span>) : object</pre>
-                <p><em>STEP 1: Preprocess the Event
-Preprocess Event Pages</em></p>
-                <p>Take an events collection and preprocess the page header, etc for later
-date processing, slug processing, etc.</p>
+                <pre class="signature" style="margin-right: 54px;">preprocessEventPages(object  <span class="argument">$collection</span>) : object</pre>
+                <p><em>STEP 1: Preprocess Event Pages</em></p>
+                <p>Preprocess the front matter for processing down the line
+this adds carbon <code>_event:</code> frontmatter data for processing repeating
+dates and etc.</p>
 
                                     <h4>Parameters</h4>
                     <table class="table table-condensed table-hover">
                                                     <tr>
                                 <td>object</td>
-                                <td>$events </td>
+                                <td>$collection </td>
                                 <td><p>Grav Collection</p></td>
                             </tr>
                                             </table>
@@ -615,7 +554,14 @@ date processing, slug processing, etc.</p>
                                                                             </dl>
             <h2>Tags</h2>
             <table class="table table-condensed">
-                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                                    <tr>
+                        <th>
+                            since
+                        </th>
+                        <td>
+                                                            1.0.15                                <p>Major Refactor</p>
+                                                    </td>
+                    </tr>
                             </table>
         </aside>
     </div>
@@ -626,16 +572,16 @@ date processing, slug processing, etc.</p>
             <article class="method">
                 <h3 class="private ">processRepeatingEvents()</h3>
                 <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
-                <pre class="signature" style="margin-right: 54px;">processRepeatingEvents(object  <span class="argument">$events</span>) : object</pre>
-                <p><em>STEP 2: Process Repeating Events
-Process Repeating Events [MTWRFSU]</em></p>
-                
+                <pre class="signature" style="margin-right: 54px;">processRepeatingEvents(object  <span class="argument">$collection</span>) : object</pre>
+                <p><em>STEP 2: Process Repeating Events</em></p>
+                <p>Search for <code>event: repeat:</code> frontmatter and add repeating events to the
+collection via [MTWRFSU].</p>
 
                                     <h4>Parameters</h4>
                     <table class="table table-condensed table-hover">
                                                     <tr>
                                 <td>object</td>
-                                <td>$events </td>
+                                <td>$collection </td>
                                 <td><p>Grav Collection</p></td>
                             </tr>
                                             </table>
@@ -671,16 +617,21 @@ Process Repeating Events [MTWRFSU]</em></p>
             <article class="method">
                 <h3 class="private ">processReoccuringEvents()</h3>
                 <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
-                <pre class="signature" style="margin-right: 54px;">processReoccuringEvents(object  <span class="argument">$events</span>) : object</pre>
-                <p><em>STEP 3: Process Reoccuring Events
-Process Reoccuring Events</em></p>
-                
+                <pre class="signature" style="margin-right: 54px;">processReoccuringEvents(object  <span class="argument">$collection</span>) : object</pre>
+                <p><em>STEP 3: Process Reoccuring Events</em></p>
+                <p>Search for <code>event: freq:</code> frontmatter and add pages vertically down
+the calendar to the collection. This processor will also look for
+<code>event: until:</code> frontmatter for determining when to stop processing the
+reoccuring event. If this front matter doesn't exist, then the plugin will
+look for a value set in the plugin config (+6 months) and process
+reoccuring event out to this date. If you need the event to reoccur further
+than this default then you must set an until date.</p>
 
                                     <h4>Parameters</h4>
                     <table class="table table-condensed table-hover">
                                                     <tr>
                                 <td>object</td>
-                                <td>$events </td>
+                                <td>$collection </td>
                                 <td><p>Grav Collection</p></td>
                             </tr>
                                             </table>
@@ -698,20 +649,33 @@ Process Reoccuring Events</em></p>
                                                                             </dl>
             <h2>Tags</h2>
             <table class="table table-condensed">
-                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                                    <tr>
+                        <th>
+                            since
+                        </th>
+                        <td>
+                                                            1.0.15                                <p>Major Refactor</p>
+                                                    </td>
+                    </tr>
                             </table>
         </aside>
     </div>
 
                                     <div class="row-fluid">
         <div class="span8 content class">
-            <a id="method_cloneEvent" name="method_cloneEvent" class="anchor"></a>
+            <a id="method_clonePage" name="method_clonePage" class="anchor"></a>
             <article class="method">
-                <h3 class="private ">cloneEvent()</h3>
+                <h3 class="private ">clonePage()</h3>
                 <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
-                <pre class="signature" style="margin-right: 54px;">cloneEvent(object  <span class="argument">$page</span>, array  <span class="argument">$dates</span>,   <span class="argument">$rule = null</span>) : object</pre>
+                <pre class="signature" style="margin-right: 54px;">clonePage(object  <span class="argument">$page</span>, array  <span class="argument">$dates</span>, string  <span class="argument">$rule = null</span>) : object</pre>
                 <p><em>Clone an Event Page</em></p>
-                
+                <p>This function clones a Grav Page and adds it as a virtual page to
+<code>$this-&gt;pages</code>. It also adds the page to <code>$this-&gt;taxonomy</code> so that we can
+query pages in templates and collection headers using <code>@taxonomy.event</code>.
+This will not create a physical page that is added to the filesystem.</p>
+<p>Adding a new page to the system happens by adding the new dates to the
+<code>event:</code> frontmatter, updating the <code>$page-&gt;date</code>, and adding a new and
+unique <code>$page-&gt;path</code> and <code>$page-&gt;route</code>.</p>
 
                                     <h4>Parameters</h4>
                     <table class="table table-condensed table-hover">
@@ -726,9 +690,9 @@ Process Reoccuring Events</em></p>
                                 <td><p>Carbon Dates</p></td>
                             </tr>
                                                     <tr>
-                                <td></td>
+                                <td>string</td>
                                 <td>$rule </td>
-                                <td></td>
+                                <td><p>Rule for repeating events</p></td>
                             </tr>
                                             </table>
                 
@@ -745,7 +709,14 @@ Process Reoccuring Events</em></p>
                                                                             </dl>
             <h2>Tags</h2>
             <table class="table table-condensed">
-                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                                    <tr>
+                        <th>
+                            since
+                        </th>
+                        <td>
+                                                            1.0.1                                <p>Initial Release</p>
+                                                    </td>
+                    </tr>
                             </table>
         </aside>
     </div>
@@ -801,7 +772,7 @@ Process Reoccuring Events</em></p>
                 <section class="span10 offset1">
                     <hr />
                     Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor </a> and authored
-                    on October 2nd, 2016 at 04:08.
+                    on October 2nd, 2016 at 19:53.
                 </section>
             </section>
         </section>

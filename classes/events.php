@@ -1,21 +1,14 @@
 <?php
 /**
- * Grav Events Plugin Events Class
- *
- * The Events Class instantiates an instance of all Events available in Grav
- * and provides filters for filtering out uneeded events, setting offsets,
- * limits and etc.
- *
- * PHP version 5.6+
- *
- * @category   Plugins
- * @package    Events
- * @author     Kaleb Heitzman <kalebheitzman@gmail.com>
- * @copyright  2016 Kaleb Heitzman
- * @license    https://opensource.org/licenses/MIT MIT
- * @version    1.0.15
- * @link       https://github.com/kalebheitzman/grav-plugin-events
- * @since      1.0.0 Initial Release
+ *                  __ _           _ _           _    _
+ *                 / _| |         | | |         | |  | |
+ *   ___ _ __ __ _| |_| |_ ___  __| | |__  _   _| | _| |__
+ *  / __| '__/ _` |  _| __/ _ \/ _` | '_ \| | | | |/ / '_ \
+ * | (__| | | (_| | | | ||  __/ (_| | |_) | |_| |   <| | | |
+ *  \___|_|  \__,_|_|  \__\___|\__,_|_.__/ \__, |_|\_\_| |_|
+ *                                          __/ |
+ * Designed + Developed by Kaleb Heitzman  |___/
+ * (c) 2016
  */
 
 namespace Events;
@@ -30,132 +23,135 @@ use Grav\Common\Grav;
 /**
  * Events Plugin Events Class
  *
- * The Events Class instantiates an instance of all Events available in Grav
- * and provides filters for filtering out uneeded events, setting offsets,
- * limits and etc. This creates a listing of events applies repeat rules,
- * for example **MTWRFSU**, frequency rules, for example **daily, weekly,
- * monthly, or yearly,** creates event instances with just date information
- * tied to a 6 digit token, and then it filters down and adds an events that
- * need added to Grav Pages.
+ * The Events Class processes `event:` frontmatter and adds virtual Event pages
+ * to the Grav page stack depending on **frequency** and **repeat** rules. Each
+ * virtual page is assigned a new route using a static & unique 6 character
+ * token based off the existing page id and date.
  *
+ * PHP version 5.6+
+ *
+ * @category   Plugins
  * @package    Events
  * @author     Kaleb Heitzman <kalebheitzman@gmail.com>
  * @copyright  2016 Kaleb Heitzman
  * @license    https://opensource.org/licenses/MIT MIT
- * @version    1.0.15
+ * @version    1.0.15 Major Refactor
  * @link       https://github.com/kalebheitzman/grav-plugin-events
  * @since      1.0.0 Initial Release
  */
 class Events
 {
 	/**
-	 * @var object Grav Object
-	 */
-	protected $grav;
-
-	/**
-	 * @var object Grav Config
-	 */
-	protected $config;
-
-	/**
 	 * @var  object Grav Pages
+	 * @since  1.0.0 	Initial Release
 	 */
 	protected $pages;
 
 	/**
-	 * @var  object Grav Collection
-	 */
-	protected $events;
-
-	/**
 	 * @var object Grav Taxonomy
+	 * @since  1.0.0 	Initial Release
 	 */
 	protected $taxonomy;
 
 	/**
 	 * Events Class Construct
 	 *
-	 * Through the construct we pull in the main Grav instance and the main
-	 * config instance. We also set up the main rules and params to calculate
-	 * against in other parts of this class.
+	 * Setup a pointer to pages and taxonomy for processing cloned event pages
+	 * into Grav.
 	 *
-	 * @param object $grav   Grav Instance
-	 * @param object $config Grav Configuration
 	 * @since  1.0.0 Initial Release
-	 *
 	 * @return void
 	 */
-	public function __construct( $grav, $config )
+	public function __construct()
 	{
-		$this->grav = $grav;
-		$this->config = $config;
-		$this->taxonomy = $this->grav['taxonomy'];
+		// get a grav instance
+		$grav = \Grav\Common\Grav::instance();
+
+		// we use pages and taxonomy to add cloned pages back into the flow
+		$this->pages = $grav['pages'];
+		$this->taxonomy = $grav['taxonomy'];
 	}
 
 	/**
-	 * Get an instance of events
+	 * Process Event Pages
 	 *
-	 * This is the bulkhead of this class. It creates an events listing using
-	 * various rules and params to add events to the page list while also
-	 * adding all events, including repeating, to an events array with a
-	 * searchable token. The events array contains the appropriate date
-	 * information for use in templates
+	 * This is where the Events plugin processes events into new dynamic pages.
+	 * There are 3 processing steps for updating `$this->pages` before returning
+	 * it for use in the main plugin Events class.
 	 *
-	 * @since  1.0.0 Initial Release
+	 * ### STEP 1: Preprocess the Event
 	 *
+	 * This processes all Grav pages for `event:` frontmatter and runs appropriate
+	 * filters for adding the page to `@taxonomy.type: event`.
+	 *
+	 * ### STEP 2: Process Repeating Events
+	 *
+	 * In this step, we process the page for the horizontal structure of events.
+	 * This processes events with `event: repeat` frontmatter duplicating pages
+	 * and updating dates based on `MTWRFSU` params.
+	 *
+	 * ### STEP 3: Process Reoccuring Events
+	 *
+	 * The final processing step looks at pages with `event: freq` frontmatter.
+	 * This clones the event vertically on a calender using `daily, weekly,
+	 * monthly, yearly` params.
+	 *
+	 * @since  1.0.15 Major Refactor
 	 * @return object Grav Pages List
 	 */
 	public function all()
 	{
 		// get pages
-		$pages = $this->grav['pages'];
-		$this->pages = $pages;
+		$pages = $this->pages;
 
 		// get the events
 		$collection = $pages->all();
 		$events = $collection->ofType('event');
-		$this->events = $events;
 
 		/**
 		 * STEP 1: Preprocess the Event
-		 * preprocess the front matter for processing down the line
+		 *
+		 * Preprocess the front matter for processing down the line
 		 * this adds carbon _event frontmatter data for processing repeating
 		 * dates and etc.
 		 */
-		$events = $this->preprocessEventPages( $events );
+		$this->preprocessEventPages( $collection );
 
 		/**
 		 * STEP 2: Process Repeating Events
-		 * add repeating events to the collection [MTWRFSU]
+		 *
+		 * Add repeating events to the collection  via [MTWRFSU]
 		 */
-		$clones = $this->processRepeatingEvents( $events );
-		$events = $this->pages->all()->ofType('event');
+		$this->processRepeatingEvents( $collection );
 
 		/**
 		 * STEP 3: Process Reoccuring Events
-		 * add reoccuring events to the collection
-		 * [daily, weekly, monthly, yearly]
+		 *
+		 * Add reoccuring events to the collection [daily, weekly, monthly, yearly].
+		 * We also have to initialize the collection in order to get pages that have
+		 * been added to the flow.
 		 */
-		$this->processReoccuringEvents( $events );
+		$collection = $this->pages->all();
+		$this->processReoccuringEvents( $collection );
 
 		// merge the collection back into grav pages
 		return $this->pages;
 	}
 
 	/**
-	 * STEP 1: Preprocess the Event
-	 * Preprocess Event Pages
+	 * STEP 1: Preprocess Event Pages
 	 *
-	 * Take an events collection and preprocess the page header, etc for later
-	 * date processing, slug processing, etc.
+	 * Preprocess the front matter for processing down the line
+	 * this adds carbon `_event:` frontmatter data for processing repeating
+	 * dates and etc.
 	 *
-	 * @param  object $events Grav Collection
+	 * @param  object $collection Grav Collection
+	 * @since  1.0.15 Major Refactor
 	 * @return object $events Grav Collection
 	 */
-	private function preprocessEventPages( $events )
+	private function preprocessEventPages( $collection )
 	{
-		foreach ( $events as $page ) {
+		foreach ( $collection as $page ) {
 
 			// get header information
 			$header = $page->header();
@@ -176,8 +172,8 @@ class Events
 				$carbonEvent['until'] = Carbon::parse( $event['until'] );
 			}
 			elseif ( isset( $event['freq'] ) && ! isset( $event['until'] ) ) {
-				$carbonEvent['until'] = Carbon::parse( $event['start'] )->addMonths( 3 );
-				$header->event['until'] = Carbon::parse( $event['start'] )->addMonths( 3 )->format('m/d/Y g:ia');
+				$carbonEvent['until'] = Carbon::parse( $event['start'] )->addMonths( 6 );
+				$header->event['until'] = Carbon::parse( $event['start'] )->addMonths( 6 )->format('m/d/Y g:ia');
 			}
 
 			// setup grav date
@@ -200,23 +196,23 @@ class Events
 			$this->taxonomy->addTaxonomy($page, $newTaxonomy);
 		}
 
-		return $events;
+		return $collection;
 	}
 
 	/**
 	 * STEP 2: Process Repeating Events
-	 * Process Repeating Events [MTWRFSU]
 	 *
-	 * @param  object $events Grav Collection
+	 * Search for `event: repeat:` frontmatter and add repeating events to the
+	 * collection via [MTWRFSU].
 	 *
+	 * @param  object $collection Grav Collection
 	 * @since  1.0.15 Major Refactor
-	 *
 	 * @return object         Grav Collection
 	 */
-	private function processRepeatingEvents( $events )
+	private function processRepeatingEvents( $collection )
 	{
 		// look for events with repeat rules
-		foreach ( $events as $page ) {
+		foreach ( $collection as $page ) {
 			$header = $page->header();
 
 			if ( isset( $header->event['repeat'] ) ) {
@@ -248,24 +244,33 @@ class Events
 							$dates['end'] = $header->_event['end']->copy()->addDays($e_diff);
 
 							// clone the page and add the new dates
-							$clone = $this->cloneEvent( $page, $dates, $rule );
+							$clone = $this->clonePage( $page, $dates, $rule );
 						}
 					}
 				}
 			}
 		}
-		return $events;
+		return $collection;
 	}
 
 	/**
 	 * STEP 3: Process Reoccuring Events
-	 * Process Reoccuring Events
-	 * @param  object $events Grav Collection
+	 *
+	 * Search for `event: freq:` frontmatter and add pages vertically down
+	 * the calendar to the collection. This processor will also look for
+	 * `event: until:` frontmatter for determining when to stop processing the
+	 * reoccuring event. If this front matter doesn't exist, then the plugin will
+	 * look for a value set in the plugin config (+6 months) and process
+	 * reoccuring event out to this date. If you need the event to reoccur further
+	 * than this default then you must set an until date.
+	 *
+	 * @param  object $collection Grav Collection
+	 * @since  1.0.15 Major Refactor
 	 * @return object         Grav Collection
 	 */
-	private function processReoccuringEvents( $events )
+	private function processReoccuringEvents( $collection )
 	{
-		foreach ( $events as $page ) {
+		foreach ( $collection as $page ) {
 
 			$header = $page->header();
 
@@ -303,8 +308,6 @@ class Events
 				 */
 				for( $i=1; $i < $count; $i++ )
 				{
-					//$newStart = $start->copy();
-					//$newEnd = $end->copy();
 
 					// update the start and end dates of the event frontmatter
 					switch($freq) {
@@ -393,22 +396,33 @@ class Events
 					}
 
 					// get the new cloned event
-					$this->cloneEvent( $page, $dates );
+					$this->clonePage( $page, $dates );
 				}
 			}
 		}
 
-		return $events;
+		return $collection;
 	}
 
 	/**
 	 * Clone an Event Page
+	 *
+	 * This function clones a Grav Page and adds it as a virtual page to
+	 * `$this->pages`. It also adds the page to `$this->taxonomy` so that we can
+	 * query pages in templates and collection headers using `@taxonomy.event`.
+	 * This will not create a physical page that is added to the filesystem.
+	 *
+	 * Adding a new page to the system happens by adding the new dates to the
+	 * `event:` frontmatter, updating the `$page->date`, and adding a new and
+	 * unique `$page->path` and `$page->route`.
+	 *
 	 * @param  object $page  Grav Page
 	 * @param  array $dates  Carbon Dates
-	 * @param  integer $key	 Key for repeating events
+	 * @param  string $rule	 Rule for repeating events
+	 * @since  1.0.1 Initial Release
 	 * @return object        Grav Page
 	 */
-	private function cloneEvent( $page, $dates, $rule = null ) {
+	private function clonePage( $page, $dates, $rule = null ) {
 
 		// clone the page
 		$clone = clone $page;

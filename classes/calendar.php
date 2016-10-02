@@ -1,21 +1,15 @@
 <?php
 /**
- * Grav Events Plugin Calendar Class
- *
- * The Events Calendar Class provides variables for Twig to create a dynamic
- * calendar with previous and next links that relate to month and year. This
- * is used for display a traditional calendar and forming the rows and columns
- * that make up the calendar.
- *
- * @package    Events
- * @author     Kaleb Heitzman <kalebheitzman@gmail.com>
- * @copyright  2016 Kaleb Heitzman
- * @license    https://opensource.org/licenses/MIT MIT
- * @version    1.0.15
- * @link       https://github.com/kalebheitzman/grav-plugin-events
- * @since      File available since Release 1.0.0
+ *                  __ _           _ _           _    _
+ *                 / _| |         | | |         | |  | |
+ *   ___ _ __ __ _| |_| |_ ___  __| | |__  _   _| | _| |__
+ *  / __| '__/ _` |  _| __/ _ \/ _` | '_ \| | | | |/ / '_ \
+ * | (__| | | (_| | | | ||  __/ (_| | |_) | |_| |   <| | | |
+ *  \___|_|  \__,_|_|  \__\___|\__,_|_.__/ \__, |_|\_\_| |_|
+ *                                          __/ |
+ * Designed + Developed by Kaleb Heitzman  |___/
+ * (c) 2016
  */
-
 namespace Events;
 require_once __DIR__.'/../vendor/autoload.php';
 use Carbon\Carbon;
@@ -35,7 +29,7 @@ use Carbon\Carbon;
  * @author     Kaleb Heitzman <kalebheitzman@gmail.com>
  * @copyright  2016 Kaleb Heitzman
  * @license    https://opensource.org/licenses/MIT MIT
- * @version    1.0.8
+ * @version    1.0.15
  * @link       https://github.com/kalebheitzman/grav-plugin-events
  * @since      1.0.0 Initial Release
  */
@@ -45,9 +39,9 @@ class Calendar
 	 * Twig Calendar Vars
 	 *
 	 * Adds a url to the event header and stores each event in an associative
-	 * array that can be accessed from twig calendar template via **year,
+	 * array that can be accessed from `calendar.html.twig` via **year,
 	 * month, and day** params. Here is an example of accessing a particular
-	 * day on a calendar.
+	 * day on the calendar.
 	 *
 	 * ```twig
 	 * {% for events in calendar.events[calendar.year][calendar.month][day] %}
@@ -59,8 +53,8 @@ class Calendar
 	 * {% endfor %}
 	 * ```
 	 *
+	 * @since  1.0.0 Initial Release
 	 * @param  object $collection Grav Collection
-	 *
 	 * @return array              Calendar variables for Twig
 	 */
 	public function calendarVars( $collection )
@@ -111,10 +105,10 @@ class Calendar
 	 * {% calendar.prev %}
 	 * ```
 	 *
-	 * @param  object $yearParam  Grav URI `year:` param
-	 * @param  object $monthParam  Grav URI `month:` param
-	 *
-	 * @return array              Twig Array
+	 * @param  object $yearParam  	Grav URI `year:` param
+	 * @param  object $monthParam  	Grav URI `month:` param
+	 * @since  1.0.0. Initial Release
+	 * @return array              	Twig Array
 	 */
 	public function twigVars($yearParam, $monthParam)
 	{

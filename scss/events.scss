@@ -1,3 +1,4 @@
+
 // import bourbon & friends
 @import "../node_modules/bourbon/app/assets/stylesheets/bourbon";
 @import "../node_modules/bourbon-neat/app/assets/stylesheets/neat";
@@ -44,7 +45,6 @@ $event-border-radius: 						4px !default;
 	li {
 		display: inline-block;
 		margin-left: 0.5rem;
-	
 
 		span.color {
 			display: inline-block;
@@ -116,7 +116,7 @@ $event-border-radius: 						4px !default;
 
 	.calendar {
 		font-family: sans-serif;
-	
+
 
 		tr.headings {
 			th {
@@ -129,7 +129,7 @@ $event-border-radius: 						4px !default;
 			tr {
 
 				th {
-				
+
 					background: $calendar-headings-bg;
 				}
 
@@ -138,7 +138,6 @@ $event-border-radius: 						4px !default;
 			.calendar-button
 			.headings {
 				text-align: center;
-
 			}
 
 			.controls-container {
@@ -312,7 +311,7 @@ $event-border-radius: 						4px !default;
 			top: 0;
 			font-size: 3rem;
 			font-family: sans-serif;
-		
+
 			cursor: pointer;
 		}
 
