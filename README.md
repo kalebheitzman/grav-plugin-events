@@ -80,7 +80,7 @@ A collection of weekend events.
 ```yaml
 collection:
     @items:
-        @taxonomy.type: event
+        @taxonomy.type: 'event'
         @taxonomy.event_repeat: [S, U]
 ```
 
@@ -89,9 +89,17 @@ A collection of events that repeat weekly.
 ```yaml
 collection:
   @items:
-    @taxonomy.type: event
+    @taxonomy.type: 'event'
     @taxonomy.event_freq: 'weekly'
 ```
+
+A collection of featured events.
+
+```yaml
+collection:
+  @items:
+    @taxonomy.type: 'event'
+    @taxonomy.category: [ featured ]
 
 ### Twig templates and example
 
