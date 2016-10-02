@@ -84,7 +84,7 @@ collection:
         @taxonomy.event_repeat: [S, U]
 ```
 
-A collection of events that repeat weekly.
+A collection of weekly events.
 
 ```yaml
 collection:
