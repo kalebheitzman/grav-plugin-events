@@ -26,7 +26,7 @@
         event.preventDefault();
         return false;
       });
-      $('.calendar-day-link').on('click', function(event) {
+      $('.calendar').on('click', '.calendar-day-link', function(event) {
         var content, title;
         title = $(this).attr('title');
         content = $(this).parent().next('.events-list').html();
