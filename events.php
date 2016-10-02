@@ -72,10 +72,6 @@ use Events\EventsProcessor;
  * @version    1.0.15 Major Refactor
  * @link       https://github.com/kalebheitzman/grav-plugin-events
  * @since      1.0.0 Initial Release
- *
- * @todo 				Implement Date Formats
- * @todo 				Implement ICS Feeds
- * @todo 				Implement All Day Option
  */
 class EventsPlugin extends Plugin
 {
