@@ -17,28 +17,16 @@ $ bin/gpm install events
 
 You can also install this plugin from the Admin plugin using the plugins search feature.
 
-### Configuration
-
-
-
-#### Date translations
+### Translations
 
 Date translations can be enabled by setting `date_format.translate` to true in the config. They use the official [Grav translation files](https://github.com/getgrav/grav/tree/develop/system/languages), so if your language is missing, don't hesitate to contribute upstream.
 
-#### Sidebar link
-
-The sidebar template `partials/events_sidebar.html.twig` provides, if set, a link to see more events.
-
-You can configure it by changing the value of `default_events_page` in the config. Note that the expected pagename is relative to the root of your website.
-
-So if you want to point to `YOUR_SITE/events` (or `YOUR_SITE/lang/events` if translations are enabled in Grav), just set it to `events`.
-
 ### How it works
 
-**Events** parses all of your markdown files for event frontmatter and then automagically assigns taxonomies to your events based on whether they repeat through the week and through what intervals. This lets you build powerful collections based on the `event_freq` and `event_repeat` intervals. This lets you create custom displays. Forexample, if you want to build a list of all events that happen on Mondays you can filter on `'@taxonomy.event_repeat':['M']` or pull out your Weekly events by filtering on `'@taxonomy.event_freq':'weekly'`.
+**Events** parses all of your markdown files for `event:` frontmatter and then automagically assigns taxonomies to your events based on whether they repeat through the week and through what intervals. This lets you build powerful collections based on the `event_freq` and `event_repeat` intervals. This lets you create custom displays. For example, if you want to build a list of all events that happen on Mondays you can filter on `'@taxonomy.event_repeat':['M']` or pull out your Weekly events by filtering on `'@taxonomy.event_freq':'weekly'`.
 
 This plugin processes event frontmatter specified in the header in multiple
-ways. It adds any page found with event frontmatter to `@taxonomy.type = event`.
+ways. It adds any page found with event frontmatter to `''@taxonomy.type': 'event'`.
 This allows you to build collections based on this taxonomy type. The Taxonomy
 `type` is added dynamically to your Grav install.
 
