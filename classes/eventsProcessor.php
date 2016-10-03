@@ -304,26 +304,8 @@ class EventsProcessor
 				$start = Carbon::parse($header->event['start']);
 				$end   = Carbon::parse($header->event['end']);
 
-				/**
-				 * Calculate the iteration count depending on frequency set
-				 */
-				switch($freq) {
-					case 'daily':
-						$count = $until->diffInDays($start);
-						break;
-
-					case 'weekly':
-						$count = $until->diffInWeeks($start);
-						break;
-
-					case 'monthly':
-						$count = $until->diffInMonths($start);
-						break;
-
-					case 'yearly':
-						$count = $until->diffInYears($start);
-						break;
-				}
+				// get the iteration count
+				$count = $this->calculateCount( $freq, $until, $start );
 
 				/**
 				 * Calculate the New Dates based on the Count and Freq
@@ -495,6 +477,43 @@ class EventsProcessor
 		$this->taxonomy->addTaxonomy($clone, $clone->taxonomy());
 
 		return $clone;
+	}
+
+	/**
+	 * Recurring Count Calculator
+	 *
+	 * Calculate the recurring count for events
+	 *
+	 * @since  1.0.16 
+	 * @param  string $freq  Frequency to repeat
+	 * @param  object $until Carbon DateTime
+	 * @param  object $start Carbon DateTime
+	 * @return integer       Repeat Count
+	 */
+	private function calculateCount( $freq, $until, $start )
+	{
+		/**
+		 * Calculate the iteration count depending on frequency set
+		 */
+		switch($freq) {
+			case 'daily':
+				$count = $until->diffInDays($start);
+				break;
+
+			case 'weekly':
+				$count = $until->diffInWeeks($start);
+				break;
+
+			case 'monthly':
+				$count = $until->diffInMonths($start);
+				break;
+
+			case 'yearly':
+				$count = $until->diffInYears($start);
+				break;
+		}
+
+		return $count;
 	}
 
 }
