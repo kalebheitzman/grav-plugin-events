@@ -20,10 +20,7 @@ require_once __DIR__.'/classes/eventsProcessor.php';
 
 use Grav\Common\Plugin;
 use Grav\Common\Grav;
-use Grav\Common\Page\Collection;
 use Grav\Common\Page\Page;
-use Grav\Common\Page\Pages;
-use Grav\Common\Taxonomy;
 use RocketTheme\Toolbox\Event\Event;
 
 use Carbon\Carbon;
@@ -197,7 +194,7 @@ class EventsPlugin extends Plugin
 	public function onPagesInitialized()
 	{
 		// get instances of all events
-		$pages = $this->events->all();
+		$this->events->all();
 	}
 
 	/**

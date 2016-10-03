@@ -266,7 +266,7 @@ class EventsProcessor
 							$dates['end'] = $header->_event['end']->copy()->addDays($e_diff);
 
 							// clone the page and add the new dates
-							$clone = $this->clonePage( $page, $dates, $rule );
+							$this->clonePage( $page, $dates, $rule );
 						}
 					}
 				}
@@ -351,8 +351,6 @@ class EventsProcessor
 							$sWeekOfMonth = $start->copy()->weekOfMonth;
 							$sHours = $start->copy()->hour;
 							$sMinutes = $start->copy()->minute;
-							$sMonth = $start->copy()->month;
-							$sYear = $start->copy()->year;
 							$sNext = $start->copy()->addMonths($i)->firstOfMonth();
 
 							// end vars
@@ -360,8 +358,6 @@ class EventsProcessor
 							$eWeekOfMonth = $end->copy()->weekOfMonth;
 							$eHours = $end->copy()->hour;
 							$eMinutes = $end->copy()->minute;
-							$eMonth = $end->copy()->month;
-							$eYear = $end->copy()->year;
 							$eNext = $end->copy()->addMonths($i)->firstOfMonth();
 
 							// weeks
@@ -451,7 +447,6 @@ class EventsProcessor
 
 		// get the clone header
 		$header = clone $clone->header();
-		$taxonomy = $clone->taxonomy();
 
 		// update the header dates
 		$header->date = $dates['start']->format('m/d/Y g:i a');
