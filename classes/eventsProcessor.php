@@ -472,35 +472,9 @@ class EventsProcessor
 				$eMinutes = $end->copy()->minute;
 				$eNext = $end->copy()->addMonths($i)->firstOfMonth();
 
-				// weeks
-				$rd[1] = 'first';
-				$rd[2] = 'second';
-				$rd[3] = 'third';
-				$rd[4] = 'fourth';
-				$rd[5] = 'fifth';
-
-				// days
-				$ry[0] = 'sunday';
-				$ry[1] = 'monday';
-				$ry[2] = 'tuesday';
-				$ry[3] = 'wednesday';
-				$ry[4] = 'thursday';
-				$ry[5] = 'friday';
-				$ry[6] = 'saturday';
-
-				// months
-				$rm[1] = 'jan';
-				$rm[2] = 'feb';
-				$rm[3] = 'mar';
-				$rm[4] = 'apr';
-				$rm[5] = 'may';
-				$rm[6] = 'jun';
-				$rm[7] = 'jul';
-				$rm[8] = 'aug';
-				$rm[9] = 'sep';
-				$rm[10] = 'oct';
-				$rm[11] = 'nov';
-				$rm[12] = 'dec';
+				$rd = $this->getWeeks();
+				$ry = $this->getDays();
+				$rm = $this->getMonths();
 
 				// get the correct next date
 				$sStringDateTime = $rd[$sWeekOfMonth] . ' ' . $ry[$sDayOfWeek] . ' of ' . $rm[$sNext->month] . ' ' . $sNext->year;
@@ -520,6 +494,51 @@ class EventsProcessor
 		$newDates['end'] = $newEnd;
 
 		return $newDates;
+	}
+
+	private function getWeeks()
+	{
+		// weeks
+		$rd[1] = 'first';
+		$rd[2] = 'second';
+		$rd[3] = 'third';
+		$rd[4] = 'fourth';
+		$rd[5] = 'fifth';
+
+		return $rd;
+	}
+
+	private function getDays()
+	{
+		// days
+		$ry[0] = 'sunday';
+		$ry[1] = 'monday';
+		$ry[2] = 'tuesday';
+		$ry[3] = 'wednesday';
+		$ry[4] = 'thursday';
+		$ry[5] = 'friday';
+		$ry[6] = 'saturday';
+
+		return $ry;
+	}
+
+	private function getMonths()
+	{
+		// months
+		$rm[1] = 'jan';
+		$rm[2] = 'feb';
+		$rm[3] = 'mar';
+		$rm[4] = 'apr';
+		$rm[5] = 'may';
+		$rm[6] = 'jun';
+		$rm[7] = 'jul';
+		$rm[8] = 'aug';
+		$rm[9] = 'sep';
+		$rm[10] = 'oct';
+		$rm[11] = 'nov';
+		$rm[12] = 'dec';
+
+		return $rm;
 	}
 
 }
