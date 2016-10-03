@@ -57,7 +57,7 @@ class CalendarProcessor
 	 * @param  object $collection Grav Collection
 	 * @return array              Calendar variables for Twig
 	 */
-	public function calendarVars( $collection )
+	public function calendarVars( \Grav\Common\Page\Collection $collection )
 	{
 		// build a calendar array to use in twig
 		$calendar = array();

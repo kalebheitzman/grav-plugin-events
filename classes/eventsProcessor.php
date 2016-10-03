@@ -444,7 +444,7 @@ class EventsProcessor
 	 * @since  1.0.1 Initial Release
 	 * @return object        Grav Page
 	 */
-	private function clonePage( $page, $dates, $rule = null ) {
+	private function clonePage( \Grav\Common\Page\Page $page, $dates, $rule = null ) {
 
 		// clone the page
 		$clone = clone $page;
