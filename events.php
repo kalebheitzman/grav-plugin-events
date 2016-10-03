@@ -239,6 +239,10 @@ class EventsPlugin extends Plugin
 		$twig = 			$this->grav['twig'];
 		$assets = 		$this->grav['assets'];
 
+		/** @var Uri $uri */
+    $uri = 				$this->grav['uri'];
+    $type = 			$uri->extension();
+
 		// only load the vars if calendar page
 		if ($page->template() == 'calendar')
 		{
@@ -251,6 +255,28 @@ class EventsPlugin extends Plugin
 			// add calendar to twig as calendar
 			$twigVars['calendar']['events'] = $calVars;
 			$twig->twig_vars['calendar'] = array_shift($twigVars);
+
+			if ( $type == 'json' ) {
+				$twig->twig_vars['calendarJson'] = $this->calendar->calendarVars($collection);
+			}
+		}
+
+		// output on events
+		if ( $page->template() == 'events' && $type == 'json' ) {
+			$events = [];
+			foreach($collection as $page) {
+				$events[]['id'] = $page->id();
+				$events[]['title'] = $page->title();
+				$events[]['date'] = $page->date();
+				$events[]['header'] = $page->header();
+				$events[]['content'] = $page->content();
+				$events[]['summary'] = $page->summary();
+				$events[]['lang'] = $page->language();
+				$events[]['meta'] = $page->contentMeta();
+				$events[]['slug'] = $page->slug();
+				$events[]['permalink'] = $page->permalink();
+			}
+			$twig->twig_vars['eventsJson'] = $events;
 		}
 
 		// scripts
