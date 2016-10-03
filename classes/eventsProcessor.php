@@ -106,7 +106,7 @@ class EventsProcessor
 
 		// get the events
 		$collection = $pages->all();
-		$events = $collection->ofType('event');
+		$collection->ofType('event');
 
 		/**
 		 * STEP 1: Preprocess the Event
