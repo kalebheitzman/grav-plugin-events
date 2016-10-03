@@ -312,83 +312,8 @@ class EventsProcessor
 				 */
 				for( $i=1; $i < $count; $i++ )
 				{
-
-					// update the start and end dates of the event frontmatter
-					switch($freq) {
-						case 'daily':
-							$newStart = $start->copy()->addDays($i);
-							$newEnd = $end->copy()->addDays($i);
-							break;
-
-						case 'weekly':
-							$newStart = $start->copy()->addWeeks($i);
-							$newEnd = $end->copy()->addWeeks($i);
-							break;
-
-						// special case for monthly because there aren't the same
-						// number of days each month.
-						case 'monthly':
-							// start vars
-							$sDayOfWeek = $start->copy()->dayOfWeek;
-							$sWeekOfMonth = $start->copy()->weekOfMonth;
-							$sHours = $start->copy()->hour;
-							$sMinutes = $start->copy()->minute;
-							$sNext = $start->copy()->addMonths($i)->firstOfMonth();
-
-							// end vars
-							$eDayOfWeek = $end->copy()->dayOfWeek;
-							$eWeekOfMonth = $end->copy()->weekOfMonth;
-							$eHours = $end->copy()->hour;
-							$eMinutes = $end->copy()->minute;
-							$eNext = $end->copy()->addMonths($i)->firstOfMonth();
-
-							// weeks
-							$rd[1] = 'first';
-							$rd[2] = 'second';
-							$rd[3] = 'third';
-							$rd[4] = 'fourth';
-							$rd[5] = 'fifth';
-
-							// days
-							$ry[0] = 'sunday';
-							$ry[1] = 'monday';
-							$ry[2] = 'tuesday';
-							$ry[3] = 'wednesday';
-							$ry[4] = 'thursday';
-							$ry[5] = 'friday';
-							$ry[6] = 'saturday';
-
-							// months
-							$rm[1] = 'jan';
-							$rm[2] = 'feb';
-							$rm[3] = 'mar';
-							$rm[4] = 'apr';
-							$rm[5] = 'may';
-							$rm[6] = 'jun';
-							$rm[7] = 'jul';
-							$rm[8] = 'aug';
-							$rm[9] = 'sep';
-							$rm[10] = 'oct';
-							$rm[11] = 'nov';
-							$rm[12] = 'dec';
-
-							// get the correct next date
-							$sStringDateTime = $rd[$sWeekOfMonth] . ' ' . $ry[$sDayOfWeek] . ' of ' . $rm[$sNext->month] . ' ' . $sNext->year;
-							$eStringDateTime = $rd[$eWeekOfMonth] . ' ' . $ry[$eDayOfWeek] . ' of ' . $rm[$eNext->month] . ' ' . $eNext->year;
-
-							$newStart = Carbon::parse($sStringDateTime)->addHours($sHours)->addMinutes($sMinutes);
-							$newEnd = Carbon::parse($eStringDateTime)->addHours($eHours)->addMinutes($eMinutes);
-							break;
-
-						case 'yearly':
-							$newStart = $start->copy()->addYears($i);
-							$newEnd = $end->copy()->addYears($i);
-							break;
-					}
-
-					// build the date params
-					$dates['start'] = $newStart;
-					$dates['end'] = $newEnd;
+					// get the new dates
+					$dates = $this->calculateNewDates( $freq, $i, $start, $end );
 
 					// access the saved original for repeating MTWRFSU events
 					if (isset($page->header()->_event['page'])) {
@@ -484,13 +409,13 @@ class EventsProcessor
 	 *
 	 * Calculate the recurring count for events
 	 *
-	 * @since  1.0.16 
+	 * @since  1.0.16
 	 * @param  string $freq  Frequency to repeat
 	 * @param  object $until Carbon DateTime
 	 * @param  object $start Carbon DateTime
 	 * @return integer       Repeat Count
 	 */
-	private function calculateCount( $freq, $until, $start )
+	private function calculateCount( $freq, \Carbon\Carbon $until, \Carbon\Carbon $start )
 	{
 		/**
 		 * Calculate the iteration count depending on frequency set
@@ -514,6 +439,87 @@ class EventsProcessor
 		}
 
 		return $count;
+	}
+
+	private function calculateNewDates( $freq, $i, \Carbon\Carbon $start, \Carbon\Carbon $end )
+	{
+		// update the start and end dates of the event frontmatter
+		switch($freq) {
+			case 'daily':
+				$newStart = $start->copy()->addDays($i);
+				$newEnd = $end->copy()->addDays($i);
+				break;
+
+			case 'weekly':
+				$newStart = $start->copy()->addWeeks($i);
+				$newEnd = $end->copy()->addWeeks($i);
+				break;
+
+			// special case for monthly because there aren't the same
+			// number of days each month.
+			case 'monthly':
+				// start vars
+				$sDayOfWeek = $start->copy()->dayOfWeek;
+				$sWeekOfMonth = $start->copy()->weekOfMonth;
+				$sHours = $start->copy()->hour;
+				$sMinutes = $start->copy()->minute;
+				$sNext = $start->copy()->addMonths($i)->firstOfMonth();
+
+				// end vars
+				$eDayOfWeek = $end->copy()->dayOfWeek;
+				$eWeekOfMonth = $end->copy()->weekOfMonth;
+				$eHours = $end->copy()->hour;
+				$eMinutes = $end->copy()->minute;
+				$eNext = $end->copy()->addMonths($i)->firstOfMonth();
+
+				// weeks
+				$rd[1] = 'first';
+				$rd[2] = 'second';
+				$rd[3] = 'third';
+				$rd[4] = 'fourth';
+				$rd[5] = 'fifth';
+
+				// days
+				$ry[0] = 'sunday';
+				$ry[1] = 'monday';
+				$ry[2] = 'tuesday';
+				$ry[3] = 'wednesday';
+				$ry[4] = 'thursday';
+				$ry[5] = 'friday';
+				$ry[6] = 'saturday';
+
+				// months
+				$rm[1] = 'jan';
+				$rm[2] = 'feb';
+				$rm[3] = 'mar';
+				$rm[4] = 'apr';
+				$rm[5] = 'may';
+				$rm[6] = 'jun';
+				$rm[7] = 'jul';
+				$rm[8] = 'aug';
+				$rm[9] = 'sep';
+				$rm[10] = 'oct';
+				$rm[11] = 'nov';
+				$rm[12] = 'dec';
+
+				// get the correct next date
+				$sStringDateTime = $rd[$sWeekOfMonth] . ' ' . $ry[$sDayOfWeek] . ' of ' . $rm[$sNext->month] . ' ' . $sNext->year;
+				$eStringDateTime = $rd[$eWeekOfMonth] . ' ' . $ry[$eDayOfWeek] . ' of ' . $rm[$eNext->month] . ' ' . $eNext->year;
+
+				$newStart = Carbon::parse($sStringDateTime)->addHours($sHours)->addMinutes($sMinutes);
+				$newEnd = Carbon::parse($eStringDateTime)->addHours($eHours)->addMinutes($eMinutes);
+				break;
+
+			case 'yearly':
+				$newStart = $start->copy()->addYears($i);
+				$newEnd = $end->copy()->addYears($i);
+				break;
+		}
+
+		$newDates['start'] = $newStart;
+		$newDates['end'] = $newEnd;
+
+		return $newDates;
 	}
 
 }
