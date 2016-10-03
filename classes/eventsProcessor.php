@@ -441,6 +441,20 @@ class EventsProcessor
 		return $count;
 	}
 
+	/**
+	 * Calculate New Dates
+	 *
+	 * Calculates new dates based on the frequency and
+	 * loop counter. Use Carbon DateTime to calculate the
+	 * new dates.
+	 *
+	 * @param  string       $freq  Frequency
+	 * @param  integery     $i     Loop Counter
+	 * @param  CarbonCarbon $start DateTime
+	 * @param  CarbonCarbon $end   DateTime
+	 * @since  1.0.16
+	 * @return array               New Dates
+	 */
 	private function calculateNewDates( $freq, $i, \Carbon\Carbon $start, \Carbon\Carbon $end )
 	{
 		// update the start and end dates of the event frontmatter
@@ -496,6 +510,13 @@ class EventsProcessor
 		return $newDates;
 	}
 
+	/**
+	 * Get Weeks
+	 *
+	 * Human readable string for week of month
+	 * @since  1.0.16
+	 * @return array Weeks
+	 */
 	private function getWeeks()
 	{
 		// weeks
@@ -508,6 +529,13 @@ class EventsProcessor
 		return $rd;
 	}
 
+	/**
+	 * Get Days
+	 *
+	 * Human readable string for days of week
+	 * @since  1.0.16
+	 * @return array Days
+	 */
 	private function getDays()
 	{
 		// days
@@ -522,6 +550,13 @@ class EventsProcessor
 		return $ry;
 	}
 
+	/**
+	 * Get Months
+	 *
+	 * Human readable string for month of year
+	 * @since  1.0.16
+	 * @return array Months
+	 */
 	private function getMonths()
 	{
 		// months
