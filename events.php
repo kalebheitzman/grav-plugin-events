@@ -282,29 +282,40 @@ class EventsPlugin extends Plugin
 	 * @return void
 	 */
 	public function onAdminSave(Event $event)
-  {
+	{
 		// get the ojbect being saved
-  	$obj = $event['object'];
+  		$obj = $event['object'];
 
 		// check to see if the object is a `Page` with template `event`
-    if ($obj instanceof Page &&  $obj->template() == 'event' ) {
+ 		if ($obj instanceof Page &&  $obj->template() == 'event' ) {
 
 			// get the header
 			$header = $obj->header();
 
 			// check for location information
-    	if ( isset( $header->event['location'] ) && ! isset( $header->event['coordinates'] ) ) {
-	    	$location = $header->event['location'];
+		    	if ( isset( $header->event['location'] ) && ! isset( $header->event['coordinates'] ) ) {
+	    			$location = $header->event['location'];
 
-	    	// build a url
-	    	$url = "http://maps.googleapis.com/maps/api/geocode/json?address=" . urlencode($location);
+			    	// build a url
+	    			$url = "http://maps.googleapis.com/maps/api/geocode/json?address=" . urlencode($location);
 
-	    	// fetch the results
+			    	// fetch the results
 				$ch = curl_init();
 				curl_setopt($ch, CURLOPT_URL, $url);
 				curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 				$geoloc = json_decode(curl_exec($ch), true);
-
+	
+				foreach($geoloc['results'][0]['address_components'] AS $address_component) {
+					if($address_component['types'][0] === 'country' && $address_component['types'][1] === 'political') {
+						$header->event['country'] = $address_component['long_name'];
+					}
+					if($address_component['types'][0] === 'locality' && $address_component['types'][1] === 'political') {
+						$header->event['city'] = $address_component['long_name'];
+					}
+					if($address_component['types'][0] === 'postal_code') {
+						$header->event['zip'] = $address_component['long_name'];
+					}
+				}	
 				// build the coord string
 				$lat = $geoloc['results'][0]['geometry']['location']['lat'];
 				$lng = $geoloc['results'][0]['geometry']['location']['lng'];
@@ -313,7 +324,6 @@ class EventsPlugin extends Plugin
 				// set the header info
 				$header->event['coordinates'] = $coords;
 				$obj->header($header);
-    	}
-    }
-  }
+    		}
+	}
 }
