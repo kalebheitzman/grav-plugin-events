@@ -60,5 +60,11 @@ form:
               label: Coordinates
               placeholder: Latitude, Longitude
               help: These are automatically generated from the location field.
+            header.event.city:
+              type: hidden
+            header.event.zip:
+              type: hidden
+            header.event.country:
+              type: hidden
 
 
