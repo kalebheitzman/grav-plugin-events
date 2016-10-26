@@ -312,11 +312,11 @@ class EventsPlugin extends Plugin
 					$lat = $geoloc['results'][0]['geometry']['location']['lat'];
 					$lng = $geoloc['results'][0]['geometry']['location']['lng'];
 					$coords = $lat . ", " . $lng;
-				}
 
-				// set the header info
-				$header->event['coordinates'] = $coords;
-				$obj->header($header);
+					// set the header info
+					$header->event['coordinates'] = $coords;
+					$obj->header($header);
+				}
     	}
     }
   }
