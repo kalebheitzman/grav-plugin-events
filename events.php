@@ -304,11 +304,15 @@ class EventsPlugin extends Plugin
 				curl_setopt($ch, CURLOPT_URL, $url);
 				curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 				$geoloc = json_decode(curl_exec($ch), true);
+		
+				// check for results
+				if ( !empty( $geoloc['results'] ) ) {
 
-				// build the coord string
-				$lat = $geoloc['results'][0]['geometry']['location']['lat'];
-				$lng = $geoloc['results'][0]['geometry']['location']['lng'];
-				$coords = $lat . ", " . $lng;
+					// build the coord string
+					$lat = $geoloc['results'][0]['geometry']['location']['lat'];
+					$lng = $geoloc['results'][0]['geometry']['location']['lng'];
+					$coords = $lat . ", " . $lng;
+				}
 
 				// set the header info
 				$header->event['coordinates'] = $coords;
