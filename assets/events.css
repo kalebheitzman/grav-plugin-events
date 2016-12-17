@@ -186,7 +186,7 @@ html {
     .calendar-modal .calendar-modal-inner .calendar-close-modal {
       position: absolute;
       right: 1rem;
-      top: 0;
+      top: 1.5rem;
       font-size: 3rem;
       font-family: sans-serif;
       cursor: pointer; }
@@ -431,3 +431,5 @@ html {
   vertical-align: inherit;
   text-align: left;
   font-weight: inherit; }
+
+/*# sourceMappingURL=events.css.map */
