@@ -20,10 +20,7 @@ require_once __DIR__.'/classes/eventsProcessor.php';
 
 use Grav\Common\Plugin;
 use Grav\Common\Grav;
-use Grav\Common\Page\Collection;
 use Grav\Common\Page\Page;
-use Grav\Common\Page\Pages;
-use Grav\Common\Taxonomy;
 use RocketTheme\Toolbox\Event\Event;
 
 use Carbon\Carbon;
@@ -72,10 +69,6 @@ use Events\EventsProcessor;
  * @version    1.0.15 Major Refactor
  * @link       https://github.com/kalebheitzman/grav-plugin-events
  * @since      1.0.0 Initial Release
- *
- * @todo 				Implement Date Formats
- * @todo 				Implement ICS Feeds
- * @todo 				Implement All Day Option
  */
 class EventsPlugin extends Plugin
 {
@@ -201,7 +194,7 @@ class EventsPlugin extends Plugin
 	public function onPagesInitialized()
 	{
 		// get instances of all events
-		$pages = $this->events->all();
+		$this->events->all();
 	}
 
 	/**
@@ -246,6 +239,10 @@ class EventsPlugin extends Plugin
 		$twig = 			$this->grav['twig'];
 		$assets = 		$this->grav['assets'];
 
+		/** @var Uri $uri */
+    $uri = 				$this->grav['uri'];
+    $type = 			$uri->extension();
+
 		// only load the vars if calendar page
 		if ($page->template() == 'calendar')
 		{
@@ -258,6 +255,28 @@ class EventsPlugin extends Plugin
 			// add calendar to twig as calendar
 			$twigVars['calendar']['events'] = $calVars;
 			$twig->twig_vars['calendar'] = array_shift($twigVars);
+
+			if ( $type == 'json' ) {
+				$twig->twig_vars['calendarJson'] = $this->calendar->calendarVars($collection);
+			}
+		}
+
+		// output on events
+		if ( $page->template() == 'events' && $type == 'json' ) {
+			$events = [];
+			foreach($collection as $page) {
+				$events[]['id'] = $page->id();
+				$events[]['title'] = $page->title();
+				$events[]['date'] = $page->date();
+				$events[]['header'] = $page->header();
+				$events[]['content'] = $page->content();
+				$events[]['summary'] = $page->summary();
+				$events[]['lang'] = $page->language();
+				$events[]['meta'] = $page->contentMeta();
+				$events[]['slug'] = $page->slug();
+				$events[]['permalink'] = $page->permalink();
+			}
+			$twig->twig_vars['eventsJson'] = $events;
 		}
 
 		// scripts

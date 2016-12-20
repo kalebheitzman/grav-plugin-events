@@ -1,5 +1,4 @@
 # osx noise
-.DS_Store
 profile
 
 #ignore sass caches
@@ -9,7 +8,7 @@ profile
 .sublime-project
 .sublime-workspace
 
-#ignore packages 
+#ignore packages
 node_modules
 bower_components
 *.log

@@ -1,4 +1,7 @@
 {
+	"name": "kalebheitzman/grav-plugin-events",
+  "description": "Events plugin for Grav CMS",
+	"license": "MIT",
 	"require": {
 		"nesbot/Carbon": "*"
 	},
