@@ -52,7 +52,7 @@ html {
     font-size: 1.2em; }
     .calendar-container .controls .month-title {
       display: inline-block;
-      min-width: 170px;
+      width: 240px;
       font-size: 1.6rem;
       font-weight: normal;
       padding: 0 1rem; }
@@ -144,17 +144,6 @@ html {
             padding: 0; }
             .calendar-container .calendar tbody tr td .events ul li a {
               color: #222222; }
-          .calendar-container .calendar tbody tr td .events ul li:before {
-            content: "";
-            border-color: transparent #111;
-            border-style: solid;
-            border-width: 0.35em 0 0.35em 0.45em;
-            display: block;
-            height: 0;
-            width: 0;
-            left: -1em;
-            top: 0.9em;
-            position: relative; }
         .calendar-container .calendar tbody tr td .events .event {
           line-height: 1.2; }
           .calendar-container .calendar tbody tr td .events .event:hover {

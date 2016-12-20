@@ -91,7 +91,7 @@ $event-border-radius: 						4px !default;
 
 		.month-title {
 			display: inline-block;
-			min-width: 170px;
+			width: 240px;
 			font-size: 1.6rem;
 			font-weight: normal;
 			padding: 0 1rem;
@@ -246,19 +246,6 @@ $event-border-radius: 						4px !default;
 								a {
 									color: $calendar-event-link-color;
 								}
-							}
-
-							li:before {
-							    content: "";
-							    border-color: transparent #111;
-							    border-style: solid;
-							    border-width: 0.35em 0 0.35em 0.45em;
-							    display: block;
-							    height: 0;
-							    width: 0;
-							    left: -1em;
-							    top: 0.9em;
-							    position: relative;
 							}
 						}
 
