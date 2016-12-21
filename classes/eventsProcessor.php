@@ -42,16 +42,22 @@ use Grav\Common\Grav;
 class EventsProcessor
 {
 	/**
-	 * @var  object Grav Pages
-	 * @since  1.0.0 	Initial Release
+	 * @var  	object Grav Pages
+	 * @since  	1.0.0 	Initial Release
 	 */
 	protected $pages;
 
 	/**
-	 * @var object Grav Taxonomy
-	 * @since  1.0.0 	Initial Release
+	 * @var 	object Grav Taxonomy
+	 * @since  	1.0.0 	Initial Release
 	 */
 	protected $taxonomy;
+
+	/**
+	 * @var 	array Event Categories
+	 * @since  	1.0.16 
+	 */
+	protected $eventCategories;
 
 	/**
 	 * Events Class Construct
@@ -70,6 +76,9 @@ class EventsProcessor
 		// we use pages and taxonomy to add cloned pages back into the flow
 		$this->pages = $grav['pages'];
 		$this->taxonomy = $grav['taxonomy'];
+
+		// initialize eventCategories
+		$this->eventCategories = [];
 	}
 
 	/**
@@ -209,6 +218,15 @@ class EventsProcessor
 			// add taxonomies
 			$taxonomy = $page->taxonomy();
 			$newTaxonomy = array_merge($taxonomy, $eventTaxonomy);
+
+			// add categories to $eventCategories
+			if ( isset( $newTaxonomy['category'] ) ) {
+				foreach ($newTaxonomy['category'] as $category) {
+					if ( ! in_array($category, $this->eventCategories) ) {
+						array_push($this->eventCategories, $category);
+					}
+				}
+			}
 
 			// set the page taxonomy
 			$page->taxonomy($newTaxonomy);
@@ -415,6 +433,12 @@ class EventsProcessor
 		$this->taxonomy->addTaxonomy($clone, $clone->taxonomy());
 
 		return $clone;
+	}
+
+	public function getEventCategories()
+	{
+		sort($this->eventCategories);
+		return $this->eventCategories;
 	}
 
 	/**

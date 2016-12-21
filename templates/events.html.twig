@@ -30,9 +30,14 @@
         {% include 'partials/breadcrumbs.html.twig' %}
       {% endif %}
 
-      {% for event in events %}
-        {% include 'partials/event_item.html.twig' with { 'page': event , 'truncate': true, 'single': false } %}      
-      {% endfor %}
+      {% if events|length != 0 %}
+        {% for event in events %}
+          {% include 'partials/event_item.html.twig' with { 'page': event , 'truncate': true, 'single': false } %}      
+        {% endfor %}
+      {% else %}
+        <h3>{{ "PLUGIN_EVENTS.EVENTS.NO_EVENTS_TITLE"|t }}</h3>
+        <p>{{ "PLUGIN_EVENTS.EVENTS.NO_EVENTS_CONTENT"|t(uri.param('category')) }}</p>
+      {% endif %}
 
     </section>
 

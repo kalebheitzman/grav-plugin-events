@@ -198,59 +198,6 @@ html {
             line-height: 2;
             outline: none; }
 
-/* html5 .calendar-modal element */
-.calendar-modal {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 99;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: rgba(0, 0, 0, 0.25);
-  background: rgba(0, 0, 0, 0.25);
-  display: none; }
-  .calendar-modal .calendar-modal-inner {
-    background: #fff;
-    max-width: 700px;
-    margin: 6rem auto;
-    padding: 2rem 4rem;
-    position: relative;
-    font-family: sans-serif; }
-    .calendar-modal .calendar-modal-inner .calendar-close-modal {
-      position: absolute;
-      right: 1rem;
-      top: 1.5rem;
-      font-size: 3rem;
-      font-family: sans-serif;
-      cursor: pointer; }
-    .calendar-modal .calendar-modal-inner .calendar-modal-title {
-      font-size: 2rem; }
-    .calendar-modal .calendar-modal-inner .calendar-modal-content ul {
-      list-style: none;
-      padding-left: 0; }
-      .calendar-modal .calendar-modal-inner .calendar-modal-content ul li time {
-        width: 5rem;
-        display: inline-block;
-        color: #222; }
-
-/* html5 .event-button element */
-.event-button {
-  display: inline-block;
-  border: 2px solid #1BB3E9;
-  border-radius: 4px;
-  padding: 0.5rem 2rem;
-  color: #1BB3E9;
-  background: #ffffff; }
-  .event-button:hover {
-    color: #fff;
-    border: 2px solid #1BB3E9;
-    background: #1BB3E9; }
-
 /* html5 .events-container element */
 .events-container {
   max-width: 1200px;
@@ -331,17 +278,23 @@ html {
   .event-container .event-listing {
     float: left;
     display: block;
-    margin-right: 4.11092%;
-    width: 70.25402%; }
+    margin-right: 2.35765%;
+    width: 65.88078%; }
     .event-container .event-listing:last-child {
       margin-right: 0; }
   .event-container .events-sidebar {
     float: left;
     display: block;
-    margin-right: 4.11092%;
-    width: 25.63506%; }
+    margin-right: 2.35765%;
+    width: 31.76157%; }
     .event-container .events-sidebar:last-child {
       margin-right: 0; }
+    .event-container .events-sidebar .event-tags {
+      padding: 0;
+      margin: 0;
+      list-style: none; }
+      .event-container .events-sidebar .event-tags li {
+        display: inline; }
 
 /* html5 .event-article element */
 .event-article {
@@ -418,10 +371,9 @@ html {
   list-style: none;
   padding-left: 0; }
   .events-sidebar .events-list .event-day {
-    font-size: 2rem;
+    font-size: 1.2rem;
+    font-weight: bold;
     margin-top: 1rem; }
-  .events-sidebar .events-list .event-dow {
-    font-size: 1.2rem; }
 
 /* html5 .event-tags element */
 .event-tags {

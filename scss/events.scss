@@ -317,82 +317,6 @@ $event-border-radius: 					4px !default;
 	}
 }
 
-/* html5 .calendar-modal element */
-.calendar-modal {
-	position: fixed;
-	top: 0;
-	left: 0;
-	right: 0;
-	bottom: 0;
-	width: 100%;
-	height: 100%;
-	z-index: 99;
-	display: flex;
-  	align-items: center;
-  	justify-content: center;
-	@include background(rgba(0,0,0,0.25));
-
-	display: none;
-
-	.calendar-modal-inner {
-		background: #fff;
-		max-width: 700px;
-		margin: 6rem auto;
-		padding: 2rem 4rem;
-		position: relative;
-		font-family: sans-serif;
-
-		.calendar-close-modal {
-			position: absolute;
-			right: 1rem;
-			top: 1.5rem;
-			font-size: 3rem;
-			font-family: sans-serif;
-
-			cursor: pointer;
-		}
-
-		.calendar-modal-title {
-			font-size: 2rem;
-		}
-
-		.calendar-modal-content {
-
-
-			ul {
-				list-style: none;
-				padding-left: 0;
-
-				li {
-
-					time {
-						width: 5rem;
-						display: inline-block;
-						color: #222;
-					}
-				}
-			}
-		}
-
-	}
-}
-
-/* html5 .event-button element */
-.event-button {
-	display: inline-block;
-	border: $event-button-border;
-	border-radius: $event-button-border-radius;
-	padding: $event-button-padding;
-	color: $event-button-color;
-	background: $event-button-bg;
-
-	&:hover {
-		color: $event-button-hover-color;
-		border: $event-button-hover-border;
-		background: $event-button-hover-bg;
-	}
-}
-
 /* html5 .events-container element */
 .events-container {
 	@include outer-container();
@@ -459,11 +383,21 @@ $event-border-radius: 					4px !default;
 	@include outer-container();
 
 	.event-listing {
-		@include span-columns(5 of 7);
+		@include span-columns(8);
 	}
 
 	.events-sidebar {
-		@include span-columns(2 of 7);
+		@include span-columns(4);
+
+		.event-tags {
+			padding: 0;
+			margin: 0;
+			list-style: none;
+
+			li {
+				display: inline;
+			}
+		}
 	}
 }
 
@@ -551,11 +485,9 @@ $event-border-radius: 					4px !default;
 		padding-left: 0;
 
 		.event-day {
-			font-size: 2rem;
-			margin-top: 1rem;
-		}
-		.event-dow {
 			font-size: 1.2rem;
+			font-weight: bold;
+			margin-top: 1rem;
 		}
 	}
 }

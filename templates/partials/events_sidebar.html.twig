@@ -21,13 +21,21 @@
 %}
 
 <aside class="events-sidebar">
+  
+  <h3>{{ "PLUGIN_EVENTS.EVENTS.BY_CATEGORY"|t }}</h3>
+  <ul class="event-tags">
+  {% for category in eventCategories %}
+    <li><a href="{{ base_url }}/events/category{{ config.system.param_sep }}{{ category|e('url') }}">{{ category|capitalize }}</a></li>
+  {% endfor %}
+  </ul>
+
+  <h3>{{ "PLUGIN_EVENTS.EVENTS.UPCOMING_EVENTS"|t }}</h3>
   <ul class="events-list">
   {% set current_header = null %}
   {% for event in events %}
       {% set date_header = event.header.event.start|date('F d') %}
       {% if date_header != current_header %}
-      <li class="event-day">{{ date_header }}</li>
-      <li class="event-dow">{{ event.header.event.start|date('l') }}</li>
+      <li class="event-day">{{ event.header.event.start|date('l, F d') }}</li>
       {% endif %}
       <li>
           <time datetime="{{ event.header.event.start|date("c") }}">{{ event.header.event.start|date('g:i a')}}</time>
