@@ -32,14 +32,6 @@
             </span>
         {% endif %}
 
-        {% if page.taxonomy.tag %}
-            <span class="event-tags">
-                {% for tag in page.taxonomy.tag %}
-                <a href="{{ event.url|rtrim('/') }}/tag{{ config.system.param_sep }}{{ tag }}">{{ tag }}</a>
-                {% endfor %}
-            </span>
-        {% endif %}
-
     </footer>
 
 </article>

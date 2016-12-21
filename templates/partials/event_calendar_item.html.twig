@@ -1,7 +1,12 @@
-
-<span class="event-title">
-    <a href="{{ event.url }}" class="p-name u-url">
-        <time class="dt-start" datetime="{{ event.event.start|date("c") }}">{{ event.event.start|date("g:ia") }}-{{ event.event.end|date("g:ia") }}</time>
-        <span>{{ event.title }}</span>
+<div class="left-column">
+	<a href="{{ event.url }}" class="p-name u-url">
+		<img src="{{ event.media.images|first.cropResize(400,400).url() }}" />
+    	<time class="event-time dt-start" datetime="{{ event.header.event.start|date("c") }}">{{ event.header.event.start|date("g:ia") }}</time>
     </a>
-</span>
+</div>
+<div class="right-column">	
+    <p class="event-title">
+    	<a href="{{ event.url }}" class="p-name u-url">{{ event.title }}</a>
+    </p>
+    <div class="event-summary">{{ event.summary(50) }}</div>
+</div>
