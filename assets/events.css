@@ -18,115 +18,126 @@ html {
     clear: both;
     content: "";
     display: block; }
-  .calendar-container .calendar-title {
-    text-align: center;
-    display: none; }
-  .calendar-container .calendar-content {
-    display: none; }
-  .calendar-container .controls {
-    text-align: center;
-    font-size: 1.2em; }
-    .calendar-container .controls .month-title {
-      display: inline-block;
-      width: 240px;
-      font-size: 1.6rem;
-      font-weight: normal;
-      padding: 0 1rem; }
-    .calendar-container .controls .calendar-button {
-      display: inline-block;
-      width: 1.5rem;
-      line-height: 1.5rem;
-      background-color: #efefef;
-      color: #222222;
-      border-radius: 2px;
-      margin: 0 0.05em 0.5rem; }
-      .calendar-container .controls .calendar-button:hover {
+  .calendar-container .calendar-details {
+    float: left;
+    display: block;
+    margin-right: 2.35765%;
+    width: 40.29137%; }
+    .calendar-container .calendar-details:last-child {
+      margin-right: 0; }
+    .calendar-container .calendar-details .calendar-day-details {
+      display: none; }
+      .calendar-container .calendar-details .calendar-day-details.active {
+        display: block; }
+  .calendar-container .calendar-table {
+    float: left;
+    display: block;
+    margin-right: 2.35765%;
+    width: 57.35098%; }
+    .calendar-container .calendar-table:last-child {
+      margin-right: 0; }
+    .calendar-container .calendar-table .calendar-title {
+      text-align: center;
+      display: none; }
+    .calendar-container .calendar-table .calendar-content {
+      display: none; }
+    .calendar-container .calendar-table .controls {
+      text-align: center;
+      font-size: 1.2em; }
+      .calendar-container .calendar-table .controls .month-title {
+        display: inline-block;
+        width: 240px;
+        font-size: 1.2rem;
+        font-weight: normal;
+        padding: 0 1rem; }
+      .calendar-container .calendar-table .controls .calendar-button {
+        display: inline-block;
+        width: 1.5rem;
+        line-height: 1.5rem;
+        background-color: #efefef;
         color: #222222;
-        transition: background-color 0.15s ease;
-        background-color: #d7d7d7; }
-  .calendar-container .calendar {
-    font-family: sans-serif; }
-    .calendar-container .calendar tr.headings th {
-      text-align: center; }
-    .calendar-container .calendar thead tr th {
-      background: transparent; }
-    .calendar-container .calendar thead .calendar-button
-.headings {
-      text-align: center; }
-    .calendar-container .calendar thead .headings {
-      background: transparent;
-      color: #222222; }
-      .calendar-container .calendar thead .headings th {
-        line-height: 2.5; }
-    .calendar-container .calendar tbody tr td {
-      vertical-align: top;
-      padding: .45rem; }
-      .calendar-container .calendar tbody tr td.current .events .day {
-        background: #1BB3E9;
-        color: #ffffff; }
-        .calendar-container .calendar tbody tr td.current .events .day a {
-          color: #ffffff; }
-      .calendar-container .calendar tbody tr td .events-list {
-        background: #efefef;
-        width: auto;
-        height: 6.5rem;
-        overflow: scroll; }
-      .calendar-container .calendar tbody tr td .events {
-        position: relative;
+        border-radius: 2px;
+        margin: 0 0.05em 0.5rem; }
+        .calendar-container .calendar-table .controls .calendar-button:hover {
+          color: #222222;
+          transition: background-color 0.15s ease;
+          background-color: #d7d7d7; }
+    .calendar-container .calendar-table .calendar {
+      font-family: sans-serif; }
+      .calendar-container .calendar-table .calendar tr.headings th {
+        text-align: center;
         font-size: 0.75rem; }
-        .calendar-container .calendar tbody tr td .events .day {
-          background: #dddddd;
-          color: #888888;
-          width: 1.75rem;
-          height: 1.75rem;
-          line-height: 1.75rem;
+      .calendar-container .calendar-table .calendar thead tr th {
+        background: transparent; }
+      .calendar-container .calendar-table .calendar thead .calendar-button
+.headings {
+        text-align: center; }
+      .calendar-container .calendar-table .calendar thead .headings {
+        background: transparent;
+        color: #222222; }
+        .calendar-container .calendar-table .calendar thead .headings th {
+          line-height: 2.5; }
+      .calendar-container .calendar-table .calendar tbody tr td {
+        vertical-align: top;
+        padding: .45rem; }
+        .calendar-container .calendar-table .calendar tbody tr td.current .events .day a {
+          background: #1BB3E9;
+          color: #ffffff; }
+        .calendar-container .calendar-table .calendar tbody tr td .events-list {
+          width: auto; }
+        .calendar-container .calendar-table .calendar tbody tr td .events {
+          position: relative;
           font-size: 0.75rem;
-          text-align: center;
-          position: absolute;
-          top: 0;
-          right: 0; }
-          .calendar-container .calendar tbody tr td .events .day a {
-            display: block;
-            width: 100%;
-            height: 100%;
+          text-align: center; }
+          .calendar-container .calendar-table .calendar tbody tr td .events .day a {
+            color: #888888;
+            border-radius: 2.5rem;
+            background: #efefef;
+            display: inline-block;
+            width: 2.5rem;
             color: #222222; }
-            .calendar-container .calendar tbody tr td .events .day a:hover {
+            .calendar-container .calendar-table .calendar tbody tr td .events .day a:hover {
               background: #1BB3E9;
               color: #ffffff; }
-        .calendar-container .calendar tbody tr td .events .expand {
-          background: #dddddd;
-          color: #222222;
-          width: 1.75rem;
-          height: 1.75rem;
-          line-height: 1.75rem;
-          font-size: 0.75rem;
-          text-align: center;
-          position: absolute;
-          bottom: 0;
-          right: 0;
-          display: none; }
-        .calendar-container .calendar tbody tr td .events ul {
-          list-style: none;
-          padding: 0 0.5rem 0.25rem;
-          margin: 0.5rem 0.5rem 0.5rem 0; }
-          .calendar-container .calendar tbody tr td .events ul li {
-            padding: 0; }
-            .calendar-container .calendar tbody tr td .events ul li a {
-              color: #222222; }
-        .calendar-container .calendar tbody tr td .events .event {
-          line-height: 1.2; }
-          .calendar-container .calendar tbody tr td .events .event:hover {
-            height: auto; }
-        .calendar-container .calendar tbody tr td .events .view-all {
-          border: 0;
-          margin: 0;
-          padding: 0 0.75rem;
-          background: #d5d5d5;
-          position: absolute;
-          bottom: 0;
-          color: #000;
-          line-height: 2;
-          outline: none; }
+          .calendar-container .calendar-table .calendar tbody tr td .events .day span, .calendar-container .calendar-table .calendar tbody tr td .events .day a {
+            width: 2.5rem;
+            line-height: 2.5rem;
+            font-size: 0.75rem;
+            text-align: center; }
+          .calendar-container .calendar-table .calendar tbody tr td .events .expand {
+            background: #efefef;
+            color: #222222;
+            width: 1.75rem;
+            height: 1.75rem;
+            line-height: 1.75rem;
+            font-size: 0.75rem;
+            text-align: center;
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            display: none; }
+          .calendar-container .calendar-table .calendar tbody tr td .events ul {
+            list-style: none;
+            padding: 0 0.5rem 0.25rem;
+            margin: 0.5rem 0.5rem 0.5rem 0; }
+            .calendar-container .calendar-table .calendar tbody tr td .events ul li {
+              padding: 0; }
+              .calendar-container .calendar-table .calendar tbody tr td .events ul li a {
+                color: #222222; }
+          .calendar-container .calendar-table .calendar tbody tr td .events .event {
+            line-height: 1.2; }
+            .calendar-container .calendar-table .calendar tbody tr td .events .event:hover {
+              height: auto; }
+          .calendar-container .calendar-table .calendar tbody tr td .events .view-all {
+            border: 0;
+            margin: 0;
+            padding: 0 0.75rem;
+            background: #d5d5d5;
+            position: absolute;
+            bottom: 0;
+            color: #000;
+            line-height: 2;
+            outline: none; }
 
 /* html5 .calendar-modal element */
 .calendar-modal {

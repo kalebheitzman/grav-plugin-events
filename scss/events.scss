@@ -10,7 +10,7 @@ $calendar-control-button-bg:			#efefef !default;
 $calendar-control-button-color:			#222222 !default;
 $calendar-headings-bg:					transparent !default;
 $calendar-headings-color:				#222222 !default;
-$calendar-day-bg: 						#dddddd !default;
+$calendar-day-bg: 						#efefef !default;
 $calendar-day-color:					#222222 !default;
 $calendar-day-current-bg:				#1BB3E9 !default;
 $calendar-day-current-color:			#ffffff !default;
@@ -39,193 +39,209 @@ $event-border-radius: 					4px !default;
 .calendar-container {
 	@include outer-container();
 
-	.calendar-title {
-		text-align: center;
-		display: none;
+	.calendar-details {
+		@include span-columns(5);
+
+		.calendar-day-details {
+			display: none;
+
+			&.active {
+				display: block;
+			}
+		}
 	}
 
-	.calendar-content {
-		display: none;
-	}
+	.calendar-table {
+		@include span-columns(7);
 
-	.controls {
-		text-align: center;
-		font-size: 1.2em;
-
-		.month-title {
-			display: inline-block;
-			width: 240px;
-			font-size: 1.6rem;
-			font-weight: normal;
-			padding: 0 1rem;
+		.calendar-title {
+			text-align: center;
+			display: none;
 		}
 
-		.calendar-button {
-			display: inline-block;
-			width: 1.5rem;
-			line-height: 1.5rem;
-			background-color: $calendar-control-button-bg;
-			color: $calendar-control-button-color;
-			border-radius: 2px;
-			margin: 0 0.05em 0.5rem;
+		.calendar-content {
+			display: none;
+		}
 
-			&:hover {
+		.controls {
+			text-align: center;
+			font-size: 1.2em;
+
+			.month-title {
+				display: inline-block;
+				width: 240px;
+				font-size: 1.2rem;
+				font-weight: normal;
+				padding: 0 1rem;
+			}
+
+			.calendar-button {
+				display: inline-block;
+				width: 1.5rem;
+				line-height: 1.5rem;
+				background-color: $calendar-control-button-bg;
 				color: $calendar-control-button-color;
-				transition: background-color 0.15s ease;
-				background-color: shade($calendar-control-button-bg, 10);
-			}
-		}
-	}
+				border-radius: 2px;
+				margin: 0 0.05em 0.5rem;
 
-	.calendar {
-		font-family: sans-serif;
-
-
-		tr.headings {
-			th {
-				text-align: center;
+				&:hover {
+					color: $calendar-control-button-color;
+					transition: background-color 0.15s ease;
+					background-color: shade($calendar-control-button-bg, 10);
+				}
 			}
 		}
 
-		thead {
+		.calendar {
+			font-family: sans-serif;
 
-			tr {
-
+			tr.headings {
 				th {
+					text-align: center;
+					font-size: 0.75rem;
+				}
+			}
 
+			thead {
+
+				tr {
+
+					th {
+
+						background: $calendar-headings-bg;
+					}
+
+				}
+
+				.calendar-button
+				.headings {
+					text-align: center;
+				}
+
+				.controls-container {
+
+				}
+
+				.headings {
 					background: $calendar-headings-bg;
-				}
+					color: $calendar-headings-color;
 
-			}
-
-			.calendar-button
-			.headings {
-				text-align: center;
-			}
-
-			.controls-container {
-
-			}
-
-			.headings {
-				background: $calendar-headings-bg;
-				color: $calendar-headings-color;
-
-				th {
-					line-height: 2.5;
+					th {
+						line-height: 2.5;
+					}
 				}
 			}
-		}
 
-		tbody {
+			tbody {
 
-			tr {
+				tr {
 
-				td {
-					vertical-align: top;
-					padding: .45rem;
+					td {
+						vertical-align: top;
+						padding: .45rem;
 
-					&.current {
+						&.current {
+
+							.events {
+
+								.day {
+									
+									a {
+										background: $calendar-day-current-bg;
+										color: $calendar-day-current-color;
+									}
+								}
+							}
+						}
+
+						.events-list {
+							width: auto;
+
+							ul {
+
+							}
+						}
 
 						.events {
+							position: relative;
+							font-size: 0.75rem;
+							text-align: center;
 
 							.day {
-								background: $calendar-day-current-bg;
-								color: $calendar-day-current-color;
 
 								a {
-									color: $calendar-day-current-color;
+									color: lighten($calendar-day-color, 40);
+									border-radius: 2.5rem;
+									background: $calendar-day-bg;
+									display: inline-block;
+									width: 2.5rem;
+									color: $calendar-day-color;
+
+									&:hover {
+										background: $calendar-day-current-bg;
+										color: $calendar-day-current-color;
+									}
+								}
+
+								span, a {
+									width: 2.5rem;
+									line-height: 2.5rem;
+									font-size: 0.75rem;
+									text-align: center;
 								}
 							}
-						}
-					}
 
-					.events-list {
-						background: $calendar-day-block-bg;
-						width: auto;
-						height: 6.5rem;
-						overflow: scroll;
-					}
-
-					.events {
-						position: relative;
-						font-size: 0.75rem;
-
-						.day {
-							background: $calendar-day-bg;
-							color: lighten($calendar-day-color, 40);
-							width: 1.75rem;
-							height: 1.75rem;
-							line-height: 1.75rem;
-							font-size: 0.75rem;
-							text-align: center;
-							position: absolute;
-							top: 0;
-							right: 0;
-
-							a {
-								display: block;
-								width: 100%;
-								height: 100%;
+							.expand {
+								background: $calendar-day-bg;
 								color: $calendar-day-color;
+								width: 1.75rem;
+								height: 1.75rem;
+								line-height: 1.75rem;
+								font-size: 0.75rem;
+								text-align: center;
+								position: absolute;
+								bottom: 0;
+								right: 0;
+								display: none;
+							}
+
+							ul {
+								list-style: none;
+								padding: 0 0.5rem 0.25rem;
+								margin: 0.5rem 0.5rem 0.5rem 0;
+
+								li {
+									padding: 0;
+
+									a {
+										color: $calendar-event-link-color;
+									}
+								}
+							}
+
+							.event {
+								line-height: 1.2;
+
+								time {
+
+								}
 
 								&:hover {
-									background: $calendar-day-current-bg;
-									color: $calendar-day-current-color;
+									height: auto;
 								}
 							}
-						}
 
-						.expand {
-							background: $calendar-day-bg;
-							color: $calendar-day-color;
-							width: 1.75rem;
-							height: 1.75rem;
-							line-height: 1.75rem;
-							font-size: 0.75rem;
-							text-align: center;
-							position: absolute;
-							bottom: 0;
-							right: 0;
-							display: none;
-						}
-
-						ul {
-							list-style: none;
-							padding: 0 0.5rem 0.25rem;
-							margin: 0.5rem 0.5rem 0.5rem 0;
-
-							li {
-								padding: 0;
-
-								a {
-									color: $calendar-event-link-color;
-								}
+							.view-all {
+								border: 0;
+								margin: 0;
+								padding: 0 0.75rem;
+								background: #d5d5d5;
+								position: absolute;
+								bottom: 0;
+								color: #000;
+								line-height: 2;
+								outline: none;
 							}
-						}
-
-						.event {
-							line-height: 1.2;
-
-							time {
-
-							}
-
-							&:hover {
-								height: auto;
-							}
-						}
-
-						.view-all {
-							border: 0;
-							margin: 0;
-							padding: 0 0.75rem;
-							background: #d5d5d5;
-							position: absolute;
-							bottom: 0;
-							color: #000;
-							line-height: 2;
-							outline: none;
 						}
 					}
 				}
