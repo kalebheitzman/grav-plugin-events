@@ -26,30 +26,18 @@
         event.preventDefault();
         return false;
       });
-      $('.calendar').on('click', '.open-calendar-modal', function(event) {
-        var content, title;
+      $('.calendar').on('click', '.display-calendar-details', function(event) {
+        var $details, content, title;
+        $('.display-calendar-details').removeClass('active');
+        $(this).addClass('active');
         title = $(this).attr('title');
-        content = $(this).parent().next('.events-list').html();
-        $('.calendar-modal-title').html(title);
-        $('.calendar-modal-content').html(content);
-        $('.calendar-modal').fadeIn(100);
+        content = $(this).parent().next('.calendar-day-details').html();
+        $details = $('.calendar-details .calendar-day-details');
+        $details.hide();
+        $details.html(content);
+        $details.fadeIn(300);
         event.preventDefault();
         return false;
-      });
-      $('.calendar-close-modal').on('click', function(event) {
-        $('.calendar-modal').fadeOut(100);
-        event.preventDefault();
-        return false;
-      });
-      $(document).keyup(function(event) {
-        if (event.keyCode === 27) {
-          return $('.calendar-modal').fadeOut(100);
-        }
-      });
-      $(document).on('click', function(event) {
-        if (!$(event.target).closest('.calendar-modal-inner').is(":visible")) {
-          return $('.calendar-modal').fadeOut(100);
-        }
       });
     });
   })(jQuery);
