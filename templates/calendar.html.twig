@@ -9,23 +9,24 @@
     {% set prevMonthUrl = page.url ~ '/year:' ~ calendar.prev.date|date('Y') ~ '/month:' ~ calendar.prev.date|date('m') %}
     {% set nextMonthUrl = page.url ~ '/year:' ~ calendar.next.date|date('Y') ~ '/month:' ~ calendar.next.date|date('m') %}
 
+    <h1>{{ page.title }}</h1>
+
+    {{ page.content }}
+
     <section class="calendar-table">
 
         <table class="calendar">
             <thead>
-                <tr class="controls-container">
-                    <th colspan="1">
-                        <a href="{{ prevMonthUrl }}" class="calendar-control calendar-hide">{{ 'MONTHS_OF_THE_YEAR'|ta(calendar.prev.date|date('n') - 1) ~ calendar.prev.date|date(' Y') }}</a>
-                    </th>
-                    <th colspan="5" class="controls">
-                        <a href="{{ prevYearUrl }}" class="calendar-button calendar-control">&laquo;</a>
+                <tr class="controls">
+                    <th colspan="4" class="month">
                         <a href="{{ prevMonthUrl }}" class="calendar-button calendar-control">&lsaquo;</a>
-                        <span class="month-title">{{ 'MONTHS_OF_THE_YEAR'|ta(calendar.date|date('n') - 1) ~ calendar.date|date(' Y') }}</span>
+                        <span class="month">{{ 'MONTHS_OF_THE_YEAR'|ta(calendar.date|date('n') - 1) }}</span>
                         <a href="{{ nextMonthUrl }}" class="calendar-button calendar-control">&rsaquo;</a>
-                        <a href="{{ nextYearUrl }}" class="calendar-button calendar-control">&raquo;</a>
                     </th>
-                    <th colspan="1">
-                        <a href="{{ nextMonthUrl }}" class="calendar-control calendar-hide">{{ 'MONTHS_OF_THE_YEAR'|ta(calendar.next.date|date('n') - 1) ~ calendar.next.date|date(' Y') }}</a>
+                    <th colspan="3" class="year">
+                        <a href="{{ prevYearUrl }}" class="calendar-button calendar-control">&lsaquo;</a>
+                        <span class="year">{{ calendar.date|date(' Y') }}</span>
+                        <a href="{{ nextYearUrl }}" class="calendar-button calendar-control">&rsaquo;</a>
                     </th>
                 </tr>
                 <tr class="headings">
@@ -47,20 +48,45 @@
                     {% if loop.first and startDow != 0 %}
                         <td colspan="{{ startDow }}"></td>
                     {% endif %}
-                    <td {% if (day == calendar.currentDay) and (month == calendar.date|date("F")) %}class="current"{% endif %}>
+                    <td>
                         <div class="events">
                             {% if calendar.events[calendar.year][calendar.month][day] != null %}
     							{% set title_date = calendar.month ~ '/' ~ day ~ '/' ~ calendar.year %}
     							<div class="day">
-                                    <a class="calendar-day-link open-calendar-modal" href="#!" title="{{ title_date|date('l, F j, Y') }}">
+                                    <a 
+                                        class="calendar-day-link display-calendar-details {% if (day == calendar.currentDay) and (month == calendar.date|date("F")) %}active{% endif %}" 
+                                        href="#!" title="{{ title_date|date('l, F j, Y') }}">
                                         {{ day }}
                                     </a>
                                 </div>
     						{% else %}
-    							<div class="day">
-                                    <span>{{ day }}</span>
+    							<div class="day {% if (day == calendar.currentDay) and (month == calendar.date|date("F")) %}active{% endif %}">
+                                    <span >{{ day }}</span>
                                 </div>
                             {% endif %}
+                            
+                            <div class="calendar-day-details">
+                                {% set title_date = calendar.month ~ '/' ~ day ~ '/' ~ calendar.year %}
+                                <h4 class="day">{{ title_date|date('l, F j') }}</h4>
+
+                                <ul>
+                                    {% for events in calendar.events[calendar.year][calendar.month][day] %}
+                                        {% for event in events %}
+                                            {% if event.title %}
+                                                <li class="event">
+                                                    <span class="event-title">
+                                                        <a href="{{ event.url }}" class="p-name u-url">
+                                                            <time class="dt-start" datetime="{{ event.event.start|date("c") }}">{{ event.event.start|date("g:ia") }}-{{ event.event.end|date("g:ia") }}</time>
+                                                            <span>{{ event.title }}</span>
+                                                        </a>
+                                                    </span>
+                                                </li>
+                                            {% endif %}
+                                        {% endfor %}
+                                    {% endfor %}
+                                </ul>
+                            </div>
+
                         </div>
                     </td>
                     {% if loop.last and dow != 6 %}
@@ -82,34 +108,28 @@
 
     <section class="calendar-details">
 
-        {% for day in range(1,calendar.daysInMonth) %}
-            
-            {% if calendar.events[calendar.year][calendar.month][day] != null %}
-                <div class="calendar-day-details {% if (day == calendar.currentDay) and (month == calendar.date|date("F")) %}active{% endif %}">
-                    {% set title_date = calendar.month ~ '/' ~ day ~ '/' ~ calendar.year %}
-                    <h4 class="day">{{ title_date|date('l, F j') }}</h4>
-
-                    <ul>
-                        {% for events in calendar.events[calendar.year][calendar.month][day] %}
-                            {% for event in events %}
-                                {% if event.title %}
-                                    <li class="event">
-                                        <span class="event-title">
-                                            <a href="{{ event.url }}" class="p-name u-url">
-                                                <time class="dt-start" datetime="{{ event.event.start|date("c") }}">{{ event.event.start|date("g:ia") }}</time>
-                                                <span>{{ event.title }}</span>
-                                            </a>
-                                        </span>
-                                    </li>
-                                {% endif %}
-                            {% endfor %}
-                        {% endfor %}
-                    </ul>
-
-                </div>
-            {% endif %}
-
-        {% endfor %}
+        <div class="calendar-day-details">
+            {% set day = "now"|date("d") %}
+            {% set month = "now"|date("m") %}
+            {% set year = "now"|date("Y") %}
+            <h3 class="day">{{ "now"|date('l, F j') }}</h3>
+            <ul>
+                {% for events in calendar.events[year][month][day] %}
+                    {% for event in events %}
+                        {% if event.title %}
+                            <li class="event">
+                                <span class="event-title">
+                                    <a href="{{ event.url }}" class="p-name u-url">
+                                        <time class="dt-start" datetime="{{ event.event.start|date("c") }}">{{ event.event.start|date("g:ia") }}-{{ event.event.end|date("g:ia") }}</time>
+                                        <span>{{ event.title }}</span>
+                                    </a>
+                                </span>
+                            </li>
+                        {% endif %}
+                    {% endfor %}
+                {% endfor %}
+            </ul>
+        </div>
 
     </section>
 

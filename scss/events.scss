@@ -39,14 +39,17 @@ $event-border-radius: 					4px !default;
 .calendar-container {
 	@include outer-container();
 
+	a {
+		transition: 0.2s;
+	}
+
 	.calendar-details {
 		@include span-columns(5);
 
 		.calendar-day-details {
-			display: none;
-
-			&.active {
-				display: block;
+			
+			h3 {
+				font-size: 1.6rem;
 			}
 		}
 	}
@@ -63,17 +66,13 @@ $event-border-radius: 					4px !default;
 			display: none;
 		}
 
+		.calendar-day-details {
+			display: none;
+		}
+
 		.controls {
 			text-align: center;
-			font-size: 1.2em;
-
-			.month-title {
-				display: inline-block;
-				width: 240px;
-				font-size: 1.2rem;
-				font-weight: normal;
-				padding: 0 1rem;
-			}
+			font-size: 1em;
 
 			.calendar-button {
 				display: inline-block;
@@ -81,13 +80,42 @@ $event-border-radius: 					4px !default;
 				line-height: 1.5rem;
 				background-color: $calendar-control-button-bg;
 				color: $calendar-control-button-color;
-				border-radius: 2px;
+				border-radius: 1.5rem;
 				margin: 0 0.05em 0.5rem;
+				text-align: center; 
 
 				&:hover {
 					color: $calendar-control-button-color;
 					transition: background-color 0.15s ease;
 					background-color: shade($calendar-control-button-bg, 10);
+				}
+			}
+
+			span {
+				display: inline-block;
+			}
+			span.month {
+				width: 6rem;
+				text-align: center;
+			}
+			span.year {
+				width: 4rem;
+				text-align: center;
+			}
+
+			.month {
+				text-align: left;
+
+				.calendar-button:first-child {
+					margin-left: 1rem;
+				}
+			}
+
+			.year {
+				text-align: right;
+
+				.calendar-button:last-child {
+					margin-right: 0.5rem;
 				}
 			}
 		}
@@ -139,21 +167,7 @@ $event-border-radius: 					4px !default;
 					td {
 						vertical-align: top;
 						padding: .45rem;
-
-						&.current {
-
-							.events {
-
-								.day {
-									
-									a {
-										background: $calendar-day-current-bg;
-										color: $calendar-day-current-color;
-									}
-								}
-							}
-						}
-
+					
 						.events-list {
 							width: auto;
 
@@ -169,6 +183,10 @@ $event-border-radius: 					4px !default;
 
 							.day {
 
+								&.active {
+									color: $calendar-day-current-bg;
+								}
+
 								a {
 									color: lighten($calendar-day-color, 40);
 									border-radius: 2.5rem;
@@ -177,9 +195,12 @@ $event-border-radius: 					4px !default;
 									width: 2.5rem;
 									color: $calendar-day-color;
 
-									&:hover {
+									&:hover, &.active {
 										background: $calendar-day-current-bg;
 										color: $calendar-day-current-color;
+									}
+									&.active:hover {
+										background: lighten($calendar-day-current-bg, 5);
 									}
 								}
 

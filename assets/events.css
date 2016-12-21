@@ -18,6 +18,8 @@ html {
     clear: both;
     content: "";
     display: block; }
+  .calendar-container a {
+    transition: 0.2s; }
   .calendar-container .calendar-details {
     float: left;
     display: block;
@@ -25,10 +27,8 @@ html {
     width: 40.29137%; }
     .calendar-container .calendar-details:last-child {
       margin-right: 0; }
-    .calendar-container .calendar-details .calendar-day-details {
-      display: none; }
-      .calendar-container .calendar-details .calendar-day-details.active {
-        display: block; }
+    .calendar-container .calendar-details .calendar-day-details h3 {
+      font-size: 1.6rem; }
   .calendar-container .calendar-table {
     float: left;
     display: block;
@@ -41,27 +41,40 @@ html {
       display: none; }
     .calendar-container .calendar-table .calendar-content {
       display: none; }
+    .calendar-container .calendar-table .calendar-day-details {
+      display: none; }
     .calendar-container .calendar-table .controls {
       text-align: center;
-      font-size: 1.2em; }
-      .calendar-container .calendar-table .controls .month-title {
-        display: inline-block;
-        width: 240px;
-        font-size: 1.2rem;
-        font-weight: normal;
-        padding: 0 1rem; }
+      font-size: 1em; }
       .calendar-container .calendar-table .controls .calendar-button {
         display: inline-block;
         width: 1.5rem;
         line-height: 1.5rem;
         background-color: #efefef;
         color: #222222;
-        border-radius: 2px;
-        margin: 0 0.05em 0.5rem; }
+        border-radius: 1.5rem;
+        margin: 0 0.05em 0.5rem;
+        text-align: center; }
         .calendar-container .calendar-table .controls .calendar-button:hover {
           color: #222222;
           transition: background-color 0.15s ease;
           background-color: #d7d7d7; }
+      .calendar-container .calendar-table .controls span {
+        display: inline-block; }
+      .calendar-container .calendar-table .controls span.month {
+        width: 6rem;
+        text-align: center; }
+      .calendar-container .calendar-table .controls span.year {
+        width: 4rem;
+        text-align: center; }
+      .calendar-container .calendar-table .controls .month {
+        text-align: left; }
+        .calendar-container .calendar-table .controls .month .calendar-button:first-child {
+          margin-left: 1rem; }
+      .calendar-container .calendar-table .controls .year {
+        text-align: right; }
+        .calendar-container .calendar-table .controls .year .calendar-button:last-child {
+          margin-right: 0.5rem; }
     .calendar-container .calendar-table .calendar {
       font-family: sans-serif; }
       .calendar-container .calendar-table .calendar tr.headings th {
@@ -80,15 +93,14 @@ html {
       .calendar-container .calendar-table .calendar tbody tr td {
         vertical-align: top;
         padding: .45rem; }
-        .calendar-container .calendar-table .calendar tbody tr td.current .events .day a {
-          background: #1BB3E9;
-          color: #ffffff; }
         .calendar-container .calendar-table .calendar tbody tr td .events-list {
           width: auto; }
         .calendar-container .calendar-table .calendar tbody tr td .events {
           position: relative;
           font-size: 0.75rem;
           text-align: center; }
+          .calendar-container .calendar-table .calendar tbody tr td .events .day.active {
+            color: #1BB3E9; }
           .calendar-container .calendar-table .calendar tbody tr td .events .day a {
             color: #888888;
             border-radius: 2.5rem;
@@ -96,9 +108,11 @@ html {
             display: inline-block;
             width: 2.5rem;
             color: #222222; }
-            .calendar-container .calendar-table .calendar tbody tr td .events .day a:hover {
+            .calendar-container .calendar-table .calendar tbody tr td .events .day a:hover, .calendar-container .calendar-table .calendar tbody tr td .events .day a.active {
               background: #1BB3E9;
               color: #ffffff; }
+            .calendar-container .calendar-table .calendar tbody tr td .events .day a.active:hover {
+              background: #32bbeb; }
           .calendar-container .calendar-table .calendar tbody tr td .events .day span, .calendar-container .calendar-table .calendar tbody tr td .events .day a {
             width: 2.5rem;
             line-height: 2.5rem;
@@ -410,5 +424,3 @@ html {
   vertical-align: inherit;
   text-align: left;
   font-weight: inherit; }
-
-/*# sourceMappingURL=events.css.map */
