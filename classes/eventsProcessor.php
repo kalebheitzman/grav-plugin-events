@@ -314,10 +314,11 @@ class EventsProcessor
 				{
 					// get the new dates
 					$dates = $this->calculateNewDates( $freq, $i, $start, $end );
+					$header = $page->header();
 
 					// access the saved original for repeating MTWRFSU events
-					if (isset($page->header()->_event['page'])) {
-						$page = $page->header()->_event['page'];
+					if (isset($header->_event['page'])) {
+						$page = $header->_event['page'];
 					}
 
 					// get the new cloned event
@@ -354,6 +355,18 @@ class EventsProcessor
 
 		// get the clone header
 		$header = clone $clone->header();
+
+		// dont add events with exception dates
+		if ( isset( $header->event['exceptions'] ) ) {
+			$exceptions = $header->event['exceptions'];
+			$date = Carbon::parse( $header->date );
+			foreach ( $exceptions as $exception ) {
+				$exception = Carbon::parse( $exception['date'] );
+				if( $exception->isSameDay($dates['start']) ) {
+					return;
+				}
+			}
+		}
 
 		// update the header dates
 		$header->date = $dates['start']->format('m/d/Y g:i a');

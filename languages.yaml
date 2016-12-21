@@ -2,20 +2,20 @@ en:
   PLUGIN_EVENTS:
     CALENDAR:
       TODAY: Today
-      VIEW_MORE: View more
+      NO_EVENTS: No events are scheduled for today.
     EVENTS:
       BUTTON: Learn more
 fr:
   PLUGIN_EVENTS:
     CALENDAR:
       TODAY: "Aujourd'hui"
-      VIEW_MORE: Détails
+      NO_EVENTS: "Aucun événement n'est prévu pour aujourd'hui."
     EVENTS:
       BUTTON: En savoir plus
 de:
   PLUGIN_EVENTS:
     CALENDAR:
       TODAY: Heute
-      VIEW_MORE: Mehr sehen
+      NO_EVENTS: Heute sind keine Termine geplant.
     EVENTS:
       BUTTON: Erfahren Sie mehr

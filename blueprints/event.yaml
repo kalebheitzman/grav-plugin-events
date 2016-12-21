@@ -47,6 +47,19 @@ form:
               type: datetime
               label: Until
               help: How long should this event repeat? (3 months automatically if Repeat or Frequency are set)
+            header.event.exceptions-section:
+              type: section
+              title: Exceptions
+              underline: true
+            header.event.exceptions:
+              type: list
+              style: vertical
+              name: exceptions
+              label: Enter dates this repeating/reoccuring event will not meet.
+              fields:
+                .date:
+                  type: date
+                  label: Date
             header.event.lct:
               type: section
               title: Location

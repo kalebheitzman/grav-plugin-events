@@ -65,6 +65,7 @@ class CalendarProcessor
 		$collection->order('date', 'asc');
 
 		foreach($collection as $event) {
+
 			$header = $event->header();
 			$start = $header->event['start'];
 
@@ -74,11 +75,8 @@ class CalendarProcessor
  			$month = $carbonStart->month;
  			$day = $carbonStart->day;
 
- 			$eventItem = $event->toArray();
- 			$eventItem['header']['url'] = $event->url();
-
  			// add the event to the calendar
- 			$calendar[$year][$month][$day][] = $eventItem;
+ 			$calendar[$year][$month][$day][] = $event; //$eventItem;
 		}
 
 		return $calendar;

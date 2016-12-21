@@ -24,30 +24,19 @@
       false
 
     # Calendar Modal
-    $('.calendar').on 'click', '.calendar-day-link', (event) ->
+    $('.calendar').on 'click', '.display-calendar-details', (event) ->
+      $('.display-calendar-details').removeClass('active');
+      $(this).addClass('active');
       title = $(this).attr('title');
-      content = $(this).parent().next('.events-list').html();
-      $('.calendar-modal-title').html(title);
-      $('.calendar-modal-content').html(content);
-      $('.calendar-modal').fadeIn(100);
+      content = $(this).parent().next('.calendar-day-details').html();
+      
+      $details = $('.calendar-details .calendar-day-details');
+      $details.hide();
+      $details.html(content);
+      $details.fadeIn(300);
+      
       event.preventDefault()
       false
-
-    # Close calendar modal on click
-    $('.calendar-close-modal').on 'click', (event) ->
-      $('.calendar-modal').fadeOut(100);
-      event.preventDefault()
-      false
-
-    # Close calendar modal on esc press
-    $(document).keyup (event) ->
-      if (event.keyCode == 27)
-        $('.calendar-modal').fadeOut(100);
-
-    # Close calendar modal on outside click
-    $(document).on 'click', (event) ->
-      if ( ! $(event.target).closest('.calendar-modal-inner').is(":visible") )
-        $('.calendar-modal').fadeOut(100);
 
     return
   return
