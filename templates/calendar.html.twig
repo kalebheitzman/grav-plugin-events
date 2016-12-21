@@ -25,7 +25,7 @@
                     </th>
                     <th colspan="3" class="year">
                         <a href="{{ prevYearUrl }}" class="calendar-button calendar-control">&lsaquo;</a>
-                        <span class="year">{{ calendar.date|date(' Y') }}</span>
+                        <span class="year">{{ calendar.date|date(config.plugins.events.calendar.year) }}</span>
                         <a href="{{ nextYearUrl }}" class="calendar-button calendar-control">&rsaquo;</a>
                     </th>
                 </tr>
@@ -67,7 +67,7 @@
                             
                             <div class="calendar-day-details">
                                 {% set title_date = calendar.month ~ '/' ~ day ~ '/' ~ calendar.year %}
-                                <h4 class="day">{{ title_date|date('l, F j') }}</h4>
+                                <h4 class="day">{{ title_date|date(config.plugins.events.calendar.details.title) }}</h4>
                                 <ul>
                                     {% for event in calendar.events[calendar.year][calendar.month][day] %}
                                         {% if event.title %}
@@ -104,7 +104,7 @@
             {% set day = "now"|date("d") %}
             {% set month = "now"|date("m") %}
             {% set year = "now"|date("Y") %}
-            <h3 class="day">{{ "now"|date('l, F j') }}</h3>
+            <h3 class="day">{{ "now"|date(config.plugins.events.calendar.details.title) }}</h3>
             <ul>
                 {% if calendar.events[year][month][day] == null %}
                     <li>{{ "PLUGIN_EVENTS.CALENDAR.NO_EVENTS"|t }}</li>

@@ -12,10 +12,10 @@
     <section class="event-content">
       <div class="left-column">
         <time class="event-date" datetime="{{ page.date|date("c") }}">
-          <span class="day">{{ page.header.event.start|date("d") }}</span>
-          <span class="month">{{ config.plugins.events.date_format.translate ? 'MONTHS_OF_THE_YEAR'|ta(page.header.event.start|date('n') - 1) : page.header.event.start|date('M') }}</span>
+          <span class="day">{{ page.header.event.start|date(config.plugins.events.event_item.day) }}</span>
+          <span class="month">{{ page.header.event.start|date(config.plugins.events.event_item.month) }}</span>
           <span class="time">
-              {{ page.header.event.start|date('g:ia') }}&ndash;{{ page.header.event.end|date('g:ia') }}
+              {{ page.header.event.start|date(config.plugins.events.event_item.start_time) }}&ndash;{{ page.header.event.end|date(config.plugins.events.event_item.end_time) }}
           </span>
           <span class="year">{{ page.header.event.start|date("Y") }}</span>
         </time>
@@ -38,7 +38,7 @@
 
         {% else %}{# main listing page #}          
           <h2 class="event-title"><a href="{{ page.url }}">{{ page.title }}</a></h2>
-          <div class="event-summary">{{ page.summary(300) }} <span class="read-more"><a href="{{ page.url }}">Read More</a></span></div>
+          <div class="event-summary">{{ page.summary(300) }} <span class="read-more"><a href="{{ page.url }}">{{ "PLUGIN_EVENTS.EVENTS.READ_MORE"|t }}</a></span></div>
         
         {% endif %}
       </div>

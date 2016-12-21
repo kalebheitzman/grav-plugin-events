@@ -8,6 +8,7 @@ en:
       BY_CATEGORY: Event Categories
       NO_EVENTS_TITLE: No events
       NO_EVENTS_CONTENT: There are no upcoming events under the <strong>%s category.</strong>
+      READ_MORE: Read More
 fr:
   PLUGIN_EVENTS:
     CALENDAR:
