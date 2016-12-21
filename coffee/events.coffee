@@ -24,7 +24,7 @@
       false
 
     # Calendar Modal
-    $('.calendar').on 'click', '.calendar-day-link', (event) ->
+    $('.calendar').on 'click', '.open-calendar-modal', (event) ->
       title = $(this).attr('title');
       content = $(this).parent().next('.events-list').html();
       $('.calendar-modal-title').html(title);

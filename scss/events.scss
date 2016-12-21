@@ -7,69 +7,32 @@
  
 // calender specific variables
 $calendar-control-button-bg:			#efefef !default;
-$calendar-control-button-color:		#222222 !default;
-$calendar-headings-bg:						transparent !default;
-$calendar-headings-color:					#222222 !default;
-$calendar-day-bg: 								#dddddd !default;
-$calendar-day-color:							#222222 !default;
-$calendar-day-current-bg:					#1BB3E9 !default;
+$calendar-control-button-color:			#222222 !default;
+$calendar-headings-bg:					transparent !default;
+$calendar-headings-color:				#222222 !default;
+$calendar-day-bg: 						#dddddd !default;
+$calendar-day-color:					#222222 !default;
+$calendar-day-current-bg:				#1BB3E9 !default;
 $calendar-day-current-color:			#ffffff !default;
 $calendar-event-link-color:				#222222 !default;
-$calendar-day-block-bg:						#efefef !default;
+$calendar-day-block-bg:					#efefef !default;
 
 // event(s) specific variables
-$event-item-border: 							1px solid #efefef !default;
+$event-item-border: 					1px solid #efefef !default;
 $event-image-border-radius: 			3px !default;
-$event-button-color:							#1BB3E9 !default;
-$event-button-bg:									#ffffff !default;
-$event-button-border:							2px solid $event-button-color !default;
+$event-button-color:					#1BB3E9 !default;
+$event-button-bg:						#ffffff !default;
+$event-button-border:					2px solid $event-button-color !default;
 $event-button-hover-color:				#fff !default;
-$event-button-hover-bg:						$event-button-color !default;
+$event-button-hover-bg:					$event-button-color !default;
 $event-button-hover-border:				2px solid $event-button-color !default;
 $event-button-border-radius:			4px !default;
-$event-button-padding:						0.5rem 2rem;
-$event-border-radius: 						4px !default;
+$event-button-padding:					0.5rem 2rem;
+$event-border-radius: 					4px !default;
 
 /* html5 .calendar-hide */
 .calendar-hide {
 	display: none;
-}
-
-/* html5 .calendar-legend */
-.calendar-legend {
-	list-style: none;
-	padding-left: 0;
-	text-align: right;
-	width: 100%;
-
-	li {
-		display: inline-block;
-		margin-left: 0.5rem;
-
-		span.color {
-			display: inline-block;
-			width: 1.75rem;
-			font-size: 0.75rem;
-			line-height: 1.75rem;
-			background: $calendar-day-bg;
-			text-align: center;
-		}
-		span.key {
-			display: inline-block;
-			line-height: 1.5rem;
-			font-size: .75rem;
-		}
-
-		&.calendar-today {
-			.color {
-				background: $calendar-day-current-bg;
-				color: $calendar-day-current-color;
-			}
-		}
-		&.calendar-day-expander {
-
-		}
-	}
 }
 
 /* html5 .calendar-container element */
@@ -229,16 +192,8 @@ $event-border-radius: 						4px !default;
 
 						ul {
 							list-style: none;
-							padding: 0 0.75rem 0.25rem;
+							padding: 0 0.5rem 0.25rem;
 							margin: 0.5rem 0.5rem 0.5rem 0;
-
-							/*&:hover {
-								min-height: 6rem;
-								height: auto;
-								position: absolute;
-								outline: 1rem solid #fff;
-								z-index: 98;
-							}*/
 
 							li {
 								padding: 0;
@@ -260,6 +215,18 @@ $event-border-radius: 						4px !default;
 								height: auto;
 							}
 						}
+
+						.view-all {
+							border: 0;
+							margin: 0;
+							padding: 0 0.75rem;
+							background: #d5d5d5;
+							position: absolute;
+							bottom: 0;
+							color: #000;
+							line-height: 2;
+							outline: none;
+						}
 					}
 				}
 			}
@@ -278,8 +245,8 @@ $event-border-radius: 						4px !default;
 	height: 100%;
 	z-index: 99;
 	display: flex;
-  align-items: center;
-  justify-content: center;
+  	align-items: center;
+  	justify-content: center;
 	@include background(rgba(0,0,0,0.25));
 
 	display: none;
