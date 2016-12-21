@@ -1,15 +1,13 @@
-<span class="event-meta {{ event_class }}">
-    <ul>
+<p class="event-meta {{ event_class }}">
         {% if page.header.event.freq is defined %}
-        <li>Repeats {{ page.header.event.freq|capitalize }}</li>
+        <span>Repeats {{ page.header.event.freq|capitalize }}</span>
         {% endif %}
 
         {% if page.header.event.repeat is defined %}
-        <li>on {{ page.header.event.repeatDisplay }}</li>
+        <span>on {{ page.header.event.repeatDisplay }}</span>
         {% endif %}
 
         {% if page.header.event.until is defined %}
-        <li>until {{ page.header.event.until|date('F j, Y') }}</li>
+        <span>until {{ page.header.event.until|date('F j, Y') }}</span>
         {% endif %}
-    </ul>
-</span>
+</p>

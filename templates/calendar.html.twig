@@ -20,7 +20,7 @@
                 <tr class="controls">
                     <th colspan="4" class="month">
                         <a href="{{ prevMonthUrl }}" class="calendar-button calendar-control">&lsaquo;</a>
-                        <span class="month">{{ 'MONTHS_OF_THE_YEAR'|ta(calendar.date|date('n') - 1) }}</span>
+                        <span class="month">{{ calendar.date|date(config.plugins.events.calendar.month) }}</span>
                         <a href="{{ nextMonthUrl }}" class="calendar-button calendar-control">&rsaquo;</a>
                     </th>
                     <th colspan="3" class="year">
@@ -55,7 +55,7 @@
     							<div class="day">
                                     <a 
                                         class="calendar-day-link display-calendar-details {% if (day == calendar.currentDay) and (month == calendar.date|date("F")) %}active{% endif %}" 
-                                        href="#!" title="{{ title_date|date('l, F j, Y') }}">
+                                        href="#!" title="{{ title_date|date(config.plugins.events.calendar.anchor_title) }}">
                                         {{ day }}
                                     </a>
                                 </div>

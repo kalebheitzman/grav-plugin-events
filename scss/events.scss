@@ -3,6 +3,19 @@
 @import "../node_modules/bourbon/app/assets/stylesheets/bourbon";
 @import "../node_modules/bourbon-neat/app/assets/stylesheets/neat";
 
+
+// Sizes
+$mobile-size: 480px;
+$tablet-size: 768px;
+$desktop-size: 1124px;
+$largedesktop-size: 1824px;
+
+// Bourbon Neat Breakpoints
+$mobile: new-breakpoint(min-width $mobile-size 4);
+$tablet: new-breakpoint(min-width $tablet-size 12);
+$desktop: new-breakpoint(min-width $desktop-size 12);
+$largedesktop: new-breakpoint(min-width $largedesktop-size 16);
+
 /* colors taken from antimatter theme */
  
 // calender specific variables
@@ -44,7 +57,10 @@ $event-border-radius: 					4px !default;
 	}
 
 	.calendar-details {
-		@include span-columns(5);
+
+		@include media($tablet) {
+			@include span-columns(5);			
+		}
 
 		.calendar-day-details {
 			
@@ -100,7 +116,11 @@ $event-border-radius: 					4px !default;
 	}
 
 	.calendar-table {
-		@include span-columns(7);
+		
+		@include media($tablet) {
+			@include span-columns(7);			
+		}
+
 		margin-top: 1rem;
 
 		.calendar-title {
@@ -471,6 +491,10 @@ $event-border-radius: 					4px !default;
 		}
 	}
 
+	.event-meta {
+		font-style: italic;
+	}
+	
 	.event-footer {
 		@include row();
 	}

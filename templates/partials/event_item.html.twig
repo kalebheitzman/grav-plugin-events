@@ -35,24 +35,14 @@
         {% if single == true %}{# individual content page #}
           <h2 class="event-title">{{ page.title }}</h2>
           <div class="event-content">{{ page.content }}</div>
+           {% include 'partials/event_meta.html.twig' with { 'page': page } %}
 
         {% else %}{# main listing page #}          
           <h2 class="event-title"><a href="{{ page.url }}">{{ page.title }}</a></h2>
           <div class="event-summary">{{ page.summary(300) }} <span class="read-more"><a href="{{ page.url }}">{{ "PLUGIN_EVENTS.EVENTS.READ_MORE"|t }}</a></span></div>
-        
         {% endif %}
       </div>
         
     </section>
-
-    <footer class="event-footer">
-
-      {% if single == true %}
-        
-      {% else %}
-
-      {% endif %}
-
-    </footer>
 
 </article>

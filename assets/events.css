@@ -20,67 +20,70 @@ html {
     display: block; }
   .calendar-container a {
     transition: 0.2s; }
-  .calendar-container .calendar-details {
-    float: left;
-    display: block;
-    margin-right: 2.35765%;
-    width: 40.29137%; }
-    .calendar-container .calendar-details:last-child {
-      margin-right: 0; }
-    .calendar-container .calendar-details .calendar-day-details h3 {
-      font-size: 1.6rem; }
-    .calendar-container .calendar-details .calendar-day-details ul {
-      list-style: none;
-      padding: 0; }
-      .calendar-container .calendar-details .calendar-day-details ul li {
-        max-width: 1200px;
-        margin-left: auto;
-        margin-right: auto;
-        margin-bottom: 0.25rem; }
-        .calendar-container .calendar-details .calendar-day-details ul li::after {
-          clear: both;
-          content: "";
-          display: block; }
-        .calendar-container .calendar-details .calendar-day-details ul li .left-column {
-          float: left;
-          display: block;
-          margin-right: 2.35765%;
-          width: 31.76157%;
+  @media screen and (min-width: 768px) {
+    .calendar-container .calendar-details {
+      float: left;
+      display: block;
+      margin-right: 2.35765%;
+      width: 40.29137%; }
+      .calendar-container .calendar-details:last-child {
+        margin-right: 0; } }
+  .calendar-container .calendar-details .calendar-day-details h3 {
+    font-size: 1.6rem; }
+  .calendar-container .calendar-details .calendar-day-details ul {
+    list-style: none;
+    padding: 0; }
+    .calendar-container .calendar-details .calendar-day-details ul li {
+      max-width: 1200px;
+      margin-left: auto;
+      margin-right: auto;
+      margin-bottom: 0.25rem; }
+      .calendar-container .calendar-details .calendar-day-details ul li::after {
+        clear: both;
+        content: "";
+        display: block; }
+      .calendar-container .calendar-details .calendar-day-details ul li .left-column {
+        float: left;
+        display: block;
+        margin-right: 2.35765%;
+        width: 31.76157%;
+        position: relative; }
+        .calendar-container .calendar-details .calendar-day-details ul li .left-column:last-child {
+          margin-right: 0; }
+        .calendar-container .calendar-details .calendar-day-details ul li .left-column img {
+          z-index: 98;
           position: relative; }
-          .calendar-container .calendar-details .calendar-day-details ul li .left-column:last-child {
-            margin-right: 0; }
-          .calendar-container .calendar-details .calendar-day-details ul li .left-column img {
-            z-index: 98;
-            position: relative; }
-          .calendar-container .calendar-details .calendar-day-details ul li .left-column .event-time {
-            position: absolute;
-            z-index: 99;
-            background: #fff;
-            background: rgba(255, 255, 255, 0.75);
-            color: #222;
-            bottom: 8px;
-            right: 0;
-            padding: 0.25rem 0.5rem; }
-        .calendar-container .calendar-details .calendar-day-details ul li .right-column {
-          float: left;
-          display: block;
-          margin-right: 2.35765%;
-          width: 65.88078%; }
-          .calendar-container .calendar-details .calendar-day-details ul li .right-column:last-child {
-            margin-right: 0; }
-          .calendar-container .calendar-details .calendar-day-details ul li .right-column .event-title {
-            margin: 0;
-            font-weight: bold; }
-          .calendar-container .calendar-details .calendar-day-details ul li .right-column .event-summary p {
-            margin: 0.25rem 0; }
+        .calendar-container .calendar-details .calendar-day-details ul li .left-column .event-time {
+          position: absolute;
+          z-index: 99;
+          background: #fff;
+          background: rgba(255, 255, 255, 0.75);
+          color: #222;
+          bottom: 8px;
+          right: 0;
+          padding: 0.25rem 0.5rem; }
+      .calendar-container .calendar-details .calendar-day-details ul li .right-column {
+        float: left;
+        display: block;
+        margin-right: 2.35765%;
+        width: 65.88078%; }
+        .calendar-container .calendar-details .calendar-day-details ul li .right-column:last-child {
+          margin-right: 0; }
+        .calendar-container .calendar-details .calendar-day-details ul li .right-column .event-title {
+          margin: 0;
+          font-weight: bold; }
+        .calendar-container .calendar-details .calendar-day-details ul li .right-column .event-summary p {
+          margin: 0.25rem 0; }
   .calendar-container .calendar-table {
-    float: left;
-    display: block;
-    margin-right: 2.35765%;
-    width: 57.35098%;
     margin-top: 1rem; }
-    .calendar-container .calendar-table:last-child {
-      margin-right: 0; }
+    @media screen and (min-width: 768px) {
+      .calendar-container .calendar-table {
+        float: left;
+        display: block;
+        margin-right: 2.35765%;
+        width: 57.35098%; }
+        .calendar-container .calendar-table:last-child {
+          margin-right: 0; } }
     .calendar-container .calendar-table .calendar-title {
       text-align: center;
       display: none; }
@@ -359,6 +362,8 @@ html {
         margin-right: 0; }
       .event-article .event-content .right-column .event-summary * {
         display: inline; }
+  .event-article .event-meta {
+    font-style: italic; }
   .event-article .event-footer {
     display: block; }
     .event-article .event-footer::after {
