@@ -51,6 +51,15 @@ $event-border-radius: 					4px !default;
 			h3 {
 				font-size: 1.6rem;
 			}
+
+			ul {
+				list-style: none;
+				padding: 0;
+
+				li {
+
+				}
+			}
 		}
 	}
 
@@ -107,7 +116,7 @@ $event-border-radius: 					4px !default;
 				text-align: left;
 
 				.calendar-button:first-child {
-					margin-left: 1rem;
+					margin-left: 0.75rem;
 				}
 			}
 
@@ -115,7 +124,7 @@ $event-border-radius: 					4px !default;
 				text-align: right;
 
 				.calendar-button:last-child {
-					margin-right: 0.5rem;
+					margin-right: 0.25rem;
 				}
 			}
 		}

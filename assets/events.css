@@ -29,6 +29,9 @@ html {
       margin-right: 0; }
     .calendar-container .calendar-details .calendar-day-details h3 {
       font-size: 1.6rem; }
+    .calendar-container .calendar-details .calendar-day-details ul {
+      list-style: none;
+      padding: 0; }
   .calendar-container .calendar-table {
     float: left;
     display: block;
@@ -70,11 +73,11 @@ html {
       .calendar-container .calendar-table .controls .month {
         text-align: left; }
         .calendar-container .calendar-table .controls .month .calendar-button:first-child {
-          margin-left: 1rem; }
+          margin-left: 0.75rem; }
       .calendar-container .calendar-table .controls .year {
         text-align: right; }
         .calendar-container .calendar-table .controls .year .calendar-button:last-child {
-          margin-right: 0.5rem; }
+          margin-right: 0.25rem; }
     .calendar-container .calendar-table .calendar {
       font-family: sans-serif; }
       .calendar-container .calendar-table .calendar tr.headings th {

@@ -68,18 +68,12 @@
                             <div class="calendar-day-details">
                                 {% set title_date = calendar.month ~ '/' ~ day ~ '/' ~ calendar.year %}
                                 <h4 class="day">{{ title_date|date('l, F j') }}</h4>
-
                                 <ul>
                                     {% for events in calendar.events[calendar.year][calendar.month][day] %}
                                         {% for event in events %}
                                             {% if event.title %}
                                                 <li class="event">
-                                                    <span class="event-title">
-                                                        <a href="{{ event.url }}" class="p-name u-url">
-                                                            <time class="dt-start" datetime="{{ event.event.start|date("c") }}">{{ event.event.start|date("g:ia") }}-{{ event.event.end|date("g:ia") }}</time>
-                                                            <span>{{ event.title }}</span>
-                                                        </a>
-                                                    </span>
+                                                    {% include 'partials/event_calendar_item.html.twig' with { 'event':event } %}
                                                 </li>
                                             {% endif %}
                                         {% endfor %}
@@ -118,12 +112,7 @@
                     {% for event in events %}
                         {% if event.title %}
                             <li class="event">
-                                <span class="event-title">
-                                    <a href="{{ event.url }}" class="p-name u-url">
-                                        <time class="dt-start" datetime="{{ event.event.start|date("c") }}">{{ event.event.start|date("g:ia") }}-{{ event.event.end|date("g:ia") }}</time>
-                                        <span>{{ event.title }}</span>
-                                    </a>
-                                </span>
+                                {% include 'partials/event_calendar_item.html.twig' with { 'event':event } %}
                             </li>
                         {% endif %}
                     {% endfor %}
