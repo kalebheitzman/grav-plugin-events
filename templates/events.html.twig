@@ -36,7 +36,7 @@
         {% endfor %}
       {% else %}
         <h3>{{ "PLUGIN_EVENTS.EVENTS.NO_EVENTS_TITLE"|t }}</h3>
-        <p>{{ "PLUGIN_EVENTS.EVENTS.NO_EVENTS_CONTENT"|t(uri.param('category')) }}</p>
+        <p>{{ ("PLUGIN_EVENTS.EVENTS.NO_EVENTS_CONTENT"|t(uri.param('category')))|markdown }}</p>
       {% endif %}
 
     </section>
