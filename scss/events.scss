@@ -397,66 +397,6 @@ $event-border-radius: 					4px !default;
 .events-container {
 	@include outer-container();
 
-	.featured-events {
-		display: flex;
-		flex-wrap: wrap;
-		justify-content: space-between;
-
-		.featured-event {
-			flex-basis: 40%;
-    	flex-grow: 1;
-			margin: 0 1rem 2rem;
-
-			.featured-event-masthead {
-				position: relative;
-
-				img {
-					display: block;
-					border-top-left-radius: $event-border-radius;
-					border-top-right-radius: $event-border-radius;
-				}
-
-				.featured-event-title {
-					position: absolute;
-					bottom: 2rem;
-					padding: 0 2rem;
-					margin: 0;
-					@include background(rgba(255,255,255,0.8));
-
-					color: #222;
-
-					a {
-						color: #222;
-					}
-				}
-			}
-
-			.featured-event-content {
-				border: 1px solid #efefef;
-				padding: 0.5rem 2rem;
-				overflow: hidden;
-
-				border-bottom-left-radius: $event-border-radius;
-				border-bottom-right-radius: $event-border-radius;
-
-				.event-meta-information {
-					padding-left: 0;
-					list-style: none;
-					display: block;
-
-					li {
-						display: inline-block;
-						margin-right: 1em;
-
-						i {
-							width: 1rem;
-						}
-					}
-				}
-			}
-		}
-	}
-
 	.events-listing {
 		padding-bottom: 2rem;
 
@@ -529,51 +469,72 @@ $event-border-radius: 					4px !default;
 
 /* html5 .event-article element */
 .event-article {
-	padding: 1rem 0;
+	padding: 1rem 0 1.5rem;
+	margin-bottom: 1rem;
+	border-bottom: 1px solid #efefef;
 
 	.event-header {
 		@include row();
 		position: relative;
-
-		.event-date {
-			position: absolute;
-			text-align: right;
-			top: 0;
-			right: 0;
-			padding: 0.25rem 1rem;
-			@include background(rgba(255,255,255,0.85));
-			color: #222;
-			height: 140px;
-			width: 160px;
-
-			.day {
-				display: block;
-				font-size: 3.75rem;
-				font-weight: bold;
-				margin: 0;
-				line-height: 1;
-			}
-			.month {
-				display: block;
-				text-transform: uppercase;
-				font-weight: bold;
-				font-size: 1.35rem;
-				line-height: 1;
-				margin: 0.5rem 0;
-			}
-			.time {
-				display: block;
-				line-height: 1;
-			}
-			.year {
-				display: none;
-			}
-		}
-
 	}
 
 	.event-content {
 		@include row();
+
+		.left-column {
+			@include span-columns(2);
+
+			.event-date {
+				text-align: right;
+				color: #555;
+				margin: 1.75rem 1rem 0 0;
+				display: block;
+
+				.day {
+					display: block;
+					font-size: 2.75rem;
+					font-weight: bold;
+					margin: 0;
+					line-height: 1;
+				}
+				.month {
+					display: block;
+					text-transform: uppercase;
+					font-weight: bold;
+					font-size: 1rem;
+					line-height: 1;
+					margin: 0.5rem 0;
+				}
+				.time {
+					display: block;
+					line-height: 1;
+					font-size: 0.95rem;
+					margin-top: 1.2rem;
+				}
+				.year {
+					display: none;
+				}
+			}
+
+			.categories {
+				text-align: right;
+				margin-right: 1rem;
+				margin-top: 1.5rem;
+			}
+
+		}
+		.right-column {
+			@include span-columns(10);
+
+			.event-content {
+
+			}
+			.event-summary {
+				* {
+					display: inline;
+				}
+			}
+		}
 	}
 
 	.event-footer {
