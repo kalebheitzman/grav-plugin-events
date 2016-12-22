@@ -1,6 +1,5 @@
 <div class="left-column">
-	<a href="{{ event.url }}" class="p-name u-url">
-		<img src="{{ event.media.images|first.cropResize(400,400).url() }}" />
+	<a href="{{ event.url }}" class="image-box" style="background-image: url({{ event.media.images|first.cropResize(400,400).url() }})">
     	<time class="event-time dt-start" datetime="{{ event.header.event.start|date("c") }}">{{ event.header.event.start|date(config.plugins.events.calendar.details.time) }}</time>
     </a>
 </div>

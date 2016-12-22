@@ -87,15 +87,25 @@ $event-border-radius: 					4px !default;
 
 				li {
 					@include outer-container();
-					margin-bottom: 0.25rem;
+					margin-bottom: 0.5rem;
 
 					.left-column {
-						@include span-columns(4);
+						@include span-columns(3);
 						position: relative;
 
+						.image-box {
+							width: 100%;
+							min-height: 4rem;
+							background: $calendar-day-block-bg;
+							display: block;
+							background-size: cover;
+						}
+
 						img {
-							z-index: 98;
+							z-index: 10;
 							position: relative;
+							vertical-align: bottom;
+							display: block;
 						}
 
 						.event-time {
@@ -104,13 +114,13 @@ $event-border-radius: 					4px !default;
 							background: #fff;
 							background: rgba(255,255,255,0.75);
 							color: #222;
-							bottom: 8px;								
+							bottom: 0;								
 							right: 0;
 							padding: 0.25rem 0.5rem;
 						}
 					}
 					.right-column {
-						@include span-columns(8);
+						@include span-columns(9);
 
 						.event-title {
 							margin: 0;
