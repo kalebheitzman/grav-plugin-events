@@ -54,7 +54,7 @@
     							{% set title_date = calendar.month ~ '/' ~ day ~ '/' ~ calendar.year %}
     							<div class="day">
                                     <a 
-                                        class="calendar-day-link display-calendar-details {% if (day == calendar.currentDay) and (month == calendar.date|date("F")) %}active{% endif %}" 
+                                        class="calendar-day-link {% if (day == calendar.currentDay) and (month == calendar.date|date("F")) %}active{% endif %}" 
                                         href="#!" title="{{ title_date|date(config.plugins.events.calendar.anchor_title) }}">
                                         {{ day }}
                                     </a>

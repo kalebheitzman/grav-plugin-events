@@ -14,21 +14,21 @@
           alert('Browser does not support HTML5.');
         }
       };
-      $('.calendar').on('click', 'a.calendar-control', function(event) {
+      $('.calendar-table').on('click', 'a.calendar-control', function(event) {
         var href;
         href = $(this).attr('href');
         $.get(href, function(data) {
           var $calendar;
           $calendar = $('table.calendar', data);
-          $('table.calendar').html($calendar);
+          $('.calendar-table').html($calendar);
         });
         ChangeUrl(document.title, href);
         event.preventDefault();
         return false;
       });
-      $('.calendar').on('click', '.display-calendar-details', function(event) {
+      $('.calendar-table').on('click', '.calendar-day-link', function(event) {
         var $details, content, title;
-        $('.display-calendar-details').removeClass('active');
+        $('.calendar-day-link').removeClass('active');
         $(this).addClass('active');
         title = $(this).attr('title');
         content = $(this).parent().next('.calendar-day-details').html();
@@ -43,3 +43,5 @@
   })(jQuery);
 
 }).call(this);
+
+//# sourceMappingURL=events.js.map
