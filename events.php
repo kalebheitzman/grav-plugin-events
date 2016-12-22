@@ -1,16 +1,17 @@
 <?php
-/**
- *                  __ _           _ _           _    _
- *                 / _| |         | | |         | |  | |
- *   ___ _ __ __ _| |_| |_ ___  __| | |__  _   _| | _| |__
- *  / __| '__/ _` |  _| __/ _ \/ _` | '_ \| | | | |/ / '_ \
- * | (__| | | (_| | | | ||  __/ (_| | |_) | |_| |   <| | | |
- *  \___|_|  \__,_|_|  \__\___|\__,_|_.__/ \__, |_|\_\_| |_|
- *                                          __/ |
- * Designed + Developed by Kaleb Heitzman  |___/
+/**                          
+ *     __                         __              
+ *    / /_  _________ _____  ____/ /_____________ 
+ *   / __ \/ ___/ __ `/ __ \/ __  / ___/ ___/ __ \
+ *  / /_/ / /  / /_/ / / / / /_/ / /  / /__/ /_/ /
+ * /_.___/_/   \__,_/_/ /_/\__,_/_/   \___/\____/ 
+ *                                                              
+ * Designed + Developed 
+ * by Kaleb Heitzman
+ * https://brandr.co
+ * 
  * (c) 2016
  */
-
 namespace Grav\Plugin;
 
 // import classes
@@ -208,16 +209,16 @@ class EventsPlugin extends Plugin
 	{
 		$types = $event->types;
 
-    /* @var Locator $locator */
-    $locator = Grav::instance()['locator'];
+	    /* @var Locator $locator */
+	    $locator = Grav::instance()['locator'];
 
-    // Set blueprints & templates.
-    $types->scanBlueprints($locator->findResource('plugin://events/blueprints'));
-    $types->scanTemplates($locator->findResource('plugin://events/templates'));
+	    // Set blueprints & templates.
+	    $types->scanBlueprints($locator->findResource('plugin://events/blueprints'));
+	    $types->scanTemplates($locator->findResource('plugin://events/templates'));
 
-    // reverse the FUBARd order of blueprints
-    $event = array_reverse($types['event']);
-    $types['event'] = $event;
+	    // reverse the FUBARd order of blueprints
+	    $event = array_reverse($types['event']);
+	    $types['event'] = $event;
 	}
 
 	/**
@@ -235,13 +236,13 @@ class EventsPlugin extends Plugin
 		// setup
 		$page = 			$this->grav['page'];
 		$pages = 			$this->grav['pages'];
-		$collection = $pages->all()->ofType('event');
+		$collection = 		$pages->all()->ofType('event');
 		$twig = 			$this->grav['twig'];
-		$assets = 		$this->grav['assets'];
+		$assets = 			$this->grav['assets'];
 
 		/** @var Uri $uri */
-    $uri = 				$this->grav['uri'];
-    $type = 			$uri->extension();
+    	$uri = 				$this->grav['uri'];
+    	$type = 			$uri->extension();
 
 		// only load the vars if calendar page
 		if ($page->template() == 'calendar')
@@ -279,13 +280,15 @@ class EventsPlugin extends Plugin
 			$twig->twig_vars['eventsJson'] = $events;
 		}
 
+		$twig->twig_vars['eventCategories'] = $this->events->getEventCategories();
+
 		// scripts
-		$js = 'plugin://events/assets/events.js';
+		$js = 'plugin://events/assets/events.min.js';
 		$assets->add('jquery');
-		$assets->addJs($js);
+		$assets->addJs($js, 1);
 
 		// styles
-		$css = 'plugin://events/assets/events.css';
+		$css = 'plugin://events/assets/events.min.css';
 		$assets->addCss($css);
 
 	}

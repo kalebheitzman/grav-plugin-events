@@ -1,7 +1,33 @@
+/**                          
+ *     __                         __              
+ *    / /_  _________ _____  ____/ /_____________ 
+ *   / __ \/ ___/ __ `/ __ \/ __  / ___/ ___/ __ \
+ *  / /_/ / /  / /_/ / / / / /_/ / /  / /__/ /_/ /
+ * /_.___/_/   \__,_/_/ /_/\__,_/_/   \___/\____/ 
+ *                                                              
+ * Designed + Developed 
+ * by Kaleb Heitzman
+ * https://brandr.co
+ * 
+ * (c) 2016
+ */
 
 // import bourbon & friends
 @import "../node_modules/bourbon/app/assets/stylesheets/bourbon";
 @import "../node_modules/bourbon-neat/app/assets/stylesheets/neat";
+
+
+// Sizes
+$mobile-size: 480px;
+$tablet-size: 768px;
+$desktop-size: 1124px;
+$largedesktop-size: 1824px;
+
+// Bourbon Neat Breakpoints
+$mobile: new-breakpoint(min-width $mobile-size 4);
+$tablet: new-breakpoint(min-width $tablet-size 12);
+$desktop: new-breakpoint(min-width $desktop-size 12);
+$largedesktop: new-breakpoint(min-width $largedesktop-size 16);
 
 /* colors taken from antimatter theme */
  
@@ -20,8 +46,8 @@ $calendar-day-block-bg:					#efefef !default;
 // event(s) specific variables
 $event-item-border: 					1px solid #efefef !default;
 $event-image-border-radius: 			3px !default;
-$event-button-color:					#1BB3E9 !default;
-$event-button-bg:						#ffffff !default;
+$event-button-bg:						#1BB3E9 !default;
+$event-button-color:					#ffffff !default;
 $event-button-border:					2px solid $event-button-color !default;
 $event-button-hover-color:				#fff !default;
 $event-button-hover-bg:					$event-button-color !default;
@@ -44,7 +70,10 @@ $event-border-radius: 					4px !default;
 	}
 
 	.calendar-details {
-		@include span-columns(5);
+
+		@include media($tablet) {
+			@include span-columns(5);			
+		}
 
 		.calendar-day-details {
 			
@@ -58,15 +87,19 @@ $event-border-radius: 					4px !default;
 
 				li {
 					@include outer-container();
-					margin-bottom: 0.25rem;
+					margin-bottom: 0.5rem;
 
 					.left-column {
-						@include span-columns(4);
+						@include span-columns(3);
 						position: relative;
 
-						img {
-							z-index: 98;
-							position: relative;
+						.image-box {
+							width: 100%;
+							min-height: 4rem;
+							background: $calendar-day-block-bg;
+							display: block;
+							background-size: cover;
+							background-position: center center;
 						}
 
 						.event-time {
@@ -75,13 +108,13 @@ $event-border-radius: 					4px !default;
 							background: #fff;
 							background: rgba(255,255,255,0.75);
 							color: #222;
-							bottom: 8px;								
+							bottom: 0;								
 							right: 0;
 							padding: 0.25rem 0.5rem;
 						}
 					}
 					.right-column {
-						@include span-columns(8);
+						@include span-columns(9);
 
 						.event-title {
 							margin: 0;
@@ -97,10 +130,18 @@ $event-border-radius: 					4px !default;
 				}
 			}
 		}
+
+		p.view-all-events {
+			font-style: italic;
+		}
 	}
 
 	.calendar-table {
-		@include span-columns(7);
+		
+		@include media($tablet) {
+			@include span-columns(7);			
+		}
+
 		margin-top: 1rem;
 
 		.calendar-title {
@@ -317,82 +358,6 @@ $event-border-radius: 					4px !default;
 	}
 }
 
-/* html5 .calendar-modal element */
-.calendar-modal {
-	position: fixed;
-	top: 0;
-	left: 0;
-	right: 0;
-	bottom: 0;
-	width: 100%;
-	height: 100%;
-	z-index: 99;
-	display: flex;
-  	align-items: center;
-  	justify-content: center;
-	@include background(rgba(0,0,0,0.25));
-
-	display: none;
-
-	.calendar-modal-inner {
-		background: #fff;
-		max-width: 700px;
-		margin: 6rem auto;
-		padding: 2rem 4rem;
-		position: relative;
-		font-family: sans-serif;
-
-		.calendar-close-modal {
-			position: absolute;
-			right: 1rem;
-			top: 1.5rem;
-			font-size: 3rem;
-			font-family: sans-serif;
-
-			cursor: pointer;
-		}
-
-		.calendar-modal-title {
-			font-size: 2rem;
-		}
-
-		.calendar-modal-content {
-
-
-			ul {
-				list-style: none;
-				padding-left: 0;
-
-				li {
-
-					time {
-						width: 5rem;
-						display: inline-block;
-						color: #222;
-					}
-				}
-			}
-		}
-
-	}
-}
-
-/* html5 .event-button element */
-.event-button {
-	display: inline-block;
-	border: $event-button-border;
-	border-radius: $event-button-border-radius;
-	padding: $event-button-padding;
-	color: $event-button-color;
-	background: $event-button-bg;
-
-	&:hover {
-		color: $event-button-hover-color;
-		border: $event-button-hover-border;
-		background: $event-button-hover-bg;
-	}
-}
-
 /* html5 .events-container element */
 .events-container {
 	@include outer-container();
@@ -459,11 +424,23 @@ $event-border-radius: 					4px !default;
 	@include outer-container();
 
 	.event-listing {
-		@include span-columns(5 of 7);
+		@include span-columns(8);
 	}
 
 	.events-sidebar {
-		@include span-columns(2 of 7);
+		@include span-columns(4);
+
+		.event-tags {
+			padding: 0;
+			margin: 0;
+			list-style: none;
+
+			li {
+				display: inline;
+			}
+		}
+
+
 	}
 }
 
@@ -537,6 +514,10 @@ $event-border-radius: 					4px !default;
 		}
 	}
 
+	.event-meta {
+		font-style: italic;
+	}
+	
 	.event-footer {
 		@include row();
 	}
@@ -549,13 +530,30 @@ $event-border-radius: 					4px !default;
 	.events-list {
 		list-style: none;
 		padding-left: 0;
+		margin-top: 0;
 
 		.event-day {
-			font-size: 2rem;
-			margin-top: 1rem;
-		}
-		.event-dow {
 			font-size: 1.2rem;
+			font-weight: bold;
+			padding-top: 1rem;
+			padding-bottom: 0.25rem;
+			display: block;
+			clear: both;
+		}
+		.event-day:first-child {
+			padding-top: 0;
+		}
+
+		.event-item {
+			display: block;
+
+			time {
+				@include span-columns(3 of 13);
+			}
+
+			a {
+				@include span-columns(10 of 13);
+			}
 		}
 	}
 }
@@ -566,7 +564,8 @@ $event-border-radius: 					4px !default;
 
 	a {
 		display: inline-block;
-		border: 1px solid $event-button-color;
+		background: 1px solid $event-button-bg;
+		color: $event-button-color;
 		border-radius: $event-border-radius;
 		padding: 0 0.5rem;
 		text-transform: uppercase;

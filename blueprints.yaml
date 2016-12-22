@@ -18,72 +18,113 @@ dependencies:
 form:
   validation: loose
   fields:
-    processing:
-      type: section
-      title: Processing
-    event_template_types:
-      type: text
-      label: Event Template Types
-      help: What templates should be checked for event related content?
-      default: event
-    display_months_out:
-      type: text
-      label: Months Out to Display Events
-      help: In integer form, how many months out should repeating dates display?
-      default: 3
-      placeholder: 3
-    enable_single_event_filter:
-      type: toggle
-      label: Enable Single Event Filter
-      highlight: 1
-      default: 1
-      options:
-        1: Enabled
-        0: Disabled
-      validate:
-        type: bool
-    #date_format.long:
-    #  type: text
-    #  label: Long Date Format
-    #  default: Y-m-d h:ia
-    #date_format.medium:
-    #  type: text
-    #  label: Medium Date Format
-    #  default: m/d/Y
-    #date_format.short:
-    #  type: text
-    #  label: Short Date Format
-    #  default: M j
-    #date_format.default:
-    #  type: text
-    #  label: Default Date Format
-    #  default: F j, Y h:ia
-    tranlation:
-      type: section
-      title: Translation
-    date_format.translate:
-      type: toggle
-      label: Translate dates
-      help: Translations can be found in language.yaml
-      highlight: 1
-      default: 0
-      options:
-        1: Enabled
-        0: Disabled
-      validate:
-        type: bool
-    collections:
-      type: section
-      title: Collections
-    filter_combinator:
-      type: text
-      label: Filter Combinator
-      default: and
-    events_collection:
-      type: text
-      label: Events Collection
-      default: "'@page': '/events'"
-    #default_events_page:
-    #  type: text
-    #  label: The main page listing events
-    #  default: events
+    tabs:
+      type: tabs
+      active: 1
+
+      fields:
+        setup:
+          type: tab
+          title: Processing
+          fields:
+            processing:
+              type: section
+              title: Processing
+              underline: true
+            event_template_types:
+              type: text
+              label: Event Template Types
+              help: What templates should be checked for event related content?
+              default: event
+            display_months_out:
+              type: text
+              label: Months Out to Display Events
+              help: In integer form, how many months out should repeating dates display?
+              default: 3
+              placeholder: 3
+            enable_single_event_filter:
+              type: toggle
+              label: Enable Single Event Filter
+              highlight: 1
+              default: 1
+              options:
+                1: Enabled
+                0: Disabled
+              validate:
+                type: bool
+            collections:
+              type: section
+              title: Collections
+              underline: true
+            filter_combinator:
+              type: text
+              label: Filter Combinator
+              default: and
+            events_collection:
+              type: text
+              label: Events Collection
+              default: "'@page': '/events'"
+
+        formatting:
+          type: tab
+          title: Date Formatting
+          fields:
+
+            calendar:
+              type: section
+              title: Calendar
+              underline: true
+            calendar.month:
+              type: text
+              label: Month Display
+              default: F
+            calendar.year:
+              type: text
+              label: Year Display
+              default: Y
+            calendar.anchor_title:
+              type: text
+              label: Anchor Title
+              default: l, F j, Y
+            calendar.details.title:
+              type: text
+              label: Details Day Title
+              default: l, F j
+            calendar.details.time:
+              type: text
+              label: Details Time of Day
+              default: g:ia
+
+            event_item:
+              type: section
+              title: Event Item
+              underline: true
+            event_item.day:
+              type: text
+              label: Date Box Day
+              default: d
+            event_item.month:
+              type: text
+              label: Date Box Month
+              default: M
+            event_item.start_time:
+              type: text
+              label: Date Box Start Time
+              default: g:ia
+            event_item.end_time:
+              type: text
+              label: Date Box End Time
+              default: g:ia
+
+            event_sidebar:
+              type: section
+              title: Event Sidebar
+              underline: true
+            event_sidebar.header:
+              type: text
+              label: Header
+              default: l, F d
+            event_sidebar.time:
+              type: text
+              label: Time
+              default: g:ia
