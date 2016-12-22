@@ -283,12 +283,12 @@ class EventsPlugin extends Plugin
 		$twig->twig_vars['eventCategories'] = $this->events->getEventCategories();
 
 		// scripts
-		$js = 'plugin://events/assets/events.js';
+		$js = 'plugin://events/assets/events.min.js';
 		$assets->add('jquery');
 		$assets->addJs($js);
 
 		// styles
-		$css = 'plugin://events/assets/events.css';
+		$css = 'plugin://events/assets/events.min.css';
 		$assets->addCss($css);
 
 	}
