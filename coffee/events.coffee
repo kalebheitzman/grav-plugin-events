@@ -14,7 +14,7 @@
 
     # Function to change the page url
     ChangeUrl = (page, url) ->
-      if typeof history.pushStasdfasdate != 'undefined'
+      if typeof history.pushState != 'undefined'
         obj =
           Page: page
           Url: url
