@@ -99,13 +99,7 @@ $event-border-radius: 					4px !default;
 							background: $calendar-day-block-bg;
 							display: block;
 							background-size: cover;
-						}
-
-						img {
-							z-index: 10;
-							position: relative;
-							vertical-align: bottom;
-							display: block;
+							background-position: center center;
 						}
 
 						.event-time {
