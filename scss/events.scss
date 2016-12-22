@@ -46,8 +46,8 @@ $calendar-day-block-bg:					#efefef !default;
 // event(s) specific variables
 $event-item-border: 					1px solid #efefef !default;
 $event-image-border-radius: 			3px !default;
-$event-button-color:					#1BB3E9 !default;
-$event-button-bg:						#ffffff !default;
+$event-button-bg:						#1BB3E9 !default;
+$event-button-color:					#ffffff !default;
 $event-button-border:					2px solid $event-button-color !default;
 $event-button-hover-color:				#fff !default;
 $event-button-hover-bg:					$event-button-color !default;
@@ -129,6 +129,10 @@ $event-border-radius: 					4px !default;
 
 				}
 			}
+		}
+
+		p.view-all-events {
+			font-style: italic;
 		}
 	}
 
@@ -435,6 +439,8 @@ $event-border-radius: 					4px !default;
 				display: inline;
 			}
 		}
+
+
 	}
 }
 
@@ -524,11 +530,30 @@ $event-border-radius: 					4px !default;
 	.events-list {
 		list-style: none;
 		padding-left: 0;
+		margin-top: 0;
 
 		.event-day {
 			font-size: 1.2rem;
 			font-weight: bold;
-			margin-top: 1rem;
+			padding-top: 1rem;
+			padding-bottom: 0.25rem;
+			display: block;
+			clear: both;
+		}
+		.event-day:first-child {
+			padding-top: 0;
+		}
+
+		.event-item {
+			display: block;
+
+			time {
+				@include span-columns(3 of 13);
+			}
+
+			a {
+				@include span-columns(10 of 13);
+			}
 		}
 	}
 }
@@ -539,7 +564,8 @@ $event-border-radius: 					4px !default;
 
 	a {
 		display: inline-block;
-		border: 1px solid $event-button-color;
+		background: 1px solid $event-button-bg;
+		color: $event-button-color;
 		border-radius: $event-border-radius;
 		padding: 0 0.5rem;
 		text-transform: uppercase;

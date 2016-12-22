@@ -36,9 +36,10 @@
     {% for event in events %}
         {% set date_header = event.header.event.start|date('F d') %}
         {% if date_header != current_header %}
-        <li class="event-day">{{ event.header.event.start|date(config.plugins.events.event_sidebar.header) }}</li>
+        <li class="event-day">
+          <span>{{ event.header.event.start|date(config.plugins.events.event_sidebar.header) }}</span></li>
         {% endif %}
-        <li>
+        <li class="event-item">
             <time datetime="{{ event.header.event.start|date("c") }}">{{ event.header.event.start|date(config.plugins.events.event_sidebar.time)}}</time>
             <a href="{{ event.url }}" class="u-url p-name">{{ event.title }}</a>
         </li>
