@@ -55,7 +55,7 @@ The `event.start:` and `event.end:` dates can be specified using `m/d/y` or `d-m
 This plugin supports creating repeating events using `event.repeat:`,
 `event.freq:`, and `event.until:`.
 
-`event.repeat:` specifies what days you would like for your event to repeat horizontally across a calendar. This can be for Monday through Sunday as specified by `MTWRFSU`. (**M**onday, **T**uesday, **W**ednesday, Th**U**rsday, **F**riday, **S**aturday, S**U**nday).
+`event.repeat:` specifies what days you would like for your event to repeat horizontally across a calendar. This can be for Monday through Sunday as specified by `MTWRFSU`. (**M**onday, **T**uesday, **W**ednesday, Thu**R**sday, **F**riday, **S**aturday, S**U**nday).
 
 `event.freq:` can be set to `daily, weekly, monthly, or yearly.`
 
